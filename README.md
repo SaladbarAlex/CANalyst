@@ -14,10 +14,15 @@ Two terminals. The backend first.
 
 ```bash
 cd backend
-python -m venv .venv && source .venv/bin/activate     # Windows: .venv\Scripts\activate
+python3.12 -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
+python -m pip install --upgrade pip
 pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8000             # API docs at localhost:8000/docs
+uvicorn app.main:app --reload --port 8000               # API docs at localhost:8000/docs
 ```
+
+**Python 3.10 or newer is required** (3.12 recommended). The macOS system
+Python is 3.9 and will fail on numpy. `brew install python@3.12` if you need it,
+then use `python3.12` to create the venv.
 
 Then the frontend.
 
