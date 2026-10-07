@@ -21,6 +21,7 @@ import os
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
+from .features import JITTER_COLLAPSE
 from .synth import ID_INFO
 
 ATTACK_LABELS = ["dos", "fuzzing", "spoofing", "replay", "masquerade", "benign", "unknown"]
@@ -116,7 +117,7 @@ class MockExplainer(Explainer):
         inflated = [i for i in id_stats if (i["detail"].get("rate_ratio") or 0) >= 1.5]
         jitter_collapsed = [i for i in id_stats
                             if (i["detail"].get("count") or 0) >= 8
-                            and (i["detail"].get("jitter_ratio") or 1) < 0.35
+                            and (i["detail"].get("jitter_ratio") or 1) < JITTER_COLLAPSE
                             and 0.8 <= (i["detail"].get("rate_ratio") or 1) <= 1.25]
 
         claims: list[dict] = []

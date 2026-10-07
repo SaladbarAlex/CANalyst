@@ -21,6 +21,7 @@ class Baseline:
     iat_mean: dict[int, float] = field(default_factory=dict)    # mean inter-arrival time
     iat_std: dict[int, float] = field(default_factory=dict)
     jitter_floor: dict[int, float] = field(default_factory=dict)  # lowest jitter in any window
+    presence: dict[int, float] = field(default_factory=dict)      # share of active windows with the ID
     entropy: dict[int, float] = field(default_factory=dict)     # mean payload entropy
     bitflip: dict[int, float] = field(default_factory=dict)     # mean per-byte flip rate
     total_rate: float = 0.0
@@ -80,6 +81,10 @@ def learn_baseline(df: pd.DataFrame, end_s: float, window_s: float = 0.5) -> Bas
     span = max(1e-6, float(seg["timestamp"].max() - seg["timestamp"].min()))
     bl = Baseline(known_ids=set(int(i) for i in seg["can_id"].unique()))
     bl.total_rate = len(seg) / span
+    chunk_all = (seg["timestamp"].to_numpy() // window_s).astype(np.int64)
+    active = max(1, len(np.unique(chunk_all)))
+    present = pd.Series(chunk_all).groupby(seg["can_id"].to_numpy()).nunique()
+    bl.presence = {int(c): float(n) / active for c, n in present.items()}
     for cid, grp in seg.groupby("can_id"):
         cid = int(cid)
         ts = grp["timestamp"].to_numpy()
@@ -109,6 +114,17 @@ def _safe_ratio(obs: float, base: float) -> float:
 # window. A 1 Hz ID seen once in a 0.5 s window is otherwise "2x baseline".
 MIN_EXPECTED_FRAMES = 3.0
 
+# Window jitter below this fraction of the ID's quietest baseline window
+# counts as collapsed. On real traffic (Car-Hacking) 5% of windows have some
+# ID below 0.22, so the cutoff sits well under that.
+JITTER_COLLAPSE = 0.1
+
+# An ID counts as missing only if the baseline had it in at least this
+# fraction of windows where the bus was active. Real cars silence whole
+# groups of ECUs in some states (ignition, accessory mode), so those IDs'
+# absence is normal.
+ALWAYS_PRESENT = 0.995
+
 
 def extract_windows(df: pd.DataFrame, baseline: Baseline,
                     window_s: float = 0.5, stride_s: float = 0.25) -> pd.DataFrame:
@@ -133,7 +149,8 @@ def extract_windows(df: pd.DataFrame, baseline: Baseline,
         unknown = sorted(ids_seen - baseline.known_ids)
         missing = sorted(i for i in baseline.known_ids
                          if i not in ids_seen
-                         and baseline.rate.get(i, 0) * window_s >= MIN_EXPECTED_FRAMES)
+                         and baseline.rate.get(i, 0) * window_s >= MIN_EXPECTED_FRAMES
+                         and baseline.presence.get(i, 1.0) >= ALWAYS_PRESENT)
 
         per_id: dict[int, dict] = {}
         max_rate_ratio, max_iat_z, max_entropy_delta, max_flip_delta = 1.0, 0.0, 0.0, 0.0

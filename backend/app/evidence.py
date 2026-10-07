@@ -13,7 +13,7 @@ from typing import Any
 import pandas as pd
 
 from .detector import Alert
-from .features import Baseline
+from .features import JITTER_COLLAPSE, Baseline
 from .synth import ID_INFO
 
 
@@ -38,7 +38,7 @@ def build_evidence(alert: Alert, df: pd.DataFrame, windows: pd.DataFrame,
     def interest(cid: int) -> tuple:
         v = merged[cid]
         jitter_collapse = (v["count"] >= 8 and v["jitter_ratio"] is not None
-                           and v["jitter_ratio"] < 0.35)
+                           and v["jitter_ratio"] < JITTER_COLLAPSE)
         return (
             not v["known"],                     # unknown IDs first
             cid in alert.top_ids,               # then whatever the detector ranked

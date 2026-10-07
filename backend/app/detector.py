@@ -17,7 +17,7 @@ from dataclasses import dataclass
 import numpy as np
 import pandas as pd
 
-from .features import FEATURE_COLUMNS, Baseline
+from .features import FEATURE_COLUMNS, JITTER_COLLAPSE, Baseline
 
 
 @dataclass
@@ -77,13 +77,16 @@ class RuleDetector:
             reasons.append(f"{row['n_missing_ids']} expected ID(s) absent ({ids})")
 
         # 5. Timing structure. Injection breaks the rhythm; masquerade flattens jitter.
-        comp["timing"] = _clip01((row["max_iat_z"] - 3.0) / 9.0)
+        # Inter-arrival deviation alone is supporting evidence only: real buses
+        # have a heavy tail (1% of normal Car-Hacking windows exceed 80 sigma),
+        # so it is capped below the alert threshold.
+        comp["timing"] = min(0.45, _clip01((row["max_iat_z"] - 3.0) / 9.0))
         # Jitter collapse only means something with enough samples in the window,
         # so low-rate IDs (a handful of frames) are excluded rather than flagged.
         jitter_flags = [
             c for c, v in per_id.items()
             if v["known"] and v["count"] >= 8 and v["jitter_ratio"] is not None
-            and v["jitter_ratio"] < 0.35 and v["baseline_iat_ms"] > 0
+            and v["jitter_ratio"] < JITTER_COLLAPSE and v["baseline_iat_ms"] > 0
             and 0.8 <= (v["rate_ratio"] or 0) <= 1.25
         ]
         if jitter_flags:
