@@ -153,7 +153,8 @@ class MockExplainer(Explainer):
             function = tgt["detail"].get("function") or "unknown"
             claims.append({"text": f"{tgt['detail']['can_id']} keeps a normal message rate but its "
                                    f"timing jitter collapsed to {tgt['detail']['jitter_ratio']}x "
-                                   f"baseline, which is what a different physical sender looks like.",
+                                   f"the quietest baseline window, which is what a different "
+                                   f"physical sender looks like.",
                            "cites": cite(tgt)})
             if missing:
                 claims.append({"text": f"{missing[0]['detail']['can_id']} stopped transmitting, "

@@ -63,7 +63,7 @@ class Analysis:
                 for r in w.itertuples()
             ],
             "baseline_rate": round(self.baseline.total_rate, 2),
-            "threshold": 0.55,
+            "threshold": self.params.get("threshold", 0.55),
             "attack_intervals": self.df.attrs.get("attack_intervals", []),
             "alerts": [{"alert_id": a.alert_id, "start": a.start, "end": a.end, "score": a.score}
                        for a in self.alerts],
@@ -178,14 +178,23 @@ STORE = Store()
 def run_analysis(df: pd.DataFrame, *, source: str, params: dict,
                  window_s: float = 0.5, stride_s: float = 0.25,
                  baseline_s: float | None = None, detector: str = "rule",
-                 threshold: float = 0.55) -> Analysis:
-    """Baseline, window, detect. Explanations are generated on demand."""
-    t_max = float(df["timestamp"].max())
-    if baseline_s is None:
-        baseline_s = float(df.attrs.get("benign_prefix_s", min(30.0, t_max * 0.25)))
-    baseline_s = max(window_s * 4, min(baseline_s, t_max * 0.5))
+                 threshold: float = 0.55,
+                 baseline_df: pd.DataFrame | None = None) -> Analysis:
+    """Baseline, window, detect. Explanations are generated on demand.
 
-    baseline = features.learn_baseline(df, baseline_s)
+    By default the baseline is learned from the log's own opening stretch.
+    Pass baseline_df (a separate attack-free capture of the same vehicle)
+    when the log has no clean prefix; the whole log is then scored.
+    """
+    t_max = float(df["timestamp"].max())
+    if baseline_df is not None:
+        baseline = features.learn_baseline(baseline_df, float("inf"), window_s=window_s)
+        baseline_s = 0.0
+    else:
+        if baseline_s is None:
+            baseline_s = float(df.attrs.get("benign_prefix_s", min(30.0, t_max * 0.25)))
+        baseline_s = max(window_s * 4, min(baseline_s, t_max * 0.5))
+        baseline = features.learn_baseline(df, baseline_s, window_s=window_s)
     windows = features.extract_windows(df, baseline, window_s=window_s, stride_s=stride_s)
     det = get_detector(detector, baseline, threshold=threshold)
     if detector == "forest":

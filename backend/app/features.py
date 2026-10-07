@@ -20,6 +20,7 @@ class Baseline:
     rate: dict[int, float] = field(default_factory=dict)        # msgs/sec per ID
     iat_mean: dict[int, float] = field(default_factory=dict)    # mean inter-arrival time
     iat_std: dict[int, float] = field(default_factory=dict)
+    jitter_floor: dict[int, float] = field(default_factory=dict)  # lowest jitter in any window
     entropy: dict[int, float] = field(default_factory=dict)     # mean payload entropy
     bitflip: dict[int, float] = field(default_factory=dict)     # mean per-byte flip rate
     total_rate: float = 0.0
@@ -64,8 +65,15 @@ def bitflip_rate(payloads: list[list[int]]) -> float:
     return float(bits.mean())
 
 
-def learn_baseline(df: pd.DataFrame, end_s: float) -> Baseline:
-    """Learn normal behavior from timestamps < end_s (assumed attack free)."""
+def learn_baseline(df: pd.DataFrame, end_s: float, window_s: float = 0.5) -> Baseline:
+    """Learn normal behavior from timestamps < end_s (assumed attack free).
+
+    Jitter is also measured per window_s chunk, because that is the scale
+    windows are scored at. Jitter over a whole capture includes drift and
+    gaps, so it overstates what a single window normally shows, and real
+    ECUs vary a lot window to window. The floor is the lowest per-window
+    jitter seen, so "collapsed" means quieter than this ID ever was.
+    """
     seg = df[df["timestamp"] < end_s]
     if seg.empty:
         raise ValueError("Baseline segment is empty; increase benign_prefix_s.")
@@ -79,6 +87,12 @@ def learn_baseline(df: pd.DataFrame, end_s: float) -> Baseline:
         bl.rate[cid] = len(grp) / span
         bl.iat_mean[cid] = float(iats.mean()) if iats.size else 0.0
         bl.iat_std[cid] = float(iats.std()) if iats.size else 0.0
+        bl.jitter_floor[cid] = bl.iat_std[cid]
+        if iats.size >= 7:
+            chunks = pd.Series(iats).groupby((ts[1:] // window_s).astype(np.int64))
+            per_chunk = chunks.std(ddof=0)[chunks.count() >= 7]
+            if not per_chunk.empty:
+                bl.jitter_floor[cid] = float(per_chunk.min())
         payloads = list(grp["data"])
         bl.entropy[cid] = byte_entropy(payloads)
         bl.bitflip[cid] = bitflip_rate(payloads)
@@ -89,6 +103,11 @@ def _safe_ratio(obs: float, base: float) -> float:
     if base <= 1e-9:
         return float("inf") if obs > 0 else 1.0
     return obs / base
+
+
+# Rate ratios are taken against at least this many expected frames per
+# window. A 1 Hz ID seen once in a 0.5 s window is otherwise "2x baseline".
+MIN_EXPECTED_FRAMES = 3.0
 
 
 def extract_windows(df: pd.DataFrame, baseline: Baseline,
@@ -113,7 +132,8 @@ def extract_windows(df: pd.DataFrame, baseline: Baseline,
         ids_seen = set(int(i) for i in win["can_id"].unique())
         unknown = sorted(ids_seen - baseline.known_ids)
         missing = sorted(i for i in baseline.known_ids
-                         if i not in ids_seen and baseline.rate.get(i, 0) * window_s >= 1.0)
+                         if i not in ids_seen
+                         and baseline.rate.get(i, 0) * window_s >= MIN_EXPECTED_FRAMES)
 
         per_id: dict[int, dict] = {}
         max_rate_ratio, max_iat_z, max_entropy_delta, max_flip_delta = 1.0, 0.0, 0.0, 0.0
@@ -123,7 +143,8 @@ def extract_windows(df: pd.DataFrame, baseline: Baseline,
             iats = np.diff(ts)
             obs_rate = len(grp) / window_s
             base_rate = baseline.rate.get(cid, 0.0)
-            ratio = _safe_ratio(obs_rate, base_rate)
+            ratio = (_safe_ratio(len(grp), max(base_rate * window_s, MIN_EXPECTED_FRAMES))
+                     if base_rate > 0 else _safe_ratio(obs_rate, base_rate))
             iat_mean = float(iats.mean()) if iats.size else 0.0
             iat_std = float(iats.std()) if iats.size else 0.0
             base_iat = baseline.iat_mean.get(cid, 0.0)
@@ -134,7 +155,8 @@ def extract_windows(df: pd.DataFrame, baseline: Baseline,
             ent_delta = ent - baseline.entropy.get(cid, 0.0)
             flip_delta = flip - baseline.bitflip.get(cid, 0.0)
             # A frozen signal (std of IAT collapsing to ~0) is the masquerade tell.
-            jitter_ratio = _safe_ratio(iat_std, base_iat_std)
+            # Relative to the ID's quietest baseline window, so < 1 is already unusual.
+            jitter_ratio = _safe_ratio(iat_std, max(baseline.jitter_floor.get(cid, 0.0), 1e-5))
 
             per_id[cid] = {
                 "count": int(len(grp)),

@@ -4,6 +4,8 @@ Examples:
     python -m scripts.evaluate --seeds 1 2 3 4 5
     python -m scripts.evaluate --detector forest
     python -m scripts.evaluate --csv data/carhacking_dos.csv
+    python -m scripts.evaluate --csv "data/9) Car-Hacking Dataset/DoS_dataset.csv" \
+        --baseline "data/9) Car-Hacking Dataset/normal_run_data/normal_run_data.txt"
 
 Prints per-run detection metrics and the mean across runs. This is the
 script that produces the numbers for the paper, and it imports the same
@@ -31,6 +33,9 @@ def main() -> None:
     ap.add_argument("--threshold", type=float, default=0.55)
     ap.add_argument("--explainer", default="mock")
     ap.add_argument("--csv", default=None, help="evaluate a real log instead of synthetic runs")
+    ap.add_argument("--baseline", nargs="*", default=[],
+                    help="attack-free capture(s) to learn the baseline from; needed for the "
+                         "public datasets, whose logs have no clean opening stretch")
     ap.add_argument("--out", default=None, help="write the full report as JSON")
     args = ap.parse_args()
 
@@ -39,8 +44,11 @@ def main() -> None:
 
     if args.csv:
         df = loader.load_auto(args.csv)
+        baseline_df = (loader.concat_captures([loader.load_auto(p) for p in args.baseline])
+                       if args.baseline else None)
         analysis = pipeline.run_analysis(df, source=args.csv, params={"csv": args.csv},
-                                         detector=args.detector, threshold=args.threshold)
+                                         detector=args.detector, threshold=args.threshold,
+                                         baseline_df=baseline_df)
         reports.append({"run": args.csv, **pipeline.evaluation_report(analysis, explainer)})
     else:
         for seed in args.seeds:
