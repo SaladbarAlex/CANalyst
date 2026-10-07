@@ -17,7 +17,7 @@ export default function Controls({ onRun, onUpload, busy, params, setParams }) {
   return (
     <div className="controls">
       <div className="field">
-        <label htmlFor="duration">Capture length</label>
+        <label htmlFor="duration">Length (s)</label>
         <input id="duration" type="number" min="20" max="900" step="10" value={params.duration_s}
           onChange={(e) => setParams({ ...params, duration_s: Number(e.target.value) })} />
       </div>
@@ -36,7 +36,7 @@ export default function Controls({ onRun, onUpload, busy, params, setParams }) {
         <input id="threshold" type="number" step="0.05" min="0.05" max="0.95" value={params.threshold}
           onChange={(e) => setParams({ ...params, threshold: Number(e.target.value) })} />
       </div>
-      <div className="field">
+      <div className="field span-2">
         <label htmlFor="detector">Detector</label>
         <select id="detector" value={params.detector}
           onChange={(e) => setParams({ ...params, detector: e.target.value })}>
@@ -44,7 +44,7 @@ export default function Controls({ onRun, onUpload, busy, params, setParams }) {
           <option value="forest">Isolation forest</option>
         </select>
       </div>
-      <div className="field">
+      <div className="field span-2">
         <label>Injected attacks</label>
         <div className="chips">
           {ATTACKS.map((a) => (
@@ -53,8 +53,11 @@ export default function Controls({ onRun, onUpload, busy, params, setParams }) {
           ))}
         </div>
       </div>
-      <button onClick={onRun} disabled={busy}>{busy ? 'Analyzing...' : 'Run analysis'}</button>
-      <button className="secondary" type="button" onClick={() => fileRef.current?.click()} disabled={busy}>
+      <button className="run-btn span-2" onClick={onRun} disabled={busy}>
+        {busy ? 'Analyzing' : 'Run analysis'}
+      </button>
+      <button className="secondary span-2" type="button" onClick={() => fileRef.current?.click()}
+        disabled={busy}>
         Load a CSV log
       </button>
       <input ref={fileRef} type="file" accept=".csv,.txt" style={{ display: 'none' }}
@@ -62,7 +65,7 @@ export default function Controls({ onRun, onUpload, busy, params, setParams }) {
           const f = e.target.files?.[0]
           if (f) { setFileName(f.name); onUpload(f) }
         }} />
-      {fileName ? <span className="small muted">loaded: {fileName}</span> : null}
+      {fileName ? <span className="file-name span-2">loaded: {fileName}</span> : null}
     </div>
   )
 }

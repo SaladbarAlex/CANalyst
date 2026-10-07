@@ -3,7 +3,7 @@ import {
 } from 'recharts'
 import { fmt } from '../api'
 
-const AXIS = { stroke: 'var(--axis)', tick: { fill: 'var(--text-muted)', fontSize: 11 } }
+const AXIS = { stroke: 'var(--axis)', tick: { fill: 'var(--text-muted)', fontSize: 10.5, fontFamily: 'IBM Plex Mono, monospace' } }
 
 export default function MetricsPanel({ report }) {
   if (!report) return <p className="muted">Run an analysis to see evaluation metrics.</p>
@@ -48,10 +48,9 @@ export default function MetricsPanel({ report }) {
           <CartesianGrid stroke="var(--grid)" strokeDasharray="2 4" horizontal={false} />
           <XAxis type="number" domain={[0, 1]} {...AXIS} tickFormatter={(v) => `${v * 100}%`} />
           <YAxis type="category" dataKey="type" width={90} {...AXIS} />
-          <Tooltip contentStyle={{ background: 'var(--surface-1)', border: '1px solid var(--border)',
-            borderRadius: 8, fontSize: 12 }}
+          <Tooltip contentStyle={{ background: 'var(--surface-1)', border: '1px solid var(--border-strong)', borderRadius: 4, fontSize: 12, fontFamily: 'IBM Plex Mono, monospace' }}
             formatter={(v, _n, p) => [`${(v * 100).toFixed(1)}% (${p.payload.detected}/${p.payload.windows})`, 'recall']} />
-          <Bar dataKey="recall" fill="var(--series-1)" radius={[0, 4, 4, 0]} barSize={16}>
+          <Bar dataKey="recall" fill="var(--series-2)" radius={[0, 2, 2, 0]} barSize={14}>
             <LabelList dataKey="recall" position="right" formatter={(v) => `${(v * 100).toFixed(0)}%`}
               style={{ fill: 'var(--text-secondary)', fontSize: 11 }} />
           </Bar>

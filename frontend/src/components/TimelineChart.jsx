@@ -15,7 +15,7 @@ import {
 /* Two stacked panels share one x axis. Message rate and detector score are
    different measures, so they never share a y axis. */
 
-const AXIS = { stroke: 'var(--axis)', tick: { fill: 'var(--text-muted)', fontSize: 11 } }
+const AXIS = { stroke: 'var(--axis)', tick: { fill: 'var(--text-muted)', fontSize: 10.5, fontFamily: 'IBM Plex Mono, monospace' } }
 
 function RateTooltip({ active, payload, label }) {
   if (!active || !payload?.length) return null
@@ -29,7 +29,7 @@ function RateTooltip({ active, payload, label }) {
   )
 }
 
-export default function TimelineChart({ timeline, selectedAlert, onSelectAlert }) {
+export default function TimelineChart({ timeline, selectedAlert, onSelectAlert, busy }) {
   const points = timeline?.points ?? []
   const intervals = timeline?.attack_intervals ?? []
   const alerts = timeline?.alerts ?? []
@@ -45,25 +45,27 @@ export default function TimelineChart({ timeline, selectedAlert, onSelectAlert }
   return (
     <div>
       <div className="legend">
-        <span className="key"><span className="swatch" /> Message rate (msg/s)</span>
-        <span className="key"><span className="swatch score" /> Detector score</span>
-        <span className="key"><span className="swatch band" /> Labeled attack interval</span>
-        <span className="key">
-          <span className="swatch" style={{ background: 'var(--series-3)' }} /> Baseline rate (dashed)
+        <span className="key"><span className="swatch" /> message rate</span>
+        <span className="key"><span className="swatch score" /> detector score</span>
+        <span className="key"><span className="swatch band" /> labeled attack</span>
+        <span className="key" style={{ color: 'var(--series-3)' }}>
+          <span className="swatch dashed" /><span className="muted">baseline rate</span>
         </span>
-        <span className="key">
-          <span className="swatch" style={{ background: 'var(--critical)' }} /> Alert threshold (dashed)
+        <span className="key" style={{ color: 'var(--critical)' }}>
+          <span className="swatch dashed" /><span className="muted">alert threshold</span>
         </span>
-        <span className="key muted">Click a shaded region to open its alert</span>
+        <span className="hint">click a shaded region to open its alert</span>
       </div>
 
+      <div className="scope">
+      {busy ? <div className="scope-scan" /> : null}
+      <div className="chart-label">msg/s</div>
       <ResponsiveContainer width="100%" height={180}>
         <AreaChart data={points} onClick={handleClick} margin={{ top: 8, right: 12, bottom: 0, left: 0 }}>
           <CartesianGrid stroke="var(--grid)" strokeDasharray="2 4" vertical={false} />
           <XAxis dataKey="t" type="number" domain={['dataMin', 'dataMax']} {...AXIS}
             tickFormatter={(v) => `${v}s`} height={18} />
-          <YAxis {...AXIS} width={52} label={{ value: 'msg/s', angle: -90, position: 'insideLeft',
-            fill: 'var(--text-muted)', fontSize: 11 }} />
+          <YAxis {...AXIS} width={52} />
           <Tooltip content={<RateTooltip />} />
           {intervals.map((iv, i) => (
             <ReferenceArea key={`gt${i}`} x1={iv.start} x2={iv.end}
@@ -82,19 +84,20 @@ export default function TimelineChart({ timeline, selectedAlert, onSelectAlert }
         </AreaChart>
       </ResponsiveContainer>
 
+      <div className="chart-label" style={{ marginTop: 6 }}>score</div>
       <ResponsiveContainer width="100%" height={120}>
         <LineChart data={points} onClick={handleClick} margin={{ top: 4, right: 12, bottom: 4, left: 0 }}>
           <CartesianGrid stroke="var(--grid)" strokeDasharray="2 4" vertical={false} />
           <XAxis dataKey="t" type="number" domain={['dataMin', 'dataMax']} {...AXIS}
             tickFormatter={(v) => `${v}s`} />
-          <YAxis domain={[0, 1]} {...AXIS} width={52}
-            label={{ value: 'score', angle: -90, position: 'insideLeft', fill: 'var(--text-muted)', fontSize: 11 }} />
+          <YAxis domain={[0, 1]} {...AXIS} width={52} />
           <Tooltip content={<RateTooltip />} />
           <ReferenceLine y={threshold} stroke="var(--critical)" strokeDasharray="4 4" />
           <Line type="monotone" dataKey="score" stroke="var(--series-2)" strokeWidth={2} dot={false}
             activeDot={{ r: 4 }} />
         </LineChart>
       </ResponsiveContainer>
+      </div>
     </div>
   )
 }

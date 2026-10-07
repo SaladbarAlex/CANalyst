@@ -12,7 +12,7 @@ export default function ExplanationPanel({ detail, onReExplain, busy }) {
   useEffect(() => setActiveCite(null), [detail?.alert?.alert_id])
 
   if (!detail) {
-    return <p className="muted">Select an alert to see its explanation and evidence.</p>
+    return <div className="empty">Select an alert to see its explanation and evidence.</div>
   }
 
   const { alert, evidence, explanation } = detail
@@ -25,9 +25,10 @@ export default function ExplanationPanel({ detail, onReExplain, busy }) {
 
   return (
     <div>
-      <div className="row">
-        <h3 style={{ margin: 0 }}>
-          Alert {alert.alert_id}: {fmt.sec(alert.start)} to {fmt.sec(alert.end)}
+      <div className="explain-head">
+        <h3>
+          Alert {String(alert.alert_id).padStart(2, '0')}
+          <span className="mono">{fmt.sec(alert.start)} to {fmt.sec(alert.end)}</span>
         </h3>
         <div className="spacer" />
         <button className="secondary" onClick={onReExplain} disabled={busy}>
@@ -67,7 +68,7 @@ export default function ExplanationPanel({ detail, onReExplain, busy }) {
 
           {exp.recommended_action ? (
             <div className="action">
-              <strong>Suggested next step. </strong>
+              <strong>Next step</strong><br />
               {exp.recommended_action}
             </div>
           ) : null}
@@ -77,15 +78,20 @@ export default function ExplanationPanel({ detail, onReExplain, busy }) {
       )}
 
       <h3>Why the detector flagged it</h3>
-      <ul className="small">
+      <ul className="reasons">
         {alert.reasons.map((r, i) => <li key={i}>{r}</li>)}
       </ul>
-      <div className="small muted">
-        Components: {Object.entries(alert.components)
+      <div className="components">
+        {Object.entries(alert.components)
           .filter(([, v]) => v > 0)
           .sort((a, b) => b[1] - a[1])
-          .map(([k, v]) => `${k} ${v}`)
-          .join(' | ')}
+          .map(([k, v]) => (
+            <span key={k} className="meter" title={`${k}: ${v}`}>
+              {k.replace('_', ' ')}
+              <span className="bar"><i style={{ width: `${Math.min(1, v) * 100}%` }} /></span>
+              {fmt.num(v)}
+            </span>
+          ))}
       </div>
 
       <h3>Evidence</h3>

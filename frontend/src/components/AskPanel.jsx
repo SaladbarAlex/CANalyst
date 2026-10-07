@@ -29,8 +29,8 @@ export default function AskPanel({ analysisId }) {
 
   return (
     <div>
-      <form className="row" onSubmit={(e) => { e.preventDefault(); submit() }}>
-        <input style={{ flex: 1, minWidth: 260 }} value={question}
+      <form className="row ask-form" onSubmit={(e) => { e.preventDefault(); submit() }}>
+        <input value={question}
           placeholder="Ask about this capture" onChange={(e) => setQuestion(e.target.value)} />
         <button disabled={busy || !analysisId}>{busy ? 'Thinking...' : 'Ask'}</button>
       </form>

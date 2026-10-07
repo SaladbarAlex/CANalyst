@@ -4,7 +4,7 @@ import {
 } from 'recharts'
 import { api, fmt } from '../api'
 
-const AXIS = { stroke: 'var(--axis)', tick: { fill: 'var(--text-muted)', fontSize: 11 } }
+const AXIS = { stroke: 'var(--axis)', tick: { fill: 'var(--text-muted)', fontSize: 10.5, fontFamily: 'IBM Plex Mono, monospace' } }
 
 export default function IdView({ analysisId, ids }) {
   const [query, setQuery] = useState('')
@@ -47,8 +47,7 @@ export default function IdView({ analysisId, ids }) {
               <XAxis dataKey="t" type="number" domain={['dataMin', 'dataMax']} {...AXIS}
                 tickFormatter={(v) => `${v}s`} />
               <YAxis {...AXIS} width={52} />
-              <Tooltip contentStyle={{ background: 'var(--surface-1)', border: '1px solid var(--border)',
-                borderRadius: 8, fontSize: 12 }} />
+              <Tooltip contentStyle={{ background: 'var(--surface-1)', border: '1px solid var(--border-strong)', borderRadius: 4, fontSize: 12, fontFamily: 'IBM Plex Mono, monospace' }} />
               <ReferenceLine y={series.baseline_rate} stroke="var(--series-3)" strokeDasharray="4 4" />
               <Line type="monotone" dataKey="rate" stroke="var(--series-1)" strokeWidth={2} dot={false} />
             </LineChart>

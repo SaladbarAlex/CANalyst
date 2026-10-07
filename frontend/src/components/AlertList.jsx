@@ -1,8 +1,12 @@
 import { fmt } from '../api'
 
-export default function AlertList({ alerts, selected, onSelect, labeled }) {
+export default function AlertList({ alerts, selected, onSelect, labeled, busy }) {
   if (!alerts?.length) {
-    return <p className="muted">No alerts. Either the traffic is clean or the threshold is too high.</p>
+    return (
+      <div className="empty">
+        {busy ? 'Scoring windows...' : 'No alerts. Either the traffic is clean or the threshold is too high.'}
+      </div>
+    )
   }
   return (
     <div className="alert-list">
@@ -22,13 +26,13 @@ export default function AlertList({ alerts, selected, onSelect, labeled }) {
             <span className="when">
               {fmt.sec(a.start)} to {fmt.sec(a.end)}
             </span>
-            <span className="score">score {fmt.num(a.score)}</span>
+            <span className="score">{fmt.num(a.score)}</span>
             <span className="meta">
               <span className={`badge ${sev}`}><span className="dot" />{pred}</span>{' '}
-              {a.ids_involved.slice(0, 3).join(', ')}
+              <span>{a.ids_involved.slice(0, 3).join(' ')}</span>
             </span>
             {labeled && truth ? (
-              <span className={`badge ${match} small`}>truth: {truth}</span>
+              <span className={`badge ${match}`}>{match === 'match' ? '✓' : '✗'} {truth}</span>
             ) : (
               <span className="small muted">{a.frame_count} frames</span>
             )}
