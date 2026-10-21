@@ -477,6 +477,11 @@ footer.foot {
 .reveal.d2 { animation-delay: 0.12s; }
 .reveal.d3 { animation-delay: 0.18s; }
 
+/* Rotating ASCII car in the page header */
+.ascii-car { margin: 0; font-family: var(--mono); font-size: 8px; line-height: 1.05; letter-spacing: 0.02em; color: var(--accent); white-space: pre; user-select: none; flex: 0 0 auto; }
+.ascii-car-original { display: block; margin: 0 auto 14px; width: max-content; opacity: 0.85; }
+@media (max-width: 760px) { .ascii-car { display: none; } }
+
 /* Benchmark tab: saved runs side by side */
 .benchmark-head, .benchmark-alerts-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px 20px; flex-wrap: wrap; margin-bottom: 14px; }
 .benchmark-head h3, .benchmark-alerts-head h3 { margin-top: 0; }

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { api, fmt } from './api'
 import AlertList from './components/AlertList'
+import AsciiCar from './components/AsciiCar'
 import AskPanel from './components/AskPanel'
 import BenchmarkPanel from './components/BenchmarkPanel'
 import Controls from './components/Controls'
@@ -275,12 +276,13 @@ export default function App() {
                 <h2>Understand the alerts.</h2>
                 <p>Select a detection to explore its explanation and supporting evidence.</p>
               </div>
+              <AsciiCar />
               <div className="review-state" role="status">
                 <span className={`led ${busy ? 'busy' : ''}`} />
                 {busy ? 'Analyzing capture' : summary ? 'Analysis ready' : 'Waiting for a capture'}
               </div>
             </div>
-          ) : null}
+          ) : <AsciiCar className="ascii-car-original" />}
           {summary ? (
             <section className="readouts reveal d1">
               <div className="kpis">
