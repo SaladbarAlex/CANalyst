@@ -9,8 +9,11 @@ analyst-facing text. Three implementations:
                     the "no LLM" control condition in the evaluation.
   ClaudeExplainer - Anthropic API.
   OpenAIExplainer - OpenAI API.
+  RCDExplainer    - Clemson RCD LLM Service: open-weight models hosted on
+                    campus behind an OpenAI-compatible API. Needs the Clemson
+                    network (on campus or CUVPN) and an RCD_LLM_API_KEY.
 
-Both real backends send the same evidence packet and the same prompt,
+All real backends send the same evidence packet and the same prompt,
 require citations, and fall back to the mock on any error, so the
 dashboard never shows an empty panel.
 """
@@ -230,7 +233,7 @@ class MockExplainer(Explainer):
                          f"IDs {', '.join(a.get('ids_involved', [])[:3])}")
         lines.append("")
         lines.append("The offline explainer answers from alert metadata only. Configure an API key "
-                     "and set EXPLAINER=claude or EXPLAINER=openai for free-form questions.")
+                     "and set EXPLAINER=claude, openai or rcd for free-form questions.")
         return "\n".join(lines)
 
 
@@ -306,20 +309,26 @@ class ClaudeExplainer(_APIExplainer):
 
 class OpenAIExplainer(_APIExplainer):
     name = "openai"
+    base_url: str | None = None
+    api_key_env = "OPENAI_API_KEY"
+    json_mode = True  # request response_format=json_object
 
     def __init__(self, model: str = "gpt-4o-mini"):
         self.model = model
         self._fallback = MockExplainer()
 
+    def _client(self):
+        from openai import OpenAI
+        return OpenAI(api_key=os.environ[self.api_key_env], base_url=self.base_url)
+
     def explain(self, evidence: dict) -> Explanation:
         try:
-            from openai import OpenAI
-            client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
-            resp = client.chat.completions.create(
+            extra = {"response_format": {"type": "json_object"}} if self.json_mode else {}
+            resp = self._client().chat.completions.create(
                 model=self.model,
-                response_format={"type": "json_object"},
                 messages=[{"role": "system", "content": SYSTEM_PROMPT},
                           {"role": "user", "content": self._user_prompt(evidence)}],
+                **extra,
             )
             return self._parse(resp.choices[0].message.content, evidence, self.model)
         except Exception as exc:
@@ -329,9 +338,7 @@ class OpenAIExplainer(_APIExplainer):
 
     def answer(self, question: str, context: dict) -> str:
         try:
-            from openai import OpenAI
-            client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
-            resp = client.chat.completions.create(
+            resp = self._client().chat.completions.create(
                 model=self.model,
                 messages=[{"role": "user", "content":
                            "Answer using only this context:\n"
@@ -344,10 +351,31 @@ class OpenAIExplainer(_APIExplainer):
                 self._fallback.answer(question, context)
 
 
+class RCDExplainer(OpenAIExplainer):
+    """Clemson RCD LLM Service. Same client as OpenAI, pointed at the campus endpoint.
+
+    Model names change over a semester; list the current ones with
+    GET {base_url}/models. glm-5.1-fp8 is the default because RCD marks it
+    active-lts, meaning it will not be retired mid-semester.
+    """
+
+    name = "rcd"
+    api_key_env = "RCD_LLM_API_KEY"
+    json_mode = False  # not every hosted model supports it; _parse extracts the JSON
+
+    def __init__(self, model: str = "glm-5.1-fp8",
+                 base_url: str = "https://llm.rcd.clemson.edu/v1"):
+        super().__init__(model)
+        self.base_url = base_url
+
+
 def get_explainer(kind: str | None = None) -> Explainer:
     kind = (kind or os.environ.get("EXPLAINER", "mock")).lower()
     if kind in ("claude", "anthropic"):
         return ClaudeExplainer(os.environ.get("CLAUDE_MODEL", "claude-sonnet-4-5"))
     if kind in ("openai", "gpt"):
         return OpenAIExplainer(os.environ.get("OPENAI_MODEL", "gpt-4o-mini"))
+    if kind in ("rcd", "clemson"):
+        return RCDExplainer(os.environ.get("RCD_LLM_MODEL", "glm-5.1-fp8"),
+                            os.environ.get("RCD_LLM_BASE_URL", "https://llm.rcd.clemson.edu/v1"))
     return MockExplainer()

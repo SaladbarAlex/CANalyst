@@ -85,7 +85,28 @@ Stage 4 is the only place an LLM appears.
 export EXPLAINER=mock                 # default: offline, deterministic, no key
 export EXPLAINER=claude ANTHROPIC_API_KEY=sk-...
 export EXPLAINER=openai OPENAI_API_KEY=sk-...
+export EXPLAINER=rcd RCD_LLM_API_KEY=...   # Clemson RCD LLM Service
 ```
+
+The hosted backends need their SDK: `pip install anthropic` or `pip install openai`
+(the RCD backend uses the `openai` package).
+
+### Clemson RCD LLM Service
+
+`EXPLAINER=rcd` sends the same evidence packet to an open-weight model hosted by
+Clemson Research Computing and Data at `https://llm.rcd.clemson.edu/v1`
+(OpenAI-compatible). Access comes from the ColdFront allocation *AI Language
+Tradecraft* (RCD LLM Service, active Oct 21, 2026 to Oct 21, 2027). Users on that
+allocation sign in at [llm.rcd.clemson.edu](https://llm.rcd.clemson.edu) to create a key.
+
+- The service is only reachable from the Clemson network: on campus or over CUVPN.
+- `RCD_LLM_MODEL` picks the model (default `glm-5.1-fp8`, which RCD lists as
+  active-lts, so it will not be retired mid-semester). List current names with
+  `curl https://llm.rcd.clemson.edu/v1/models -H "Authorization: Bearer $RCD_LLM_API_KEY"`.
+- There are no token quotas or per-call costs; a fair-share scheduler slows requests
+  when the hardware is saturated, so record latency alongside accuracy.
+- Prompts stay on Clemson hardware. Do not use the service's `/openai/v1` gateway
+  for this backend: that path forwards prompts to OpenAI.
 
 Three properties matter for the evaluation:
 

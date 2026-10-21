@@ -11,7 +11,7 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from app import features, loader, pipeline, synth  # noqa: E402
-from app.llm import MockExplainer  # noqa: E402
+from app.llm import MockExplainer, RCDExplainer, get_explainer  # noqa: E402
 
 
 @pytest.fixture(scope="module")
@@ -118,3 +118,40 @@ def test_forest_detector_runs():
                                detector="forest")
     assert a.detector == "forest"
     assert len(a.alerts) >= 1
+
+
+def test_rcd_explainer_is_configured_from_env(monkeypatch):
+    monkeypatch.setenv("RCD_LLM_MODEL", "gemma-4-31b")
+    ex = get_explainer("rcd")
+    assert isinstance(ex, RCDExplainer)
+    assert ex.model == "gemma-4-31b"
+    assert ex.base_url == "https://llm.rcd.clemson.edu/v1"
+
+
+def test_rcd_explainer_parses_reply_and_falls_back(analysis, monkeypatch):
+    evidence = analysis.evidence_for(analysis.alerts[0].alert_id)
+    first = evidence["items"][0]["id"]
+    reply = ('{"attack_type": "DoS", "confidence": 0.9, "severity": "high", '
+             '"affected_function": "bus", "summary": "flood", '
+             f'"claims": [{{"text": "load spiked", "cites": ["{first}"]}}], '
+             '"recommended_action": "isolate"}')
+
+    class FakeClient:
+        class chat:
+            class completions:
+                @staticmethod
+                def create(**kwargs):
+                    assert "response_format" not in kwargs
+                    msg = type("M", (), {"content": "Here you go:\n" + reply})
+                    return type("R", (), {"choices": [type("C", (), {"message": msg})]})
+
+    ex = RCDExplainer()
+    monkeypatch.setattr(ex, "_client", lambda: FakeClient)
+    exp = ex.explain(evidence)
+    assert (exp.attack_type, exp.model, exp.grounded) == ("dos", "glm-5.1-fp8", True)
+
+    # No key and no network: the panel still gets an explanation.
+    monkeypatch.delenv("RCD_LLM_API_KEY", raising=False)
+    exp = RCDExplainer().explain(evidence)
+    assert exp.model.startswith("mock (fallback:")
+
