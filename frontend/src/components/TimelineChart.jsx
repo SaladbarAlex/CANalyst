@@ -29,7 +29,7 @@ function RateTooltip({ active, payload, label }) {
   )
 }
 
-export default function TimelineChart({ timeline, selectedAlert, onSelectAlert, busy }) {
+export default function TimelineChart({ timeline, selectedAlert, onSelectAlert, busy, compact = false }) {
   const points = timeline?.points ?? []
   const intervals = timeline?.attack_intervals ?? []
   const alerts = timeline?.alerts ?? []
@@ -60,7 +60,7 @@ export default function TimelineChart({ timeline, selectedAlert, onSelectAlert, 
       <div className="scope">
       {busy ? <div className="scope-scan" /> : null}
       <div className="chart-label">msg/s</div>
-      <ResponsiveContainer width="100%" height={180}>
+      <ResponsiveContainer width="100%" height={compact ? 110 : 180}>
         <AreaChart data={points} onClick={handleClick} margin={{ top: 8, right: 12, bottom: 0, left: 0 }}>
           <CartesianGrid stroke="var(--grid)" strokeDasharray="2 4" vertical={false} />
           <XAxis dataKey="t" type="number" domain={['dataMin', 'dataMax']} {...AXIS}
@@ -85,7 +85,7 @@ export default function TimelineChart({ timeline, selectedAlert, onSelectAlert, 
       </ResponsiveContainer>
 
       <div className="chart-label" style={{ marginTop: 6 }}>score</div>
-      <ResponsiveContainer width="100%" height={120}>
+      <ResponsiveContainer width="100%" height={compact ? 82 : 120}>
         <LineChart data={points} onClick={handleClick} margin={{ top: 4, right: 12, bottom: 4, left: 0 }}>
           <CartesianGrid stroke="var(--grid)" strokeDasharray="2 4" vertical={false} />
           <XAxis dataKey="t" type="number" domain={['dataMin', 'dataMax']} {...AXIS}

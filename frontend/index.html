@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light" data-appearance="pastel">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,10 +10,26 @@
       href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
       rel="stylesheet" />
     <script>
+      const query = new URLSearchParams(window.location.search)
+      const requestedAppearance = query.get('appearance')
+      const requestedTheme = query.get('theme')
+      const themes = { original: 'dark', pastel: 'light' }
+      let savedAppearance = null
       try {
-        const t = localStorage.getItem('canalyst-theme')
-        if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t)
+        savedAppearance = localStorage.getItem('canalyst-appearance')
+        const originalTheme = localStorage.getItem('canalyst-theme')
+        const pastelTheme = localStorage.getItem('canalyst-pastel-theme')
+        if (['light', 'dark'].includes(originalTheme)) themes.original = originalTheme
+        if (['light', 'dark'].includes(pastelTheme)) themes.pastel = pastelTheme
       } catch (e) {}
+      const appearance = ['original', 'pastel'].includes(requestedAppearance)
+        ? requestedAppearance
+        : ['original', 'pastel'].includes(savedAppearance) ? savedAppearance : 'pastel'
+      if (['light', 'dark'].includes(requestedTheme)) themes[appearance] = requestedTheme
+      document.documentElement.setAttribute('data-appearance', appearance)
+      document.documentElement.setAttribute('data-theme', themes[appearance])
+      document.documentElement.setAttribute('data-original-theme', themes.original)
+      document.documentElement.setAttribute('data-pastel-theme', themes.pastel)
     </script>
   </head>
   <body>

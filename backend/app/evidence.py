@@ -23,6 +23,9 @@ def frame_hex(data: list[int]) -> str:
 
 def build_evidence(alert: Alert, df: pd.DataFrame, windows: pd.DataFrame,
                    baseline: Baseline, max_ids: int = 6, max_frames: int = 6) -> dict[str, Any]:
+    # Arbitration IDs do not identify the same signal across vehicles. The
+    # generator's function names are only verified for generator output.
+    id_info = ID_INFO if df.attrs.get("source") == "synthetic" else {}
     rows = windows[(windows["start"] >= alert.start - 1e-9) & (windows["end"] <= alert.end + 1e-9)]
     if rows.empty:
         rows = windows[windows["window"] == alert.window]
@@ -68,7 +71,7 @@ def build_evidence(alert: Alert, df: pd.DataFrame, windows: pd.DataFrame,
 
     for cid in ranked:
         v = merged[cid]
-        info = ID_INFO.get(cid, {})
+        info = id_info.get(cid, {})
         label = f"0x{cid:03X}"
         if v["known"]:
             add("id_stats",
@@ -85,7 +88,7 @@ def build_evidence(alert: Alert, df: pd.DataFrame, windows: pd.DataFrame,
 
     missing = list(rows.iloc[0]["missing_ids"]) if len(rows) else []
     for cid in missing[:3]:
-        info = ID_INFO.get(int(cid), {})
+        info = id_info.get(int(cid), {})
         add("missing_id",
             f"0x{int(cid):03X} ({info.get('name', 'unknown')}) stopped transmitting during "
             f"this window although the baseline expects it every "

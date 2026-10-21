@@ -35,6 +35,21 @@ npm run dev                                           # dashboard at localhost:5
 The dashboard analyzes a synthetic capture as soon as it loads, so it is never
 empty. Vite proxies `/api` to port 8000, so there is no CORS setup in development.
 
+### Appearance
+
+The Appearance menu switches between Original and Pastel. Pastel uses a compact
+traffic chart above the alerts and explanations. Both appearances have a
+sun/moon toggle, and each remembers its own light/dark preference.
+
+- [Pastel light](http://127.0.0.1:5173/?appearance=pastel&theme=light)
+- [Pastel dark](http://127.0.0.1:5173/?appearance=pastel&theme=dark)
+- [Original](http://127.0.0.1:5173/?appearance=original)
+
+The [two-page dataset brief](../CANalyst_midterm/paper/CANalyst_Dataset_Brief.pdf)
+explains the real-data results, what to inspect in the UI, and the remaining
+work. The dashboard opens synthetic traffic; it does not automatically display
+the saved real-data benchmark results.
+
 ## What runs where
 
 ```
@@ -48,16 +63,18 @@ backend/
   app/metrics.py     precision / recall / F1, per-attack recall, classification, grounding
   app/pipeline.py    orchestration and the in-memory analysis store
   app/main.py        FastAPI routes
-  scripts/evaluate.py  command-line harness that produces the numbers for the paper
-  tests/             pytest suite (9 tests)
+  scripts/evaluate.py  synthetic and single-capture evaluation harness
+  scripts/evaluate_midterm.py  reproducible real-data benchmark with separate normal baselines
+  tests/             pytest suite (13 tests)
 frontend/
   src/App.jsx        layout, data loading, tab state
   src/components/    TimelineChart, AlertList, ExplanationPanel, IdView, MetricsPanel, AskPanel, Controls
-  src/styles.css     design tokens, light and dark
+  src/styles.css     original design tokens, light and dark
+  src/pastel.css     separately scoped Pastel layout and light/dark palettes
 ```
 
 The pipeline is a five-stage flow: **ingest, feature extraction, detection,
-explanation, dashboard.** Stages 1 to 3 are statistics with no model involved.
+explanation, dashboard.** Stages 1 to 3 use statistical features and detectors with no LLM calls.
 Stage 4 is the only place an LLM appears.
 
 ## The explanation layer
@@ -100,10 +117,10 @@ seeds:
 
 | metric | value |
 |---|---|
-| precision | 0.977 (sd 0.013) |
-| recall | 0.950 (sd 0.006) |
-| F1 | 0.963 (sd 0.004) |
-| recall: dos / fuzzing / spoofing | 1.00 / 1.00 / 0.98 |
+| precision | 1.000 (sd 0.000) |
+| recall | 0.907 (sd 0.011) |
+| F1 | 0.951 (sd 0.006) |
+| recall: dos / fuzzing / spoofing | 1.00 / 1.00 / 0.81 |
 | recall: masquerade | 0.82 |
 
 Masquerade is the weak case, which is the expected result: the message rate stays
@@ -111,20 +128,66 @@ normal and only the timing changes, so detection rests on jitter collapse alone.
 This is the gap that clock-skew fingerprinting (CIDS) was built for, and it is
 worth naming as a limitation rather than hiding.
 
-**Synthetic data is scaffolding, not a result.** It exists so the pipeline can be
-built and tested before the real datasets arrive. Every number in the paper should
-come from Car-Hacking and ROAD.
+These synthetic results were reproduced on October 20, 2026 with seeds 1–5,
+150-second captures, the current rule detector, and threshold 0.55. The earlier
+README's F1 of 0.963 came from an older detector configuration. The current
+IsolationForest synthetic comparison has mean F1 0.540. Synthetic results check
+pipeline behavior; the real-data benchmark below measures the current detector
+on recorded vehicle traffic.
+
+### October 20 preliminary real-data benchmark
+
+The current rule detector was run at its existing 0.55 threshold with separate
+normal baseline data, 0.5-second windows, and a 0.25-second stride. Metrics pool
+window confusion counts across the specified evaluation captures, including
+held-out normal traffic. No hosted LLM was called in this benchmark.
+
+| dataset and scope | evaluated frame records | precision | recall | F1 | false positive rate |
+|---|---:|---:|---:|---:|---:|
+| HCRL: all four complete attack files + 120 s normal holdout | 16,803,792 | 0.997 | 0.980 | 0.989 | 0.003 |
+| ROAD: 29 labeled attack captures + two 120 s ambient excerpts | 3,808,639 | 0.770 | 0.509 | 0.613 | 0.103 |
+
+HCRL used the first 120 seconds of its separate normal recording for baseline
+learning and seconds 121–241 for the normal holdout. ROAD used the full
+`ambient_dyno_drive_basic_short.log` for baseline learning. Four ROAD accelerator
+captures lack injection intervals and were excluded from labeled metrics.
+
+The ROAD result identifies the next work: fabrication/spoofing recall was 92.7%,
+but masquerade recall was 8.1%. The normal `extended_short` excerpt also produced
+378 false alerts at the window level out of 479 windows, showing that a baseline
+from basic driving does not cover all benign operating states. These are
+development benchmarks: the rules were previously informed by Car-Hacking,
+overlapping windows are correlated, and some source captures share traffic.
+
+Reproduce from `backend/` with the downloaded data present:
+
+```bash
+.venv/bin/python -u -m scripts.evaluate_midterm --dataset hcrl --full-hcrl
+.venv/bin/python -u -m scripts.evaluate_midterm --dataset road
+```
+
+Full confusion counts, per-capture scores, source hashes, baseline details,
+exclusions, and limitations are in `backend/out/midterm_2026-10-20/`. Start with
+`methodology.txt`, `hcrl_full/results.json`, and `road/results.json`. The separate
+`hcrl/` folder preserves an earlier 120-second-per-attack pilot; its metrics must
+not be mixed with the full HCRL run. Raw excerpts stay under ignored
+`backend/data/evaluation_inputs/`.
 
 ## Loading real data
 
-Use the "Load a CSV log" button, or `POST /api/analyze/upload`.
+The command-line loader recognizes the downloaded datasets:
 
 - **HCRL Car-Hacking**: `Timestamp, CAN ID, DLC, DATA[0..7], Flag`. The published
   attack files have no header row; the loader detects this.
-- **ORNL ROAD**: the `Label, Time, ID, Data` layout is handled. Other ROAD layouts
-  may need a small change in `load_road`.
-- A log with no label column still works. Detection runs, but the metrics tab
-  reports that it cannot be evaluated.
+- **ORNL ROAD**: candump `.log` files use the adjacent `capture_metadata.json`
+  for interval/ID labels. The `Label, Time, ID, Data` CSV layout is also handled.
+- Real arbitration IDs currently show unknown vehicle functions. The generator's
+  signal names are used only for captures with synthetic provenance.
+
+The dashboard's "Load a CSV log" button and `POST /api/analyze/upload` are a
+simpler upload route. They do not yet accept a separate normal baseline and
+ROAD metadata. Use the benchmark commands for the reported real-data results;
+uploading the same file currently does not reproduce that evaluation protocol.
 
 Put real logs in `backend/data/` (gitignored).
 
@@ -160,7 +223,15 @@ explanation claim cites real evidence, and that the evidence packet stays small.
 ## Known limitations
 
 - Offline analysis, not an in-vehicle IDS. Nothing here runs in real time on a bus.
-- Detection thresholds are tuned on synthetic traffic and will need retuning per dataset.
+- The current fixed threshold was not selected using the October 20 evaluation
+  results, but the rules were previously developed with Car-Hacking observations.
+  These are preliminary development benchmarks, not untouched final test sets.
+- ROAD results expose poor masquerade recall and false alarms under benign
+  vehicle-state changes. Broader normal calibration and a separate validation
+  protocol are needed before the final comparison.
+- The real-data benchmark currently covers the rule detector. IsolationForest
+  needs a separate-baseline fitting path before a fair real-data comparison;
+  its existing external-baseline route can fall back to fitting evaluation data.
 - The natural-language query feature answers from alert metadata unless a hosted
   model is configured.
 - Masquerade recall trails the other attack types (see above).

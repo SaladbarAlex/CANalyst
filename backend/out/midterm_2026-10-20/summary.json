@@ -1,0 +1,213 @@
+{
+  "kind": "preliminary fixed-threshold rule-detector benchmark",
+  "window_s": 0.5,
+  "stride_s": 0.25,
+  "threshold": 0.55,
+  "llm_calls": 0,
+  "aggregation": "pooled window confusion counts including normal holdouts",
+  "methodology": "methodology.txt",
+  "datasets": {
+    "hcrl_full": {
+      "scope": "Complete contents of each of the four attack captures; normal baseline uses [0,120) seconds of the separate normal capture, with [121,241) seconds reserved for normal evaluation. No frame overlap. The normal holdout is from the same recording and is not an independent drive.",
+      "result_file": "hcrl_full/results.json",
+      "baseline_input": {
+        "source": "data/raw/hcrl-car-hacking/normal_run_data/normal_run_data.txt",
+        "source_sha256": "efbbafbf8e965c0d2f75eb97f1d118d0ae1c4b9f3077a6c4c000a26eb5be97ea",
+        "selected_input": "data/evaluation_inputs/midterm_2026-10-20/hcrl_full/normal_run_data_0_120/normal_run_data.txt",
+        "selected_input_sha256": "55bed4ea14a31146cc04cf3ed01a9ee91e710763d86218430fe5e2bc0af53031",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": 120.0,
+        "frame_count": 234315,
+        "selected_nonempty_lines": 234315,
+        "skipped_selected_lines": 0,
+        "duration_s": 119.99567103385925,
+        "unique_ids": 27,
+        "attack_labeled_frames": 0
+      },
+      "true_positive": 21986,
+      "false_positive": 65,
+      "false_negative": 438,
+      "true_negative": 20486,
+      "windows_evaluated": 42975,
+      "precision": 0.9970522878781007,
+      "recall": 0.980467356403853,
+      "f1": 0.988690275435638,
+      "false_positive_rate": 0.003162863121016009,
+      "captures": 5,
+      "frame_count": 16803792,
+      "by_attack_type": {
+        "dos": {
+          "true_positive": 6100,
+          "false_positive": 14,
+          "false_negative": 0,
+          "true_negative": 5128,
+          "windows_evaluated": 11242,
+          "precision": 0.9977101733725875,
+          "recall": 1.0,
+          "f1": 0.9988537743572949,
+          "false_positive_rate": 0.0027226760015558148,
+          "captures": 1,
+          "frame_count": 3665771
+        },
+        "fuzzing": {
+          "true_positive": 6818,
+          "false_positive": 37,
+          "false_negative": 0,
+          "true_negative": 4936,
+          "windows_evaluated": 11791,
+          "precision": 0.9946024799416484,
+          "recall": 1.0,
+          "f1": 0.9972939369560447,
+          "false_positive_rate": 0.007440176955560024,
+          "captures": 1,
+          "frame_count": 3838860
+        },
+        "spoofing": {
+          "true_positive": 9068,
+          "false_positive": 14,
+          "false_negative": 438,
+          "true_negative": 9943,
+          "windows_evaluated": 19463,
+          "precision": 0.9984584893195332,
+          "recall": 0.9539238375762676,
+          "f1": 0.9756832364966646,
+          "false_positive_rate": 0.0014060459977904992,
+          "captures": 2,
+          "frame_count": 9064844
+        }
+      }
+    },
+    "road": {
+      "scope": "All 29 attack captures with supplied injection intervals (13 fabrication, 13 derived masquerade, 3 fuzzing). Full basic_short ambient capture is baseline-only. First 120 seconds each of basic_long and extended_short ambient captures are held out for normal evaluation. The paired fabrication/masquerade captures share underlying recordings.",
+      "result_file": "road/results.json",
+      "baseline_input": {
+        "source": "data/raw/road/road/ambient/ambient_dyno_drive_basic_short.log",
+        "source_sha256": "c9f65e0050dfbbce10105a48d7da6aae9facb1d3d499b8968262c29cff9612bb",
+        "selected_input": "data/raw/road/road/ambient/ambient_dyno_drive_basic_short.log",
+        "selected_input_sha256": "c9f65e0050dfbbce10105a48d7da6aae9facb1d3d499b8968262c29cff9612bb",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": null,
+        "frame_count": 1063624,
+        "selected_nonempty_lines": 1063624,
+        "skipped_selected_lines": 0,
+        "duration_s": 444.75060999393463,
+        "unique_ids": 106,
+        "attack_labeled_frames": 0
+      },
+      "true_positive": 1304,
+      "false_positive": 389,
+      "false_negative": 1257,
+      "true_negative": 3403,
+      "windows_evaluated": 6353,
+      "precision": 0.7702303603071471,
+      "recall": 0.5091761030847325,
+      "f1": 0.613070051716032,
+      "false_positive_rate": 0.102584388185654,
+      "captures": 31,
+      "frame_count": 3808639,
+      "by_attack_type": {
+        "fuzzing": {
+          "true_positive": 27,
+          "false_positive": 8,
+          "false_negative": 0,
+          "true_negative": 120,
+          "windows_evaluated": 155,
+          "precision": 0.7714285714285715,
+          "recall": 1.0,
+          "f1": 0.8709677419354839,
+          "false_positive_rate": 0.0625,
+          "captures": 3,
+          "frame_count": 94931
+        },
+        "masquerade": {
+          "true_positive": 102,
+          "false_positive": 1,
+          "false_negative": 1165,
+          "true_negative": 1352,
+          "windows_evaluated": 2620,
+          "precision": 0.9902912621359223,
+          "recall": 0.08050513022888714,
+          "f1": 0.14890510948905109,
+          "false_positive_rate": 0.0007390983000739098,
+          "captures": 13,
+          "frame_count": 1570401
+        },
+        "spoofing": {
+          "true_positive": 1175,
+          "false_positive": 1,
+          "false_negative": 92,
+          "true_negative": 1352,
+          "windows_evaluated": 2620,
+          "precision": 0.9991496598639455,
+          "recall": 0.9273875295974744,
+          "f1": 0.9619320507572656,
+          "false_positive_rate": 0.0007390983000739098,
+          "captures": 13,
+          "frame_count": 1601132
+        }
+      }
+    }
+  },
+  "total_evaluated_frame_records": 20612431,
+  "total_scored_windows": 49328,
+  "synthetic": {
+    "rule": {
+      "seeds": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "duration_s": 150,
+      "aggregation": "mean across five seeds",
+      "metrics": {
+        "precision": {
+          "mean": 1.0,
+          "population_sd": 0.0
+        },
+        "recall": {
+          "mean": 0.90684,
+          "population_sd": 0.011132942108894676
+        },
+        "f1": {
+          "mean": 0.95112,
+          "population_sd": 0.0061483005782086
+        },
+        "false_positive_rate": {
+          "mean": 0.0,
+          "population_sd": 0.0
+        }
+      }
+    },
+    "forest": {
+      "seeds": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "duration_s": 150,
+      "aggregation": "mean across five seeds",
+      "metrics": {
+        "precision": {
+          "mean": 0.72344,
+          "population_sd": 0.04055488133381723
+        },
+        "recall": {
+          "mean": 0.43182,
+          "population_sd": 0.053278866354305995
+        },
+        "f1": {
+          "mean": 0.53984,
+          "population_sd": 0.05128947650346999
+        },
+        "false_positive_rate": {
+          "mean": 0.03676,
+          "population_sd": 0.004459865468823023
+        }
+      }
+    }
+  }
+}

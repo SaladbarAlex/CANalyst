@@ -5,11 +5,29 @@ import { fmt } from '../api'
    chip scrolls to and highlights the evidence row it refers to, so no claim
    is readable without the number behind it. */
 
-export default function ExplanationPanel({ detail, onReExplain, busy }) {
+function DetailSection({ title, compact, children, open, onToggle }) {
+  if (!compact) return <><h3>{title}</h3>{children}</>
+  return (
+    <details className="evidence-disclosure" open={open} onToggle={onToggle}>
+      <summary>{title}</summary>
+      <div className="disclosure-body">{children}</div>
+    </details>
+  )
+}
+
+export default function ExplanationPanel({ detail, onReExplain, busy, compact = false }) {
   const [activeCite, setActiveCite] = useState(null)
+  const [evidenceOpen, setEvidenceOpen] = useState(false)
   const rowRefs = useRef({})
 
-  useEffect(() => setActiveCite(null), [detail?.alert?.alert_id])
+  useEffect(() => {
+    setActiveCite(null)
+    setEvidenceOpen(false)
+  }, [detail?.alert?.alert_id])
+
+  useEffect(() => {
+    if (activeCite) rowRefs.current[activeCite]?.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+  }, [activeCite, evidenceOpen, compact])
 
   if (!detail) {
     return <div className="empty">Select an alert to see its explanation and evidence.</div>
@@ -20,7 +38,8 @@ export default function ExplanationPanel({ detail, onReExplain, busy }) {
 
   const jumpTo = (id) => {
     setActiveCite(id)
-    rowRefs.current[id]?.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+    setEvidenceOpen(true)
+    if (!compact || evidenceOpen) rowRefs.current[id]?.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
   }
 
   return (
@@ -77,49 +96,54 @@ export default function ExplanationPanel({ detail, onReExplain, busy }) {
         <p className="muted">No explanation generated for this alert yet.</p>
       )}
 
-      <h3>Why the detector flagged it</h3>
-      <ul className="reasons">
-        {alert.reasons.map((r, i) => <li key={i}>{r}</li>)}
-      </ul>
-      <div className="components">
-        {Object.entries(alert.components)
-          .filter(([, v]) => v > 0)
-          .sort((a, b) => b[1] - a[1])
-          .map(([k, v]) => (
-            <span key={k} className="meter" title={`${k}: ${v}`}>
-              {k.replace('_', ' ')}
-              <span className="bar"><i style={{ width: `${Math.min(1, v) * 100}%` }} /></span>
-              {fmt.num(v)}
-            </span>
-          ))}
-      </div>
-
-      <h3>Evidence</h3>
-      <div className="scroll">
-        <table>
-          <thead>
-            <tr>
-              <th className="left">id</th>
-              <th className="left">kind</th>
-              <th className="left">measurement</th>
-            </tr>
-          </thead>
-          <tbody>
-            {evidence.items.map((it) => (
-              <tr key={it.id} ref={(el) => { rowRefs.current[it.id] = el }}
-                className={activeCite === it.id ? 'highlight' : ''}>
-                <td className="left mono">{it.id}</td>
-                <td className="left small muted">{it.kind}</td>
-                <td className="left">{it.text}</td>
-              </tr>
+      <DetailSection title="Why the detector flagged it" compact={compact}>
+        <ul className="reasons">
+          {alert.reasons.map((r, i) => <li key={i}>{r}</li>)}
+        </ul>
+        <div className="components">
+          {Object.entries(alert.components)
+            .filter(([, v]) => v > 0)
+            .sort((a, b) => b[1] - a[1])
+            .map(([k, v]) => (
+              <span key={k} className="meter" title={`${k}: ${v}`}>
+                {k.replace('_', ' ')}
+                <span className="bar"><i style={{ width: `${Math.min(1, v) * 100}%` }} /></span>
+                {fmt.num(v)}
+              </span>
             ))}
-          </tbody>
-        </table>
-      </div>
+        </div>
+
+      </DetailSection>
+
+      <DetailSection title={`Evidence${compact ? ` · ${evidence.items.length} measurements` : ''}`} compact={compact}
+        open={evidenceOpen} onToggle={(event) => setEvidenceOpen(event.currentTarget.open)}>
+        <div className="scroll">
+          <table>
+            <thead>
+              <tr>
+                <th className="left">id</th>
+                <th className="left">kind</th>
+                <th className="left">measurement</th>
+              </tr>
+            </thead>
+            <tbody>
+              {evidence.items.map((it) => (
+                <tr key={it.id} ref={(el) => { rowRefs.current[it.id] = el }}
+                  className={activeCite === it.id ? 'highlight' : ''}>
+                  <td className="left mono">{it.id}</td>
+                  <td className="left small muted">{it.kind}</td>
+                  <td className="left">{it.text}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+      </DetailSection>
+
 
       {evidence.sample_frames?.length ? (
-        <>
-          <h3>Sample frames</h3>
+        <DetailSection title="Sample frames" compact={compact}>
           <div className="scroll">
             <table>
               <thead>
@@ -142,7 +166,7 @@ export default function ExplanationPanel({ detail, onReExplain, busy }) {
               </tbody>
             </table>
           </div>
-        </>
+        </DetailSection>
       ) : null}
     </div>
   )

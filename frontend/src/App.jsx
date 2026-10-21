@@ -31,8 +31,14 @@ export default function App() {
   const [detail, setDetail] = useState(null)
   const [explaining, setExplaining] = useState(false)
   const [tab, setTab] = useState('analysis')
-  const [theme, setTheme] = useState(
-    () => document.documentElement.getAttribute('data-theme') || 'dark')
+  const [appearance, setAppearance] = useState(
+    () => document.documentElement.getAttribute('data-appearance') || 'pastel')
+  const isPastel = appearance === 'pastel'
+  const [themes, setThemes] = useState(() => ({
+    original: document.documentElement.getAttribute('data-original-theme') || 'dark',
+    pastel: document.documentElement.getAttribute('data-pastel-theme') || 'light',
+  }))
+  const theme = themes[appearance]
 
   const loadAll = useCallback(async (analysisId) => {
     const [tl, al, idRows, rep] = await Promise.all([
@@ -106,10 +112,35 @@ export default function App() {
 
   const toggleTheme = () => {
     const next = theme === 'dark' ? 'light' : 'dark'
-    setTheme(next)
+    setThemes((previous) => ({ ...previous, [appearance]: next }))
     document.documentElement.setAttribute('data-theme', next)
-    try { localStorage.setItem('canalyst-theme', next) } catch (e) { /* storage blocked */ }
+    document.documentElement.setAttribute(`data-${appearance}-theme`, next)
+    try {
+      localStorage.setItem(isPastel ? 'canalyst-pastel-theme' : 'canalyst-theme', next)
+    } catch (e) { /* storage blocked */ }
+    const url = new URL(window.location.href)
+    url.searchParams.set('appearance', appearance)
+    url.searchParams.set('theme', next)
+    window.history.replaceState(null, '', url)
   }
+
+  const changeAppearance = (next) => {
+    setAppearance(next)
+    document.documentElement.setAttribute('data-appearance', next)
+    document.documentElement.setAttribute('data-theme', themes[next])
+    try { localStorage.setItem('canalyst-appearance', next) } catch (e) { /* storage blocked */ }
+    const url = new URL(window.location.href)
+    url.searchParams.set('appearance', next)
+    url.searchParams.set('theme', themes[next])
+    window.history.replaceState(null, '', url)
+  }
+
+  const captureControls = (
+    <>
+      <Controls onRun={run} onUpload={upload} busy={busy} params={params} setParams={setParams} />
+      {!isPastel && error ? <p role="alert" className="error" style={{ marginTop: 14, marginBottom: 0 }}>{error}</p> : null}
+    </>
+  )
 
   return (
     <div className="app">
@@ -130,11 +161,18 @@ export default function App() {
           <span className="cell"><span className={`led ${busy ? 'busy' : ''}`} />{busy ? 'analyzing' : 'ready'}</span>
           {summary ? (
             <>
-              <span className="cell">src <b>{summary.source}</b></span>
-              <span className="cell">det <b>{summary.detector}</b></span>
+              <span className="cell">{isPastel ? 'Source ' : 'src '}<b>{summary.source}</b></span>
+              <span className="cell">{isPastel ? 'Detector ' : 'det '}<b>{summary.detector}</b></span>
               <span className="cell">baseline <b>{fmt.num(summary.baseline_end, 0)}s</b></span>
             </>
           ) : null}
+        </div>
+        <div className="appearance-controls">
+          <label htmlFor="appearance">Appearance</label>
+          <select id="appearance" aria-label="Appearance" value={appearance} onChange={(e) => changeAppearance(e.target.value)}>
+            <option value="original">Original</option>
+            <option value="pastel">Pastel</option>
+          </select>
         </div>
         <button className="icon-btn" onClick={toggleTheme}
           title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
@@ -154,12 +192,33 @@ export default function App() {
 
       <div className="layout">
         <aside className="panel rig reveal">
-          <h2>Capture</h2>
-          <Controls onRun={run} onUpload={upload} busy={busy} params={params} setParams={setParams} />
-          {error ? <p className="error" style={{ marginTop: 14, marginBottom: 0 }}>{error}</p> : null}
+          {isPastel ? (
+            <details className="capture-settings">
+              <summary>
+                <span className="capture-settings-title">Capture settings</span>
+                <span className="capture-settings-description">Generate demo traffic or upload a log</span>
+                <span className="capture-settings-action">Configure <span aria-hidden="true">＋</span></span>
+              </summary>
+              <div className="capture-settings-body">{captureControls}</div>
+            </details>
+          ) : <><h2>Capture</h2>{captureControls}</>}
+          {isPastel && error ? <p role="alert" className="error">{error}</p> : null}
         </aside>
 
         <main>
+          {isPastel ? (
+            <div className="review-intro">
+              <div>
+                <p className="eyebrow">Capture review</p>
+                <h2>Understand the alerts.</h2>
+                <p>Select a detection to explore its explanation and supporting evidence.</p>
+              </div>
+              <div className="review-state" role="status">
+                <span className={`led ${busy ? 'busy' : ''}`} />
+                {busy ? 'Analyzing capture' : summary ? 'Analysis ready' : 'Waiting for a capture'}
+              </div>
+            </div>
+          ) : null}
           {summary ? (
             <section className="readouts reveal d1">
               <div className="kpis">
@@ -172,7 +231,7 @@ export default function App() {
                 <div className="kpi"><div className="label">Unique IDs</div>
                   <div className="value">{summary.unique_ids}</div>
                   <div className="note">{timeline ? `${outside} outside baseline` : ''}</div></div>
-                <div className="kpi"><div className="label">Alerts</div>
+                <div className="kpi alert-kpi"><div className="label">Alerts</div>
                   <div className={`value ${summary.alert_count ? 'hot' : ''}`}>{summary.alert_count}</div>
                   <div className="note">{summary.window_count} windows scored</div></div>
                 {m?.labeled ? (
@@ -182,7 +241,7 @@ export default function App() {
                       <div className="note">F1 {fmt.num(m.f1, 3)}</div></div>
                     <div className="kpi"><div className="label">Ground truth</div>
                       <div className="value small">{summary.attack_intervals.length} intervals</div>
-                      <div className="note">{summary.attack_intervals.map((i) => i.type).join(', ')}</div></div>
+                      <div className="note">{[...new Set(summary.attack_intervals.map((i) => i.type))].join(', ')}</div></div>
                   </>
                 ) : null}
               </div>
@@ -199,21 +258,25 @@ export default function App() {
             </div>
 
             {tab === 'analysis' ? (
-              <>
-                <TimelineChart timeline={timeline} selectedAlert={selected} onSelectAlert={setSelected}
-                  busy={busy} />
-                <div className="split" style={{ marginTop: 22 }}>
-                  <div>
-                    <div className="section-title">Alerts</div>
+              <div className="analysis-workspace">
+                <div className="traffic-context">
+                  {isPastel ? <div className="traffic-heading"><h3>Traffic context</h3><p>Message rate and detector score across the capture</p></div> : null}
+                  <TimelineChart timeline={timeline} selectedAlert={selected} onSelectAlert={setSelected}
+                    busy={busy} compact={isPastel} />
+                </div>
+                <div className="split" style={{ marginTop: isPastel ? 0 : 22 }}>
+                  <div className="alerts-column">
+                    <div className="section-title">Alerts {isPastel ? <span className="section-count">{alerts.length}</span> : null}</div>
+                    {isPastel ? <p className="section-description">Select an alert to review</p> : null}
                     <AlertList alerts={alerts} selected={selected} onSelect={setSelected}
                       labeled={summary?.labeled} busy={busy} />
                   </div>
-                  <div>
+                  <div className="explanation-column">
                     <div className="section-title">Explanation and evidence</div>
-                    <ExplanationPanel detail={detail} onReExplain={reExplain} busy={explaining} />
+                    <ExplanationPanel detail={detail} onReExplain={reExplain} busy={explaining} compact={isPastel} />
                   </div>
                 </div>
-              </>
+              </div>
             ) : null}
 
             {tab === 'ids' ? <IdView analysisId={summary?.analysis_id} ids={ids} /> : null}
