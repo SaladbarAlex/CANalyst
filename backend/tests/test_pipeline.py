@@ -178,3 +178,36 @@ def test_harness_scores_explanations_against_labels(analysis):
     assert summary["classification"]["scored_alerts"] == 1
     assert summary["false_alarms"] == 1 and summary["fallbacks"] == 0
 
+
+def test_alert_window_is_e0_and_rescoring_cites_it(analysis):
+    from scripts.rescore_grounding import attribute_to_window
+
+    ev = analysis.evidence_for(0)
+    assert [i["id"] for i in ev["items"]][:2] == ["E0", "E1"]
+    d = ev["items"][0]["detail"]
+    exp = MockExplainer().explain(ev)
+    exp.claims = [
+        {"text": f"The window spans t={d['window_start']:.1f}s to t={d['window_end']:.1f}s "
+                 f"and holds {d['frame_count']:,} frames.", "cites": []},
+        {"text": "0x2C0 doubled its rate.", "cites": []},  # no E0 number: stays uncited
+        {"text": f"Score {d['detector_score']:.3f} but 999 frames were dropped.", "cites": []},
+    ]
+    assert attribute_to_window(exp, ev) == 1
+    assert [c["cites"] for c in exp.claims] == [["E0"], [], []]
+
+
+def test_rescoring_maps_field_name_cites_but_keeps_other_invalid_ones(analysis):
+    from app.llm import _check_citations
+    from scripts.rescore_grounding import map_metadata_cites
+
+    ev = analysis.evidence_for(0)
+    exp = MockExplainer().explain(ev)
+    exp.claims = [{"text": "a", "cites": ["detector_components", "E1"]},
+                  {"text": "b", "cites": ["frame_count", "detector_components.timing"]}]
+    assert map_metadata_cites(exp) == 2
+    assert exp.claims[1]["cites"] == ["E0"]
+    assert _check_citations(exp, ev).grounded
+    exp.claims.append({"text": "c", "cites": ["E1", "made_up"]})
+    map_metadata_cites(exp)
+    assert not _check_citations(exp, ev).grounded
+

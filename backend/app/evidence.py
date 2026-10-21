@@ -4,7 +4,10 @@ The packet is what the LLM sees. Raw frames are never sent: a CAN log
 holds thousands of frames per second, so the LLM gets measured
 deviations plus a handful of sample frames. Every item carries an id
 (E1, E2, ...) so an explanation can cite it and the dashboard can link
-the claim back to the number behind it.
+the claim back to the number behind it. E0 is the alert itself: its
+window, frame count and detector score, which models restate often and
+would otherwise have nothing to cite. It is numbered 0 so E1 onward keep
+the ids earlier runs cited.
 """
 from __future__ import annotations
 
@@ -119,6 +122,18 @@ def build_evidence(alert: Alert, df: pd.DataFrame, windows: pd.DataFrame,
     if frames:
         add("frames", f"{len(frames)} representative frame(s) from the window.",
             {"frames": frames})
+
+    components = ", ".join(f"{k} {v:.3f}" for k, v in
+                           sorted(alert.components.items(), key=lambda kv: -kv[1]))
+    items.insert(0, {
+        "id": "E0", "kind": "alert_window",
+        "text": (f"Alert window {alert.start:.2f}s to {alert.end:.2f}s "
+                 f"({alert.end - alert.start:.2f} s), {len(seg)} frames. Detector score "
+                 f"{alert.score:.3f}; components: {components}."),
+        "detail": {"window_start": alert.start, "window_end": alert.end,
+                   "duration_s": round(alert.end - alert.start, 3), "frame_count": int(len(seg)),
+                   "detector_score": alert.score, "components": alert.components},
+    })
 
     return {
         "alert_id": alert.alert_id,

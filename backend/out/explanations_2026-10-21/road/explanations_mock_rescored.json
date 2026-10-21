@@ -1,0 +1,1244 @@
+{
+  "dataset": "road",
+  "status": "complete",
+  "explainer": "mock",
+  "model": "mock",
+  "temperature": null,
+  "detector": "rule",
+  "threshold": 0.55,
+  "inputs": "Evidence packets only: measured deviations, per-ID statistics and at most six sample frames. No labels, capture names or metadata.",
+  "scoring": "true_type is the majority attack type of labeled frames inside the alert; alerts on unlabeled frames are false alarms and are excluded from accuracy.",
+  "code_sha256": {
+    "app/loader.py": "a9c52ff58ffd4e85aae4b8a7ff5948ea368706c5aaf2e9dc4a37bd52a5c7c562",
+    "app/features.py": "b93a1ca1e37ee1cbaec6078a0f64b018c2f7163f65439f5070c4882cb9f99845",
+    "app/detector.py": "9a3408e5bbc866224d7d9bef7449dfe134a03b064a1b7ecdff18a6ef85ec6579",
+    "app/metrics.py": "e223d028909b203f5136cca20fe6562aad7c33f97ba65d4dff04ac5ad764d688",
+    "app/evidence.py": "e203b5fbc4d97036d1c54a2f37e3f2d67ad61647218d3f055eddce5edba65826",
+    "app/llm.py": "4dd0123520422ccca29c76ab6f9ca7130580334ebd11ec563bb31cd2376cbd93",
+    "scripts/evaluate_midterm.py": "16bbc1b38d4ea7bdc726b2e5374dc78a9b9f955c91a4c9b97d5ac583362263db"
+  },
+  "summary": {
+    "alerts_explained": 31,
+    "classification": {
+      "scored_alerts": 20,
+      "accuracy": 0.85,
+      "confusion": {
+        "spoofing": {
+          "spoofing": 13
+        },
+        "masquerade": {
+          "spoofing": 3,
+          "masquerade": 1
+        },
+        "fuzzing": {
+          "fuzzing": 3
+        }
+      }
+    },
+    "grounding": {
+      "explained": 31,
+      "grounded_rate": 1.0,
+      "total_claims": 57,
+      "uncited_claims": 0
+    },
+    "false_alarms": 11,
+    "false_alarms_called_benign": 0,
+    "fallbacks": 0,
+    "latency_s_median": null,
+    "latency_s_max": null
+  },
+  "rescore": {
+    "method": "Rebuilt packets with E0 (alert window, frame count, detector score and components); re-parsed saved raw replies and checked citations once. Citations naming window, frame_count, detector_score or detector_components (or a dotted sub-field of one) become E0; an uncited claim cites E0 only if every number in it matches an E0 value within 0.5% (at least 0.006). Any other invalid citation leaves the explanation ungrounded. No model calls.",
+    "summary_before": {
+      "alerts_explained": 31,
+      "classification": {
+        "scored_alerts": 20,
+        "accuracy": 0.85,
+        "confusion": {
+          "spoofing": {
+            "spoofing": 13
+          },
+          "masquerade": {
+            "spoofing": 3,
+            "masquerade": 1
+          },
+          "fuzzing": {
+            "fuzzing": 3
+          }
+        }
+      },
+      "grounding": {
+        "explained": 31,
+        "grounded_rate": 1.0,
+        "total_claims": 57,
+        "uncited_claims": 0
+      },
+      "false_alarms": 11,
+      "false_alarms_called_benign": 0,
+      "fallbacks": 0,
+      "latency_s_median": null,
+      "latency_s_max": null
+    },
+    "claims_attributed_to_E0": 0,
+    "metadata_cites_mapped_to_E0": 0
+  },
+  "alerts": [
+    {
+      "capture": "correlated_signal_attack_1",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 9.25,
+      "end": 30.0,
+      "detector_score": 0.5826,
+      "true_type": "spoofing",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 9.25s to 30.00s, 51710 frames, IDs of interest 0x6E0, 0x2B4, 0x2C1. Detector score 0.58 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x6E0 transmitted at 2.02x its baseline rate (202.0 versus 100.0 msg/s), so frames are being added alongside the legitimate ones.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -3.21 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    },
+    {
+      "capture": "correlated_signal_attack_2",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 7.0,
+      "end": 28.0,
+      "detector_score": 0.5826,
+      "true_type": "spoofing",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 7.00s to 28.00s, 52340 frames, IDs of interest 0x6E0, 0x2C1, 0x28B. Detector score 0.58 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x6E0 transmitted at 2.02x its baseline rate (202.0 versus 100.0 msg/s), so frames are being added alongside the legitimate ones.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -3.21 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    },
+    {
+      "capture": "correlated_signal_attack_2_masquerade",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 25.25,
+      "end": 25.75,
+      "detector_score": 0.5652,
+      "true_type": "masquerade",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 25.25s to 25.75s, 1209 frames, IDs of interest 0x025, 0x55C, 0x2B4. Detector score 0.57 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x025 transmitted at 2.0x its baseline rate (12.0 versus 1.28 msg/s), so frames are being added alongside the legitimate ones.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -0.66 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    },
+    {
+      "capture": "correlated_signal_attack_2_masquerade",
+      "role": "attack_capture",
+      "alert_id": 1,
+      "start": 26.25,
+      "end": 27.5,
+      "detector_score": 0.5652,
+      "true_type": "masquerade",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 26.25s to 27.50s, 3010 frames, IDs of interest 0x025, 0x2B4, 0x2C1. Detector score 0.57 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x025 transmitted at 2.0x its baseline rate (12.0 versus 1.28 msg/s), so frames are being added alongside the legitimate ones.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -0.66 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    },
+    {
+      "capture": "correlated_signal_attack_3",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 4.5,
+      "end": 16.75,
+      "detector_score": 0.5826,
+      "true_type": "spoofing",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 4.50s to 16.75s, 30516 frames, IDs of interest 0x6E0, 0x55C, 0x2B4. Detector score 0.58 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x6E0 transmitted at 2.02x its baseline rate (202.0 versus 100.0 msg/s), so frames are being added alongside the legitimate ones.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -3.02 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    },
+    {
+      "capture": "fuzzing_attack_1",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 4.25,
+      "end": 8.25,
+      "detector_score": 1.0,
+      "true_type": "fuzzing",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.82,
+        "severity": "medium",
+        "affected_function": "Multiple, undirected",
+        "summary": "FUZZING on Multiple, undirected. Window 4.25s to 8.25s, 10172 frames, IDs of interest 0x070, 0x095, 0x09F. Detector score 1.00 (strongest component: unknown_ids).",
+        "claims": [
+          {
+            "text": "6 arbitration IDs absent from the baseline appeared (0x070, 0x095, 0x09F, 0x0B3), which indicates undirected injection.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5"
+            ]
+          },
+          {
+            "text": "Bus load rose to 1.09x baseline.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Capture the full window and check whether any injected ID triggered an ECU response. Fuzzing often precedes a targeted attack.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    },
+    {
+      "capture": "fuzzing_attack_1",
+      "role": "attack_capture",
+      "alert_id": 1,
+      "start": 16.25,
+      "end": 20.0,
+      "detector_score": 0.5652,
+      "true_type": "normal",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 16.25s to 20.00s, 8996 frames, IDs of interest 0x025, 0x2B4, 0x0BA. Detector score 0.57 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x025 transmitted at 2.0x its baseline rate (12.0 versus 1.28 msg/s), so frames are being added alongside the legitimate ones.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -0.12 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    },
+    {
+      "capture": "fuzzing_attack_2",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 11.0,
+      "end": 13.5,
+      "detector_score": 1.0,
+      "true_type": "fuzzing",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.82,
+        "severity": "medium",
+        "affected_function": "Multiple, undirected",
+        "summary": "FUZZING on Multiple, undirected. Window 11.00s to 13.50s, 6028 frames, IDs of interest 0x070, 0x095, 0x09F. Detector score 1.00 (strongest component: unknown_ids).",
+        "claims": [
+          {
+            "text": "6 arbitration IDs absent from the baseline appeared (0x070, 0x095, 0x09F, 0x0B3), which indicates undirected injection.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5"
+            ]
+          },
+          {
+            "text": "Bus load rose to 1.09x baseline.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Capture the full window and check whether any injected ID triggered an ECU response. Fuzzing often precedes a targeted attack.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    },
+    {
+      "capture": "fuzzing_attack_3",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 4.5,
+      "end": 5.5,
+      "detector_score": 1.0,
+      "true_type": "fuzzing",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.82,
+        "severity": "medium",
+        "affected_function": "Multiple, undirected",
+        "summary": "FUZZING on Multiple, undirected. Window 4.50s to 5.50s, 2470 frames, IDs of interest 0x04A, 0x070, 0x095. Detector score 1.00 (strongest component: unknown_ids).",
+        "claims": [
+          {
+            "text": "6 arbitration IDs absent from the baseline appeared (0x04A, 0x070, 0x095, 0x09F), which indicates undirected injection.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5"
+            ]
+          },
+          {
+            "text": "Bus load rose to 1.07x baseline.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Capture the full window and check whether any injected ID triggered an ECU response. Fuzzing often precedes a targeted attack.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    },
+    {
+      "capture": "max_engine_coolant_temp_attack",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 20.25,
+      "end": 24.25,
+      "detector_score": 0.7391,
+      "true_type": "spoofing",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 20.25s to 24.25s, 9603 frames, IDs of interest 0x4E7, 0x2B4, 0x0BA. Detector score 0.74 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x4E7 transmitted at 2.2x its baseline rate (22.0 versus 10.0 msg/s), so frames are being added alongside the legitimate ones.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -0.47 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    },
+    {
+      "capture": "max_speedometer_attack_1",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 42.0,
+      "end": 66.75,
+      "detector_score": 1.0,
+      "true_type": "spoofing",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 42.00s to 66.75s, 62102 frames, IDs of interest 0x280, 0x0D0, 0x30A. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x280 transmitted at 4.333x its baseline rate (26.0 versus 5.03 msg/s), so frames are being added alongside the legitimate ones.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -0.34 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    },
+    {
+      "capture": "max_speedometer_attack_1_masquerade",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 42.0,
+      "end": 66.75,
+      "detector_score": 1.0,
+      "true_type": "masquerade",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 42.00s to 66.75s, 59658 frames, IDs of interest 0x280, 0x30A, 0x2B4. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x280 transmitted at 4.333x its baseline rate (26.0 versus 5.03 msg/s), so frames are being added alongside the legitimate ones.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -0.34 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    },
+    {
+      "capture": "max_speedometer_attack_2",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 16.0,
+      "end": 47.25,
+      "detector_score": 0.5826,
+      "true_type": "spoofing",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 16.00s to 47.25s, 77857 frames, IDs of interest 0x0D0, 0x55C, 0x0BA. Detector score 0.58 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x0D0 transmitted at 2.02x its baseline rate (202.0 versus 100.0 msg/s), so frames are being added alongside the legitimate ones.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -1.28 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    },
+    {
+      "capture": "max_speedometer_attack_3",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 10.0,
+      "end": 70.5,
+      "detector_score": 0.5826,
+      "true_type": "spoofing",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 10.00s to 70.50s, 150685 frames, IDs of interest 0x0D0, 0x55C, 0x03C. Detector score 0.58 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x0D0 transmitted at 2.02x its baseline rate (202.0 versus 100.0 msg/s), so frames are being added alongside the legitimate ones.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -1.70 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    },
+    {
+      "capture": "reverse_light_off_attack_1",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 16.75,
+      "end": 23.25,
+      "detector_score": 0.5652,
+      "true_type": "spoofing",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 16.75s to 23.25s, 16208 frames, IDs of interest 0x0D0, 0x2B4, 0xFFF. Detector score 0.57 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x0D0 transmitted at 2.0x its baseline rate (200.0 versus 100.0 msg/s), so frames are being added alongside the legitimate ones.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -1.67 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    },
+    {
+      "capture": "reverse_light_off_attack_2",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 13.25,
+      "end": 36.75,
+      "detector_score": 0.5652,
+      "true_type": "spoofing",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 13.25s to 36.75s, 58541 frames, IDs of interest 0x0D0, 0x55C, 0x2C1. Detector score 0.57 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x0D0 transmitted at 2.0x its baseline rate (200.0 versus 100.0 msg/s), so frames are being added alongside the legitimate ones.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -1.52 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    },
+    {
+      "capture": "reverse_light_off_attack_3",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 16.75,
+      "end": 40.75,
+      "detector_score": 0.5826,
+      "true_type": "spoofing",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 16.75s to 40.75s, 59781 frames, IDs of interest 0x0D0, 0x55C, 0x2B4. Detector score 0.58 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x0D0 transmitted at 2.02x its baseline rate (202.0 versus 100.0 msg/s), so frames are being added alongside the legitimate ones.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -1.78 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    },
+    {
+      "capture": "reverse_light_on_attack_1",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 19.0,
+      "end": 38.75,
+      "detector_score": 0.5652,
+      "true_type": "spoofing",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 19.00s to 38.75s, 49244 frames, IDs of interest 0x0D0, 0xFFF, 0x295. Detector score 0.57 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x0D0 transmitted at 2.0x its baseline rate (200.0 versus 100.0 msg/s), so frames are being added alongside the legitimate ones.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -1.51 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    },
+    {
+      "capture": "reverse_light_on_attack_2",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 20.5,
+      "end": 57.25,
+      "detector_score": 0.6,
+      "true_type": "spoofing",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 20.50s to 57.25s, 91564 frames, IDs of interest 0x0D0, 0x55C, 0x2B4. Detector score 0.60 (strongest component: timing).",
+        "claims": [
+          {
+            "text": "0x0D0 transmitted at 2.0x its baseline rate (200.0 versus 100.0 msg/s), so frames are being added alongside the legitimate ones.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -1.44 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    },
+    {
+      "capture": "reverse_light_on_attack_2",
+      "role": "attack_capture",
+      "alert_id": 1,
+      "start": 71.25,
+      "end": 71.75,
+      "detector_score": 0.6,
+      "true_type": "normal",
+      "explanation": {
+        "attack_type": "masquerade",
+        "confidence": 0.66,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "MASQUERADE on unknown. Window 71.25s to 71.75s, 1196 frames, IDs of interest 0x2B4, 0x2C1, 0x0BA. Detector score 0.60 (strongest component: timing).",
+        "claims": [
+          {
+            "text": "0x230 keeps a normal message rate but its timing jitter collapsed to 0.081x the quietest baseline window, which is what a different physical sender looks like.",
+            "cites": [
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Confirm with clock-skew fingerprinting (CIDS-style). Rate-based detection will not catch this class of attack.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    },
+    {
+      "capture": "reverse_light_on_attack_2_masquerade",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 45.25,
+      "end": 45.75,
+      "detector_score": 0.6,
+      "true_type": "masquerade",
+      "explanation": {
+        "attack_type": "masquerade",
+        "confidence": 0.66,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "MASQUERADE on unknown. Window 45.25s to 45.75s, 1198 frames, IDs of interest 0x55C, 0x2C1, 0x0BA. Detector score 0.60 (strongest component: timing).",
+        "claims": [
+          {
+            "text": "0x230 keeps a normal message rate but its timing jitter collapsed to 0.081x the quietest baseline window, which is what a different physical sender looks like.",
+            "cites": [
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Confirm with clock-skew fingerprinting (CIDS-style). Rate-based detection will not catch this class of attack.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    },
+    {
+      "capture": "reverse_light_on_attack_2_masquerade",
+      "role": "attack_capture",
+      "alert_id": 1,
+      "start": 71.25,
+      "end": 71.75,
+      "detector_score": 0.6,
+      "true_type": "normal",
+      "explanation": {
+        "attack_type": "masquerade",
+        "confidence": 0.66,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "MASQUERADE on unknown. Window 71.25s to 71.75s, 1196 frames, IDs of interest 0x2B4, 0x2C1, 0x0BA. Detector score 0.60 (strongest component: timing).",
+        "claims": [
+          {
+            "text": "0x230 keeps a normal message rate but its timing jitter collapsed to 0.081x the quietest baseline window, which is what a different physical sender looks like.",
+            "cites": [
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Confirm with clock-skew fingerprinting (CIDS-style). Rate-based detection will not catch this class of attack.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    },
+    {
+      "capture": "reverse_light_on_attack_3",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 23.25,
+      "end": 46.5,
+      "detector_score": 0.5826,
+      "true_type": "spoofing",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 23.25s to 46.50s, 57938 frames, IDs of interest 0x0D0, 0x2B4, 0x2C1. Detector score 0.58 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x0D0 transmitted at 2.02x its baseline rate (202.0 versus 100.0 msg/s), so frames are being added alongside the legitimate ones.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -1.28 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    },
+    {
+      "capture": "ambient_dyno_drive_basic_long",
+      "role": "held_out_normal",
+      "alert_id": 0,
+      "start": 67.25,
+      "end": 67.75,
+      "detector_score": 0.5652,
+      "true_type": "normal",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 67.25s to 67.75s, 1191 frames, IDs of interest 0x025, 0x2C1, 0x295. Detector score 0.57 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x025 transmitted at 2.0x its baseline rate (12.0 versus 1.28 msg/s), so frames are being added alongside the legitimate ones.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -0.41 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 0,
+      "start": 0.0,
+      "end": 23.0,
+      "detector_score": 1.0,
+      "true_type": "normal",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 0.00s to 23.00s, 22866 frames, IDs of interest 0x107, 0x0BA, 0x26E. Detector score 1.00 (strongest component: missing_ids).",
+        "claims": [
+          {
+            "text": "0x297 transmitted at 2.0x its baseline rate (12.0 versus 2.0 msg/s), so frames are being added alongside the legitimate ones.",
+            "cites": [
+              "E7"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved +1.01 bits against baseline.",
+            "cites": [
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 1,
+      "start": 24.0,
+      "end": 25.25,
+      "detector_score": 0.8548,
+      "true_type": "normal",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 24.00s to 25.25s, 3009 frames, IDs of interest 0x21D, 0x371, 0x55C. Detector score 0.85 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x21D transmitted at 2.333x its baseline rate (14.0 versus 1.0 msg/s), so frames are being added alongside the legitimate ones.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved +0.79 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 2,
+      "start": 26.0,
+      "end": 27.25,
+      "detector_score": 0.8548,
+      "true_type": "normal",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 26.00s to 27.25s, 3010 frames, IDs of interest 0x21D, 0x0F4, 0x2C1. Detector score 0.85 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x21D transmitted at 2.333x its baseline rate (14.0 versus 1.0 msg/s), so frames are being added alongside the legitimate ones.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved +0.97 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 3,
+      "start": 44.25,
+      "end": 45.25,
+      "detector_score": 0.6196,
+      "true_type": "normal",
+      "explanation": {
+        "attack_type": "unknown",
+        "confidence": 0.35,
+        "severity": "low",
+        "affected_function": "Indeterminate",
+        "summary": "UNKNOWN on Indeterminate. Window 44.25s to 45.25s, 2390 frames, IDs of interest 0x55C, 0x2B4, 0xFFF. Detector score 0.62 (strongest component: payload_entropy).",
+        "claims": [
+          {
+            "text": "Deviations are present but no single signature dominates.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Widen the window and compare against a longer benign baseline.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 4,
+      "start": 45.75,
+      "end": 72.0,
+      "detector_score": 0.7316,
+      "true_type": "normal",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 45.75s to 72.00s, 62984 frames, IDs of interest 0x55C, 0x2C1, 0x0BA. Detector score 0.73 (strongest component: payload_entropy).",
+        "claims": [
+          {
+            "text": "0x025 transmitted at 2.0x its baseline rate (12.0 versus 1.28 msg/s), so frames are being added alongside the legitimate ones.",
+            "cites": [
+              "E7"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -0.47 bits against baseline.",
+            "cites": [
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 5,
+      "start": 72.75,
+      "end": 73.75,
+      "detector_score": 0.592,
+      "true_type": "normal",
+      "explanation": {
+        "attack_type": "unknown",
+        "confidence": 0.35,
+        "severity": "low",
+        "affected_function": "Indeterminate",
+        "summary": "UNKNOWN on Indeterminate. Window 72.75s to 73.75s, 2390 frames, IDs of interest 0x55C, 0x2C1, 0x0BA. Detector score 0.59 (strongest component: payload_entropy).",
+        "claims": [
+          {
+            "text": "Deviations are present but no single signature dominates.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Widen the window and compare against a longer benign baseline.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 6,
+      "start": 75.5,
+      "end": 120.0,
+      "detector_score": 0.668,
+      "true_type": "normal",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 75.50s to 120.00s, 106506 frames, IDs of interest 0x2B4, 0x2C1, 0x295. Detector score 0.67 (strongest component: payload_entropy).",
+        "claims": [
+          {
+            "text": "0x4C9 transmitted at 1.8x its baseline rate (18.0 versus 10.0 msg/s), so frames are being added alongside the legitimate ones.",
+            "cites": [
+              "E7"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved +0.69 bits against baseline.",
+            "cites": [
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": null
+      },
+      "grounded_before_rescore": true,
+      "claims_attributed_to_E0": 0,
+      "metadata_cites_mapped_to_E0": 0
+    }
+  ]
+}
