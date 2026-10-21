@@ -15,12 +15,15 @@ analyst-facing text. Three implementations:
 
 All real backends send the same evidence packet and the same prompt,
 require citations, and fall back to the mock on any error, so the
-dashboard never shows an empty panel.
+dashboard never shows an empty panel. They run at a fixed temperature
+(LLM_TEMPERATURE, default 0) and keep the raw reply and latency of every
+call so evaluation runs can be audited without calling the model again.
 """
 from __future__ import annotations
 
 import json
 import os
+import time
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
@@ -64,6 +67,8 @@ class Explanation:
     recommended_action: str = ""
     model: str = "mock"
     grounded: bool = True  # every citation resolves to a real evidence id
+    raw_response: str = ""  # model text before parsing; empty for the mock
+    latency_s: float | None = None  # wall time of the API call, fallbacks included
 
     def to_json(self) -> dict:
         return asdict(self)
@@ -273,23 +278,29 @@ class _APIExplainer(Explainer):
 class ClaudeExplainer(_APIExplainer):
     name = "claude"
 
-    def __init__(self, model: str = "claude-sonnet-4-5"):
+    def __init__(self, model: str = "claude-sonnet-4-5", temperature: float = 0.0):
         self.model = model
+        self.temperature = temperature
         self._fallback = MockExplainer()
 
     def explain(self, evidence: dict) -> Explanation:
+        started, text = time.perf_counter(), ""
         try:
             import anthropic
             client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
             msg = client.messages.create(
                 model=self.model, max_tokens=1200, system=SYSTEM_PROMPT,
+                temperature=self.temperature,
                 messages=[{"role": "user", "content": self._user_prompt(evidence)}],
             )
-            return self._parse(msg.content[0].text, evidence, self.model)
+            text = msg.content[0].text
+            exp = self._parse(text, evidence, self.model)
         except Exception as exc:  # network, key, or malformed JSON
             exp = self._fallback.explain(evidence)
             exp.model = f"mock (fallback: {type(exc).__name__})"
-            return exp
+        exp.raw_response = text
+        exp.latency_s = round(time.perf_counter() - started, 3)
+        return exp
 
     def answer(self, question: str, context: dict) -> str:
         try:
@@ -313,8 +324,9 @@ class OpenAIExplainer(_APIExplainer):
     api_key_env = "OPENAI_API_KEY"
     json_mode = True  # request response_format=json_object
 
-    def __init__(self, model: str = "gpt-4o-mini"):
+    def __init__(self, model: str = "gpt-4o-mini", temperature: float = 0.0):
         self.model = model
+        self.temperature = temperature
         self._fallback = MockExplainer()
 
     def _client(self):
@@ -322,19 +334,23 @@ class OpenAIExplainer(_APIExplainer):
         return OpenAI(api_key=os.environ[self.api_key_env], base_url=self.base_url)
 
     def explain(self, evidence: dict) -> Explanation:
+        started, text = time.perf_counter(), ""
         try:
             extra = {"response_format": {"type": "json_object"}} if self.json_mode else {}
             resp = self._client().chat.completions.create(
-                model=self.model,
+                model=self.model, temperature=self.temperature,
                 messages=[{"role": "system", "content": SYSTEM_PROMPT},
                           {"role": "user", "content": self._user_prompt(evidence)}],
                 **extra,
             )
-            return self._parse(resp.choices[0].message.content, evidence, self.model)
+            text = resp.choices[0].message.content or ""
+            exp = self._parse(text, evidence, self.model)
         except Exception as exc:
             exp = self._fallback.explain(evidence)
             exp.model = f"mock (fallback: {type(exc).__name__})"
-            return exp
+        exp.raw_response = text
+        exp.latency_s = round(time.perf_counter() - started, 3)
+        return exp
 
     def answer(self, question: str, context: dict) -> str:
         try:
@@ -364,18 +380,20 @@ class RCDExplainer(OpenAIExplainer):
     json_mode = False  # not every hosted model supports it; _parse extracts the JSON
 
     def __init__(self, model: str = "glm-5.1-fp8",
-                 base_url: str = "https://llm.rcd.clemson.edu/v1"):
-        super().__init__(model)
+                 base_url: str = "https://llm.rcd.clemson.edu/v1", temperature: float = 0.0):
+        super().__init__(model, temperature)
         self.base_url = base_url
 
 
 def get_explainer(kind: str | None = None) -> Explainer:
     kind = (kind or os.environ.get("EXPLAINER", "mock")).lower()
+    temperature = float(os.environ.get("LLM_TEMPERATURE", "0"))
     if kind in ("claude", "anthropic"):
-        return ClaudeExplainer(os.environ.get("CLAUDE_MODEL", "claude-sonnet-4-5"))
+        return ClaudeExplainer(os.environ.get("CLAUDE_MODEL", "claude-sonnet-4-5"), temperature)
     if kind in ("openai", "gpt"):
-        return OpenAIExplainer(os.environ.get("OPENAI_MODEL", "gpt-4o-mini"))
+        return OpenAIExplainer(os.environ.get("OPENAI_MODEL", "gpt-4o-mini"), temperature)
     if kind in ("rcd", "clemson"):
         return RCDExplainer(os.environ.get("RCD_LLM_MODEL", "glm-5.1-fp8"),
-                            os.environ.get("RCD_LLM_BASE_URL", "https://llm.rcd.clemson.edu/v1"))
+                            os.environ.get("RCD_LLM_BASE_URL", "https://llm.rcd.clemson.edu/v1"),
+                            temperature)
     return MockExplainer()

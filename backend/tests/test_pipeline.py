@@ -142,6 +142,7 @@ def test_rcd_explainer_parses_reply_and_falls_back(analysis, monkeypatch):
                 @staticmethod
                 def create(**kwargs):
                     assert "response_format" not in kwargs
+                    assert kwargs["temperature"] == 0.0
                     msg = type("M", (), {"content": "Here you go:\n" + reply})
                     return type("R", (), {"choices": [type("C", (), {"message": msg})]})
 
@@ -149,9 +150,31 @@ def test_rcd_explainer_parses_reply_and_falls_back(analysis, monkeypatch):
     monkeypatch.setattr(ex, "_client", lambda: FakeClient)
     exp = ex.explain(evidence)
     assert (exp.attack_type, exp.model, exp.grounded) == ("dos", "glm-5.1-fp8", True)
+    assert exp.raw_response.endswith(reply) and exp.latency_s is not None
 
     # No key and no network: the panel still gets an explanation.
     monkeypatch.delenv("RCD_LLM_API_KEY", raising=False)
     exp = RCDExplainer().explain(evidence)
     assert exp.model.startswith("mock (fallback:")
+
+
+def test_ask_context_hides_ground_truth(analysis):
+    context = analysis.ask_context()
+    text = str(context)
+    for leaked in ("true_type", "attack_intervals", "labeled", "metrics", "'source'", "attacks"):
+        assert leaked not in text, leaked
+    assert len(context["alerts"]) == len(analysis.alerts)
+
+
+def test_harness_scores_explanations_against_labels(analysis):
+    from scripts.evaluate_midterm import explanation_summary, true_type
+
+    alert = analysis.alerts[0]
+    exp = MockExplainer().explain(analysis.evidence_for(alert.alert_id))
+    truth = true_type(analysis.df, alert.start, alert.end)
+    assert truth == analysis.true_type_for(alert)
+    summary = explanation_summary([{"true_type": truth, "explanation": exp.to_json()},
+                                   {"true_type": "normal", "explanation": exp.to_json()}])
+    assert summary["classification"]["scored_alerts"] == 1
+    assert summary["false_alarms"] == 1 and summary["fallbacks"] == 0
 

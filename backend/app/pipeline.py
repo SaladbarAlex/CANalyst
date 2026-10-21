@@ -49,6 +49,25 @@ class Analysis:
             "metrics": m,
         }
 
+    def ask_context(self) -> dict:
+        """What the free-form question box may show a model.
+
+        Ground truth (true types, injected intervals, the injected attack list,
+        label-derived metrics) and the source filename, which often names the
+        attack, are left out so an answer cannot read the label instead of the
+        evidence.
+        """
+        summary = {k: v for k, v in self.summary().items()
+                   if k not in {"source", "attack_intervals", "labeled", "metrics"}}
+        summary["params"] = {k: v for k, v in self.params.items() if k != "attacks"}
+        alerts = [{k: v for k, v in a.items() if k != "true_type"}
+                  for a in self.alert_list(include_explanations=True)]
+        for a in alerts:
+            if "explanation" in a:  # raw replies only bloat the prompt
+                a["explanation"] = {k: v for k, v in a["explanation"].items()
+                                    if k != "raw_response"}
+        return {"summary": summary, "alerts": alerts, "baseline": self.baseline.to_json()}
+
     def timeline(self) -> dict:
         w = self.windows
         return {

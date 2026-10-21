@@ -6,7 +6,17 @@ Run from backend:
 
 The scope and fixed threshold are declared before scoring. This calls the
 same loader, feature extractor, and rule detector as the dashboard, while
-avoiding the dashboard's in-memory analysis retention and LLM calls.
+avoiding the dashboard's in-memory analysis retention.
+
+Add --explainer (mock, rcd, claude or openai) to also explain every merged
+alert with the same evidence packets the dashboard builds:
+    EXPLAINER=rcd .venv/bin/python -u -m scripts.evaluate_midterm --dataset road --explainer rcd
+
+Explanations go to explanations_<explainer>.json, one record per alert with
+the true type, prediction, grounding, latency, fallback and raw reply. The
+explainer only receives the evidence packet; labels, capture names and
+metadata never reach it. Without --out, explanation runs write under
+out/explanations_<date> so the midterm detection artifacts stay untouched.
 """
 from __future__ import annotations
 
@@ -24,6 +34,8 @@ import pandas as pd
 
 from app import features, loader, metrics
 from app.detector import RuleDetector
+from app.evidence import build_evidence
+from app.llm import get_explainer
 
 BACKEND = Path(__file__).resolve().parents[1]
 THRESHOLD = 0.55
@@ -121,13 +133,50 @@ def pooled(records: list[dict]) -> dict:
             "captures": len(records), "frame_count": sum(r["input"]["frame_count"] for r in records)}
 
 
+def true_type(df: pd.DataFrame, start: float, end: float) -> str:
+    """Majority attack type of labeled frames in [start, end), as the dashboard scores it."""
+    seg = df[(df["timestamp"] >= start) & (df["timestamp"] < end)]
+    attack = seg[seg["label"] == 1]
+    return "normal" if attack.empty else str(attack["attack_type"].mode().iat[0])
+
+
+def explanation_summary(records: list[dict]) -> dict:
+    """Classification, grounding, false-alarm handling, fallbacks and latency."""
+    alerts = [{"true_type": r["true_type"], "explanation": r["explanation"]} for r in records]
+    false_alarms = [r for r in records if r["true_type"] == "normal"]
+    latencies = sorted(r["explanation"]["latency_s"] for r in records
+                       if r["explanation"].get("latency_s") is not None)
+    return {
+        "alerts_explained": len(records),
+        "classification": metrics.classification_accuracy(alerts),
+        "grounding": metrics.grounding_rate(alerts),
+        "false_alarms": len(false_alarms),
+        "false_alarms_called_benign": sum(r["explanation"]["attack_type"] == "benign"
+                                          for r in false_alarms),
+        "fallbacks": sum(r["explanation"]["model"].startswith("mock (fallback") for r in records),
+        "latency_s_median": latencies[len(latencies) // 2] if latencies else None,
+        "latency_s_max": latencies[-1] if latencies else None,
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dataset", choices=["hcrl", "road"], required=True)
     parser.add_argument("--full-hcrl", action="store_true",
                         help="evaluate all rows of HCRL attack captures instead of 120 s prefixes")
-    parser.add_argument("--out", type=Path, default=BACKEND / "out" / "midterm_2026-10-20")
+    parser.add_argument("--out", type=Path, default=None,
+                        help="output root (default out/midterm_2026-10-20, or "
+                             "out/explanations_<date> with --explainer)")
+    parser.add_argument("--explainer", choices=["mock", "rcd", "claude", "openai"],
+                        help="also explain every merged alert with this backend")
+    parser.add_argument("--max-alerts", type=int, default=0,
+                        help="explain at most this many alerts per capture (0 = all)")
     args = parser.parse_args()
+    if args.out is None:
+        args.out = BACKEND / "out" / (
+            f"explanations_{datetime.now().date()}" if args.explainer else "midterm_2026-10-20")
+    explainer = get_explainer(args.explainer) if args.explainer else None
+    explanations: list[dict] = []
     out = args.out.resolve() / (args.dataset + ("_full" if args.full_hcrl else ""))
     out.mkdir(parents=True, exist_ok=True)
     started = time.perf_counter()
@@ -175,7 +224,8 @@ def main() -> None:
             "positive_window": "At least one frame labeled attack by the existing loader",
             "road_labels": "Metadata injection interval and injected CAN ID; fuzzing labels every frame in the interval. This is interval/ID-derived window ground truth, not exact injected-frame annotation.",
             "llm_calls": 0,
-            "explanation_evaluation": "Not evaluated in this detection benchmark",
+            "explanation_evaluation": ("Not evaluated in this detection benchmark" if explainer is None
+                                       else f"See explanations_{explainer.name}.json"),
             "interface": "Command-line evaluation; browser upload does not yet supply separate baseline captures and ROAD metadata",
             "empty_windows": "Excluded by the existing feature extractor",
             "window_tail": "Existing extractor may include one partially observed final 0.5 s window; no records beyond the selected interval are added",
@@ -184,7 +234,8 @@ def main() -> None:
         },
         "environment": {"python": platform.python_version(), "pandas": pd.__version__},
         "code_sha256": {name: sha256(BACKEND / name) for name in
-                         ["app/loader.py", "app/features.py", "app/detector.py", "app/metrics.py", "scripts/evaluate_midterm.py"]},
+                         ["app/loader.py", "app/features.py", "app/detector.py", "app/metrics.py",
+                          "app/evidence.py", "app/llm.py", "scripts/evaluate_midterm.py"]},
         "excluded_attack_captures": excluded,
         "captures": [],
     }
@@ -219,6 +270,21 @@ def main() -> None:
                 input_record["duration_s"] - WINDOW_S + STRIDE_S), STRIDE_S)) - len(windows)),
             "partial_tail_windows": int((windows["end"] > input_record["duration_s"]).sum()),
         }
+        if explainer is not None:
+            chosen = alerts[:args.max_alerts] if args.max_alerts else alerts
+            for alert in chosen:
+                evidence = build_evidence(alert, df, windows, baseline)
+                exp = explainer.explain(evidence)
+                explanations.append({
+                    "capture": path.stem, "role": role, "alert_id": alert.alert_id,
+                    "start": alert.start, "end": alert.end, "detector_score": alert.score,
+                    "true_type": true_type(df, alert.start, alert.end),
+                    "explanation": exp.to_json(),
+                })
+            record["alerts_explained"] = len(chosen)
+            if explainer.name != "mock":
+                report["methodology"]["llm_calls"] += len(chosen)
+            write_explanations(out, explainer, explanations, report)
         report["captures"].append(record)
         report["pooled"] = pooled(report["captures"])
         (out / "results.json").write_text(json.dumps(report, indent=2, allow_nan=False) + "\n")
@@ -235,6 +301,33 @@ def main() -> None:
     report["total_processing_seconds"] = round(time.perf_counter() - started, 3)
     (out / "results.json").write_text(json.dumps(report, indent=2, allow_nan=False) + "\n")
     print("POOLED " + json.dumps(report["pooled"]), flush=True)
+    if explainer is not None:
+        summary = write_explanations(out, explainer, explanations, report, complete=True)
+        print("EXPLANATIONS " + json.dumps(summary), flush=True)
+
+
+def write_explanations(out: Path, explainer, records: list[dict], report: dict,
+                       complete: bool = False) -> dict:
+    """Rewritten after every capture so an interrupted run keeps what it paid for."""
+    summary = explanation_summary(records)
+    payload = {
+        "dataset": report["dataset"],
+        "status": "complete" if complete else "running",
+        "explainer": explainer.name,
+        "model": getattr(explainer, "model", "mock"),
+        "temperature": getattr(explainer, "temperature", None),
+        "detector": "rule", "threshold": THRESHOLD,
+        "inputs": "Evidence packets only: measured deviations, per-ID statistics and at most "
+                  "six sample frames. No labels, capture names or metadata.",
+        "scoring": "true_type is the majority attack type of labeled frames inside the alert; "
+                   "alerts on unlabeled frames are false alarms and are excluded from accuracy.",
+        "code_sha256": report["code_sha256"],
+        "summary": summary,
+        "alerts": records,
+    }
+    (out / f"explanations_{explainer.name}.json").write_text(
+        json.dumps(payload, indent=2, allow_nan=False) + "\n")
+    return summary
 
 
 if __name__ == "__main__":

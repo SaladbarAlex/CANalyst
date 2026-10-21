@@ -165,10 +165,6 @@ def baseline(analysis_id: str) -> dict:
 def ask(analysis_id: str, req: AskRequest) -> dict:
     a = _get(analysis_id)
     explainer = get_explainer()
-    context = {
-        "summary": a.summary(),
-        "alerts": a.alert_list(include_explanations=True),
-        "baseline": a.baseline.to_json(),
-    }
+    context = a.ask_context()
     return {"question": req.question, "answer": explainer.answer(req.question, context),
             "explainer": explainer.name}
