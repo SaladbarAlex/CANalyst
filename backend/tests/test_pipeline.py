@@ -149,7 +149,7 @@ def test_rcd_explainer_parses_reply_and_falls_back(analysis, monkeypatch):
     ex = RCDExplainer()
     monkeypatch.setattr(ex, "_client", lambda: FakeClient)
     exp = ex.explain(evidence)
-    assert (exp.attack_type, exp.model, exp.grounded) == ("dos", "glm-5.1-fp8", True)
+    assert (exp.attack_type, exp.model, exp.grounded) == ("dos", "glm-5.3", True)
     assert exp.raw_response.endswith(reply) and exp.latency_s is not None
 
     # No key and no network: the panel still gets an explanation.

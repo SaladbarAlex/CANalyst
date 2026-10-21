@@ -100,9 +100,15 @@ Tradecraft* (RCD LLM Service, active Oct 21, 2026 to Oct 21, 2027). Users on tha
 allocation sign in at [llm.rcd.clemson.edu](https://llm.rcd.clemson.edu) to create a key.
 
 - The service is only reachable from the Clemson network: on campus or over CUVPN.
-- `RCD_LLM_MODEL` picks the model (default `glm-5.1-fp8`, which RCD lists as
-  active-lts, so it will not be retired mid-semester). List current names with
-  `curl https://llm.rcd.clemson.edu/v1/models -H "Authorization: Bearer $RCD_LLM_API_KEY"`.
+- `RCD_LLM_MODEL` picks the model (default `glm-5.3`, which RCD lists as active:
+  stable, with at least a week's notice before retirement). Check names and
+  lifecycles with
+  `curl 'https://llm.rcd.clemson.edu/v1/models?full=true' -H "Authorization: Bearer $RCD_LLM_API_KEY"`.
+  Use only local models there; the `gpt-*` entries are the OpenAI gateway.
+- The key can live in `backend/.env` (gitignored). The backend reads it at import
+  and never overrides variables already set in the shell.
+- Calls take roughly 15 to 50 seconds each (`gemma-4-31b` about 18 s, `glm-5.3`
+  about 45 s in October 2026), so a full real-data run takes tens of minutes.
 - There are no token quotas or per-call costs; a fair-share scheduler slows requests
   when the hardware is saturated, so record latency alongside accuracy.
 - Prompts stay on Clemson hardware. Do not use the service's `/openai/v1` gateway

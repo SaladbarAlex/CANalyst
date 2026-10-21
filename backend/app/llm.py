@@ -371,15 +371,16 @@ class RCDExplainer(OpenAIExplainer):
     """Clemson RCD LLM Service. Same client as OpenAI, pointed at the campus endpoint.
 
     Model names change over a semester; list the current ones with
-    GET {base_url}/models. glm-5.1-fp8 is the default because RCD marks it
-    active-lts, meaning it will not be retired mid-semester.
+    GET {base_url}/models?full=true and check the lifecycle field. glm-5.3
+    is the default because RCD lists it as active (stable, at least a week's
+    notice before retirement); glm-5.1-fp8 is deprecated as of October 21, 2026.
     """
 
     name = "rcd"
     api_key_env = "RCD_LLM_API_KEY"
     json_mode = False  # not every hosted model supports it; _parse extracts the JSON
 
-    def __init__(self, model: str = "glm-5.1-fp8",
+    def __init__(self, model: str = "glm-5.3",
                  base_url: str = "https://llm.rcd.clemson.edu/v1", temperature: float = 0.0):
         super().__init__(model, temperature)
         self.base_url = base_url
@@ -393,7 +394,7 @@ def get_explainer(kind: str | None = None) -> Explainer:
     if kind in ("openai", "gpt"):
         return OpenAIExplainer(os.environ.get("OPENAI_MODEL", "gpt-4o-mini"), temperature)
     if kind in ("rcd", "clemson"):
-        return RCDExplainer(os.environ.get("RCD_LLM_MODEL", "glm-5.1-fp8"),
+        return RCDExplainer(os.environ.get("RCD_LLM_MODEL", "glm-5.3"),
                             os.environ.get("RCD_LLM_BASE_URL", "https://llm.rcd.clemson.edu/v1"),
                             temperature)
     return MockExplainer()

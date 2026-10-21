@@ -25,6 +25,7 @@ import gc
 import hashlib
 import json
 import platform
+import subprocess
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -133,6 +134,15 @@ def pooled(records: list[dict]) -> dict:
             "captures": len(records), "frame_count": sum(r["input"]["frame_count"] for r in records)}
 
 
+def git_state() -> dict:
+    """Commit and dirty flag, so a result can be traced to the exact detector."""
+    def git(*args: str) -> str:
+        return subprocess.run(["git", *args], cwd=BACKEND, capture_output=True,
+                              text=True, check=False).stdout.strip()
+    return {"commit": git("rev-parse", "HEAD") or None,
+            "dirty": bool(git("status", "--porcelain", "--", "app", "scripts"))}
+
+
 def true_type(df: pd.DataFrame, start: float, end: float) -> str:
     """Majority attack type of labeled frames in [start, end), as the dashboard scores it."""
     seg = df[(df["timestamp"] >= start) & (df["timestamp"] < end)]
@@ -232,7 +242,8 @@ def main() -> None:
             "aggregation": "Pool window confusion counts across selected evaluation captures; overlapping windows and related captures are not independent samples",
             "capture_dependence": "HCRL attack files share source rows; ROAD fabrication/masquerade pairs share underlying recordings. Do not treat pooled windows as independent samples.",
         },
-        "environment": {"python": platform.python_version(), "pandas": pd.__version__},
+        "environment": {"python": platform.python_version(), "pandas": pd.__version__,
+                        "git": git_state()},
         "code_sha256": {name: sha256(BACKEND / name) for name in
                          ["app/loader.py", "app/features.py", "app/detector.py", "app/metrics.py",
                           "app/evidence.py", "app/llm.py", "scripts/evaluate_midterm.py"]},
@@ -322,6 +333,7 @@ def write_explanations(out: Path, explainer, records: list[dict], report: dict,
         "scoring": "true_type is the majority attack type of labeled frames inside the alert; "
                    "alerts on unlabeled frames are false alarms and are excluded from accuracy.",
         "code_sha256": report["code_sha256"],
+        "git": report["environment"]["git"],
         "summary": summary,
         "alerts": records,
     }
