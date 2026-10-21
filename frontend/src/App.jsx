@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { api, fmt } from './api'
 import AlertList from './components/AlertList'
 import AskPanel from './components/AskPanel'
+import BenchmarkPanel from './components/BenchmarkPanel'
 import Controls from './components/Controls'
 import ExplanationPanel from './components/ExplanationPanel'
 import IdView from './components/IdView'
@@ -30,7 +31,13 @@ export default function App() {
   const [selected, setSelected] = useState(null)
   const [detail, setDetail] = useState(null)
   const [explaining, setExplaining] = useState(false)
+  const [scoring, setScoring] = useState(false)
   const [tab, setTab] = useState('analysis')
+  // The offline control is the default: it is instant, so loading a capture
+  // never waits on a model. LLM explanations are fetched one alert at a time.
+  const [explainers, setExplainers] = useState([])
+  const [explainer, setExplainer] = useState('mock')
+  const explainerLabel = explainers.find((o) => o.kind === explainer)?.label ?? 'Offline control'
   const [appearance, setAppearance] = useState(
     () => document.documentElement.getAttribute('data-appearance') || 'pastel')
   const isPastel = appearance === 'pastel'
@@ -40,21 +47,29 @@ export default function App() {
   }))
   const theme = themes[appearance]
 
+  useEffect(() => {
+    api.explainers()
+      .then((d) => { setExplainers(d.options); setExplainer(d.default) })
+      .catch(() => setExplainers([]))
+  }, [])
+
   const loadAll = useCallback(async (analysisId) => {
+    // Evaluation metrics always use the offline control here: scoring every
+    // alert with an LLM takes minutes, so that is a separate, explicit action.
     const [tl, al, idRows, rep] = await Promise.all([
       api.timeline(analysisId),
-      api.alerts(analysisId),
+      api.alerts(analysisId, explainer),
       api.ids(analysisId),
-      api.metrics(analysisId),
+      api.metrics(analysisId, 'mock'),
     ])
     setTimeline(tl)
     setAlerts(al)
     setIds(idRows)
     setReport(rep)
-    // Metrics generates every explanation, so refresh the alert list to pick them up.
-    setAlerts(await api.alerts(analysisId))
+    // Metrics generates the control's explanations, so refresh the alert list to pick them up.
+    setAlerts(await api.alerts(analysisId, explainer))
     if (al.length) setSelected(al[0].alert_id)
-  }, [])
+  }, [explainer])
 
   const run = useCallback(async () => {
     setBusy(true); setError(null); setDetail(null); setSelected(null)
@@ -87,23 +102,57 @@ export default function App() {
   useEffect(() => {
     if (!summary || selected === null) { setDetail(null); return }
     let live = true
-    api.alert(summary.analysis_id, selected)
-      .then((d) => { if (live) setDetail(d) })
-      .catch((e) => setError(e.message))
+    const id = summary.analysis_id
+    ;(async () => {
+      try {
+        const d = await api.alert(id, selected, explainer)
+        if (!live) return
+        setDetail(d)
+        if (d.explanation) return
+        // Nothing cached for this explainer yet: ask for this one alert only.
+        setExplaining(true)
+        await api.explain(id, selected, { explainer })
+        if (!live) return
+        setDetail(await api.alert(id, selected, explainer))
+        setAlerts(await api.alerts(id, explainer))
+      } catch (e) {
+        if (live) setError(e.message)
+      } finally {
+        if (live) setExplaining(false)
+      }
+    })()
     return () => { live = false }
-  }, [summary, selected])
+  }, [summary, selected, explainer])
 
   const reExplain = async () => {
     if (!summary || selected === null) return
     setExplaining(true)
     try {
-      await api.explain(summary.analysis_id, selected, { force: true })
-      setDetail(await api.alert(summary.analysis_id, selected))
-      setAlerts(await api.alerts(summary.analysis_id))
+      await api.explain(summary.analysis_id, selected, { explainer, force: true })
+      setDetail(await api.alert(summary.analysis_id, selected, explainer))
+      setAlerts(await api.alerts(summary.analysis_id, explainer))
     } catch (e) {
       setError(e.message)
     } finally {
       setExplaining(false)
+    }
+  }
+
+  const changeExplainer = async (next) => {
+    setExplainer(next)
+    if (summary) setAlerts(await api.alerts(summary.analysis_id, next).catch(() => alerts))
+  }
+
+  const scoreAll = async () => {
+    if (!summary) return
+    setScoring(true); setError(null)
+    try {
+      setReport(await api.metrics(summary.analysis_id, explainer))
+      setAlerts(await api.alerts(summary.analysis_id, explainer))
+    } catch (e) {
+      setError(e.message)
+    } finally {
+      setScoring(false)
     }
   }
 
@@ -166,6 +215,19 @@ export default function App() {
               <span className="cell">baseline <b>{fmt.num(summary.baseline_end, 0)}s</b></span>
             </>
           ) : null}
+        </div>
+        <div className="appearance-controls">
+          <label htmlFor="explainer">Explainer</label>
+          <select id="explainer" aria-label="Explainer" value={explainer}
+            onChange={(e) => changeExplainer(e.target.value)}>
+            {(explainers.length ? explainers : [{ kind: 'mock', label: 'Offline control', available: true }])
+              .map((o) => (
+                <option key={o.kind} value={o.kind} disabled={!o.available}
+                  title={o.available ? o.detail : 'No API key configured'}>
+                  {o.label}{o.available ? '' : ' (no key)'}
+                </option>
+              ))}
+          </select>
         </div>
         <div className="appearance-controls">
           <label htmlFor="appearance">Appearance</label>
@@ -250,7 +312,8 @@ export default function App() {
 
           <section className={`panel workspace reveal d2 ${busy ? 'loading' : ''}`}>
             <div className="tabs" role="tablist">
-              {[['analysis', 'Analysis'], ['ids', 'Per-ID view'], ['metrics', 'Evaluation'], ['ask', 'Ask']]
+              {[['analysis', 'Analysis'], ['ids', 'Per-ID view'], ['metrics', 'Evaluation'], ['ask', 'Ask'],
+                ['benchmark', 'Benchmark']]
                 .map(([key, label], i) => (
                   <button key={key} className="tab" role="tab" aria-selected={tab === key}
                     onClick={() => setTab(key)}><span className="num">0{i + 1}</span>{label}</button>
@@ -273,15 +336,20 @@ export default function App() {
                   </div>
                   <div className="explanation-column">
                     <div className="section-title">Explanation and evidence</div>
-                    <ExplanationPanel detail={detail} onReExplain={reExplain} busy={explaining} compact={isPastel} />
+                    <ExplanationPanel detail={detail} onReExplain={reExplain} busy={explaining} compact={isPastel}
+                      explainerLabel={explainerLabel} slow={explainer !== 'mock'} />
                   </div>
                 </div>
               </div>
             ) : null}
 
             {tab === 'ids' ? <IdView analysisId={summary?.analysis_id} ids={ids} /> : null}
-            {tab === 'metrics' ? <MetricsPanel report={report} /> : null}
-            {tab === 'ask' ? <AskPanel analysisId={summary?.analysis_id} /> : null}
+            {tab === 'metrics' ? (
+              <MetricsPanel report={report} explainer={explainer} explainerLabel={explainerLabel}
+                alertCount={alerts.length} onScore={scoreAll} scoring={scoring} />
+            ) : null}
+            {tab === 'ask' ? <AskPanel analysisId={summary?.analysis_id} explainer={explainer} /> : null}
+            {tab === 'benchmark' ? <BenchmarkPanel /> : null}
           </section>
         </main>
       </div>

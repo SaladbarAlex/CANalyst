@@ -17,8 +17,12 @@ async function req(path, options = {}) {
   return res.json()
 }
 
+const q = (explainer) => (explainer ? `?explainer=${encodeURIComponent(explainer)}` : '')
+
 export const api = {
   health: () => req('/api/health'),
+  explainers: () => req('/api/explainers'),
+  benchmark: () => req('/api/benchmark'),
   analyzeSynthetic: (body) =>
     req('/api/analyze/synthetic', { method: 'POST', body: JSON.stringify(body) }),
   uploadLog: async (file, detector = 'rule') => {
@@ -35,8 +39,8 @@ export const api = {
   timeline: (id) => req(`/api/analysis/${id}/timeline`),
   ids: (id) => req(`/api/analysis/${id}/ids`),
   idSeries: (id, canId) => req(`/api/analysis/${id}/ids/${canId}/series`),
-  alerts: (id) => req(`/api/analysis/${id}/alerts`),
-  alert: (id, alertId) => req(`/api/analysis/${id}/alerts/${alertId}`),
+  alerts: (id, explainer) => req(`/api/analysis/${id}/alerts${q(explainer)}`),
+  alert: (id, alertId, explainer) => req(`/api/analysis/${id}/alerts/${alertId}${q(explainer)}`),
   explain: (id, alertId, body = {}) =>
     req(`/api/analysis/${id}/alerts/${alertId}/explain`, {
       method: 'POST',
@@ -44,9 +48,9 @@ export const api = {
     }),
   explainAll: (id, body = {}) =>
     req(`/api/analysis/${id}/explain-all`, { method: 'POST', body: JSON.stringify(body) }),
-  metrics: (id) => req(`/api/analysis/${id}/metrics`),
-  ask: (id, question) =>
-    req(`/api/analysis/${id}/ask`, { method: 'POST', body: JSON.stringify({ question }) }),
+  metrics: (id, explainer) => req(`/api/analysis/${id}/metrics${q(explainer)}`),
+  ask: (id, question, explainer) =>
+    req(`/api/analysis/${id}/ask`, { method: 'POST', body: JSON.stringify({ question, explainer }) }),
 }
 
 export const fmt = {

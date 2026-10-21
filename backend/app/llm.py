@@ -386,6 +386,31 @@ class RCDExplainer(OpenAIExplainer):
         self.base_url = base_url
 
 
+def explainer_key(explainer: Explainer) -> str:
+    """Cache key: two explainers share one only if they would give the same answer."""
+    model = getattr(explainer, "model", None)
+    return f"{explainer.name}:{model}" if model else explainer.name
+
+
+def explainer_options() -> dict:
+    """What the dashboard's explainer picker can offer, and which ones have a key."""
+    env = os.environ.get
+    options = [
+        {"kind": "mock", "label": "Offline control", "detail": "rule based, instant",
+         "available": True},
+        {"kind": "rcd", "label": f"{env('RCD_LLM_MODEL', 'glm-5.3')} (Clemson RCD)",
+         "detail": "campus network or CUVPN, about 30 s per alert",
+         "available": bool(env("RCD_LLM_API_KEY"))},
+        {"kind": "claude", "label": env("CLAUDE_MODEL", "claude-sonnet-4-5"),
+         "detail": "Anthropic API", "available": bool(env("ANTHROPIC_API_KEY"))},
+        {"kind": "openai", "label": env("OPENAI_MODEL", "gpt-4o-mini"),
+         "detail": "OpenAI API", "available": bool(env("OPENAI_API_KEY"))},
+    ]
+    default = get_explainer().name
+    return {"default": default if any(o["kind"] == default and o["available"] for o in options)
+            else "mock", "options": options}
+
+
 def get_explainer(kind: str | None = None) -> Explainer:
     kind = (kind or os.environ.get("EXPLAINER", "mock")).lower()
     temperature = float(os.environ.get("LLM_TEMPERATURE", "0"))

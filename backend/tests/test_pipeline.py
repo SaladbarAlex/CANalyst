@@ -211,3 +211,27 @@ def test_rescoring_maps_field_name_cites_but_keeps_other_invalid_ones(analysis):
     map_metadata_cites(exp)
     assert not _check_citations(exp, ev).grounded
 
+
+def test_explanations_are_cached_per_explainer(analysis):
+    class Other(MockExplainer):
+        name = "other"
+
+    alert_id = analysis.alerts[0].alert_id
+    analysis.explain(alert_id, MockExplainer())
+    assert analysis.cached_explanation(alert_id, Other()) is None
+    listed = analysis.alert_list(include_explanations=True, explainer=Other())
+    assert "explanation" not in listed[0]
+
+
+def test_benchmark_lines_up_saved_runs():
+    from app import benchmark
+
+    data = {d["key"]: d for d in benchmark.load()["datasets"]}
+    if not {"hcrl", "road"} <= set(data):
+        pytest.skip("saved benchmark runs are not present")
+    for key, n in (("hcrl", 69), ("road", 31)):
+        ds = data[key]
+        assert ds["runs"][0]["explainer"] == "mock"
+        assert len(ds["alerts"]) == n
+        assert all(set(a["results"]) == {r["id"] for r in ds["runs"]} for a in ds["alerts"])
+

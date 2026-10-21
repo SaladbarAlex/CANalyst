@@ -5,7 +5,7 @@ import { fmt } from '../api'
 
 const AXIS = { stroke: 'var(--axis)', tick: { fill: 'var(--text-muted)', fontSize: 10.5, fontFamily: 'IBM Plex Mono, monospace' } }
 
-export default function MetricsPanel({ report }) {
+export default function MetricsPanel({ report, explainer = 'mock', explainerLabel, alertCount = 0, onScore, scoring }) {
   if (!report) return <p className="muted">Run an analysis to see evaluation metrics.</p>
   const d = report.detection
   if (!d.labeled) {
@@ -22,8 +22,21 @@ export default function MetricsPanel({ report }) {
   const c = report.classification
   const g = report.grounding
 
+  const scoreWith = explainer !== 'mock' && report.explainer !== explainer ? (
+    <div className="row" style={{ marginBottom: 14, gap: 10, flexWrap: 'wrap', alignItems: 'center' }}>
+      <button className="secondary" onClick={onScore} disabled={scoring || !alertCount}>
+        {scoring ? `Scoring ${alertCount} alerts...` : `Score all ${alertCount} alerts with ${explainerLabel}`}
+      </button>
+      <span className="small muted">
+        Classification below uses the offline control. Scoring with the LLM makes one call per
+        alert, about {Math.max(1, Math.ceil((alertCount * 30) / 60))} min.
+      </span>
+    </div>
+  ) : null
+
   return (
     <div>
+      {scoreWith}
       <div className="kpis" style={{ marginBottom: 16 }}>
         <div className="kpi"><div className="label">Precision</div><div className="value">{fmt.pct(d.precision)}</div>
           <div className="note">{d.true_positive} TP / {d.false_positive} FP</div></div>

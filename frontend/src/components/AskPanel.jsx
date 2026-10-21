@@ -7,7 +7,7 @@ const SUGGESTIONS = [
   'Were any expected IDs missing at any point?',
 ]
 
-export default function AskPanel({ analysisId }) {
+export default function AskPanel({ analysisId, explainer }) {
   const [question, setQuestion] = useState('')
   const [answer, setAnswer] = useState(null)
   const [busy, setBusy] = useState(false)
@@ -18,7 +18,7 @@ export default function AskPanel({ analysisId }) {
     if (!text || !analysisId) return
     setBusy(true); setError(null)
     try {
-      const res = await api.ask(analysisId, text)
+      const res = await api.ask(analysisId, text, explainer)
       setAnswer(res)
     } catch (e) {
       setError(e.message)

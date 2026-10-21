@@ -11,7 +11,7 @@ from . import features, loader, metrics
 from .detector import Alert, get_detector
 from .evidence import build_evidence
 from .features import Baseline
-from .llm import Explainer, Explanation, get_explainer
+from .llm import Explainer, Explanation, explainer_key, get_explainer
 from .synth import ID_INFO
 
 
@@ -26,7 +26,9 @@ class Analysis:
     alerts: list[Alert]
     baseline_end: float
     detector: str
-    explanations: dict[int, Explanation] = field(default_factory=dict)
+    # explainer_key -> alert_id -> explanation, so switching explainers never
+    # shows one model's answer under another's name.
+    explanations: dict[str, dict[int, Explanation]] = field(default_factory=dict)
     evidence_cache: dict[int, dict] = field(default_factory=dict)
 
     # --- derived views -------------------------------------------------
@@ -49,7 +51,7 @@ class Analysis:
             "metrics": m,
         }
 
-    def ask_context(self) -> dict:
+    def ask_context(self, explainer: Explainer | None = None) -> dict:
         """What the free-form question box may show a model.
 
         Ground truth (true types, injected intervals, the injected attack list,
@@ -61,7 +63,7 @@ class Analysis:
                    if k not in {"source", "attack_intervals", "labeled", "metrics"}}
         summary["params"] = {k: v for k, v in self.params.items() if k != "attacks"}
         alerts = [{k: v for k, v in a.items() if k != "true_type"}
-                  for a in self.alert_list(include_explanations=True)]
+                  for a in self.alert_list(include_explanations=True, explainer=explainer)]
         for a in alerts:
             if "explanation" in a:  # raw replies only bloat the prompt
                 a["explanation"] = {k: v for k, v in a["explanation"].items()
@@ -146,11 +148,18 @@ class Analysis:
         return self.evidence_cache[alert_id]
 
     def explain(self, alert_id: int, explainer: Explainer, force: bool = False) -> Explanation:
-        if force or alert_id not in self.explanations:
-            self.explanations[alert_id] = explainer.explain(self.evidence_for(alert_id))
-        return self.explanations[alert_id]
+        cache = self.explanations.setdefault(explainer_key(explainer), {})
+        if force or alert_id not in cache:
+            cache[alert_id] = explainer.explain(self.evidence_for(alert_id))
+        return cache[alert_id]
 
-    def alert_list(self, include_explanations: bool = False) -> list[dict]:
+    def cached_explanation(self, alert_id: int, explainer: Explainer) -> Explanation | None:
+        return self.explanations.get(explainer_key(explainer), {}).get(alert_id)
+
+    def alert_list(self, include_explanations: bool = False,
+                   explainer: Explainer | None = None) -> list[dict]:
+        """Alerts, with the given explainer's cached explanations (none are generated)."""
+        cache = self.explanations.get(explainer_key(explainer or get_explainer("mock")), {})
         out = []
         for a in self.alerts:
             ev = self.evidence_for(a.alert_id)
@@ -166,7 +175,7 @@ class Analysis:
                 "frame_count": ev["frame_count"],
                 "true_type": self.true_type_for(a),
             }
-            exp = self.explanations.get(a.alert_id)
+            exp = cache.get(a.alert_id)
             if include_explanations and exp:
                 item["explanation"] = exp.to_json()
             out.append(item)
@@ -255,7 +264,7 @@ def explain_all(analysis: Analysis, explainer: Explainer) -> None:
 
 def evaluation_report(analysis: Analysis, explainer: Explainer) -> dict:
     explain_all(analysis, explainer)
-    alerts = analysis.alert_list(include_explanations=True)
+    alerts = analysis.alert_list(include_explanations=True, explainer=explainer)
     return {
         "detection": metrics.detection_metrics(analysis.windows, skip_until=analysis.baseline_end),
         "classification": metrics.classification_accuracy(alerts),

@@ -15,7 +15,8 @@ function DetailSection({ title, compact, children, open, onToggle }) {
   )
 }
 
-export default function ExplanationPanel({ detail, onReExplain, busy, compact = false }) {
+export default function ExplanationPanel({ detail, onReExplain, busy, compact = false,
+  explainerLabel = 'the explainer', slow = false }) {
   const [activeCite, setActiveCite] = useState(null)
   const [evidenceOpen, setEvidenceOpen] = useState(false)
   const rowRefs = useRef({})
@@ -65,6 +66,9 @@ export default function ExplanationPanel({ detail, onReExplain, busy, compact = 
               <span className="dot" />{exp.grounded ? 'all claims cited' : 'uncited claims'}
             </span>
             <span className="badge">model: {exp.model}</span>
+            {exp.latency_s !== null && exp.latency_s !== undefined ? (
+              <span className="badge">{fmt.num(exp.latency_s, 1)} s</span>
+            ) : null}
           </div>
 
           <p className="summary-line">{exp.summary}</p>
@@ -93,7 +97,11 @@ export default function ExplanationPanel({ detail, onReExplain, busy, compact = 
           ) : null}
         </>
       ) : (
-        <p className="muted">No explanation generated for this alert yet.</p>
+        <p className="muted" role="status">
+          {busy
+            ? `Asking ${explainerLabel} about this alert${slow ? '. LLM replies usually take about 30 seconds.' : '...'}`
+            : 'No explanation generated for this alert yet.'}
+        </p>
       )}
 
       <DetailSection title="Why the detector flagged it" compact={compact}>

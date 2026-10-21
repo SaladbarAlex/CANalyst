@@ -12,8 +12,8 @@ from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-from . import loader, pipeline
-from .llm import get_explainer
+from . import benchmark, loader, pipeline
+from .llm import explainer_options, get_explainer
 from .pipeline import STORE
 
 app = FastAPI(title="CANalyst API", version="0.1.0",
@@ -39,6 +39,7 @@ class SyntheticRequest(BaseModel):
 
 class AskRequest(BaseModel):
     question: str
+    explainer: str | None = None
 
 
 class ExplainRequest(BaseModel):
@@ -56,6 +57,17 @@ def _get(analysis_id: str):
 @app.get("/api/health")
 def health() -> dict:
     return {"status": "ok", "explainer": get_explainer().name, "analyses": STORE.list()}
+
+
+@app.get("/api/explainers")
+def explainers() -> dict:
+    return explainer_options()
+
+
+@app.get("/api/benchmark")
+def saved_benchmark() -> dict:
+    """Saved real-data explanation runs, read from disk. Makes no model calls."""
+    return benchmark.load()
 
 
 @app.post("/api/analyze/synthetic")
@@ -114,20 +126,22 @@ def id_series(analysis_id: str, can_id: str, bucket_s: float = 0.5) -> dict:
 
 
 @app.get("/api/analysis/{analysis_id}/alerts")
-def alerts(analysis_id: str) -> list[dict]:
-    return _get(analysis_id).alert_list(include_explanations=True)
+def alerts(analysis_id: str, explainer: str | None = None) -> list[dict]:
+    return _get(analysis_id).alert_list(include_explanations=True,
+                                        explainer=get_explainer(explainer))
 
 
 @app.get("/api/analysis/{analysis_id}/alerts/{alert_id}")
-def alert_detail(analysis_id: str, alert_id: int) -> dict:
+def alert_detail(analysis_id: str, alert_id: int, explainer: str | None = None) -> dict:
     a = _get(analysis_id)
     if alert_id < 0 or alert_id >= len(a.alerts):
         raise HTTPException(404, "Alert not found")
+    ex = get_explainer(explainer)
+    exp = a.cached_explanation(alert_id, ex)
     return {
-        "alert": a.alert_list(include_explanations=True)[alert_id],
+        "alert": a.alert_list(include_explanations=True, explainer=ex)[alert_id],
         "evidence": a.evidence_for(alert_id),
-        "explanation": (a.explanations[alert_id].to_json()
-                        if alert_id in a.explanations else None),
+        "explanation": exp.to_json() if exp else None,
     }
 
 
@@ -147,7 +161,7 @@ def explain_all(analysis_id: str, req: ExplainRequest) -> dict:
     a = _get(analysis_id)
     explainer = get_explainer(req.explainer)
     pipeline.explain_all(a, explainer)
-    return {"explained": len(a.explanations), "explainer": explainer.name}
+    return {"explained": len(a.alerts), "explainer": explainer.name}
 
 
 @app.get("/api/analysis/{analysis_id}/metrics")
@@ -164,7 +178,7 @@ def baseline(analysis_id: str) -> dict:
 @app.post("/api/analysis/{analysis_id}/ask")
 def ask(analysis_id: str, req: AskRequest) -> dict:
     a = _get(analysis_id)
-    explainer = get_explainer()
-    context = a.ask_context()
+    explainer = get_explainer(req.explainer)
+    context = a.ask_context(explainer)
     return {"question": req.question, "answer": explainer.answer(req.question, context),
             "explainer": explainer.name}
