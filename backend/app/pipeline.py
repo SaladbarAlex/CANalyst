@@ -71,6 +71,8 @@ class Analysis:
 
     def id_table(self, limit: int = 80) -> list[dict]:
         rows = []
+        # Synthetic signal names are not a vehicle-independent CAN database.
+        id_info = ID_INFO if self.df.attrs.get("source") == "synthetic" else {}
         flagged_ids: set[int] = set()
         for a in self.alerts:
             flagged_ids.update(a.top_ids)
@@ -78,7 +80,7 @@ class Analysis:
             cid = int(cid)
             ts = grp["timestamp"].to_numpy()
             iats = np.diff(ts)
-            info = ID_INFO.get(cid, {})
+            info = id_info.get(cid, {})
             rows.append({
                 "can_id": f"0x{cid:03X}",
                 "name": info.get("name", "unknown"),

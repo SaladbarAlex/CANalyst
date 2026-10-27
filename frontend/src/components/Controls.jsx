@@ -58,7 +58,7 @@ export default function Controls({ onRun, onUpload, busy, params, setParams }) {
       </button>
       <button className="secondary span-2" type="button" onClick={() => fileRef.current?.click()}
         disabled={busy}>
-        Load a CSV log
+        Load a traffic log
       </button>
       <input ref={fileRef} type="file" accept=".csv,.txt" style={{ display: 'none' }}
         onChange={(e) => {

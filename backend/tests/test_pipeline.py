@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import io
 import sys
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
@@ -62,6 +63,36 @@ def test_evidence_stays_small(analysis):
     ev = analysis.evidence_for(0)
     assert len(ev["items"]) <= 12
     assert len(ev["sample_frames"]) <= 6
+
+
+@pytest.mark.parametrize("source", ["road", "car-hacking", None])
+def test_real_or_unverified_ids_do_not_inherit_synthetic_signal_names(analysis, source):
+    """A real ID can collide with a generator ID without sharing its meaning."""
+    df = analysis.df.copy()
+    df.attrs = {**df.attrs, "source": source}
+    real = replace(analysis, df=df, evidence_cache={}, explanations={})
+    collided = [row for row in real.id_table() if int(row["can_id"], 16) in synth.ID_INFO]
+    assert collided, "Fixture must contain a real/synthetic ID collision"
+    assert all(row["name"] == "unknown" and row["function"] == "unknown" for row in collided)
+    details = [item for alert in real.alerts for item in real.evidence_for(alert.alert_id)["items"]
+               if item["kind"] in {"id_stats", "missing_id"}]
+    assert details
+    assert all(item["detail"]["function"] is None for item in details)
+    assert all("unknown" in item["text"] for item in details)
+
+
+def test_verified_synthetic_ids_keep_generator_signal_names(analysis):
+    known = [row for row in analysis.id_table() if int(row["can_id"], 16) in synth.ID_INFO]
+    assert known
+    for row in known:
+        info = synth.ID_INFO[int(row["can_id"], 16)]
+        assert row["name"] == info["name"]
+        assert row["function"] == info["function"]
+    details = [item for alert in analysis.alerts for item in analysis.evidence_for(alert.alert_id)["items"]
+               if item["kind"] == "id_stats" and int(item["detail"]["can_id"], 16) in synth.ID_INFO]
+    assert details
+    for item in details:
+        assert item["detail"]["function"] == synth.ID_INFO[int(item["detail"]["can_id"], 16)]["function"]
 
 
 def test_carhacking_round_trip(tmp_path):

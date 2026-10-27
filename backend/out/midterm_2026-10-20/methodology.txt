@@ -1,0 +1,138 @@
+CANalyst preliminary real-data detection benchmark — October 20, 2026
+
+WHAT WAS MEASURED
+The existing rule detector's binary attack-window decisions were compared with
+dataset-derived ground truth. Precision = TP/(TP+FP), recall = TP/(TP+FN),
+F1 = 2TP/(2TP+FP+FN), and false positive rate = FP/(FP+TN).
+Metrics are pooled from per-window confusion counts, not averaged across files.
+An alert incident can merge several windows; these are window metrics, not
+incident counts, malicious-frame accuracy, or LLM explanation quality.
+
+The detector used the existing fixed threshold 0.55, 0.5-second windows, and
+0.25-second stride. No threshold was chosen from these evaluation results.
+Each dataset has its own separate attack-free baseline. No evaluated attack
+frame was used to learn that baseline. Prior rule development did use HCRL
+observations, so this is a development benchmark, not an untouched final test.
+No hosted LLM calls, explanation-classification evaluation, cost measurement,
+or end-to-end API latency measurement occurred in these real-data runs.
+
+HCRL FULL RUN (use hcrl_full/results.json)
+All rows of DoS_dataset.csv (3,665,771 frames), Fuzzy_dataset.csv (3,838,860),
+RPM_dataset.csv (4,621,702), and gear_dataset.csv (4,443,142) were evaluated.
+A normal holdout adds 234,317 frames from normal_run_data.txt at source-relative
+times [121,241) seconds. Baseline training uses the same separate normal file
+at [0,120): 234,315 frames spanning 119.995671 seconds. There is no frame overlap
+between baseline and holdout, but they are parts of the same normal recording.
+The normal holdout is not an independent drive. HCRL's T/R frame flags provide
+ground truth; any T frame makes an overlapping window positive. Attack names
+map DoS->dos, Fuzzy->fuzzing, RPM/gear->spoofing.
+
+Evaluation: 16,803,792 frame records, 42,975 nonempty windows.
+TP=21,986 FP=65 FN=438 TN=20,486
+Precision=0.9970522879 Recall=0.9804673564 F1=0.9886902754 FPR=0.0031628631
+Attack recall: DoS 1.0000; fuzzing 1.0000; RPM 0.9590; gear 0.9488.
+Combined RPM/gear spoofing recall: 0.9539.
+Normal holdout false positives: 0/479 windows.
+63,574 nominal windows with no captured frames (capture gaps) were excluded by
+the existing extractor. Each evaluated file has one partially observed final
+window under the existing window convention. No selected source rows failed
+to parse or were silently discarded. Processing time was 223.852 seconds on
+this machine; this includes file loading, hashing, feature extraction, scoring,
+and writing scores, and is not a deployment latency benchmark.
+
+ROAD RUN (use road/results.json)
+Baseline: all 1,063,624 frames of ambient_dyno_drive_basic_short.log, spanning
+444.750610 seconds. Its 106 baseline IDs are learned without attack labels.
+Evaluation: all 29 attack logs with injection intervals in the supplied metadata
+(13 fabrication/spoofing, 13 derived masquerade, 3 fuzzing), plus source-relative
+[0,120) seconds of ambient_dyno_drive_basic_long.log and
+ambient_dyno_drive_extended_short.log. The remaining ambient recordings were
+not evaluated in this midterm scope. The baseline capture is not scored.
+
+ROAD labels are derived by the existing loader from the injection interval and
+injected CAN ID. For fuzzing, every frame in the interval is marked positive.
+For a targeted ID, legitimate frames of that ID in the interval can also receive
+a positive label. These support interval/ID-derived WINDOW ground truth; they
+are not exact injected-frame annotations or proof of semantic attack effects.
+A window is positive if it contains at least one such labeled frame.
+
+Excluded attack logs (no injection interval in supplied metadata):
+accelerator_attack_drive_1, accelerator_attack_drive_2,
+accelerator_attack_reverse_1, accelerator_attack_reverse_2.
+They were not silently treated as benign or included in the denominators.
+
+Evaluation: 3,808,639 frame records, 6,353 nonempty windows.
+TP=1,304 FP=389 FN=1,257 TN=3,403
+Precision=0.7702303603 Recall=0.5091761031 F1=0.6130700517 FPR=0.1025843882
+Attack recall: fuzzing 27/27=1.0000; fabrication/spoofing 1175/1267=0.9274;
+masquerade 102/1267=0.0805. Thirteen masquerade captures share underlying
+recordings with their fabrication counterparts.
+
+Normal holdouts: basic_long 1/479 false-positive windows;
+extended_short 378/479 false-positive windows. Together: 379/958 = 0.3956 FPR.
+For extended_short, components reaching threshold include payload entropy in
+288 windows, missing IDs in 90, and per-ID rate inflation in 28 (overlapping
+counts). This is evidence of incomplete normal-state calibration.
+Attack-capture-only pooled F1 is 0.6730, but the reported headline includes the
+normal holdouts and is 0.6131. Do not present the easier subset as overall quality.
+No empty windows were excluded; 31 final windows are partially observed.
+No selected source rows failed to parse or were silently discarded.
+Processing time was 71.547 seconds with the same timing caveats as HCRL.
+
+DEPENDENCE AND INTERPRETATION
+20,612,431 frame records and 49,328 scored windows were evaluated across both
+main runs, excluding baseline-only data. Do not call these independent unique
+frames: the four HCRL files share at least their final 100 source rows, and
+ROAD fabrication/masquerade pairs share traffic. Windows also overlap in time.
+No confidence intervals or claims of generalization to unseen vehicles are made.
+The threshold is fixed for this run; baseline composition remains a design
+choice. Strong HCRL results do not establish ROAD masquerade performance.
+
+REPRODUCTION AND OUTPUTS
+From CANalyst/backend, with the downloaded data present:
+  .venv/bin/python -u -m scripts.evaluate_midterm --dataset hcrl --full-hcrl
+  .venv/bin/python -u -m scripts.evaluate_midterm --dataset road
+
+The script uses the same loader, features, and RuleDetector modules as the app.
+It avoids retaining full analyses in the dashboard store and does not call an
+explainer. results.json contains input SHA-256 hashes, exact split boundaries,
+baseline statistics, per-capture confusion counts, component scores, attack
+types, runtime, and code hashes. Compressed CSVs retain all scored windows.
+Raw derived excerpts are in ignored data/evaluation_inputs/midterm_2026-10-20/.
+Window labels and flags were independently recounted to match saved confusion
+counts; input hashes were checked after moving excerpts into ignored storage.
+
+The hcrl/ directory is an EARLIER PILOT using only the first 120 seconds of each
+attack file. It is preserved for provenance; use hcrl_full/ for the main report.
+Do not add pilot counts to full-run counts.
+
+SYNTHETIC RECONCILIATION
+Re-running scripts.evaluate at seeds 1–5, duration 150 seconds reproduced the
+paper's current rule result: mean precision 1.000, recall 0.907, F1 0.951,
+FPR 0.000 (mean F1 standard deviation 0.006). IsolationForest mean F1 is 0.540.
+The README's previous 0.963 rule F1 is superseded. Full per-seed reports are in
+synthetic_rule.json and synthetic_forest.json. Synthetic reports use the offline
+mock explainer; its classification or citation scores are not LLM quality.
+
+NEXT WORK / BLOCKERS FOR THE FINAL
+1. Improve coverage of benign vehicle states in baseline/calibration data and
+   define a separate validation protocol before selecting thresholds.
+2. Investigate ROAD masquerade misses; normal-rate or modified payload attacks
+   often evade the current rate and timing rules.
+3. Refactor IsolationForest training with separate normal feature windows.
+   The current external-baseline path can fall back to fitting evaluation rows;
+   no real-data IsolationForest results are reported here.
+4. Connect the browser upload route to separate baseline captures and ROAD
+   metadata. These results were produced by the CLI; uploading a file through
+   the current UI does not reproduce this protocol.
+5. Compare actual hosted/open-weight explanations with the mock control on real
+   alerts, including semantic evidence review, latency, and cost. Resolving a
+   citation to an existing evidence item does not prove its claim is supported.
+
+REAL-DATA SEMANTIC FIX
+Synthetic CAN ID names/functions are now used only for captures marked as
+synthetic by the generator. ROAD/HCRL or unknown-source captures do not inherit
+vehicle meanings when numeric IDs collide with synthetic IDs. The detector
+features and real-data metrics are unchanged by this presentation/evidence fix.
+All 13 backend tests passed, including real-ID collision and synthetic-name
+preservation cases.
