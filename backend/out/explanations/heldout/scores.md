@@ -1,14 +1,14 @@
 # Explainer scores: heldout
 
-Label accuracy on attack alerts, with Wilson 95% intervals.
+Label accuracy on attack alerts, with Wilson 95% intervals. A failed or empty reply counts as wrong.
 
-| run | hcrl | road | all | false alarms called benign | claims with valid citations | median latency |
-|---|---|---|---|---|---|---|
-| control-v1_alert | 76% (53/70; 65 to 84) | n/a | 76% (53/70; 65 to 84) | 0% (0/7; 0 to 35) | 100% (132/132; 97 to 100) | 0.0s |
-| control-v2_alert | 100% (70/70; 95 to 100) | n/a | 100% (70/70; 95 to 100) | 57% (4/7; 25 to 84) | 100% (153/153; 98 to 100) | 0.0s |
-| gemma-4-31b_v2_alert | 99% (69/70; 92 to 100) | n/a | 99% (69/70; 92 to 100) | 71% (5/7; 36 to 92) | 100% (424/425; 99 to 100) | 16.0s |
-| glm-5.3_v2_alert | 84% (59/70; 74 to 91) | n/a | 84% (59/70; 74 to 91) | 57% (4/7; 25 to 84) | 100% (692/692; 99 to 100) | 36.3s |
-| qwen3.6-27b-fp8_v2_alert | 53% (37/70; 41 to 64) | n/a | 53% (37/70; 41 to 64) | 71% (5/7; 36 to 92) | 99% (480/486; 97 to 99) | 55.4s |
+| run | hcrl | road | all | no answer | false alarms called benign | claims with valid citations | median latency |
+|---|---|---|---|---|---|---|---|
+| control-v1_alert | 76% (53/70; 65 to 84) | n/a | 76% (53/70; 65 to 84) | 0 | 0% (0/7; 0 to 35) | 100% (132/132; 97 to 100) | 0.0s |
+| control-v2_alert | 100% (70/70; 95 to 100) | n/a | 100% (70/70; 95 to 100) | 0 | 57% (4/7; 25 to 84) | 100% (153/153; 98 to 100) | 0.0s |
+| gemma-4-31b_v2_alert | 99% (69/70; 92 to 100) | n/a | 99% (69/70; 92 to 100) | 0 | 71% (5/7; 36 to 92) | 100% (424/425; 99 to 100) | 16.0s |
+| glm-5.3_v2_alert | 84% (59/70; 74 to 91) | n/a | 84% (59/70; 74 to 91) | 5 | 57% (4/7; 25 to 84) | 100% (692/692; 99 to 100) | 36.3s |
+| qwen3.6-27b-fp8_v2_alert | 53% (37/70; 41 to 64) | n/a | 53% (37/70; 41 to 64) | 0 | 71% (5/7; 36 to 92) | 99% (480/486; 97 to 99) | 55.4s |
 
 ## By true attack type
 

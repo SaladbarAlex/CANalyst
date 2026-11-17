@@ -488,3 +488,32 @@ footer.foot {
   .kpi .value { font-size: 22px; }
   .legend .hint { margin-left: 0; }
 }
+
+/* Benchmarks (Evaluation tab) */
+.subtabs { display: flex; gap: 6px; margin: -6px 0 16px; }
+.subtab { background: transparent; color: var(--text-secondary); border: 1px solid var(--border); padding: 5px 12px; font-size: 12.5px; }
+.subtab[aria-selected='true'] { color: var(--text-primary); border-color: var(--accent); }
+.benchmarks { display: flex; flex-direction: column; gap: 30px; }
+.bench-block h3 { margin-top: 20px; }
+.bench-block > h3:first-child, .bench-head h3 { margin-top: 0; }
+.bench-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+.bench-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 8px 0; }
+.table-scroll { overflow-x: auto; }
+.table-scroll table { min-width: 560px; }
+.pair-matrix td { white-space: nowrap; }
+.pair-matrix .pval { display: block; font-size: 10.5px; color: var(--text-muted); font-family: var(--mono); }
+.pair-matrix td.sig-up { box-shadow: inset 3px 0 0 var(--good); }
+.pair-matrix td.sig-down { box-shadow: inset 3px 0 0 var(--critical); }
+.disagree-list { display: flex; flex-direction: column; gap: 4px; max-height: 520px; overflow-y: auto; }
+.disagree { border: 1px solid var(--border); border-radius: var(--radius); }
+.disagree.open { border-color: var(--border-strong); }
+.disagree-row { width: 100%; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; background: transparent;
+  color: var(--text-primary); border: 0; padding: 7px 10px; text-align: left; font-weight: 400; }
+.disagree-row:hover:not(:disabled) { background: var(--surface-2); box-shadow: none; }
+.disagree-body { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; padding: 8px 12px 12px; }
+.disagree-body ul { padding-left: 18px; margin: 4px 0; }
+.disagree-body p { margin: 4px 0; }
+@media (max-width: 900px) { .disagree-body { grid-template-columns: 1fr; } }
+.button-link { font-size: 13px; color: var(--accent); text-decoration: underline; }
+.benchmarks select, .benchmarks input:not([type='file']) { width: auto; max-width: 100%; min-width: 0; }
+.benchmarks .bench-head .bench-controls { margin: 0; }

@@ -82,7 +82,8 @@ def score_run(alerts: dict[str, dict], replies: list[dict]) -> dict:
         for c in r.get("claims", []):
             cites = c.get("cites", [])
             cited_ok += bool(cites) and all(x in valid for x in cites)
-    latencies = [by_id[a["id"]]["latency_s"] for a in ok]
+    latencies = [by_id[a["id"]]["latency_s"] for a in ok
+                 if by_id[a["id"]].get("latency_s") is not None]
     tokens = [((by_id[a["id"]].get("meta") or {}).get("usage") or {}).get("completion_tokens")
               for a in answered]
     tokens = [t for t in tokens if t is not None]
@@ -133,37 +134,30 @@ def pct(p: dict) -> str:
     return f"{100 * p['value']:.0f}% ({p['k']}/{p['n']}; {100 * p['lo']:.0f} to {100 * p['hi']:.0f})"
 
 
-def main() -> None:
-    ap = argparse.ArgumentParser(description=__doc__,
-                                 formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--set", dest="set_name", default="midterm100")
-    ap.add_argument("--runs", nargs="*", help="run names; default: every run present")
-    args = ap.parse_args()
-
-    alerts = {a["id"]: a for a in read_jsonl(BACKEND / "out" / "alerts" / args.set_name
-                                            / "alerts.jsonl")}
-    root = BACKEND / "out" / "explanations" / args.set_name
-    names = args.runs or sorted(p.name for p in root.iterdir() if (p / "replies.jsonl").exists())
+def write_report(set_name: str, alerts: dict[str, dict], root: Path,
+                 names: list[str]) -> str:
+    """Score every named run, write scores.json and scores.md, return the markdown."""
     runs = {n: score_run(alerts, read_jsonl(root / n / "replies.jsonl")) for n in names}
     pairs = {f"{x} vs {y}": compare(runs[x], runs[y], alerts) for x, y in combinations(names, 2)}
 
-    report = {"set": args.set_name,
+    report = {"set": set_name,
               "runs": {n: {k: v for k, v in r.items() if k != "correct_by_id"}
                        for n, r in runs.items()},
               "pairs": pairs}
     (root / "scores.json").write_text(json.dumps(report, indent=2) + "\n")
 
     datasets = sorted({a["dataset"] for a in alerts.values()})
-    lines = [f"# Explainer scores: {args.set_name}", "",
-             "Label accuracy on attack alerts, with Wilson 95% intervals.", "",
-             "| run | " + " | ".join(datasets) + " | all | false alarms called benign | "
+    lines = [f"# Explainer scores: {set_name}", "",
+             "Label accuracy on attack alerts, with Wilson 95% intervals. A failed or empty "
+             "reply counts as wrong.", "",
+             "| run | " + " | ".join(datasets) + " | all | no answer | false alarms called benign | "
              "claims with valid citations | median latency |",
-             "|---|" + "---|" * (len(datasets) + 4)]
+             "|---|" + "---|" * (len(datasets) + 5)]
     for n, r in runs.items():
         cells = [pct(r["accuracy"].get(ds, {"n": 0})) for ds in datasets]
         lat = f"{r['latency_s']['median']:.1f}s" if r["latency_s"] else "n/a"
         lines.append(f"| {n} | " + " | ".join(cells) + f" | {pct(r['accuracy']['all'])} | "
-                     f"{pct(r['false_alarms_called_benign'])} | "
+                     f"{r['no_answer']} | {pct(r['false_alarms_called_benign'])} | "
                      f"{pct(r['claims_with_valid_citations'])} | {lat} |")
     lines += ["", "## By true attack type", ""]
     types = sorted({k for r in runs.values() for k in r["accuracy_by_type"]})
@@ -180,8 +174,23 @@ def main() -> None:
                 lines.append(f"| {name} | {g} | {v['n']} | {v['a_correct']} | {v['b_correct']} | "
                              f"{v['only_a_correct']} | {v['only_b_correct']} | "
                              f"{v['mcnemar_p']:.4f} |")
-    (root / "scores.md").write_text("\n".join(lines) + "\n")
-    print("\n".join(lines))
+    text = "\n".join(lines) + "\n"
+    (root / "scores.md").write_text(text)
+    return text
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--set", dest="set_name", default="midterm100")
+    ap.add_argument("--runs", nargs="*", help="run names; default: every run present")
+    args = ap.parse_args()
+
+    alerts = {a["id"]: a for a in read_jsonl(BACKEND / "out" / "alerts" / args.set_name
+                                            / "alerts.jsonl")}
+    root = BACKEND / "out" / "explanations" / args.set_name
+    names = args.runs or sorted(p.name for p in root.iterdir() if (p / "replies.jsonl").exists())
+    print(write_report(args.set_name, alerts, root, names), end="")
 
 
 if __name__ == "__main__":

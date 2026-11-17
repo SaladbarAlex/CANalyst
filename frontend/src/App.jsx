@@ -5,6 +5,7 @@ import AskPanel from './components/AskPanel'
 import Controls from './components/Controls'
 import ExplanationPanel from './components/ExplanationPanel'
 import IdView from './components/IdView'
+import BenchmarkPanel from './components/BenchmarkPanel'
 import MetricsPanel from './components/MetricsPanel'
 import TimelineChart from './components/TimelineChart'
 
@@ -31,6 +32,7 @@ export default function App() {
   const [detail, setDetail] = useState(null)
   const [explaining, setExplaining] = useState(false)
   const [tab, setTab] = useState('analysis')
+  const [evalView, setEvalView] = useState('benchmarks')
   const [appearance, setAppearance] = useState(
     () => document.documentElement.getAttribute('data-appearance') || 'pastel')
   const isPastel = appearance === 'pastel'
@@ -250,7 +252,7 @@ export default function App() {
 
           <section className={`panel workspace reveal d2 ${busy ? 'loading' : ''}`}>
             <div className="tabs" role="tablist">
-              {[['analysis', 'Analysis'], ['ids', 'Per-ID view'], ['metrics', 'Evaluation'], ['ask', 'Ask']]
+              {[['analysis', 'Analysis'], ['ids', 'Per-ID view'], ['metrics', 'Evaluation and benchmarks'], ['ask', 'Ask']]
                 .map(([key, label], i) => (
                   <button key={key} className="tab" role="tab" aria-selected={tab === key}
                     onClick={() => setTab(key)}><span className="num">0{i + 1}</span>{label}</button>
@@ -280,7 +282,17 @@ export default function App() {
             ) : null}
 
             {tab === 'ids' ? <IdView analysisId={summary?.analysis_id} ids={ids} /> : null}
-            {tab === 'metrics' ? <MetricsPanel report={report} /> : null}
+            {tab === 'metrics' ? (
+              <div>
+                <div className="subtabs" role="tablist" aria-label="Evaluation view">
+                  {[['benchmarks', 'Benchmarks'], ['capture', 'This capture']].map(([k, label]) => (
+                    <button key={k} role="tab" className="subtab" aria-selected={evalView === k}
+                      onClick={() => setEvalView(k)}>{label}</button>
+                  ))}
+                </div>
+                {evalView === 'benchmarks' ? <BenchmarkPanel /> : <MetricsPanel report={report} />}
+              </div>
+            ) : null}
             {tab === 'ask' ? <AskPanel analysisId={summary?.analysis_id} /> : null}
           </section>
         </main>

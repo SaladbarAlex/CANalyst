@@ -18,6 +18,23 @@ async function req(path, options = {}) {
 }
 
 export const api = {
+  benchmarkDetection: () => req('/api/benchmark/detection'),
+  benchmarkExplainers: () => req('/api/benchmark/explainers'),
+  benchmarkCompare: (set, a, b) =>
+    req(`/api/benchmark/explainers/${set}/compare?a=${encodeURIComponent(a)}&b=${encodeURIComponent(b)}`),
+  benchmarkPacketsUrl: (set) => `${BASE}/api/benchmark/explainers/${set}/packets`,
+  benchmarkSubmit: async (set, name, file) => {
+    const form = new FormData()
+    form.append('name', name)
+    form.append('file', file)
+    const res = await fetch(`${BASE}/api/benchmark/explainers/${set}/submit`, { method: 'POST', body: form })
+    if (!res.ok) {
+      let detail = res.statusText
+      try { detail = (await res.json()).detail ?? detail } catch { /* not JSON */ }
+      throw new Error(detail)
+    }
+    return res.json()
+  },
   health: () => req('/api/health'),
   analyzeSynthetic: (body) =>
     req('/api/analyze/synthetic', { method: 'POST', body: JSON.stringify(body) }),
