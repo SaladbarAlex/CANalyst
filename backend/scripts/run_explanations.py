@@ -107,6 +107,8 @@ def main() -> None:
     ap.add_argument("--prompt", choices=sorted(llm.SYSTEM_PROMPTS), default=llm.DEFAULT_PROMPT)
     ap.add_argument("--run", default=None, help="run name; default is derived")
     ap.add_argument("--limit", type=int, default=None, help="only the first N alerts")
+    ap.add_argument("--dataset", choices=["hcrl", "road"], default=None,
+                    help="only alerts from one dataset")
     ap.add_argument("--no-retry", dest="retry_errors", action="store_false",
                     help="keep earlier failed attempts as final instead of asking again")
     ap.add_argument("--workers", type=int, default=1,
@@ -117,6 +119,10 @@ def main() -> None:
     args = ap.parse_args()
 
     packets = read_jsonl(BACKEND / "out" / "alerts" / args.set_name / f"packets_{args.scope}.jsonl")
+    if args.dataset:
+        alerts = read_jsonl(BACKEND / "out" / "alerts" / args.set_name / "alerts.jsonl")
+        keep = {a["id"] for a in alerts if a["dataset"] == args.dataset}
+        packets = [p for p in packets if p["id"] in keep]
     if args.limit:
         packets = packets[:args.limit]
     out = BACKEND / "out" / "explanations" / args.set_name / run_name(args)
