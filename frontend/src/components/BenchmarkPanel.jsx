@@ -20,6 +20,8 @@ export function runLabel(run, meta = {}) {
   if (run.startsWith('submitted-')) return `${run.slice(10)} (submitted)`
   const m = run.match(/^control-(v\d)_(alert|window)$/)
   if (m) return `Rule control ${m[1]}${m[2] === 'window' ? ', pre-fix evidence' : ''}`
+  const abl = run.match(/^(.*)_v2-dosv1_alert$/)
+  if (abl) return `${abl[1]} (v2, Oct 21 DoS line)`
   const r = run.match(/^(.*)_(v\d)_(alert|window)$/)
   if (r) {
     const legacy = r[2] === 'v1' || r[3] === 'window'

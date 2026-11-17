@@ -259,3 +259,12 @@ def test_threshold_keeps_false_positive_rate_at_or_below_target():
         assert (normal >= t).mean() <= 0.01
         # and it is the smallest such threshold among the sample values
         assert (normal >= np.sort(normal)[n - int(0.01 * n) - 1]).mean() > 0.01 or int(0.01 * n) == 0
+
+
+def test_dos_ablation_prompt_changes_only_the_dos_line():
+    v2 = llm.SYSTEM_PROMPTS["v2"].splitlines()
+    abl = llm.SYSTEM_PROMPTS["v2-dosv1"].splitlines()
+    diff = [(a, b) for a, b in zip(v2, abl) if a != b]
+    assert diff and all(a.startswith("- dos:") or not a.startswith("- ") for a, _ in diff)
+    assert "displaces" not in llm.SYSTEM_PROMPTS["v2-dosv1"]
+    assert llm.SYSTEM_PROMPTS["v2-dosv1"].split("- fuzzing:")[1] == llm.SYSTEM_PROMPTS["v2"].split("- fuzzing:")[1]

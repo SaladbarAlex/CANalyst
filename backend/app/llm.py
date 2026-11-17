@@ -111,7 +111,16 @@ or payload_entropy were false alarms: IDs pause, change rate and carry new value
 vehicle changes state.
 """
 
-SYSTEM_PROMPTS = {"v1": SYSTEM_PROMPT_V1, "v2": SYSTEM_PROMPT_V2}
+_DOS_V1 = "- dos: a very high priority ID (often 0x000) floods the bus; total load spikes; other IDs are delayed.\n"
+_DOS_V2 = SYSTEM_PROMPT_V2[SYSTEM_PROMPT_V2.index("- dos:"):SYSTEM_PROMPT_V2.index("- fuzzing:")]
+
+# Ablation: v2 with only the DoS line put back to v1's wording. It tests whether
+# v2's "the flood displaces legitimate traffic" sentence pulls spoofing alerts,
+# whose known IDs also run off their baseline rates, toward a dos label.
+SYSTEM_PROMPT_V2_DOSV1 = SYSTEM_PROMPT_V2.replace(_DOS_V2, _DOS_V1)
+assert SYSTEM_PROMPT_V2_DOSV1.count("- dos:") == 1 and _DOS_V1 in SYSTEM_PROMPT_V2_DOSV1
+
+SYSTEM_PROMPTS = {"v1": SYSTEM_PROMPT_V1, "v2": SYSTEM_PROMPT_V2, "v2-dosv1": SYSTEM_PROMPT_V2_DOSV1}
 DEFAULT_PROMPT = "v2"
 SYSTEM_PROMPT = SYSTEM_PROMPTS[DEFAULT_PROMPT]
 
