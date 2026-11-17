@@ -8,9 +8,10 @@
   "prompt_version": null,
   "prompt_sha256": null,
   "temperature": null,
+  "max_tokens": null,
   "strict": true,
   "fallbacks": 0,
   "alerts": 77,
   "errors": 0,
-  "updated_utc": "2026-11-17T15:37:07.063952+00:00"
+  "updated_utc": "2026-11-17T22:15:56.471679+00:00"
 }

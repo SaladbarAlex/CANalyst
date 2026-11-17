@@ -309,8 +309,12 @@ class MockExplainer(Explainer):
             attack, conf, sev = "spoofing", 0.84, "high"
             tgt = inflated[0]
             function = tgt["detail"].get("function") or "unknown"
+            # Quote the plain ratio next to the plain rates. The detector's ratio
+            # floors the expected count for slow IDs, so beside the raw rates it
+            # reads as an arithmetic error (12.8 versus 1.0 msg/s is not 5.3x).
+            shown = tgt["detail"].get("rate_ratio_plain") or tgt["detail"]["rate_ratio"]
             claims.append({"text": f"{tgt['detail']['can_id']} transmitted at "
-                                   f"{tgt['detail']['rate_ratio']}x its baseline rate "
+                                   f"{shown}x its baseline rate "
                                    f"({tgt['detail']['rate']} versus "
                                    f"{tgt['detail']['baseline_rate']} msg/s), so frames are being "
                                    f"added alongside the legitimate ones.",
