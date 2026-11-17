@@ -1,0 +1,213 @@
+{
+  "set": "heldout",
+  "runs": {
+    "control-v1_alert": {
+      "alerts": 77,
+      "errors": 0,
+      "attack_alerts": 70,
+      "false_alarms": 7,
+      "accuracy": {
+        "all": {
+          "k": 53,
+          "n": 70,
+          "value": 0.7571428571428571,
+          "lo": 0.6450496077036256,
+          "hi": 0.8424813887710942
+        },
+        "hcrl": {
+          "k": 53,
+          "n": 70,
+          "value": 0.7571428571428571,
+          "lo": 0.6450496077036256,
+          "hi": 0.8424813887710942
+        }
+      },
+      "accuracy_by_type": {
+        "hcrl/dos": {
+          "k": 0,
+          "n": 17,
+          "value": 0.0,
+          "lo": 0.0,
+          "hi": 0.1843181350088518
+        },
+        "hcrl/fuzzing": {
+          "k": 15,
+          "n": 15,
+          "value": 1.0,
+          "lo": 0.7961166989641515,
+          "hi": 1.0
+        },
+        "hcrl/spoofing": {
+          "k": 38,
+          "n": 38,
+          "value": 1.0,
+          "lo": 0.908190131774416,
+          "hi": 0.9999999999999999
+        }
+      },
+      "confusion": {
+        "hcrl/dos": {
+          "unknown": 17
+        },
+        "hcrl/fuzzing": {
+          "fuzzing": 15
+        },
+        "hcrl/spoofing": {
+          "spoofing": 38
+        }
+      },
+      "false_alarm_labels": {
+        "unknown": 2,
+        "masquerade": 3,
+        "spoofing": 2
+      },
+      "false_alarms_called_benign": {
+        "k": 0,
+        "n": 7,
+        "value": 0.0,
+        "lo": 5.551115123125783e-17,
+        "hi": 0.35433043506668743
+      },
+      "claims": 132,
+      "claims_with_valid_citations": {
+        "k": 132,
+        "n": 132,
+        "value": 1.0,
+        "lo": 0.9717210132013917,
+        "hi": 1.0
+      },
+      "replies_fully_grounded": {
+        "k": 77,
+        "n": 77,
+        "value": 1.0,
+        "lo": 0.9524815747175658,
+        "hi": 0.9999999999999999
+      },
+      "latency_s": {
+        "median": 0.0,
+        "max": 0.0
+      }
+    },
+    "control-v2_alert": {
+      "alerts": 77,
+      "errors": 0,
+      "attack_alerts": 70,
+      "false_alarms": 7,
+      "accuracy": {
+        "all": {
+          "k": 70,
+          "n": 70,
+          "value": 1.0,
+          "lo": 0.9479769375897331,
+          "hi": 1.0
+        },
+        "hcrl": {
+          "k": 70,
+          "n": 70,
+          "value": 1.0,
+          "lo": 0.9479769375897331,
+          "hi": 1.0
+        }
+      },
+      "accuracy_by_type": {
+        "hcrl/dos": {
+          "k": 17,
+          "n": 17,
+          "value": 1.0,
+          "lo": 0.8156818649911483,
+          "hi": 1.0
+        },
+        "hcrl/fuzzing": {
+          "k": 15,
+          "n": 15,
+          "value": 1.0,
+          "lo": 0.7961166989641515,
+          "hi": 1.0
+        },
+        "hcrl/spoofing": {
+          "k": 38,
+          "n": 38,
+          "value": 1.0,
+          "lo": 0.908190131774416,
+          "hi": 0.9999999999999999
+        }
+      },
+      "confusion": {
+        "hcrl/dos": {
+          "dos": 17
+        },
+        "hcrl/fuzzing": {
+          "fuzzing": 15
+        },
+        "hcrl/spoofing": {
+          "spoofing": 38
+        }
+      },
+      "false_alarm_labels": {
+        "unknown": 1,
+        "benign": 4,
+        "spoofing": 2
+      },
+      "false_alarms_called_benign": {
+        "k": 4,
+        "n": 7,
+        "value": 0.5714285714285714,
+        "lo": 0.2504583645276572,
+        "hi": 0.8417801447485302
+      },
+      "claims": 153,
+      "claims_with_valid_citations": {
+        "k": 153,
+        "n": 153,
+        "value": 1.0,
+        "lo": 0.9755073763686055,
+        "hi": 1.0
+      },
+      "replies_fully_grounded": {
+        "k": 77,
+        "n": 77,
+        "value": 1.0,
+        "lo": 0.9524815747175658,
+        "hi": 0.9999999999999999
+      },
+      "latency_s": {
+        "median": 0.0,
+        "max": 0.0
+      }
+    }
+  },
+  "pairs": {
+    "control-v1_alert vs control-v2_alert": {
+      "all": {
+        "n": 70,
+        "a_correct": 53,
+        "b_correct": 70,
+        "only_a_correct": 0,
+        "only_b_correct": 17,
+        "mcnemar_p": 1.52587890625e-05,
+        "difference": {
+          "difference": -0.24285714285714288,
+          "lo": -0.34285714285714286,
+          "hi": -0.1428571428571429,
+          "n": 70,
+          "n_boot": 10000
+        }
+      },
+      "hcrl": {
+        "n": 70,
+        "a_correct": 53,
+        "b_correct": 70,
+        "only_a_correct": 0,
+        "only_b_correct": 17,
+        "mcnemar_p": 1.52587890625e-05,
+        "difference": {
+          "difference": -0.24285714285714288,
+          "lo": -0.34285714285714286,
+          "hi": -0.1428571428571429,
+          "n": 70,
+          "n_boot": 10000
+        }
+      }
+    }
+  }
+}

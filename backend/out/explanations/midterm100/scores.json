@@ -1,0 +1,523 @@
+{
+  "set": "midterm100",
+  "runs": {
+    "control-v1_alert": {
+      "alerts": 100,
+      "errors": 0,
+      "attack_alerts": 89,
+      "false_alarms": 11,
+      "accuracy": {
+        "all": {
+          "k": 70,
+          "n": 89,
+          "value": 0.7865168539325843,
+          "lo": 0.690471517751574,
+          "hi": 0.8588520349782139
+        },
+        "hcrl": {
+          "k": 53,
+          "n": 69,
+          "value": 0.7681159420289855,
+          "lo": 0.6560315295999074,
+          "hi": 0.8519209551392967
+        },
+        "road": {
+          "k": 17,
+          "n": 20,
+          "value": 0.85,
+          "lo": 0.6395811352592431,
+          "hi": 0.9476312541037835
+        }
+      },
+      "accuracy_by_type": {
+        "hcrl/dos": {
+          "k": 0,
+          "n": 16,
+          "value": 0.0,
+          "lo": 0.0,
+          "hi": 0.1936076805344365
+        },
+        "hcrl/fuzzing": {
+          "k": 15,
+          "n": 15,
+          "value": 1.0,
+          "lo": 0.7961166989641515,
+          "hi": 1.0
+        },
+        "hcrl/spoofing": {
+          "k": 38,
+          "n": 38,
+          "value": 1.0,
+          "lo": 0.908190131774416,
+          "hi": 0.9999999999999999
+        },
+        "road/fuzzing": {
+          "k": 3,
+          "n": 3,
+          "value": 1.0,
+          "lo": 0.4385029682449546,
+          "hi": 1.0
+        },
+        "road/masquerade": {
+          "k": 1,
+          "n": 4,
+          "value": 0.25,
+          "lo": 0.04558726080970055,
+          "hi": 0.6993581574175981
+        },
+        "road/spoofing": {
+          "k": 13,
+          "n": 13,
+          "value": 1.0,
+          "lo": 0.7719046276458016,
+          "hi": 0.9999999999999999
+        }
+      },
+      "confusion": {
+        "hcrl/dos": {
+          "unknown": 16
+        },
+        "hcrl/fuzzing": {
+          "fuzzing": 15
+        },
+        "hcrl/spoofing": {
+          "spoofing": 38
+        },
+        "road/spoofing": {
+          "spoofing": 13
+        },
+        "road/masquerade": {
+          "spoofing": 3,
+          "masquerade": 1
+        },
+        "road/fuzzing": {
+          "fuzzing": 3
+        }
+      },
+      "false_alarm_labels": {
+        "spoofing": 4,
+        "masquerade": 4,
+        "unknown": 3
+      },
+      "false_alarms_called_benign": {
+        "k": 0,
+        "n": 11,
+        "value": 0.0,
+        "lo": 0.0,
+        "hi": 0.2588329669680317
+      },
+      "claims": 176,
+      "claims_with_valid_citations": {
+        "k": 176,
+        "n": 176,
+        "value": 1.0,
+        "lo": 0.9786397483323124,
+        "hi": 1.0
+      },
+      "replies_fully_grounded": {
+        "k": 100,
+        "n": 100,
+        "value": 1.0,
+        "lo": 0.9630065017930143,
+        "hi": 1.0
+      },
+      "latency_s": {
+        "median": 0.0,
+        "max": 0.0
+      }
+    },
+    "control-v1_window": {
+      "alerts": 100,
+      "errors": 0,
+      "attack_alerts": 89,
+      "false_alarms": 11,
+      "accuracy": {
+        "all": {
+          "k": 70,
+          "n": 89,
+          "value": 0.7865168539325843,
+          "lo": 0.690471517751574,
+          "hi": 0.8588520349782139
+        },
+        "hcrl": {
+          "k": 53,
+          "n": 69,
+          "value": 0.7681159420289855,
+          "lo": 0.6560315295999074,
+          "hi": 0.8519209551392967
+        },
+        "road": {
+          "k": 17,
+          "n": 20,
+          "value": 0.85,
+          "lo": 0.6395811352592431,
+          "hi": 0.9476312541037835
+        }
+      },
+      "accuracy_by_type": {
+        "hcrl/dos": {
+          "k": 0,
+          "n": 16,
+          "value": 0.0,
+          "lo": 0.0,
+          "hi": 0.1936076805344365
+        },
+        "hcrl/fuzzing": {
+          "k": 15,
+          "n": 15,
+          "value": 1.0,
+          "lo": 0.7961166989641515,
+          "hi": 1.0
+        },
+        "hcrl/spoofing": {
+          "k": 38,
+          "n": 38,
+          "value": 1.0,
+          "lo": 0.908190131774416,
+          "hi": 0.9999999999999999
+        },
+        "road/fuzzing": {
+          "k": 3,
+          "n": 3,
+          "value": 1.0,
+          "lo": 0.4385029682449546,
+          "hi": 1.0
+        },
+        "road/masquerade": {
+          "k": 1,
+          "n": 4,
+          "value": 0.25,
+          "lo": 0.04558726080970055,
+          "hi": 0.6993581574175981
+        },
+        "road/spoofing": {
+          "k": 13,
+          "n": 13,
+          "value": 1.0,
+          "lo": 0.7719046276458016,
+          "hi": 0.9999999999999999
+        }
+      },
+      "confusion": {
+        "hcrl/dos": {
+          "unknown": 16
+        },
+        "hcrl/fuzzing": {
+          "fuzzing": 15
+        },
+        "hcrl/spoofing": {
+          "spoofing": 38
+        },
+        "road/spoofing": {
+          "spoofing": 13
+        },
+        "road/masquerade": {
+          "spoofing": 3,
+          "masquerade": 1
+        },
+        "road/fuzzing": {
+          "fuzzing": 3
+        }
+      },
+      "false_alarm_labels": {
+        "spoofing": 7,
+        "masquerade": 2,
+        "unknown": 2
+      },
+      "false_alarms_called_benign": {
+        "k": 0,
+        "n": 11,
+        "value": 0.0,
+        "lo": 0.0,
+        "hi": 0.2588329669680317
+      },
+      "claims": 179,
+      "claims_with_valid_citations": {
+        "k": 179,
+        "n": 179,
+        "value": 1.0,
+        "lo": 0.978990220021919,
+        "hi": 0.9999999999999999
+      },
+      "replies_fully_grounded": {
+        "k": 100,
+        "n": 100,
+        "value": 1.0,
+        "lo": 0.9630065017930143,
+        "hi": 1.0
+      },
+      "latency_s": {
+        "median": 0.0,
+        "max": 0.0
+      }
+    },
+    "control-v2_alert": {
+      "alerts": 100,
+      "errors": 0,
+      "attack_alerts": 89,
+      "false_alarms": 11,
+      "accuracy": {
+        "all": {
+          "k": 85,
+          "n": 89,
+          "value": 0.9550561797752809,
+          "lo": 0.8900695404028713,
+          "hi": 0.982385513932674
+        },
+        "hcrl": {
+          "k": 69,
+          "n": 69,
+          "value": 1.0,
+          "lo": 0.9472627418109483,
+          "hi": 1.0
+        },
+        "road": {
+          "k": 16,
+          "n": 20,
+          "value": 0.8,
+          "lo": 0.5839825677481064,
+          "hi": 0.919342337420202
+        }
+      },
+      "accuracy_by_type": {
+        "hcrl/dos": {
+          "k": 16,
+          "n": 16,
+          "value": 1.0,
+          "lo": 0.8063923194655637,
+          "hi": 1.0
+        },
+        "hcrl/fuzzing": {
+          "k": 15,
+          "n": 15,
+          "value": 1.0,
+          "lo": 0.7961166989641515,
+          "hi": 1.0
+        },
+        "hcrl/spoofing": {
+          "k": 38,
+          "n": 38,
+          "value": 1.0,
+          "lo": 0.908190131774416,
+          "hi": 0.9999999999999999
+        },
+        "road/fuzzing": {
+          "k": 3,
+          "n": 3,
+          "value": 1.0,
+          "lo": 0.4385029682449546,
+          "hi": 1.0
+        },
+        "road/masquerade": {
+          "k": 0,
+          "n": 4,
+          "value": 0.0,
+          "lo": 0.0,
+          "hi": 0.4898908364545973
+        },
+        "road/spoofing": {
+          "k": 13,
+          "n": 13,
+          "value": 1.0,
+          "lo": 0.7719046276458016,
+          "hi": 0.9999999999999999
+        }
+      },
+      "confusion": {
+        "hcrl/dos": {
+          "dos": 16
+        },
+        "hcrl/fuzzing": {
+          "fuzzing": 15
+        },
+        "hcrl/spoofing": {
+          "spoofing": 38
+        },
+        "road/spoofing": {
+          "spoofing": 13
+        },
+        "road/masquerade": {
+          "spoofing": 3,
+          "benign": 1
+        },
+        "road/fuzzing": {
+          "fuzzing": 3
+        }
+      },
+      "false_alarm_labels": {
+        "spoofing": 4,
+        "benign": 5,
+        "unknown": 2
+      },
+      "false_alarms_called_benign": {
+        "k": 5,
+        "n": 11,
+        "value": 0.45454545454545453,
+        "lo": 0.21271271622459764,
+        "hi": 0.719908462590678
+      },
+      "claims": 198,
+      "claims_with_valid_citations": {
+        "k": 198,
+        "n": 198,
+        "value": 1.0,
+        "lo": 0.9809679396733518,
+        "hi": 1.0
+      },
+      "replies_fully_grounded": {
+        "k": 100,
+        "n": 100,
+        "value": 1.0,
+        "lo": 0.9630065017930143,
+        "hi": 1.0
+      },
+      "latency_s": {
+        "median": 0.0,
+        "max": 0.0
+      }
+    }
+  },
+  "pairs": {
+    "control-v1_alert vs control-v1_window": {
+      "all": {
+        "n": 89,
+        "a_correct": 70,
+        "b_correct": 70,
+        "only_a_correct": 0,
+        "only_b_correct": 0,
+        "mcnemar_p": 1.0,
+        "difference": {
+          "difference": 0.0,
+          "lo": 0.0,
+          "hi": 0.0,
+          "n": 89,
+          "n_boot": 10000
+        }
+      },
+      "hcrl": {
+        "n": 69,
+        "a_correct": 53,
+        "b_correct": 53,
+        "only_a_correct": 0,
+        "only_b_correct": 0,
+        "mcnemar_p": 1.0,
+        "difference": {
+          "difference": 0.0,
+          "lo": 0.0,
+          "hi": 0.0,
+          "n": 69,
+          "n_boot": 10000
+        }
+      },
+      "road": {
+        "n": 20,
+        "a_correct": 17,
+        "b_correct": 17,
+        "only_a_correct": 0,
+        "only_b_correct": 0,
+        "mcnemar_p": 1.0,
+        "difference": {
+          "difference": 0.0,
+          "lo": 0.0,
+          "hi": 0.0,
+          "n": 20,
+          "n_boot": 10000
+        }
+      }
+    },
+    "control-v1_alert vs control-v2_alert": {
+      "all": {
+        "n": 89,
+        "a_correct": 70,
+        "b_correct": 85,
+        "only_a_correct": 1,
+        "only_b_correct": 16,
+        "mcnemar_p": 0.000274658203125,
+        "difference": {
+          "difference": -0.1685393258426966,
+          "lo": -0.2584269662921348,
+          "hi": -0.0898876404494382,
+          "n": 89,
+          "n_boot": 10000
+        }
+      },
+      "hcrl": {
+        "n": 69,
+        "a_correct": 53,
+        "b_correct": 69,
+        "only_a_correct": 0,
+        "only_b_correct": 16,
+        "mcnemar_p": 3.0517578125e-05,
+        "difference": {
+          "difference": -0.23188405797101452,
+          "lo": -0.33333333333333337,
+          "hi": -0.13043478260869568,
+          "n": 69,
+          "n_boot": 10000
+        }
+      },
+      "road": {
+        "n": 20,
+        "a_correct": 17,
+        "b_correct": 16,
+        "only_a_correct": 1,
+        "only_b_correct": 0,
+        "mcnemar_p": 1.0,
+        "difference": {
+          "difference": 0.04999999999999993,
+          "lo": 0.0,
+          "hi": 0.15000000000000002,
+          "n": 20,
+          "n_boot": 10000
+        }
+      }
+    },
+    "control-v1_window vs control-v2_alert": {
+      "all": {
+        "n": 89,
+        "a_correct": 70,
+        "b_correct": 85,
+        "only_a_correct": 1,
+        "only_b_correct": 16,
+        "mcnemar_p": 0.000274658203125,
+        "difference": {
+          "difference": -0.1685393258426966,
+          "lo": -0.2584269662921348,
+          "hi": -0.0898876404494382,
+          "n": 89,
+          "n_boot": 10000
+        }
+      },
+      "hcrl": {
+        "n": 69,
+        "a_correct": 53,
+        "b_correct": 69,
+        "only_a_correct": 0,
+        "only_b_correct": 16,
+        "mcnemar_p": 3.0517578125e-05,
+        "difference": {
+          "difference": -0.23188405797101452,
+          "lo": -0.33333333333333337,
+          "hi": -0.13043478260869568,
+          "n": 69,
+          "n_boot": 10000
+        }
+      },
+      "road": {
+        "n": 20,
+        "a_correct": 17,
+        "b_correct": 16,
+        "only_a_correct": 1,
+        "only_b_correct": 0,
+        "mcnemar_p": 1.0,
+        "difference": {
+          "difference": 0.04999999999999993,
+          "lo": 0.0,
+          "hi": 0.15000000000000002,
+          "n": 20,
+          "n_boot": 10000
+        }
+      }
+    }
+  }
+}

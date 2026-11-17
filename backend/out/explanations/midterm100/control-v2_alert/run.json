@@ -1,0 +1,16 @@
+{
+  "set": "midterm100",
+  "run": "control-v2_alert",
+  "explainer": "control",
+  "model": "rule-based control (rules v2)",
+  "scope": "alert",
+  "control_rules": "v2",
+  "prompt_version": null,
+  "prompt_sha256": null,
+  "temperature": null,
+  "strict": true,
+  "fallbacks": 0,
+  "alerts": 100,
+  "errors": 0,
+  "updated_utc": "2026-11-17T15:37:06.567087+00:00"
+}
