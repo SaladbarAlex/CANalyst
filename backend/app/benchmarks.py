@@ -14,7 +14,8 @@ The dashboard never recomputes a benchmark: it reads what the scripts saved.
 Submissions are predictions, never code. A file is one JSON object per line:
     {"id": "A0000", "attack_type": "dos",
      "claims": [{"text": "...", "cites": ["E2"]}], "latency_s": 12.5}
-Only `id` and `attack_type` are required. Labels stay on the server; a
+Only `id` and `attack_type` are required. An alert left out of the file is
+scored as a wrong answer ("no answer"). Labels stay on the server; a
 submission is checked against the frozen alert ids and the label vocabulary,
 then scored with the same code as every built-in run.
 """
@@ -244,18 +245,24 @@ def submit(set_name: str, name: str, raw: bytes, description: str = "") -> dict:
                      "latency_s": float(latency) if isinstance(latency, (int, float)) else None})
     if not rows:
         raise SubmissionError("no predictions in file")
-    missing = len(known) - len(rows)
+    # An alert left out is a wrong answer, as a failed reply is for built-in
+    # runs: otherwise a submission could skip the hard cases and score higher.
+    skipped = sorted(known - seen)
+    rows += [{"id": alert_id, "error": "no prediction submitted", "raw": None,
+              "attack_type": None, "summary": "", "claims": [], "grounded": False,
+              "evidence_ids": [], "latency_s": None} for alert_id in skipped]
+    missing = len(skipped)
 
     run_dir.mkdir(parents=True)
     (run_dir / "replies.jsonl").write_text("".join(json.dumps(r) + "\n" for r in rows))
     (run_dir / "run.json").write_text(json.dumps({
         "set": set_name, "run": run, "explainer": "submission", "model": name,
         "description": description[:500], "scope": "alert", "prompt_version": None,
-        "alerts": len(rows), "errors": 0, "missing_alerts": missing,
+        "alerts": len(rows) - missing, "errors": 0, "missing_alerts": missing,
         "submitted_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
     }, indent=2) + "\n")
     rescore(set_name)
-    return {"run": run, "predictions": len(rows), "missing_alerts": missing}
+    return {"run": run, "predictions": len(rows) - missing, "missing_alerts": missing}
 
 
 def rescore(set_name: str) -> None:
