@@ -526,13 +526,14 @@ class ChatExplainer(_APIExplainer):
 
     def __init__(self, model: str | None = None, base_url: str | None = None,
                  prompt_version: str = DEFAULT_PROMPT, strict: bool = False,
-                 timeout_s: float = 900.0, max_tokens: int = 1200):
+                 timeout_s: float = 900.0, max_tokens: int = 16000):
         self.model = model or os.environ.get("CHAT_MODEL", "")
         self.base_url = (base_url or os.environ.get("CHAT_BASE_URL", "")).rstrip("/")
         self.prompt_version = prompt_version
         self.strict = strict
         self.timeout_s = timeout_s
         self.max_tokens = max_tokens
+        self.last_meta: dict = {}
         self._fallback = MockExplainer()
 
     def request_body(self, evidence: dict) -> dict:
@@ -556,7 +557,19 @@ class ChatExplainer(_APIExplainer):
                                      headers=headers, method="POST")
         with urllib.request.urlopen(req, timeout=self.timeout_s) as resp:
             payload = json.loads(resp.read().decode())
-        return payload["choices"][0]["message"]["content"]
+        choice = payload["choices"][0]
+        message = choice.get("message") or {}
+        reasoning = message.get("reasoning") or message.get("reasoning_content") or ""
+        self.last_meta = {"finish_reason": choice.get("finish_reason"),
+                          "usage": payload.get("usage"), "reasoning_chars": len(reasoning)}
+        content = message.get("content")
+        if not content:
+            # Reasoning models can spend the whole token budget thinking and
+            # return no answer at all. Report that plainly instead of failing
+            # later in the parser.
+            raise RuntimeError(f"empty reply (finish_reason={choice.get('finish_reason')}, "
+                               f"usage={payload.get('usage')}); raise --max-tokens")
+        return content
 
     def answer(self, question: str, context: dict) -> str:
         return self._fallback.answer(question, context)

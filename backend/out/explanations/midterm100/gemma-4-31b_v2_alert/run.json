@@ -1,0 +1,17 @@
+{
+  "set": "midterm100",
+  "run": "gemma-4-31b_v2_alert",
+  "explainer": "chat",
+  "model": "gemma-4-31b",
+  "scope": "alert",
+  "control_rules": null,
+  "prompt_version": "v2",
+  "prompt_sha256": "c72ef008aaf232e51b0a37ecf779552b91de8e0e626d4776177df63b19dd3be6",
+  "temperature": 0,
+  "max_tokens": 16000,
+  "strict": true,
+  "fallbacks": 0,
+  "alerts": 100,
+  "errors": 0,
+  "updated_utc": "2026-11-17T16:19:24.692595+00:00"
+}

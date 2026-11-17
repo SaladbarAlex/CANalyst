@@ -43,11 +43,18 @@ def score_run(alerts: dict[str, dict], replies: list[dict]) -> dict:
     by_id = {r["id"]: r for r in replies}
     answered = [a for a in alerts.values() if a["id"] in by_id]
     ok = [a for a in answered if not by_id[a["id"]]["error"]]
-    attack = [a for a in ok if a["is_attack"]]
-    false_alarm = [a for a in ok if not a["is_attack"]]
+    # Accuracy counts every alert the run was asked about. A failed or empty
+    # reply is a wrong answer: dropping it would reward a model for not
+    # answering the hard cases.
+    attack = [a for a in answered if a["is_attack"]]
+    false_alarm = [a for a in answered if not a["is_attack"]]
+
+    def label(a: dict) -> str:
+        r = by_id[a["id"]]
+        return "no answer" if r["error"] else r["attack_type"]
 
     def correct(a: dict) -> bool:
-        return by_id[a["id"]]["attack_type"] == a["true_type"]
+        return label(a) == a["true_type"]
 
     accuracy = {"all": prop(sum(correct(a) for a in attack), len(attack))}
     for ds in sorted({a["dataset"] for a in attack}):
@@ -60,12 +67,12 @@ def score_run(alerts: dict[str, dict], replies: list[dict]) -> dict:
         slot = by_type.setdefault(key, [0, 0])
         slot[0] += correct(a)
         slot[1] += 1
-        pred = by_id[a["id"]]["attack_type"]
+        pred = label(a)
         confusion.setdefault(key, {}).setdefault(pred, 0)
         confusion[key][pred] += 1
     fa_labels: dict[str, int] = {}
     for a in false_alarm:
-        pred = by_id[a["id"]]["attack_type"]
+        pred = label(a)
         fa_labels[pred] = fa_labels.get(pred, 0) + 1
     claims = [c for a in ok for c in by_id[a["id"]].get("claims", [])]
     cited_ok = 0
@@ -76,6 +83,9 @@ def score_run(alerts: dict[str, dict], replies: list[dict]) -> dict:
             cites = c.get("cites", [])
             cited_ok += bool(cites) and all(x in valid for x in cites)
     latencies = [by_id[a["id"]]["latency_s"] for a in ok]
+    tokens = [((by_id[a["id"]].get("meta") or {}).get("usage") or {}).get("completion_tokens")
+              for a in answered]
+    tokens = [t for t in tokens if t is not None]
     return {
         "alerts": len(answered), "errors": len(answered) - len(ok),
         "attack_alerts": len(attack), "false_alarms": len(false_alarm),
@@ -90,6 +100,9 @@ def score_run(alerts: dict[str, dict], replies: list[dict]) -> dict:
                                        len(ok)),
         "latency_s": ({"median": statistics.median(latencies), "max": max(latencies)}
                       if latencies else None),
+        "completion_tokens": ({"median": statistics.median(tokens), "total": sum(tokens)}
+                              if tokens else None),
+        "no_answer": len(answered) - len(ok),
         "correct_by_id": {a["id"]: bool(correct(a)) for a in attack},
     }
 
