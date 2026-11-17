@@ -36,12 +36,37 @@ def _clip01(x: float) -> float:
     return float(max(0.0, min(1.0, x)))
 
 
+# Which components may raise an alert. Every component is always measured
+# and reported as evidence; a profile only decides which ones count toward
+# the window score.
+#
+#   v1  all six, as deployed through the midterm benchmark.
+#   v2  unseen IDs, per-ID rate inflation and total bus load. Chosen on the
+#       tuning captures of app/datasets.py: there the other three components
+#       (payload entropy, timing, missing IDs) raised no attack window that
+#       the first two had not already raised, apart from 0.25% of
+#       Car-Hacking spoofing windows, and produced almost all of the false
+#       alarms on attack-free driving (ROAD: 24.5% of windows with all six,
+#       0.4% without them). See docs/evaluation-protocol.md.
+ALERT_PROFILES: dict[str, tuple[str, ...]] = {
+    "v1": ("bus_load", "unknown_ids", "rate_inflation", "missing_ids", "timing",
+           "payload_entropy"),
+    "v2": ("bus_load", "unknown_ids", "rate_inflation"),
+}
+DEFAULT_PROFILE = "v1"
+
+
 class RuleDetector:
     name = "rule"
 
-    def __init__(self, baseline: Baseline, threshold: float = 0.55):
+    def __init__(self, baseline: Baseline, threshold: float = 0.55,
+                 profile: str = DEFAULT_PROFILE):
+        if profile not in ALERT_PROFILES:
+            raise ValueError(f"profile must be one of {sorted(ALERT_PROFILES)}")
         self.baseline = baseline
         self.threshold = threshold
+        self.profile = profile
+        self.alert_components = ALERT_PROFILES[profile]
 
     def score_window(self, row: pd.Series) -> tuple[float, dict[str, float], list[str], list[int]]:
         per_id: dict[int, dict] = row["per_id"]
@@ -103,7 +128,7 @@ class RuleDetector:
         if comp["payload_entropy"] > 0.3:
             reasons.append(f"Payload entropy up {row['max_entropy_delta']:.2f} bits over baseline")
 
-        score = max(comp.values()) if comp else 0.0
+        score = max((comp[c] for c in self.alert_components), default=0.0)
         ranked = sorted(
             (c for c in per_id),
             key=lambda c: (
@@ -222,7 +247,8 @@ def merge_adjacent(alerts: list[Alert], gap_s: float = 0.26) -> list[Alert]:
     return merged
 
 
-def get_detector(kind: str, baseline: Baseline, threshold: float = 0.55):
+def get_detector(kind: str, baseline: Baseline, threshold: float = 0.55,
+                 profile: str = DEFAULT_PROFILE):
     if kind == "forest":
         return ForestDetector(baseline)
-    return RuleDetector(baseline, threshold=threshold)
+    return RuleDetector(baseline, threshold=threshold, profile=profile)

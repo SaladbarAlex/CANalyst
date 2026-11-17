@@ -9,15 +9,39 @@ analyst-facing text. Three implementations:
                     the "no LLM" control condition in the evaluation.
   ClaudeExplainer - Anthropic API.
   OpenAIExplainer - OpenAI API.
+  ChatExplainer   - any OpenAI-compatible chat endpoint (a university
+                    research-computing service, a local server), over plain
+                    HTTP with no SDK.
 
-Both real backends send the same evidence packet and the same prompt,
-require citations, and fall back to the mock on any error, so the
-dashboard never shows an empty panel.
+The hosted backends send the same evidence packet and the same prompt and
+require citations. In the dashboard they fall back to the mock on any
+error, so the panel is never empty. An evaluation must not do that: a
+silent fallback would score the control under the model's name. Pass
+strict=True (the experiment runner does) and errors are raised instead.
+
+Prompts are versioned. v1 is the prompt used through the October 21 run,
+kept verbatim so that run stays reproducible. v2 states that a packet
+describes a whole alert, separates fabrication from replay by how many IDs
+are affected instead of by a doubled rate (which the two share), and
+describes a flood by what it does on a real bus (it displaces traffic; the
+total rate need not rise) instead of by what the synthetic generator did.
+
+The control's rules are versioned the same way and for the same reason.
+Rules v1 are the rules of the October 21 run. Rules v2 change two things,
+both decided on the development alerts and the tuning captures and
+documented in docs/evaluation-protocol.md: a flood is recognized by one
+unseen ID carrying a large share of the alert's frames, and an alert raised
+only by components that marked no attack window on the tuning captures is
+called benign. Prompt v2 states both facts too, so the model and the
+control are given the same information.
 """
 from __future__ import annotations
 
 import json
 import os
+import time
+import urllib.error
+import urllib.request
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
@@ -26,7 +50,7 @@ from .synth import ID_INFO
 
 ATTACK_LABELS = ["dos", "fuzzing", "spoofing", "replay", "masquerade", "benign", "unknown"]
 
-SYSTEM_PROMPT = """You are a vehicle network security analyst assistant. You are \
+SYSTEM_PROMPT_V1 = """You are a vehicle network security analyst assistant. You are \
 given a structured evidence packet describing one time window of CAN bus traffic \
 that an anomaly detector flagged. Classify the window and explain it.
 
@@ -48,6 +72,48 @@ Reference on CAN attack signatures:
 - replay: valid-looking payloads arrive at the wrong time; rate roughly doubles with normal-looking values.
 - masquerade: the real sender is suppressed, so the rate looks normal but timing jitter collapses or shifts.
 """
+
+SYSTEM_PROMPT_V2 = """You are a vehicle network security analyst assistant. You are \
+given a structured evidence packet describing one alert on a CAN bus: one or more \
+consecutive time windows that an anomaly detector flagged, merged into a single span. \
+Classify the alert and explain it.
+
+Rules:
+1. Use ONLY the evidence provided. Never invent frames, IDs or statistics.
+2. Cite the evidence id (for example E2) after every factual claim. Facts about the \
+alert as a whole (its span, frame count, detector score) are item E0.
+3. Counts and rates describe the whole alert unless an item says "peak window".
+4. If the evidence does not identify the affected vehicle function, say so \
+rather than guessing.
+5. attack_type must be one of: dos, fuzzing, spoofing, replay, masquerade, benign, unknown.
+6. Reply with JSON only, matching this schema:
+{"attack_type": str, "confidence": float 0-1, "severity": "low"|"medium"|"high",
+ "affected_function": str, "summary": str, "claims": [{"text": str, "cites": [str]}],
+ "recommended_action": str}
+
+Reference on CAN attack signatures:
+- dos: one very high priority ID (often 0x000, which is usually absent from the baseline) \
+is sent at a very high rate and accounts for a large share of the frames in the alert. A \
+bus has a fixed capacity, so the flood displaces legitimate traffic: the total message \
+rate may not rise at all, and many known IDs run below their baseline rates.
+- fuzzing: many arbitration IDs absent from the baseline appear, with random payloads.
+- spoofing (fabrication): frames are injected for one or a few existing IDs alongside the \
+legitimate ones. Those IDs run above their baseline rate, often about double, and carry \
+values the legitimate sender is not producing. One ID above its baseline rate is \
+fabrication, not replay.
+- replay: previously recorded traffic is sent again, so many IDs rise above their baseline \
+rates together and the extra payloads repeat values seen earlier.
+- masquerade: the legitimate sender is silenced and replaced, so the message rate stays \
+near baseline. The evidence is in timing regularity or in payload values, not in counts.
+- benign: none of these signatures. The detector also raises false alarms. On attack-free \
+tuning captures, alerts whose only elevated detector components were timing, missing_ids \
+or payload_entropy were false alarms: IDs pause, change rate and carry new values as the \
+vehicle changes state.
+"""
+
+SYSTEM_PROMPTS = {"v1": SYSTEM_PROMPT_V1, "v2": SYSTEM_PROMPT_V2}
+DEFAULT_PROMPT = "v2"
+SYSTEM_PROMPT = SYSTEM_PROMPTS[DEFAULT_PROMPT]
 
 
 @dataclass
@@ -93,10 +159,22 @@ class Explainer:
         raise NotImplementedError
 
 
+CONTROL_RULES = ("v1", "v2")
+DEFAULT_CONTROL_RULES = "v2"
+FLOOD_SHARE = 0.20          # rules v2: one unseen ID carrying this share of an alert's frames
+ALERT_LEVEL = 0.55          # a detector component at or above this raised the alert
+ATTACK_COMPONENTS = ("bus_load", "unknown_ids", "rate_inflation")
+
+
 class MockExplainer(Explainer):
     """Rule-based stand-in. No network, no key, deterministic output."""
 
     name = "mock"
+
+    def __init__(self, rules: str = DEFAULT_CONTROL_RULES):
+        if rules not in CONTROL_RULES:
+            raise ValueError(f"rules must be one of {CONTROL_RULES}")
+        self.rules = rules
 
     def explain(self, evidence: dict) -> Explanation:
         comp = evidence.get("detector_components", {})
@@ -109,7 +187,11 @@ class MockExplainer(Explainer):
         load_ratio = 1.0
         if load_item:
             d = load_item["detail"]
-            load_ratio = d["observed"] / max(d["baseline"], 1e-6)
+            # The flood rule was written against the busiest window. Whole-alert
+            # packets report the span average too; keep reading the peak so the
+            # rule means the same thing for both packet scopes.
+            load_ratio = d.get("observed_peak_window", d["observed"]) / max(d["baseline"], 1e-6)
+        span_word = "alert" if evidence.get("scope") == "alert" else "window"
 
         unknown = by_kind.get("unknown_id", [])
         id_stats = by_kind.get("id_stats", [])
@@ -123,7 +205,36 @@ class MockExplainer(Explainer):
         claims: list[dict] = []
         cite = lambda item: [item["id"]] if item else []
 
-        if load_ratio >= 2.0 and (unknown and any(
+        # Rules v2 only. The share of the alert's frames carried by the busiest
+        # unseen ID, and whether any component that marks attacks raised the alert.
+        mix_item = items.get("traffic_mix")
+        total_frames = max(int(evidence.get("frame_count") or 0), 1)
+        flood = max(unknown, key=lambda i: i["detail"].get("count") or 0, default=None)
+        flood_share = (flood["detail"].get("count") or 0) / total_frames if flood else 0.0
+        attack_component = any((comp.get(c) or 0) >= ALERT_LEVEL for c in ATTACK_COMPONENTS)
+
+        if self.rules == "v2" and flood is not None and flood_share >= FLOOD_SHARE:
+            attack, conf, sev = "dos", 0.9, "high"
+            function = "Whole bus (arbitration starvation)"
+            claims.append({"text": f"{flood['detail']['can_id']} is absent from the baseline and "
+                                   f"sent {flood['detail']['count']} of the {total_frames} frames "
+                                   f"in this {span_word} ({flood_share:.0%}).",
+                           "cites": cite(flood) + cite(items.get("alert"))})
+            if mix_item and mix_item["detail"].get("suppressed_ids"):
+                d = mix_item["detail"]
+                claims.append({"text": f"{d['suppressed_ids']} of {d['countable_ids']} baseline "
+                                       f"IDs ran below {d['suppressed_below']:.0%} of their "
+                                       f"baseline rate, so the flood displaced legitimate "
+                                       f"traffic.",
+                               "cites": cite(mix_item)})
+            elif load_item:
+                claims.append({"text": f"Total bus load was {load_ratio:.2f}x baseline in the "
+                                       f"busiest window.",
+                               "cites": cite(load_item)})
+            action = ("Treat as a denial of service. Identify the physical node injecting "
+                      f"{flood['detail']['can_id']} and check which safety messages missed "
+                      "their deadlines.")
+        elif self.rules == "v1" and load_ratio >= 2.0 and (unknown and any(
                 i["detail"]["can_id"] in ("0x000", "0x00") for i in unknown)):
             attack, conf, sev = "dos", 0.9, "high"
             function = "Whole bus (arbitration starvation)"
@@ -131,7 +242,7 @@ class MockExplainer(Explainer):
             claims.append({"text": f"Total bus load reached {load_ratio:.2f}x baseline.",
                            "cites": cite(load_item)})
             claims.append({"text": f"{flood['detail']['can_id']} is the highest priority ID on "
-                                   f"CAN and sent {flood['detail']['count']} frames in this window, "
+                                   f"CAN and sent {flood['detail']['count']} frames in this {span_word}, "
                                    f"so it wins arbitration against every real message.",
                            "cites": cite(flood)})
             action = ("Treat as a denial of service. Identify the physical node injecting 0x000 "
@@ -148,6 +259,24 @@ class MockExplainer(Explainer):
                                "cites": cite(load_item)})
             action = ("Capture the full window and check whether any injected ID triggered an "
                       "ECU response. Fuzzing often precedes a targeted attack.")
+        elif self.rules == "v2" and not attack_component:
+            attack, conf, sev = "benign", 0.6, "low"
+            function = "None identified"
+            raised = sorted((c for c, v in comp.items() if (v or 0) >= ALERT_LEVEL),
+                            key=lambda c: -comp[c])
+            claims.append({"text": "The alert was raised by " + (", ".join(raised) or "no component")
+                                   + " alone. No unseen ID, per-ID rate inflation or bus-load "
+                                   "rise reached the alert level.",
+                           "cites": cite(items.get("alert")) or cite(load_item)})
+            if mix_item:
+                d = mix_item["detail"]
+                claims.append({"text": f"No frames came from unseen IDs and {d['suppressed_ids']} "
+                                       f"of {d['countable_ids']} baseline IDs ran below "
+                                       f"{d['suppressed_below']:.0%} of their baseline rate, "
+                                       f"which a change of vehicle state also produces.",
+                               "cites": cite(mix_item)})
+            action = ("Likely a false alarm from a vehicle state the baseline does not cover. "
+                      "Check the IDs listed and add this driving state to the reference.")
         elif jitter_collapsed and not inflated:
             attack, conf, sev = "masquerade", 0.66, "high"
             tgt = jitter_collapsed[0]
@@ -199,7 +328,7 @@ class MockExplainer(Explainer):
                                    f"the rest of the bus looked normal.",
                            "cites": cite(missing[0])})
             action = ("Could be suppression, a bus-off attack, or an ECU fault. Check for error "
-                      "frames around this window.")
+                      f"frames around this {span_word}.")
         else:
             attack, conf, sev = "unknown", 0.35, "low"
             function = "Indeterminate"
@@ -208,7 +337,7 @@ class MockExplainer(Explainer):
             action = "Widen the window and compare against a longer benign baseline."
 
         top = ", ".join(evidence.get("ids_involved", [])[:3])
-        summary = (f"{attack.upper()} on {function}. Window "
+        summary = (f"{attack.upper()} on {function}. {span_word.capitalize()} "
                    f"{evidence['window_start']:.2f}s to {evidence['window_end']:.2f}s, "
                    f"{evidence['frame_count']} frames, IDs of interest {top}. "
                    f"Detector score {evidence['detector_score']:.2f} "
@@ -216,7 +345,7 @@ class MockExplainer(Explainer):
 
         exp = Explanation(attack_type=attack, confidence=conf, severity=sev,
                           affected_function=function, summary=summary, claims=claims,
-                          recommended_action=action, model="mock")
+                          recommended_action=action, model=f"mock (rules {self.rules})")
         return _check_citations(exp, evidence)
 
     def answer(self, question: str, context: dict) -> str:
@@ -234,10 +363,22 @@ class MockExplainer(Explainer):
         return "\n".join(lines)
 
 
-class _APIExplainer(Explainer):
-    """Shared prompt building and response handling for the hosted backends."""
+def user_prompt(evidence: dict) -> str:
+    """The user message for one evidence packet.
 
-    def _user_prompt(self, evidence: dict) -> str:
+    Only measurements go in: no capture name, no ground-truth label, no
+    file path. Whole-alert packets carry their alert-level facts as item
+    E0, so nothing outside the citable items is needed.
+    """
+    if evidence.get("scope") == "alert":
+        slim = {
+            "alert_span_s": [evidence["window_start"], evidence["window_end"]],
+            "detector_components": evidence["detector_components"],
+            "evidence": [{"id": i["id"], "kind": i["kind"], "text": i["text"]}
+                         for i in evidence["items"]],
+            "sample_frames": evidence["sample_frames"][:6],
+        }
+    else:
         slim = {
             "window": [evidence["window_start"], evidence["window_end"]],
             "frame_count": evidence["frame_count"],
@@ -247,46 +388,77 @@ class _APIExplainer(Explainer):
                          for i in evidence["items"]],
             "sample_frames": evidence["sample_frames"][:6],
         }
-        return "Evidence packet:\n" + json.dumps(slim, indent=2)
+    return "Evidence packet:\n" + json.dumps(slim, indent=2)
+
+
+def parse_reply(text: str, evidence: dict, model: str) -> Explanation:
+    """Turn a model's reply into an Explanation and check its citations."""
+    start, end = text.find("{"), text.rfind("}")
+    payload = json.loads(text[start:end + 1])
+    exp = Explanation(
+        attack_type=str(payload.get("attack_type", "unknown")).lower().strip(),
+        confidence=float(payload.get("confidence", 0.5)),
+        severity=str(payload.get("severity", "medium")),
+        affected_function=str(payload.get("affected_function", "unknown")),
+        summary=str(payload.get("summary", "")),
+        claims=[c for c in payload.get("claims", []) if isinstance(c, dict)],
+        recommended_action=str(payload.get("recommended_action", "")),
+        model=model,
+    )
+    if exp.attack_type not in ATTACK_LABELS:
+        exp.attack_type = "unknown"
+    return _check_citations(exp, evidence)
+
+
+class _APIExplainer(Explainer):
+    """Shared prompt building and response handling for the hosted backends."""
+
+    prompt_version = DEFAULT_PROMPT
+    strict = False
+
+    @property
+    def system_prompt(self) -> str:
+        return SYSTEM_PROMPTS[self.prompt_version]
+
+    def _user_prompt(self, evidence: dict) -> str:
+        return user_prompt(evidence)
 
     def _parse(self, text: str, evidence: dict, model: str) -> Explanation:
-        start, end = text.find("{"), text.rfind("}")
-        payload = json.loads(text[start:end + 1])
-        exp = Explanation(
-            attack_type=str(payload.get("attack_type", "unknown")).lower(),
-            confidence=float(payload.get("confidence", 0.5)),
-            severity=str(payload.get("severity", "medium")),
-            affected_function=str(payload.get("affected_function", "unknown")),
-            summary=str(payload.get("summary", "")),
-            claims=list(payload.get("claims", [])),
-            recommended_action=str(payload.get("recommended_action", "")),
-            model=model,
-        )
-        if exp.attack_type not in ATTACK_LABELS:
-            exp.attack_type = "unknown"
-        return _check_citations(exp, evidence)
+        return parse_reply(text, evidence, model)
+
+    def complete(self, evidence: dict) -> str:  # pragma: no cover - network
+        """Send one packet and return the model's raw reply text."""
+        raise NotImplementedError
+
+    def explain(self, evidence: dict) -> Explanation:
+        try:
+            return self._parse(self.complete(evidence), evidence, self.model)
+        except Exception as exc:  # network, key, or malformed JSON
+            if self.strict:
+                raise
+            exp = self._fallback.explain(evidence)
+            exp.model = f"mock (fallback: {type(exc).__name__})"
+            return exp
 
 
 class ClaudeExplainer(_APIExplainer):
     name = "claude"
 
-    def __init__(self, model: str = "claude-sonnet-4-5"):
+    def __init__(self, model: str = "claude-sonnet-4-5", prompt_version: str = DEFAULT_PROMPT,
+                 strict: bool = False):
         self.model = model
+        self.prompt_version = prompt_version
+        self.strict = strict
         self._fallback = MockExplainer()
 
-    def explain(self, evidence: dict) -> Explanation:
-        try:
-            import anthropic
-            client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
-            msg = client.messages.create(
-                model=self.model, max_tokens=1200, system=SYSTEM_PROMPT,
-                messages=[{"role": "user", "content": self._user_prompt(evidence)}],
-            )
-            return self._parse(msg.content[0].text, evidence, self.model)
-        except Exception as exc:  # network, key, or malformed JSON
-            exp = self._fallback.explain(evidence)
-            exp.model = f"mock (fallback: {type(exc).__name__})"
-            return exp
+    def complete(self, evidence: dict) -> str:
+        import anthropic
+        client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+        msg = client.messages.create(
+            model=self.model, max_tokens=1200, temperature=0, system=self.system_prompt,
+            messages=[{"role": "user", "content": self._user_prompt(evidence)}],
+        )
+        return msg.content[0].text
 
     def answer(self, question: str, context: dict) -> str:
         try:
@@ -307,25 +479,23 @@ class ClaudeExplainer(_APIExplainer):
 class OpenAIExplainer(_APIExplainer):
     name = "openai"
 
-    def __init__(self, model: str = "gpt-4o-mini"):
+    def __init__(self, model: str = "gpt-4o-mini", prompt_version: str = DEFAULT_PROMPT,
+                 strict: bool = False):
         self.model = model
+        self.prompt_version = prompt_version
+        self.strict = strict
         self._fallback = MockExplainer()
 
-    def explain(self, evidence: dict) -> Explanation:
-        try:
-            from openai import OpenAI
-            client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
-            resp = client.chat.completions.create(
-                model=self.model,
-                response_format={"type": "json_object"},
-                messages=[{"role": "system", "content": SYSTEM_PROMPT},
-                          {"role": "user", "content": self._user_prompt(evidence)}],
-            )
-            return self._parse(resp.choices[0].message.content, evidence, self.model)
-        except Exception as exc:
-            exp = self._fallback.explain(evidence)
-            exp.model = f"mock (fallback: {type(exc).__name__})"
-            return exp
+    def complete(self, evidence: dict) -> str:
+        from openai import OpenAI
+        client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+        resp = client.chat.completions.create(
+            model=self.model, temperature=0,
+            response_format={"type": "json_object"},
+            messages=[{"role": "system", "content": self.system_prompt},
+                      {"role": "user", "content": self._user_prompt(evidence)}],
+        )
+        return resp.choices[0].message.content
 
     def answer(self, question: str, context: dict) -> str:
         try:
@@ -344,10 +514,68 @@ class OpenAIExplainer(_APIExplainer):
                 self._fallback.answer(question, context)
 
 
-def get_explainer(kind: str | None = None) -> Explainer:
+class ChatExplainer(_APIExplainer):
+    """Any OpenAI-compatible /chat/completions endpoint, with no SDK.
+
+    Configure with CHAT_BASE_URL (for example https://host/v1), CHAT_MODEL
+    and, if the service needs one, CHAT_API_KEY. The key is read from the
+    environment at call time and is never written to a result file.
+    """
+
+    name = "chat"
+
+    def __init__(self, model: str | None = None, base_url: str | None = None,
+                 prompt_version: str = DEFAULT_PROMPT, strict: bool = False,
+                 timeout_s: float = 900.0, max_tokens: int = 1200):
+        self.model = model or os.environ.get("CHAT_MODEL", "")
+        self.base_url = (base_url or os.environ.get("CHAT_BASE_URL", "")).rstrip("/")
+        self.prompt_version = prompt_version
+        self.strict = strict
+        self.timeout_s = timeout_s
+        self.max_tokens = max_tokens
+        self._fallback = MockExplainer()
+
+    def request_body(self, evidence: dict) -> dict:
+        return {
+            "model": self.model,
+            "temperature": 0,
+            "max_tokens": self.max_tokens,
+            "messages": [{"role": "system", "content": self.system_prompt},
+                         {"role": "user", "content": self._user_prompt(evidence)}],
+        }
+
+    def complete(self, evidence: dict) -> str:
+        if not self.base_url or not self.model:
+            raise RuntimeError("Set CHAT_BASE_URL and CHAT_MODEL to use the chat explainer")
+        headers = {"Content-Type": "application/json"}
+        key = os.environ.get("CHAT_API_KEY")
+        if key:
+            headers["Authorization"] = f"Bearer {key}"
+        req = urllib.request.Request(f"{self.base_url}/chat/completions",
+                                     data=json.dumps(self.request_body(evidence)).encode(),
+                                     headers=headers, method="POST")
+        with urllib.request.urlopen(req, timeout=self.timeout_s) as resp:
+            payload = json.loads(resp.read().decode())
+        return payload["choices"][0]["message"]["content"]
+
+    def answer(self, question: str, context: dict) -> str:
+        return self._fallback.answer(question, context)
+
+
+def timed(fn, *args) -> tuple[Any, float]:
+    """Call fn and return (result, seconds)."""
+    t0 = time.perf_counter()
+    out = fn(*args)
+    return out, time.perf_counter() - t0
+
+
+def get_explainer(kind: str | None = None, **kwargs) -> Explainer:
     kind = (kind or os.environ.get("EXPLAINER", "mock")).lower()
+    kwargs.setdefault("prompt_version", os.environ.get("PROMPT_VERSION", DEFAULT_PROMPT))
     if kind in ("claude", "anthropic"):
-        return ClaudeExplainer(os.environ.get("CLAUDE_MODEL", "claude-sonnet-4-5"))
+        return ClaudeExplainer(os.environ.get("CLAUDE_MODEL", "claude-sonnet-4-5"), **kwargs)
     if kind in ("openai", "gpt"):
-        return OpenAIExplainer(os.environ.get("OPENAI_MODEL", "gpt-4o-mini"))
+        return OpenAIExplainer(os.environ.get("OPENAI_MODEL", "gpt-4o-mini"), **kwargs)
+    if kind in ("chat", "rcd", "compatible"):
+        return ChatExplainer(**kwargs)
     return MockExplainer()
