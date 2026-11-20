@@ -34,6 +34,24 @@ Car-Hacking (one vehicle, 4 attack captures, 1 attack-free capture)
                  the rest and the tail are evaluation. The dataset has one
                  capture per attack, so a within-capture split is the only
                  one available; the two parts are disjoint in time.
+
+can-train-and-test (four vehicles; Lampe and Meng, 2023)
+    Added on Nov 20, after every prompt, control rule and detector setting
+    had been fixed. Nothing is tuned on it. Each vehicle is used only
+    through the curated set in which it is the known vehicle, so its
+    baseline and its attacks come from the same car:
+        Impala     set_01  reference train_01/attack-free-1, false alarms
+                           from train_01/attack-free-2; attacks from test_01
+                           (DoS, rpm, force-neutral, standstill) and test_03
+                           (fuzzing, speed)
+        Traverse   set_02  reference attack-free-1, false alarms attack-free-2;
+                           test_03 (DoS, rpm, standstill), test_01 (fuzzing, speed)
+        Silverado  set_03  reference attack-free-3, false alarms attack-free-4;
+                           test_01 (DoS, force-neutral, fuzzing)
+        Forester   set_04  reference attack-free-3, false alarms attack-free-4;
+                           test_03 (DoS, force-neutral, fuzzing)
+    The other captures (double, triple, interval, systematic, accessory,
+    and the train_01 attack captures) are not used.
 """
 from __future__ import annotations
 
@@ -46,6 +64,19 @@ BACKEND = Path(__file__).resolve().parents[1]
 _ROOTS = {
     "hcrl": ["data/raw/hcrl-car-hacking", "data/9) Car-Hacking Dataset", "data/hcrl"],
     "road": ["data/raw/road/road", "data/road/road", "data/road"],
+    "ctt": ["data/ctt/can-train-and-test", "data/ctt/cantrainandtest/can-train-and-test"],
+}
+CTT_VEHICLES = {
+    "impala": ("set_01", "attack-free-1", "attack-free-2",
+               {"test_01_known_vehicle_known_attack": ["DoS", "rpm", "force-neutral", "standstill"],
+                "test_03_known_vehicle_unknown_attack": ["fuzzing", "speed"]}),
+    "traverse": ("set_02", "attack-free-1", "attack-free-2",
+                 {"test_03_known_vehicle_unknown_attack": ["DoS", "rpm", "standstill"],
+                  "test_01_known_vehicle_known_attack": ["fuzzing", "speed"]}),
+    "silverado": ("set_03", "attack-free-3", "attack-free-4",
+                  {"test_01_known_vehicle_known_attack": ["DoS", "force-neutral", "fuzzing"]}),
+    "forester": ("set_04", "attack-free-3", "attack-free-4",
+                 {"test_03_known_vehicle_unknown_attack": ["DoS", "force-neutral", "fuzzing"]}),
 }
 
 HCRL_REFERENCE_S = (0.0, 120.0)
@@ -76,6 +107,8 @@ def find_root(dataset: str, backend: Path = BACKEND) -> Path:
         if dataset == "hcrl" and (root / "DoS_dataset.csv").exists():
             return root
         if dataset == "road" and (root / "attacks" / "capture_metadata.json").exists():
+            return root
+        if dataset == "ctt" and (root / "set_01" / "train_01" / "attack-free-1.csv").exists():
             return root
     raise FileNotFoundError(
         f"{dataset} data not found under {backend}. Looked in: {', '.join(_ROOTS[dataset])}")
@@ -126,5 +159,38 @@ def hcrl_catalog(backend: Path = BACKEND) -> list[Capture]:
     return out
 
 
+def ctt_catalog(backend: Path = BACKEND) -> list[Capture]:
+    """Captures are named '<vehicle>/<file stem>', e.g. 'impala/DoS-3'."""
+    from .loader import CTT_ATTACK_TYPES, ctt_family
+    root = find_root("ctt", backend)
+    out: list[Capture] = []
+    for vehicle, (set_name, ref, ambient, subsets) in CTT_VEHICLES.items():
+        base = root / set_name
+        if not (base / "train_01" / f"{ref}.csv").exists():
+            continue
+        out.append(Capture("ctt", f"{vehicle}/{ref}", base / "train_01" / f"{ref}.csv", "ambient",
+                           role="reference", meta={"vehicle": vehicle}))
+        out.append(Capture("ctt", f"{vehicle}/{ambient}", base / "train_01" / f"{ambient}.csv",
+                           "ambient", role="evaluation", meta={"vehicle": vehicle}))
+        for sub, families in subsets.items():
+            for path in sorted((base / sub).glob("*.csv")):
+                fam = ctt_family(path.stem)
+                if fam in families:
+                    out.append(Capture("ctt", f"{vehicle}/{path.stem}", path, "attack",
+                                       attack_type=CTT_ATTACK_TYPES[fam], family=fam,
+                                       role="evaluation",
+                                       meta={"vehicle": vehicle, "subset": sub}))
+    return out
+
+
+def ctt_capture_name(path: Path) -> str:
+    """'impala/DoS-3' for .../set_01/test_01_.../DoS-3.csv."""
+    set_name = path.parent.parent.name
+    vehicle = next(v for v, spec in CTT_VEHICLES.items() if spec[0] == set_name)
+    return f"{vehicle}/{path.stem}"
+
+
 def catalog(dataset: str, backend: Path = BACKEND) -> list[Capture]:
+    if dataset == "ctt":
+        return ctt_catalog(backend)
     return road_catalog(backend) if dataset == "road" else hcrl_catalog(backend)

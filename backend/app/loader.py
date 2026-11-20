@@ -225,6 +225,43 @@ def load_synthetic(duration_s: float = 120.0, seed: int = 7,
 
 _CH_ATTACK_TYPES = {"dos": "dos", "fuzzy": "fuzzing", "gear": "spoofing", "rpm": "spoofing"}
 
+CTT_HEADER = "timestamp,arbitration_id,data_field,attack"
+# can-train-and-test file families (Lampe and Meng, 2023) in the explainer
+# vocabulary. RPM, gear (force-neutral), standstill, speed and the combined
+# double/triple attacks inject frames for an ID the vehicle already sends,
+# alongside the legitimate ones: fabrication, which this project calls
+# spoofing. DoS floods one ID; fuzzing sends random IDs and payloads.
+CTT_ATTACK_TYPES = {"DoS": "dos", "fuzzing": "fuzzing", "systematic": "fuzzing",
+                    "rpm": "spoofing", "force-neutral": "spoofing", "standstill": "spoofing",
+                    "speed": "spoofing", "double": "spoofing", "triple": "spoofing",
+                    "interval": "spoofing", "accessory": "spoofing"}
+
+
+def ctt_family(stem: str) -> str:
+    """'force-neutral' for 'force-neutral-3'."""
+    head, _, tail = stem.rpartition("-")
+    return head if tail.isdigit() else stem
+
+
+def load_ctt(path: str, attack_type: str | None = None) -> pd.DataFrame:
+    """Load a can-train-and-test CSV: timestamp, hex arbitration_id, hex data_field,
+    attack (1 = injected frame). The label is per frame."""
+    raw = pd.read_csv(path, dtype={"arbitration_id": str, "data_field": str, "attack": int})
+    if attack_type is None:
+        attack_type = CTT_ATTACK_TYPES.get(ctt_family(Path(path).stem), "injected")
+    payload = raw["data_field"].fillna("")
+    ts = raw["timestamp"].astype(float)
+    df = pd.DataFrame({
+        "timestamp": ts - ts.min(),
+        "can_id": raw["arbitration_id"].map(lambda v: int(v, 16)),
+        "dlc": payload.str.len() // 2,
+        "data": payload.map(lambda h: list(bytes.fromhex(h))),
+        "label": raw["attack"].astype(int),
+    })
+    df["attack_type"] = [attack_type if x else "normal" for x in df["label"]]
+    df.attrs["source"] = "can-train-and-test"
+    return df.sort_values("timestamp", kind="stable").reset_index(drop=True)
+
 
 def load_auto(path: str) -> pd.DataFrame:
     """Guess the format from the first line.
@@ -245,6 +282,8 @@ def load_auto(path: str) -> pd.DataFrame:
         return load_candump(path, meta=meta, attack_type=road_attack_type(p.stem))
     if low.startswith("timestamp:"):
         return load_carhacking_txt(path)
+    if low.strip() == CTT_HEADER:
+        return load_ctt(path)
     if "label" in low and ("time" in low or "timestamp" in low) and "data" in low:
         return load_road(path)
     atype = _CH_ATTACK_TYPES.get(p.stem.split("_")[0].lower(), "injected")

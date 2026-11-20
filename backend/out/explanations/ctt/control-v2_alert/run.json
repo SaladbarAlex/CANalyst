@@ -1,0 +1,17 @@
+{
+  "set": "ctt",
+  "run": "control-v2_alert",
+  "explainer": "control",
+  "model": "rule-based control (rules v2)",
+  "scope": "alert",
+  "control_rules": "v2",
+  "prompt_version": null,
+  "prompt_sha256": null,
+  "temperature": null,
+  "max_tokens": null,
+  "strict": true,
+  "fallbacks": 0,
+  "alerts": 101,
+  "errors": 0,
+  "updated_utc": "2026-11-20T18:05:19.309878+00:00"
+}

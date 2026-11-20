@@ -40,6 +40,11 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _slice_prefix(path: Path) -> str:
+    """can-train-and-test reuses file names across vehicles (attack-free-2 ...)."""
+    return f"{path.parent.parent.name}_" if "can-train-and-test" in str(path) else ""
+
+
 def timestamp(line: str) -> float:
     if line.startswith("Timestamp:"):
         return float(line.split()[1])
@@ -59,7 +64,7 @@ def capture(path: Path, out: Path, *, start: float = 0.0,
     if stop is not None:
         # Keep derivative raw traffic under the project's ignored data tree.
         target = (BACKEND / "data/evaluation_inputs" / out.parent.name / out.name /
-                  f"{path.stem}_{start:g}_{stop:g}" / path.name)
+                  f"{_slice_prefix(path)}{path.stem}_{start:g}_{stop:g}" / path.name)
         target.parent.mkdir(parents=True, exist_ok=True)
         first = None
         previous = None
@@ -67,6 +72,9 @@ def capture(path: Path, out: Path, *, start: float = 0.0,
         with original.open() as source, target.open("w") as dest:
             for line in source:
                 if not line.strip():
+                    continue
+                if line.startswith("timestamp,"):      # can-train-and-test header
+                    dest.write(line)
                     continue
                 ts = timestamp(line)
                 if first is None:
@@ -86,7 +94,8 @@ def capture(path: Path, out: Path, *, start: float = 0.0,
         path = target
     else:
         with original.open() as stream:
-            count = sum(bool(line.strip()) for line in stream)
+            count = sum(bool(line.strip()) and not line.startswith("timestamp,")
+                        for line in stream)
     df = loader.load_auto(str(path))
     if len(df) != count:
         raise ValueError(f"{original}: selected {count} nonempty lines but loaded {len(df)} frames")
