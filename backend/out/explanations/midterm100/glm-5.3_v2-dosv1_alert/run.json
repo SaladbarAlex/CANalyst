@@ -11,8 +11,8 @@
   "max_tokens": 16000,
   "strict": true,
   "fallbacks": 0,
-  "alerts": 30,
+  "alerts": 99,
   "errors": 0,
-  "note": "ROAD alerts only (--dataset road). Run in time-limited chunks; one false-alarm alert (of 31) never finished inside a chunk and has no reply. run.json written after the fact.",
-  "updated_utc": "2026-11-17T23:12:53.193515+00:00"
+  "updated_utc": "2026-11-20T17:00:17.572115+00:00",
+  "note": "99 of 100 alerts. Run in time-limited chunks; one ROAD false-alarm alert never finished inside a chunk and has no reply."
 }
