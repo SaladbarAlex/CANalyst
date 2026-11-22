@@ -9,6 +9,7 @@ Use the tasks below to assign the remaining research and release work.
 - Incoming revision: `origin/main` at `ab491d5`.
 - Shared base: `b8201f1`. The branches contained six local commits and thirteen incoming commits.
 - Local snapshot: `25e918f` preserves all 509 previously staged files.
+- Merge commit: `803f4db` combines the local snapshot with `origin/main`.
 - Existing untracked files remain separate. They include model expansion outputs, source snapshots, proposal documents, and `.gitattributes`.
 - No remote push or deployment was requested.
 
@@ -132,7 +133,12 @@ Done when: documentation matches the measured results and the proposed publicati
 - Incoming artifacts: all 54 saved files match `origin/main` byte for byte.
 - Source checks: no conflict markers or whitespace errors remain outside preserved result artifacts.
 - Hosted calls: none were made during integration verification.
-- Browser verification awaits permission to launch Chrome outside the workspace sandbox.
+- Browser: 19 checks passed, including actual ROAD uploads, installed ROAD startup, and desktop/mobile benchmark views.
+- Browser errors: no page errors or unexpected HTTP/console errors occurred.
+- UI audit: no critical or high-priority findings remain in the changed view.
+
+Browser evidence is saved locally at `/private/tmp/canalyst-merge-ui-2026-11-22/results.json`.
+The audit is saved at `.impeccable/audit/2026-11-22T22-44-41Z__c-components-evaluationbenchmarkpanel-jsx-fbfa76a8.md`.
 
 The frontend build retains its existing large JavaScript bundle advisory.
 Full detector benchmarks and hosted-model experiments were not rerun for this merge.

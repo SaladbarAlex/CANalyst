@@ -326,6 +326,17 @@ try {
     assert.doesNotMatch(await page.locator('main').innerText(), /MOCKED_STALE_ID_ROW/)
     await page.unroute(listIdsPath, handler)
   })
+  await step('Installed ROAD capture opens by default', 'live startup API with separate normal baseline', async () => {
+    const response = page.waitForResponse((r) => new URL(r.url()).pathname === '/api/analyze/real-example')
+    await page.goto(baseURL, { waitUntil: 'domcontentloaded' })
+    const summary = await (await response).json()
+    assert.equal(summary.frame_count, 41829)
+    assert.match(summary.source, /correlated_signal_attack_3/)
+    assert.ok(summary.baseline_source)
+    await page.getByRole('button', { name: 'Re-explain', exact: true }).waitFor({ state: 'visible', timeout: 60000 })
+    await screenshot('real-road-default-startup')
+    return { frame_count: summary.frame_count, source: summary.source, baseline_source: summary.baseline_source }
+  })
   assert.equal(results.pageErrors.length, 0)
   results.unexpectedHttpErrors = results.httpErrors.filter((e) =>
     !(e.phase === 'Invalid ROAD metadata is reported before analysis' && e.status === 400))
