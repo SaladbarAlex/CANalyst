@@ -18,6 +18,9 @@ comparisons. Hosted explanations require an explicit action.
 Read the [changes and remaining-work PDF](output/pdf/CANalyst_Changes_and_Remaining_Work_2026-10-30.pdf)
 for the full controls audit, results, limitations, and research priorities.
 
+Read the [November integration and agent handoff](docs/INTEGRATION_HANDOFF_2026-11-22.md)
+for the combined branch status, experiment coverage, and remaining tasks.
+
 ## Quick start
 
 Two terminals. The backend first.

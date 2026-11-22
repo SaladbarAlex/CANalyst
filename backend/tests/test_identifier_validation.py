@@ -40,6 +40,16 @@ def test_unqualified_hex_is_review_only_and_not_an_id_assertion():
     assert not identifier_warnings({"summary": "Payload 0x1122334455667788"}, evidence())
 
 
+def test_whole_alert_frame_counts_are_not_treated_as_samples():
+    packet = {"items": [
+        {"id": "E0", "kind": "alert", "detail": {"frames": 2411}},
+        {"id": "E1", "kind": "frames", "detail": {"frames": [{"can_id": "0x655"}]}},
+    ]}
+    assert identifier_warnings({"summary": "CAN ID 0x655 appeared"}, packet) == []
+    warning, = identifier_warnings({"summary": "CAN ID 0x055 appeared"}, packet)
+    assert warning["code"] == "can_id_not_in_evidence"
+
+
 def test_validator_version_participates_in_cache_identity(monkeypatch):
     import app.llm as llm
     before = explainer_key(RCDExplainer())

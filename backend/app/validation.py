@@ -29,7 +29,9 @@ def evidence_identifiers(evidence: dict) -> set[int]:
         detail = item.get("detail", {})
         if detail.get("can_id") is not None:
             tokens.append(detail["can_id"])
-        frames.extend(detail.get("frames", []))
+        # Alert summaries use "frames" as a count; frame samples use a list.
+        if isinstance(detail.get("frames"), list):
+            frames.extend(detail["frames"])
     tokens.extend(frame.get("can_id") for frame in frames)
     allowed = set()
     for token in tokens:

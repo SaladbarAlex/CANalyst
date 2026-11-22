@@ -12,11 +12,40 @@ import ValidationWarnings from '../src/components/ValidationWarnings'
 import { AlertReasoning, Prediction, predictionType } from '../src/components/BenchmarkPanel'
 import TimelineChart from '../src/components/TimelineChart'
 import AlertList from '../src/components/AlertList'
+import { DetectionSection, ExplainerSection, SubmitSection, runLabel } from '../src/components/EvaluationBenchmarkPanel'
 
 const alert = { alert_id: 0, start: 1, end: 2, score: 0.8, true_type: 'dos',
   frame_count: 100, reasons: ['High rate'], components: { rate: 0.8 }, ids_involved: ['0x000'] }
 const report = { detection: { labeled: false }, classification: { accuracy: null },
   grounding: { grounded_rate: null }, explained_alerts: 0, total_alerts: 2 }
+
+test('frozen benchmark views handle missing intervals and explain held-out coverage', () => {
+  const missing = { value: null, lo: null, hi: null }
+  const html = renderToStaticMarkup(<DetectionSection data={{ datasets: [{ dataset: 'road',
+    split: { evaluation: { windows: 12, attack_windows: 0 } }, references: { pooled: {
+      reference_captures: ['normal'], reference_seconds: 30,
+      detectors: { iforest: { precision: missing, recall: missing, f1: missing, fpr: missing, auroc: null } },
+    } },
+  }] }} />)
+  assert.match(html, /Interval unavailable/)
+  assert.match(html, /IsolationForest/)
+  assert.doesNotMatch(html, /NaN/)
+  const explanation = renderToStaticMarkup(<ExplainerSection data={{ heldout: {
+    alerts: 77, datasets: ['hcrl', 'road'], runs: {}, pairs: {},
+  } }} />)
+  assert.match(explanation, /70 Car-Hacking attack alerts and seven ROAD false alarms/)
+  assert.match(explanation, /no ROAD attack alerts/)
+})
+
+test('prediction submission requires an available alert set and labeled inputs', () => {
+  assert.equal(renderToStaticMarkup(<SubmitSection sets={[]} />), '')
+  const html = renderToStaticMarkup(<SubmitSection sets={['heldout']} />)
+  assert.match(html, /for="submission-set"/)
+  assert.match(html, /for="submission-name"/)
+  assert.match(html, /for="submission-file"/)
+  assert.match(html, /\/api\/benchmark\/explainers\/heldout\/packets/)
+  assert.equal(runLabel('glm-5.3_v2-dosv1_alert'), 'glm-5.3 (v2, Oct 21 DoS line)')
+})
 
 test('unlabeled capture still supports explanation without displaying accuracy', () => {
   const html = renderToStaticMarkup(<MetricsPanel report={report} alertCount={2} explainerLabel="Gemma" />)
@@ -191,7 +220,7 @@ test('detection benchmark uses the read-only saved-results endpoint', async () =
   try {
     assert.deepEqual(await api.detectionBenchmark(), { runs: [], errors: [] })
     assert.equal(calls.length, 1)
-    assert.equal(calls[0].url, '/api/benchmark/detection')
+    assert.equal(calls[0].url, '/api/benchmark/detectors')
     assert.equal(calls[0].options.method, undefined)
     assert.equal(calls[0].options.body, undefined)
   } finally { globalThis.fetch = before }

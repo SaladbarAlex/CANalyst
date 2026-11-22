@@ -13,12 +13,13 @@ from typing import Literal
 import os
 import threading
 
-from fastapi import FastAPI, File, HTTPException, UploadFile, Query
+from fastapi import FastAPI, File, Form, HTTPException, UploadFile, Query
+from fastapi.responses import PlainTextResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from starlette.middleware.gzip import GZipMiddleware
 
-from . import benchmark, loader, pipeline
+from . import benchmark, benchmarks, loader, pipeline
 from .llm import explainer_options, get_explainer as _configured_explainer
 from .pipeline import STORE
 
@@ -84,7 +85,7 @@ def saved_benchmark() -> dict:
     return benchmark.load()
 
 
-@app.get("/api/benchmark/detection")
+@app.get("/api/benchmark/detectors")
 def saved_detection_benchmark() -> dict:
     return benchmark.load_detection()
 
@@ -263,3 +264,49 @@ def ask(analysis_id: str, req: AskRequest) -> dict:
     context = a.ask_context(explainer)
     return {"question": req.question, "answer": explainer.answer(req.question, context),
             "explainer": explainer.name}
+
+
+
+# --------------------------------------------------------------------------
+# Saved benchmarks (Evaluation tab)
+# --------------------------------------------------------------------------
+
+@app.get("/api/benchmark/detection")
+def benchmark_detection() -> dict:
+    data = benchmarks.detection()
+    if data is None:
+        raise HTTPException(404, "No detection benchmark saved. Run python -m scripts.benchmark.")
+    return data
+
+
+@app.get("/api/benchmark/explainers")
+def benchmark_explainers() -> dict:
+    return benchmarks.explainers()
+
+
+@app.get("/api/benchmark/explainers/{set_name}/compare")
+def benchmark_compare(set_name: str, a: str, b: str) -> dict:
+    try:
+        return benchmarks.compare(set_name, a, b)
+    except KeyError as exc:
+        raise HTTPException(404, str(exc.args[0]))
+
+
+@app.get("/api/benchmark/explainers/{set_name}/packets", response_class=PlainTextResponse)
+def benchmark_packets(set_name: str) -> str:
+    try:
+        return benchmarks.packets(set_name)
+    except KeyError as exc:
+        raise HTTPException(404, str(exc.args[0]))
+
+
+@app.post("/api/benchmark/explainers/{set_name}/submit")
+async def benchmark_submit(set_name: str, name: str = Form(...), description: str = Form(""),
+                           file: UploadFile = File(...)) -> dict:
+    raw = await file.read(benchmarks.MAX_SUBMISSION_BYTES + 1)
+    try:
+        return benchmarks.submit(set_name, name, raw, description)
+    except KeyError as exc:
+        raise HTTPException(404, str(exc.args[0]))
+    except benchmarks.SubmissionError as exc:
+        raise HTTPException(400, str(exc))

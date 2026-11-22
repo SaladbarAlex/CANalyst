@@ -1,0 +1,17 @@
+{
+  "set": "heldout",
+  "run": "gemma-4-31b_v2-dosv1_alert",
+  "explainer": "chat",
+  "model": "gemma-4-31b",
+  "scope": "alert",
+  "control_rules": null,
+  "prompt_version": "v2-dosv1",
+  "prompt_sha256": "bc82eb03785ea96f6cbbcb7528e2d6863e2a171c015896c2ea7b2a357aadcb52",
+  "temperature": 0,
+  "max_tokens": 16000,
+  "strict": true,
+  "fallbacks": 0,
+  "alerts": 77,
+  "errors": 0,
+  "updated_utc": "2026-11-17T22:49:51.587380+00:00"
+}

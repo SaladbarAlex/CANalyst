@@ -1,0 +1,293 @@
+{
+  "set": "heldout",
+  "seed": 0,
+  "per_run": 10,
+  "runs": [
+    "control-v2_alert",
+    "gemma-4-31b_v2_alert",
+    "glm-5.3_v2_alert",
+    "qwen3.6-27b-fp8_v2_alert"
+  ],
+  "claims": {
+    "C001": {
+      "run": "control-v2_alert",
+      "scope": "alert",
+      "alert": "A0023",
+      "claim_index": 1,
+      "true_type": "fuzzing"
+    },
+    "C002": {
+      "run": "qwen3.6-27b-fp8_v2_alert",
+      "scope": "alert",
+      "alert": "A0013",
+      "claim_index": 0,
+      "true_type": "dos"
+    },
+    "C003": {
+      "run": "qwen3.6-27b-fp8_v2_alert",
+      "scope": "alert",
+      "alert": "A0011",
+      "claim_index": 0,
+      "true_type": "dos"
+    },
+    "C004": {
+      "run": "control-v2_alert",
+      "scope": "alert",
+      "alert": "A0001",
+      "claim_index": 0,
+      "true_type": "dos"
+    },
+    "C005": {
+      "run": "qwen3.6-27b-fp8_v2_alert",
+      "scope": "alert",
+      "alert": "A0014",
+      "claim_index": 3,
+      "true_type": "dos"
+    },
+    "C006": {
+      "run": "control-v2_alert",
+      "scope": "alert",
+      "alert": "A0012",
+      "claim_index": 0,
+      "true_type": "dos"
+    },
+    "C007": {
+      "run": "qwen3.6-27b-fp8_v2_alert",
+      "scope": "alert",
+      "alert": "A0022",
+      "claim_index": 3,
+      "true_type": "fuzzing"
+    },
+    "C008": {
+      "run": "gemma-4-31b_v2_alert",
+      "scope": "alert",
+      "alert": "A0000",
+      "claim_index": 5,
+      "true_type": "dos"
+    },
+    "C009": {
+      "run": "gemma-4-31b_v2_alert",
+      "scope": "alert",
+      "alert": "A0021",
+      "claim_index": 5,
+      "true_type": "fuzzing"
+    },
+    "C010": {
+      "run": "gemma-4-31b_v2_alert",
+      "scope": "alert",
+      "alert": "A0025",
+      "claim_index": 1,
+      "true_type": "fuzzing"
+    },
+    "C011": {
+      "run": "glm-5.3_v2_alert",
+      "scope": "alert",
+      "alert": "A0036",
+      "claim_index": 2,
+      "true_type": "spoofing"
+    },
+    "C012": {
+      "run": "gemma-4-31b_v2_alert",
+      "scope": "alert",
+      "alert": "A0013",
+      "claim_index": 1,
+      "true_type": "dos"
+    },
+    "C013": {
+      "run": "glm-5.3_v2_alert",
+      "scope": "alert",
+      "alert": "A0021",
+      "claim_index": 2,
+      "true_type": "fuzzing"
+    },
+    "C014": {
+      "run": "glm-5.3_v2_alert",
+      "scope": "alert",
+      "alert": "A0028",
+      "claim_index": 7,
+      "true_type": "fuzzing"
+    },
+    "C015": {
+      "run": "qwen3.6-27b-fp8_v2_alert",
+      "scope": "alert",
+      "alert": "A0026",
+      "claim_index": 0,
+      "true_type": "fuzzing"
+    },
+    "C016": {
+      "run": "qwen3.6-27b-fp8_v2_alert",
+      "scope": "alert",
+      "alert": "A0034",
+      "claim_index": 0,
+      "true_type": "spoofing"
+    },
+    "C017": {
+      "run": "glm-5.3_v2_alert",
+      "scope": "alert",
+      "alert": "A0001",
+      "claim_index": 0,
+      "true_type": "dos"
+    },
+    "C018": {
+      "run": "control-v2_alert",
+      "scope": "alert",
+      "alert": "A0047",
+      "claim_index": 0,
+      "true_type": "spoofing"
+    },
+    "C019": {
+      "run": "qwen3.6-27b-fp8_v2_alert",
+      "scope": "alert",
+      "alert": "A0073",
+      "claim_index": 4,
+      "true_type": "normal"
+    },
+    "C020": {
+      "run": "gemma-4-31b_v2_alert",
+      "scope": "alert",
+      "alert": "A0012",
+      "claim_index": 3,
+      "true_type": "dos"
+    },
+    "C021": {
+      "run": "gemma-4-31b_v2_alert",
+      "scope": "alert",
+      "alert": "A0043",
+      "claim_index": 3,
+      "true_type": "spoofing"
+    },
+    "C022": {
+      "run": "glm-5.3_v2_alert",
+      "scope": "alert",
+      "alert": "A0011",
+      "claim_index": 8,
+      "true_type": "dos"
+    },
+    "C023": {
+      "run": "control-v2_alert",
+      "scope": "alert",
+      "alert": "A0076",
+      "claim_index": 0,
+      "true_type": "normal"
+    },
+    "C024": {
+      "run": "gemma-4-31b_v2_alert",
+      "scope": "alert",
+      "alert": "A0076",
+      "claim_index": 4,
+      "true_type": "normal"
+    },
+    "C025": {
+      "run": "gemma-4-31b_v2_alert",
+      "scope": "alert",
+      "alert": "A0037",
+      "claim_index": 4,
+      "true_type": "spoofing"
+    },
+    "C026": {
+      "run": "control-v2_alert",
+      "scope": "alert",
+      "alert": "A0072",
+      "claim_index": 1,
+      "true_type": "normal"
+    },
+    "C027": {
+      "run": "gemma-4-31b_v2_alert",
+      "scope": "alert",
+      "alert": "A0072",
+      "claim_index": 4,
+      "true_type": "normal"
+    },
+    "C028": {
+      "run": "gemma-4-31b_v2_alert",
+      "scope": "alert",
+      "alert": "A0017",
+      "claim_index": 0,
+      "true_type": "fuzzing"
+    },
+    "C029": {
+      "run": "control-v2_alert",
+      "scope": "alert",
+      "alert": "A0013",
+      "claim_index": 0,
+      "true_type": "dos"
+    },
+    "C030": {
+      "run": "qwen3.6-27b-fp8_v2_alert",
+      "scope": "alert",
+      "alert": "A0025",
+      "claim_index": 2,
+      "true_type": "fuzzing"
+    },
+    "C031": {
+      "run": "glm-5.3_v2_alert",
+      "scope": "alert",
+      "alert": "A0072",
+      "claim_index": 3,
+      "true_type": "normal"
+    },
+    "C032": {
+      "run": "glm-5.3_v2_alert",
+      "scope": "alert",
+      "alert": "A0018",
+      "claim_index": 6,
+      "true_type": "fuzzing"
+    },
+    "C033": {
+      "run": "glm-5.3_v2_alert",
+      "scope": "alert",
+      "alert": "A0061",
+      "claim_index": 4,
+      "true_type": "spoofing"
+    },
+    "C034": {
+      "run": "glm-5.3_v2_alert",
+      "scope": "alert",
+      "alert": "A0071",
+      "claim_index": 1,
+      "true_type": "normal"
+    },
+    "C035": {
+      "run": "control-v2_alert",
+      "scope": "alert",
+      "alert": "A0022",
+      "claim_index": 1,
+      "true_type": "fuzzing"
+    },
+    "C036": {
+      "run": "glm-5.3_v2_alert",
+      "scope": "alert",
+      "alert": "A0016",
+      "claim_index": 8,
+      "true_type": "dos"
+    },
+    "C037": {
+      "run": "qwen3.6-27b-fp8_v2_alert",
+      "scope": "alert",
+      "alert": "A0060",
+      "claim_index": 4,
+      "true_type": "spoofing"
+    },
+    "C038": {
+      "run": "control-v2_alert",
+      "scope": "alert",
+      "alert": "A0022",
+      "claim_index": 0,
+      "true_type": "fuzzing"
+    },
+    "C039": {
+      "run": "qwen3.6-27b-fp8_v2_alert",
+      "scope": "alert",
+      "alert": "A0073",
+      "claim_index": 5,
+      "true_type": "normal"
+    },
+    "C040": {
+      "run": "control-v2_alert",
+      "scope": "alert",
+      "alert": "A0041",
+      "claim_index": 0,
+      "true_type": "spoofing"
+    }
+  }
+}

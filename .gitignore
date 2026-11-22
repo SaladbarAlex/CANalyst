@@ -13,3 +13,4 @@ backend/data/
 .vscode/
 .claude/
 /tmp/
+backend/out/cache/

@@ -17,6 +17,32 @@ def analysis():
     return pipeline.run_synthetic(duration_s=90, seed=3, attacks=["dos", "spoofing", "masquerade"])
 
 
+def test_merged_versions_keep_live_defaults_and_separate_caches(analysis):
+    from app.evidence import build_evidence
+    from app.llm import CONTROL_VERSION, PROMPT_VERSION
+
+    alert = analysis.alerts[0]
+    live = analysis.evidence_for(alert.alert_id)
+    assert live["schema_version"] == "evidence-v4"
+    for scope in ("alert", "window"):
+        packet = build_evidence(alert, analysis.df, analysis.windows, analysis.baseline, scope=scope)
+        assert packet["scope"] == scope
+        if scope == "alert":
+            assert packet["items"][0]["kind"] == "alert"
+    assert analysis.evidence_for(alert.alert_id) is live
+    assert get_explainer("mock").rules == CONTROL_VERSION
+    assert RCDExplainer().prompt_version == PROMPT_VERSION
+    controls = [MockExplainer(), MockExplainer(rules="v1"), MockExplainer(rules="v2")]
+    assert len({explainer_key(control) for control in controls}) == 3
+    for control in controls:
+        assert analysis.cached_explanation(alert.alert_id, control) is None
+        explanation = analysis.explain(alert.alert_id, control)
+        assert analysis.cached_explanation(alert.alert_id, control) is explanation
+    prompts = [RCDExplainer(), RCDExplainer(prompt_version="v2"),
+               RCDExplainer(prompt_version="v2-dosv1")]
+    assert len({explainer_key(explainer) for explainer in prompts}) == 3
+
+
 def test_unknown_count_is_exact_over_merged_alert(analysis):
     found = False
     for alert in analysis.alerts:
@@ -111,6 +137,8 @@ def test_failed_model_is_not_scored_using_control_prediction():
 
 def test_parse_failure_preserves_token_usage_and_finish_reason(monkeypatch):
     from types import SimpleNamespace as NS
+    from app.llm import SYSTEM_PROMPTS
+    from scripts.run_explanations import answer
     response = NS(model="served-model", choices=[NS(finish_reason="length", message=NS(content=""))],
                   usage=NS(prompt_tokens=90, completion_tokens=1800,
                            completion_tokens_details=NS(reasoning_tokens=1800)))
@@ -123,6 +151,18 @@ def test_parse_failure_preserves_token_usage_and_finish_reason(monkeypatch):
     assert result.fallback and result.error_type == "JSONDecodeError"
     assert result.usage == {"input_tokens": 90, "output_tokens": 1800, "reasoning_tokens": 1800}
     assert result.finish_reason == "length" and result.response_model == "served-model"
+    # The frozen runner must receive and save malformed raw replies before parsing.
+    response.choices[0].message.content = "{unfinished"
+    ex.prompt_version = "v2"
+    ex.strict = True
+    assert ex.system_prompt == SYSTEM_PROMPTS["v2"]
+    assert ex.complete(packet([])) == "{unfinished"
+    recorded = answer(ex, {"id": "A0000", "evidence": packet([])})
+    assert recorded["raw"] == "{unfinished"
+    assert recorded["error"].startswith("JSONDecodeError:")
+    assert recorded["meta"]["usage"]["completion_tokens"] == 1800
+    with pytest.raises(json.JSONDecodeError):
+        ex.explain(packet([]))
 
 
 def test_benchmark_resume_reuses_paid_responses_and_rejects_changed_corpus(tmp_path, monkeypatch):

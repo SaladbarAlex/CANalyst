@@ -523,6 +523,41 @@ footer.foot {
 .batch-status { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center; padding: 12px; margin-bottom: 14px; border: 1px solid var(--border-strong); background: var(--surface-2); }
 .score-controls { margin-bottom: 18px; }
 .benchmark-grid > div { min-width: 0; overflow-x: auto; }
+
+/* Frozen benchmarks remain separate from historical experiment comparisons. */
+.subtabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 16px; }
+.subtab { background: transparent; color: var(--text-secondary); border: 1px solid var(--border); padding: 8px 12px; font-size: 12.5px; min-height: 44px; }
+.subtab[aria-pressed='true'] { color: var(--text-primary); border-color: var(--accent); }
+.benchmarks { display: flex; flex-direction: column; gap: 30px; min-width: 0; }
+.benchmarks .muted, .benchmarks .pval { color: var(--text-secondary); }
+.bench-block { min-width: 0; }
+.bench-block h3 { margin-top: 20px; }
+.bench-block > h3:first-child, .bench-head h3 { margin-top: 0; }
+.bench-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+.bench-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 8px 0; }
+.table-scroll { overflow-x: auto; max-width: 100%; }
+.table-scroll table { min-width: 560px; }
+.bench-chart { min-width: 640px; }
+.pair-matrix td { white-space: nowrap; }
+.pair-matrix .pval { display: block; font-size: 10.5px; font-family: var(--mono); }
+.pair-matrix td.sig-up { background: color-mix(in oklab, var(--good) 14%, transparent); }
+.pair-matrix td.sig-down { background: color-mix(in oklab, var(--critical) 14%, transparent); }
+.disagree-list { display: flex; flex-direction: column; gap: 4px; max-height: 520px; overflow-y: auto; }
+.disagree { border: 1px solid var(--border); border-radius: var(--radius); }
+.disagree.open { border-color: var(--border-strong); }
+.disagree-row { width: 100%; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; background: transparent; color: var(--text-primary); border: 0; padding: 10px; min-height: 44px; text-align: left; font-weight: 400; overflow-wrap: anywhere; }
+.disagree-row:hover:not(:disabled) { background: var(--surface-2); box-shadow: none; }
+.disagree-body { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; padding: 8px 12px 12px; overflow-wrap: anywhere; }
+.disagree-body ul { padding-left: 18px; margin: 4px 0; }
+.disagree-body p { margin: 4px 0; }
+.button-link { font-size: 13px; color: var(--text-primary); text-decoration: underline; text-underline-offset: 3px; }
+.benchmarks select, .benchmarks input:not([type='file']) { width: auto; max-width: 100%; min-width: 0; min-height: 44px; }
+.benchmarks input[type='file'] { max-width: 100%; min-width: 0; }
+.benchmarks .bench-head .bench-controls { margin: 0; }
+.benchmarks .submit-field { display: grid; gap: 4px; max-width: 100%; }
+.benchmarks .submit-field label { color: var(--text-secondary); }
+.benchmarks button { min-height: 44px; }
+@media (max-width: 900px) { .disagree-body { grid-template-columns: 1fr; } }
 @media (max-width: 600px) { .upload-grid { grid-template-columns: minmax(0, 1fr); } }
 
 .identifier-warnings { border-left: 3px solid var(--warning); padding-left: 12px; margin: 10px 0; }

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { api, fmt } from './api'
 import { runExplanationQueue } from './explanationQueue'
 import { loadAnalysisViews } from './analysisLoad'
@@ -11,6 +11,8 @@ import ExplanationPanel from './components/ExplanationPanel'
 import IdView from './components/IdView'
 import MetricsPanel from './components/MetricsPanel'
 import TimelineChart from './components/TimelineChart'
+
+const EvaluationBenchmarkPanel = lazy(() => import('./components/EvaluationBenchmarkPanel'))
 
 const DEFAULTS = {
   duration_s: 150,
@@ -45,6 +47,7 @@ export default function App() {
   const activeView = useRef({})
   activeView.current = { analysisId: summary?.analysis_id, selected, explainer: null }
   const [tab, setTab] = useState('analysis')
+  const [evalView, setEvalView] = useState('capture')
   // The offline control is the default: it is instant, so loading a capture
   // never waits on a model. LLM explanations are fetched one alert at a time.
   const [explainers, setExplainers] = useState([])
@@ -414,8 +417,20 @@ export default function App() {
             {tab === 'ids' ? <IdView analysisId={summary?.analysis_id} ids={ids}
               loading={idsLoading} error={idsError} totalIds={summary?.unique_ids} /> : null}
             {tab === 'metrics' ? (
-              <MetricsPanel report={report} explainer={explainer} explainerLabel={explainerLabel}
-                alertCount={alerts.length} onScore={scoreAll} scoring={scoring} progress={progress} onStop={stopBatch} explaining={explaining} />
+              <div>
+                <div className="subtabs" role="group" aria-label="Evaluation view">
+                  {[['capture', 'This capture'], ['benchmarks', 'Frozen benchmarks']].map(([key, label]) => (
+                    <button key={key} type="button" className="subtab" aria-pressed={evalView === key}
+                      onClick={() => setEvalView(key)}>{label}</button>
+                  ))}
+                </div>
+                {evalView === 'benchmarks' ? (
+                  <Suspense fallback={<p role="status">Loading saved benchmarks...</p>}>
+                    <EvaluationBenchmarkPanel />
+                  </Suspense>
+                ) : <MetricsPanel report={report} explainer={explainer} explainerLabel={explainerLabel}
+                  alertCount={alerts.length} onScore={scoreAll} scoring={scoring} progress={progress} onStop={stopBatch} explaining={explaining} />}
+              </div>
             ) : null}
             {tab === 'ask' ? <AskPanel analysisId={summary?.analysis_id} explainer={explainer} /> : null}
             {tab === 'benchmark' ? <BenchmarkPanel /> : null}

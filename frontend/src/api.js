@@ -19,10 +19,21 @@ async function req(path, options = {}) {
 const q = (explainer) => (explainer ? `?explainer=${encodeURIComponent(explainer)}` : '')
 
 export const api = {
+  benchmarkDetection: () => req('/api/benchmark/detection'),
+  benchmarkExplainers: () => req('/api/benchmark/explainers'),
+  benchmarkCompare: (set, a, b) =>
+    req(`/api/benchmark/explainers/${set}/compare?a=${encodeURIComponent(a)}&b=${encodeURIComponent(b)}`),
+  benchmarkPacketsUrl: (set) => `${BASE}/api/benchmark/explainers/${set}/packets`,
+  benchmarkSubmit: (set, name, file) => {
+    const form = new FormData()
+    form.append('name', name)
+    form.append('file', file)
+    return req(`/api/benchmark/explainers/${set}/submit`, { method: 'POST', body: form })
+  },
   health: () => req('/api/health'),
   explainers: () => req('/api/explainers'),
   benchmark: () => req('/api/benchmark'),
-  detectionBenchmark: () => req('/api/benchmark/detection'),
+  detectionBenchmark: () => req('/api/benchmark/detectors'),
   analyzeRealExample: () => req('/api/analyze/real-example', { method: 'POST' }),
   analyzeSynthetic: (body) =>
     req('/api/analyze/synthetic', { method: 'POST', body: JSON.stringify(body) }),

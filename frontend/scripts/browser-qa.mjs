@@ -15,7 +15,7 @@ const require = createRequire(import.meta.url)
 const modulePath = process.env.CANALYST_PLAYWRIGHT_MODULE || path.resolve(frontend, '../../../soc-hype/node_modules/playwright')
 const { chromium } = require(modulePath)
 const baseURL = process.env.CANALYST_QA_URL || 'http://127.0.0.1:5173'
-const output = path.join(repo, 'backend/out/browser_qa_2026-10-30', new Date().toISOString().replaceAll(':', '-'))
+const output = process.env.CANALYST_QA_OUTPUT || path.join(repo, 'backend/out/browser_qa_2026-10-30', new Date().toISOString().replaceAll(':', '-'))
 mkdirSync(output, { recursive: true })
 const results = { started: new Date().toISOString(), browser: 'local Playwright with installed Google Chrome',
   script_sha256: createHash('sha256').update(readFileSync(script)).digest('hex'), baseURL,
@@ -180,7 +180,7 @@ try {
   })
   await step('Saved detector comparisons and v4 identifier warning', 'live saved-result APIs; no model calls', async () => {
     const explanations = page.waitForResponse((r) => new URL(r.url()).pathname === '/api/benchmark')
-    const detection = page.waitForResponse((r) => new URL(r.url()).pathname === '/api/benchmark/detection')
+    const detection = page.waitForResponse((r) => new URL(r.url()).pathname === '/api/benchmark/detectors')
     await page.getByRole('tab', { name: /Benchmark$/ }).click()
     const data = await (await explanations).json(), det = await (await detection).json()
     assert.ok(det.runs.length >= 12)
@@ -202,6 +202,38 @@ try {
     await screenshot('saved-benchmarks-identifier-warning')
     return { detector_rows: det.runs.length, detector_source_files: new Set(det.runs.map((r) => r.source)).size,
       warning_capture: alert.capture, warning_alert_id: alert.alert_id, warning_run: run.source }
+  })
+  await step('Frozen benchmarks integrate with live capture evaluation', 'live saved-result APIs; no model calls', async () => {
+    const explanations = page.waitForResponse((r) => new URL(r.url()).pathname === '/api/benchmark/explainers')
+    const detection = page.waitForResponse((r) => new URL(r.url()).pathname === '/api/benchmark/detection')
+    await page.getByRole('tab', { name: /Evaluation$/ }).click()
+    await page.getByRole('button', { name: 'Frozen benchmarks', exact: true }).click()
+    const data = await (await explanations).json(), det = await (await detection).json()
+    assert.ok(data.heldout.runs)
+    assert.ok(det.datasets.length)
+    await page.getByRole('heading', { name: 'Explainers: which labels and explanations hold up' }).waitFor()
+    await page.getByRole('heading', { name: 'Detectors: held-out captures only' }).waitFor()
+    assert.match(await page.locator('.benchmarks').innerText(), /no ROAD attack alerts/)
+    const compare = page.waitForResponse((r) => new URL(r.url()).pathname.endsWith('/heldout/compare'))
+    await page.getByRole('combobox', { name: 'Second explainer', exact: true }).selectOption('control-v1_alert')
+    assert.equal((await compare).status(), 200)
+    await page.getByRole('combobox', { name: 'Dataset', exact: true }).selectOption('hcrl')
+    assert.equal(await page.locator('#submission-set').inputValue(), 'heldout')
+    assert.match(await page.getByRole('link', { name: 'Download packets' }).getAttribute('href'), /heldout\/packets$/)
+    await screenshot('frozen-benchmarks')
+    for (const appearance of ['original', 'pastel']) for (const theme of ['light', 'dark']) {
+      await page.locator('#appearance').selectOption(appearance)
+      await selectTheme(theme)
+      await page.setViewportSize({ width: 390, height: 844 })
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true)
+      await screenshot(`frozen-benchmarks-mobile-${appearance}-${theme}`)
+    }
+    await page.setViewportSize({ width: 1440, height: 1000 })
+    await page.locator('#appearance').selectOption('original')
+    await selectTheme('dark')
+    await page.getByRole('button', { name: 'This capture', exact: true }).click()
+    await page.getByRole('button', { name: /Explain remaining alerts/ }).waitFor()
+    return { sets: Object.keys(data), detector_datasets: det.datasets.map((d) => d.dataset), viewport: [390, 844] }
   })
   await step('Invalid ROAD metadata is reported before analysis', 'live upload API, deliberately invalid metadata', async () => {
     await page.getByRole('tab', { name: /Analysis$/ }).click()
