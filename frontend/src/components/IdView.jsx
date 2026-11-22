@@ -6,7 +6,7 @@ import { api, fmt } from '../api'
 
 const AXIS = { stroke: 'var(--axis)', tick: { fill: 'var(--text-muted)', fontSize: 10.5, fontFamily: 'IBM Plex Mono, monospace' } }
 
-export default function IdView({ analysisId, ids }) {
+export default function IdView({ analysisId, ids, loading = false, error = null, totalIds }) {
   const [query, setQuery] = useState('')
   const [selected, setSelected] = useState(null)
   const [series, setSeries] = useState(null)
@@ -18,20 +18,29 @@ export default function IdView({ analysisId, ids }) {
       r.function.toLowerCase().includes(q)) : ids
   }, [ids, query])
 
+  useEffect(() => { setSelected(null); setSeries(null) }, [analysisId])
   useEffect(() => {
+    setSeries(null)
     if (!selected || !analysisId) return
-    let live = true
-    api.idSeries(analysisId, selected).then((s) => { if (live) setSeries(s) }).catch(() => {})
-    return () => { live = false }
+    const abort = new AbortController()
+    api.idSeries(analysisId, selected, abort.signal)
+      .then((s) => { if (!abort.signal.aborted) setSeries(s) }).catch(() => {})
+    return () => abort.abort()
   }, [analysisId, selected])
+
+  if (loading) return <p className="muted" role="status">
+    Loading per-ID details… Alerts and evidence are available while this table finishes.
+  </p>
+  if (error) return <p className="error" role="status">Could not load per-ID details: {error}</p>
 
   return (
     <div>
       <div className="row" style={{ marginBottom: 10 }}>
-        <input placeholder="Filter by ID, name or function" value={query}
+        <input aria-label="Filter CAN IDs" placeholder="Filter by ID, name or function" value={query}
           onChange={(e) => setQuery(e.target.value)} style={{ minWidth: 240 }} />
         <span className="small muted">
-          {rows.length} of {ids.length} IDs. Red IDs are absent from the baseline.
+          {rows.length} matching / {ids.length} displayed IDs{totalIds > ids.length ? ` of ${totalIds} total` : ''}.
+          {totalIds > ids.length ? ' Highest-interest IDs are shown first.' : ''} Red IDs are absent from the baseline.
         </span>
       </div>
 
@@ -74,7 +83,8 @@ export default function IdView({ analysisId, ids }) {
             {rows.map((r) => (
               <tr key={r.can_id} className={`clickable ${r.known ? '' : 'unknown-id'}`}
                 aria-current={selected === r.can_id}
-                onClick={() => setSelected(r.can_id)}>
+                onClick={() => setSelected(r.can_id)} tabIndex={0}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelected(r.can_id) } }}>
                 <td className="left mono">{r.can_id}</td>
                 <td className="left">{r.known ? r.function : 'not in baseline'}</td>
                 <td>{r.count}</td>

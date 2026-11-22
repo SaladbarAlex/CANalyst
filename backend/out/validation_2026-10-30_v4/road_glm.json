@@ -1,0 +1,287 @@
+{
+  "status": "complete",
+  "dataset": "road",
+  "validation_version": "can-id-membership-v1",
+  "corpus_sha256": "2bcace3e64304d2b8f402b124af73c7549e4b459ca83549afe158e19f5fff0d6",
+  "alerts": [
+    {
+      "corpus_index": 0,
+      "evidence_sha256": "d30a6d2f9f156bad2ae4fb365ee47f00ddc6549080b0c3f991985448cf8471e2",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": []
+    },
+    {
+      "corpus_index": 1,
+      "evidence_sha256": "e24271498bd7e70d91438d96e59795a666c1b06a71c24e30bb2ae774d966df8c",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": []
+    },
+    {
+      "corpus_index": 2,
+      "evidence_sha256": "4db1826d3d67e4de8d0483a26a4dd26a09c2c3dea06ce2a5259787766fe5d02e",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": []
+    },
+    {
+      "corpus_index": 3,
+      "evidence_sha256": "a57e80123090379126f30b002a98b1ab0e4c967870556041f4e5f0ba860cf48b",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": []
+    },
+    {
+      "corpus_index": 4,
+      "evidence_sha256": "3a7bdac292ed19e3614c53f92b37d99f54b987d5506aaa598da4d73147958360",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": []
+    },
+    {
+      "corpus_index": 5,
+      "evidence_sha256": "f67859baf61da0ca15d7ad59294516e2f431cdd27e9ab0101862a42de1d87d31",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": [
+        {
+          "code": "ambiguous_hex_reference",
+          "field": "summary",
+          "token": "0xFF",
+          "canonical_id": "0x0FF",
+          "start": 164,
+          "end": 168,
+          "message": "This hexadecimal reference is absent from the supplied CAN IDs. It may be a payload value, mask, or general example; review its meaning."
+        },
+        {
+          "code": "ambiguous_hex_reference",
+          "field": "claims[2].text",
+          "token": "0xFF",
+          "canonical_id": "0x0FF",
+          "start": 46,
+          "end": 50,
+          "message": "This hexadecimal reference is absent from the supplied CAN IDs. It may be a payload value, mask, or general example; review its meaning."
+        }
+      ]
+    },
+    {
+      "corpus_index": 6,
+      "evidence_sha256": "7a81da7cd9a056f48c3b2fb1b99c66c8a7d16ebee000363ee3af68bff2bf88c9",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": [
+        {
+          "code": "can_id_not_in_evidence",
+          "field": "summary",
+          "token": "0x55",
+          "canonical_id": "0x055",
+          "start": 337,
+          "end": 341,
+          "message": "This CAN ID is absent from the supplied evidence; verify the reference."
+        }
+      ]
+    },
+    {
+      "corpus_index": 7,
+      "evidence_sha256": "9e79d3859c94fe0abb3d131c6256ecf7431ea7e0cae39a07a4cb57d5ee78ea17",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": [
+        {
+          "code": "ambiguous_hex_reference",
+          "field": "summary",
+          "token": "0xFF",
+          "canonical_id": "0x0FF",
+          "start": 119,
+          "end": 123,
+          "message": "This hexadecimal reference is absent from the supplied CAN IDs. It may be a payload value, mask, or general example; review its meaning."
+        },
+        {
+          "code": "ambiguous_hex_reference",
+          "field": "recommended_action",
+          "token": "0xFF",
+          "canonical_id": "0x0FF",
+          "start": 103,
+          "end": 107,
+          "message": "This hexadecimal reference is absent from the supplied CAN IDs. It may be a payload value, mask, or general example; review its meaning."
+        },
+        {
+          "code": "ambiguous_hex_reference",
+          "field": "claims[2].text",
+          "token": "0xFF",
+          "canonical_id": "0x0FF",
+          "start": 46,
+          "end": 50,
+          "message": "This hexadecimal reference is absent from the supplied CAN IDs. It may be a payload value, mask, or general example; review its meaning."
+        }
+      ]
+    },
+    {
+      "corpus_index": 8,
+      "evidence_sha256": "7b4c99f869c1ac8d54fed352a9974e6a43124807ee2596e90f1201822a85067e",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": [
+        {
+          "code": "ambiguous_hex_reference",
+          "field": "summary",
+          "token": "0xFF",
+          "canonical_id": "0x0FF",
+          "start": 161,
+          "end": 165,
+          "message": "This hexadecimal reference is absent from the supplied CAN IDs. It may be a payload value, mask, or general example; review its meaning."
+        },
+        {
+          "code": "ambiguous_hex_reference",
+          "field": "claims[2].text",
+          "token": "0xFF",
+          "canonical_id": "0x0FF",
+          "start": 46,
+          "end": 50,
+          "message": "This hexadecimal reference is absent from the supplied CAN IDs. It may be a payload value, mask, or general example; review its meaning."
+        }
+      ]
+    },
+    {
+      "corpus_index": 9,
+      "evidence_sha256": "f13a7e6853ed9da48dc13cfd49e3312f1ef557a4388c70e0997a3f724aee2290",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": []
+    },
+    {
+      "corpus_index": 10,
+      "evidence_sha256": "be68c353a290596cb1f659166194ddfd21c2c5b36ceb346f943da6e8a479374a",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": []
+    },
+    {
+      "corpus_index": 11,
+      "evidence_sha256": "7a3feec01205539f25061e9b25a3bc1ea369f13fe8ed83460040049434349dcc",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": []
+    },
+    {
+      "corpus_index": 12,
+      "evidence_sha256": "5e1458ee4570f060ad03cbab099feae8a4d80bfab719ea10dff07dc5fcf074ad",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": []
+    },
+    {
+      "corpus_index": 13,
+      "evidence_sha256": "78129d5239392c7ba8853e23965ad208af3a95cbd49449818134a70a15a625c8",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": []
+    },
+    {
+      "corpus_index": 14,
+      "evidence_sha256": "7df8090ea9fdcaca8e8a2b94747e597590f7ebbd90363e01a47db7f9fa9519a6",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": []
+    },
+    {
+      "corpus_index": 15,
+      "evidence_sha256": "5372b362fe677d2317688d93cff009f1d4d4a14c3b994d9969470e5d4216cd56",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": []
+    },
+    {
+      "corpus_index": 16,
+      "evidence_sha256": "91afbb839c464674d7d33eb3964f2df1c03a7c7bc9607a100d99506734421529",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": []
+    },
+    {
+      "corpus_index": 17,
+      "evidence_sha256": "a0be54d2905cc465dadf65c7653d5cbee2898d6f030272997e751a70300ed325",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": []
+    },
+    {
+      "corpus_index": 18,
+      "evidence_sha256": "661b6a6d35c113c1a6d3c9a33f6bcaf09d33e419788ae347c20f8362e80cca3a",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": []
+    },
+    {
+      "corpus_index": 19,
+      "evidence_sha256": "e4c262a34b37492e098a0e83596ddea36c1cf55a5d82769348dc709bbb35afa1",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": []
+    },
+    {
+      "corpus_index": 20,
+      "evidence_sha256": "4ce4918a204db848be3cbac8eb3626927a35d1f03381bf49866eca62a0b3a47a",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": []
+    },
+    {
+      "corpus_index": 21,
+      "evidence_sha256": "e4c262a34b37492e098a0e83596ddea36c1cf55a5d82769348dc709bbb35afa1",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": []
+    },
+    {
+      "corpus_index": 22,
+      "evidence_sha256": "8509a22ce4b59643577935ee21bc61572795503420c01814b02271e5e43a4c85",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": []
+    },
+    {
+      "corpus_index": 23,
+      "evidence_sha256": "de60db4e0cc9f1bafb1b86fb09bf85fc13344c5ec0beadcca31a2ec0df3e1855",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": []
+    },
+    {
+      "corpus_index": 24,
+      "evidence_sha256": "fc4488264e677e7da4ec82095d14c3f9d1097d262f052e93cc7413b3461bd528",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": []
+    },
+    {
+      "corpus_index": 25,
+      "evidence_sha256": "eab530300e4aaaac24b3a31180b93894f2303595e2c15c95bf0f7f9378a2cf1c",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": []
+    },
+    {
+      "corpus_index": 26,
+      "evidence_sha256": "b86a5dd430121d3d8ba880e4f6f9107abdb1e1d3f656e06d8ef801938b225b02",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": []
+    },
+    {
+      "corpus_index": 27,
+      "evidence_sha256": "45e09c7e30e01613b705151cd6656303bca87290b206aceffdb8b504561f6b9e",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": []
+    },
+    {
+      "corpus_index": 28,
+      "evidence_sha256": "5ec34416fa1bbf04d136668a82afb42af0f9d96963088d6627beff253ae76bb0",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": []
+    },
+    {
+      "corpus_index": 29,
+      "evidence_sha256": "d34682552327bcede70d315f77564610e55201aa005441f30284716c5f5f6395",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": []
+    },
+    {
+      "corpus_index": 30,
+      "evidence_sha256": "243c6b60a20a330e4984a19280bd01d8b95f1b9307b9e05be5d60b145990a384",
+      "validation_version": "can-id-membership-v1",
+      "validation_warnings": []
+    }
+  ],
+  "summary": {
+    "responses_checked": 31,
+    "responses_with_warnings": 4,
+    "responses_with_absent_explicit_ids": 1,
+    "warnings_by_code": {
+      "ambiguous_hex_reference": 7,
+      "can_id_not_in_evidence": 1
+    },
+    "meaning": "Identifier membership review only; neither citation validity nor semantic entailment."
+  },
+  "source_run": "out/explanations_v4_2026-10-30_glm_low/road/explanations_rcd.json",
+  "source_run_sha256": "43545be49d3128b0bfc3f49c0b21c979fed9e34e72b0e622bbfdaabce453722c",
+  "corpus_file": "out/frozen_2026-10-30_v4/road.json",
+  "corpus_file_sha256": "868c68afb19cfa7fac84324392d8af17cfd8e6172bc03c6eed98058bbaea9af9",
+  "validator_sha256": "1576aa89cd849bb8003e9c116bea620108c66b687f84418abcc83fd1bd652d5b",
+  "annotation_script_sha256": "410e5d8e490c31ca411f87a3fa484e756c560c68d2f202f67d0ebeba7e20cf86",
+  "created_at": "2026-10-30T17:04:52.797838+00:00"
+}

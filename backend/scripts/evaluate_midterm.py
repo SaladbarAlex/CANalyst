@@ -25,6 +25,7 @@ import gc
 import hashlib
 import json
 import platform
+import statistics
 import subprocess
 import time
 from datetime import datetime, timezone
@@ -69,10 +70,12 @@ def capture(path: Path, out: Path, *, start: float = 0.0,
     line must produce a frame; a silently skipped malformed row aborts the run.
     """
     original = path
-    if stop is not None:
+    selected_origin = 0.0
+    if stop is not None or start > 0:
         # Keep derivative raw traffic under the project's ignored data tree.
+        stop_text = f"{stop:g}" if stop is not None else "end"
         target = (BACKEND / "data/evaluation_inputs" / out.parent.name / out.name /
-                  f"{path.stem}_{start:g}_{stop:g}" / path.name)
+                  f"{path.stem}_{start:g}_{stop_text}" / path.name)
         target.parent.mkdir(parents=True, exist_ok=True)
         first = None
         previous = None
@@ -88,14 +91,24 @@ def capture(path: Path, out: Path, *, start: float = 0.0,
                     raise ValueError(f"Nonmonotonic timestamps in selected prefix: {original}")
                 previous = ts
                 relative = ts - first
-                if relative >= stop:
+                if stop is not None and relative >= stop:
                     break
                 if relative >= start:
+                    if count == 0:
+                        selected_origin = relative
                     dest.write(line)
                     count += 1
+        if count == 0:
+            raise ValueError(f"No frames in selected interval [{start}, {stop}) of {original}")
         meta = original.parent / "capture_metadata.json"
         if meta.exists():
-            (target.parent / meta.name).write_text(meta.read_text())
+            metadata = json.loads(meta.read_text())
+            entry = metadata.get(original.stem)
+            if entry and entry.get("injection_interval"):
+                # The loader resets time to the first selected frame, which can
+                # be later than `start` if the recording contains a gap.
+                entry["injection_interval"] = [t - selected_origin for t in entry["injection_interval"]]
+            (target.parent / meta.name).write_text(json.dumps(metadata))
         path = target
     else:
         with original.open() as stream:
@@ -109,6 +122,7 @@ def capture(path: Path, out: Path, *, start: float = 0.0,
         "selected_input": str(path.relative_to(BACKEND)),
         "selected_input_sha256": sha256(path),
         "source_relative_start_s": start,
+        "source_relative_selected_origin_s": selected_origin,
         "source_relative_stop_s_exclusive": stop,
         "frame_count": len(df),
         "selected_nonempty_lines": count,
@@ -164,7 +178,7 @@ def explanation_summary(records: list[dict]) -> dict:
         "false_alarms_called_benign": sum(r["explanation"]["attack_type"] == "benign"
                                           for r in false_alarms),
         "fallbacks": sum(r["explanation"]["model"].startswith("mock (fallback") for r in records),
-        "latency_s_median": latencies[len(latencies) // 2] if latencies else None,
+        "latency_s_median": statistics.median(latencies) if latencies else None,
         "latency_s_max": latencies[-1] if latencies else None,
     }
 
@@ -175,7 +189,7 @@ def main() -> None:
     parser.add_argument("--full-hcrl", action="store_true",
                         help="evaluate all rows of HCRL attack captures instead of 120 s prefixes")
     parser.add_argument("--out", type=Path, default=None,
-                        help="output root (default out/midterm_2026-10-20, or "
+                        help="output root (default timestamped out/detection_<date_time>, or "
                              "out/explanations_<date> with --explainer)")
     parser.add_argument("--explainer", choices=["mock", "rcd", "claude", "openai"],
                         help="also explain every merged alert with this backend")
@@ -184,10 +198,14 @@ def main() -> None:
     args = parser.parse_args()
     if args.out is None:
         args.out = BACKEND / "out" / (
-            f"explanations_{datetime.now().date()}" if args.explainer else "midterm_2026-10-20")
+            f"explanations_{datetime.now().strftime('%Y-%m-%d_%H%M%S')}" if args.explainer else f"detection_{datetime.now().strftime('%Y-%m-%d_%H%M%S')}")
     explainer = get_explainer(args.explainer) if args.explainer else None
     explanations: list[dict] = []
     out = args.out.resolve() / (args.dataset + ("_full" if args.full_hcrl else ""))
+    if (out / "results.json").exists():
+        parser.error(f"Results already exist in {out}; choose a new --out to preserve them")
+    if args.max_alerts < 0:
+        parser.error("--max-alerts must be nonnegative")
     out.mkdir(parents=True, exist_ok=True)
     started = time.perf_counter()
     excluded = []
@@ -236,7 +254,7 @@ def main() -> None:
             "llm_calls": 0,
             "explanation_evaluation": ("Not evaluated in this detection benchmark" if explainer is None
                                        else f"See explanations_{explainer.name}.json"),
-            "interface": "Command-line evaluation; browser upload does not yet supply separate baseline captures and ROAD metadata",
+            "interface": "Shared loader/features/detector with dashboard; separate normal baseline and ROAD metadata supported by both",
             "empty_windows": "Excluded by the existing feature extractor",
             "window_tail": "Existing extractor may include one partially observed final 0.5 s window; no records beyond the selected interval are added",
             "aggregation": "Pool window confusion counts across selected evaluation captures; overlapping windows and related captures are not independent samples",

@@ -1,0 +1,59 @@
+{
+  "summary": {
+    "analysis_id": "c972d7a84c44",
+    "source": "correlated_signal_attack_3.log",
+    "params": {
+      "example": "ROAD correlated-signal attack 3",
+      "window_s": 0.5,
+      "stride_s": 0.25,
+      "baseline_s": 0,
+      "threshold": 0.55,
+      "calibration": null
+    },
+    "detector": "rule",
+    "duration_s": 16.964,
+    "frame_count": 41829,
+    "unique_ids": 105,
+    "unknown_ids_count": 0,
+    "mean_rate": 2465.8,
+    "baseline_end": 0,
+    "window_count": 67,
+    "alert_count": 1,
+    "attack_intervals": [
+      {
+        "start": 4.318482,
+        "end": 16.95706,
+        "type": "spoofing"
+      }
+    ],
+    "labeled": true,
+    "metrics": {
+      "windows_evaluated": 67,
+      "true_positive": 47,
+      "false_positive": 0,
+      "false_negative": 4,
+      "true_negative": 16,
+      "precision": 1,
+      "recall": 0.9216,
+      "f1": 0.9592,
+      "false_positive_rate": 0,
+      "per_attack_type": {
+        "spoofing": {
+          "windows": 51,
+          "detected": 47,
+          "recall": 0.9216
+        }
+      },
+      "labeled": true
+    },
+    "timing_s": {
+      "baseline": 1.7861,
+      "features": 0.5656,
+      "detection": 0.0066,
+      "total": 2.3584
+    },
+    "baseline_source": "separate capture"
+  },
+  "errors": [],
+  "cache_verified": true
+}

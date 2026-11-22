@@ -1,0 +1,66 @@
+{
+  "created_utc": "2026-10-30T17:23:05.755662+00:00",
+  "code_sha256": {
+    "app/main.py": "914a717428d3890a65b9f71c348378609b10ad55f86d0e9ecfb2e15ac0f32c5e",
+    "app/pipeline.py": "032b036115027e364ab52c6bda64a29aa6e4d19151ad6b4bb8a0bee6d59a12c7",
+    "scripts/benchmark_dashboard.py": "7e03abded1d85921e46822c29121af1d0aff88d969ba3a7143a2137875349519"
+  },
+  "scope": "in-process FastAPI TestClient; no network or browser rendering; no model calls",
+  "inputs": {
+    "data/raw/hcrl-car-hacking/Fuzzy_dataset.csv": "a0e78dff6365a1ad3d314973f1ac5879b57f9b80c40eb07b1e3bbe4aeddaecfe",
+    "data/evaluation_inputs/explanations_2026-10-21/hcrl/normal_run_data_0_120/normal_run_data.txt": "55bed4ea14a31146cc04cf3ed01a9ee91e710763d86218430fe5e2bc0af53031"
+  },
+  "python": "3.12.14",
+  "frame_count": 3838860,
+  "analyze_s": 89.83813779200136,
+  "evaluation_frames_per_second_including_baseline_setup": 42730.85010831323,
+  "stage_timing_s": {
+    "baseline": 0.2803,
+    "features": 75.3987,
+    "detection": 0.9716,
+    "total": 89.2863,
+    "parse": 12.6356
+  },
+  "endpoints": {
+    "summary": {
+      "cold_ms": 2.305083005921915,
+      "warm_median_ms": 0.8485835060128011,
+      "warm_p95_ms": 0.9009170025819913,
+      "response_bytes": 808,
+      "warm_requests": 10,
+      "transfer_bytes": 808
+    },
+    "timeline": {
+      "cold_ms": 47.63508299947716,
+      "warm_median_ms": 2.6333334972150624,
+      "warm_p95_ms": 2.8249160095583647,
+      "response_bytes": 136485,
+      "warm_requests": 10,
+      "transfer_bytes": 13452
+    },
+    "alerts": {
+      "cold_ms": 3505.676000000676,
+      "warm_median_ms": 4.561353998724371,
+      "warm_p95_ms": 4.92645800113678,
+      "response_bytes": 227050,
+      "warm_requests": 10,
+      "transfer_bytes": 29677
+    },
+    "metrics": {
+      "cold_ms": 4.906583999400027,
+      "warm_median_ms": 3.8408334949053824,
+      "warm_p95_ms": 4.2727500112960115,
+      "response_bytes": 500,
+      "warm_requests": 10,
+      "transfer_bytes": 500
+    },
+    "ids": {
+      "cold_ms": 6376.687916999799,
+      "warm_median_ms": 1.1139374983031303,
+      "warm_p95_ms": 1.9454169960226864,
+      "response_bytes": 17259,
+      "warm_requests": 10,
+      "transfer_bytes": 1782
+    }
+  }
+}

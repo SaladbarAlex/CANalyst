@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { api, fmt } from '../api'
+import DetectionBenchmarkPanel from './DetectionBenchmarkPanel'
+import ValidationWarnings from './ValidationWarnings'
 
 /* Saved real-data runs, side by side. Everything here is read from the
    result files the evaluation harness wrote; opening this tab never calls a
@@ -15,16 +17,22 @@ const FILTERS = [
 const isAttack = (a) => a.true_type && a.true_type !== 'normal'
 const secs = (v) => (v === null || v === undefined ? 'n/a' : `${Math.round(v)} s`)
 
-function Prediction({ alert, result }) {
+export const predictionType = (result) => result
+  ? (result.fallback || result.model?.includes('fallback') ? 'request_failed' : result.attack_type)
+  : null
+
+export function Prediction({ alert, result }) {
   if (!result) return <span className="muted">n/a</span>
-  const cls = isAttack(alert) ? (result.attack_type === alert.true_type ? 'match' : 'mismatch')
-    : (result.attack_type === 'benign' ? 'match' : '')
-  return <span className={`badge ${cls}`}>{result.attack_type}</span>
+  const cls = isAttack(alert) ? (predictionType(result) === alert.true_type ? 'match' : 'mismatch')
+    : (predictionType(result) === 'benign' ? 'match' : '')
+  return <span className={`badge ${cls}`}>{predictionType(result)}</span>
 }
 
 export default function BenchmarkPanel() {
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
+  const [detectionData, setDetectionData] = useState(null)
+  const [detectionError, setDetectionError] = useState(null)
   const [dsKey, setDsKey] = useState(null)
   const [filter, setFilter] = useState('all')
   const [open, setOpen] = useState(null)
@@ -34,6 +42,7 @@ export default function BenchmarkPanel() {
     api.benchmark()
       .then((d) => { setData(d); setDsKey(d.datasets[0]?.key ?? null) })
       .catch((e) => setError(e.message))
+    api.detectionBenchmark().then(setDetectionData).catch((e) => setDetectionError(e.message))
   }, [])
 
   const ds = data?.datasets.find((d) => d.key === dsKey)
@@ -49,7 +58,7 @@ export default function BenchmarkPanel() {
         type: t,
         n: rows.length,
         correct: Object.fromEntries(runs.map((r) => [r.id,
-          rows.filter((a) => a.results[r.id]?.attack_type === t).length])),
+          rows.filter((a) => predictionType(a.results[r.id]) === t).length])),
       }
     })
   }, [ds, runs])
@@ -59,10 +68,10 @@ export default function BenchmarkPanel() {
     return ds.alerts.filter((a) => {
       if (filter === 'false-alarm') return !isAttack(a)
       if (filter === 'ai-wrong') {
-        return isAttack(a) && llms.some((r) => a.results[r.id]?.attack_type !== a.true_type)
+        return isAttack(a) && llms.some((r) => a.results[r.id] && predictionType(a.results[r.id]) !== a.true_type)
       }
       if (filter === 'disagree') {
-        return new Set(runs.map((r) => a.results[r.id]?.attack_type)).size > 1
+        return new Set(runs.map((r) => predictionType(a.results[r.id])).filter(Boolean)).size > 1
       }
       return true
     })
@@ -72,16 +81,10 @@ export default function BenchmarkPanel() {
     if (open) detailRef.current?.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
   }, [open])
 
-  if (error) return <p className="error">Could not load saved results: {error}</p>
-  if (!data) return <p className="muted">Loading saved results...</p>
-  if (!ds) {
-    return (
-      <p className="muted">
-        No saved runs yet. Run <span className="mono">scripts.evaluate_midterm --explainer</span> to
-        create one.
-      </p>
-    )
-  }
+  const detectorComparison = <DetectionBenchmarkPanel data={detectionData} error={detectionError} />
+  if (error) return <>{detectorComparison}<p className="error">Could not load saved explanations: {error}</p></>
+  if (!data) return <>{detectorComparison}<p className="muted">Loading saved explanations...</p></>
+  if (!ds) return <>{detectorComparison}<p className="muted">No saved explanation benchmark results are available yet.</p></>
 
   const chosen = rows.find((a) => `${a.capture}-${a.alert_id}` === open)
   const attacks = ds.alerts.filter(isAttack).length
@@ -90,12 +93,13 @@ export default function BenchmarkPanel() {
 
   return (
     <div className="benchmark">
+      {detectorComparison}
       <div className="benchmark-head">
         <div>
           <h3>Saved benchmark</h3>
           <p className="small muted">
-            Read-only results from the evaluation harness. The same detected alerts, explained by
-            each explainer; loading this tab makes no model calls.
+            Saved results from the evaluation harness. Loading this tab makes no model calls.
+            Compare coverage and evidence provenance before interpreting differences between runs.
           </p>
         </div>
         <div className="chips" role="group" aria-label="Dataset">
@@ -106,6 +110,12 @@ export default function BenchmarkPanel() {
         </div>
       </div>
 
+      {data.errors?.length ? <p className="error" role="status">
+        {data.errors.length} saved result file(s) could not be loaded. Available results are shown below.
+      </p> : null}
+      {runs.some((r) => r.limited_run != null) ? <p className="small muted">
+        This is a limited smoke test, not a completed accuracy comparison.
+      </p> : null}
       <div className="kpis" style={{ marginBottom: 16 }}>
         {runs.map((r) => (
           <div className="kpi" key={r.id}>
@@ -131,19 +141,26 @@ export default function BenchmarkPanel() {
               <tr><th className="left">measure</th>{runs.map((r) => <th key={r.id}>{r.label}</th>)}</tr>
             </thead>
             <tbody>
+              <tr><td className="left">Responses available</td>
+                {runs.map((r) => <td key={r.id}>{ds.alerts.filter((a) => a.results[r.id]).length} / {ds.alerts.length}</td>)}</tr>
               <tr><td className="left">Accuracy on attack alerts</td>
                 {runs.map((r) => <td key={r.id}>{fmt.pct(r.summary.classification.accuracy)}</td>)}</tr>
-              <tr><td className="left">Grounded, as run</td>
+              <tr><td className="left">Valid citations, as run</td>
                 {runs.map((r) => <td key={r.id}>{fmt.pct(r.summary_as_run.grounding.grounded_rate)}</td>)}</tr>
-              <tr><td className="left">Grounded, after E0 rescore</td>
-                {runs.map((r) => <td key={r.id}>{fmt.pct(r.summary.grounding.grounded_rate)}</td>)}</tr>
+              {runs.some((r) => r.rescore_method) ? <tr><td className="left">Valid citations, after E0 rescore</td>
+                {runs.map((r) => <td key={r.id}>{r.rescore_method ? fmt.pct(r.summary.grounding.grounded_rate) : 'not rescored'}</td>)}</tr> : null}
               <tr><td className="left">False alarms called benign</td>
                 {runs.map((r) => <td key={r.id}>{r.summary.false_alarms_called_benign} of {r.summary.false_alarms}</td>)}</tr>
               <tr><td className="left">Fallbacks to the control</td>
                 {runs.map((r) => <td key={r.id}>{r.explainer === 'mock' ? 'n/a' : r.summary.fallbacks}</td>)}</tr>
+              <tr><td className="left">95th percentile latency</td>
+                {runs.map((r) => <td key={r.id}>{secs(r.summary.latency_s_p95)}</td>)}</tr>
+              <tr><td className="left">Estimated API cost (USD)</td>
+                {runs.map((r) => <td key={r.id}>{r.summary.estimated_cost_usd == null
+                  ? 'not recorded' : `$${Number(r.summary.estimated_cost_usd).toFixed(4)}`}</td>)}</tr>
               <tr><td className="left">Median / slowest per alert</td>
                 {runs.map((r) => (
-                  <td key={r.id}>{r.explainer === 'mock' ? 'instant'
+                  <td key={r.id}>{r.explainer === 'mock' && r.summary.latency_s_median == null ? 'not recorded'
                     : `${secs(r.summary.latency_s_median)} / ${secs(r.summary.latency_s_max)}`}</td>
                 ))}</tr>
             </tbody>
@@ -217,17 +234,26 @@ export default function BenchmarkPanel() {
       {chosen ? <AlertReasoning alert={chosen} runs={runs} llms={llms} panelRef={detailRef}
         onClose={() => setOpen(null)} /> : null}
 
+      <details className="evidence-disclosure">
+        <summary>Run provenance</summary>
+        {runs.map((r) => <div key={r.id} className="small muted" style={{ margin: '8px 0', overflowWrap: 'anywhere' }}>
+          <strong>{r.label}</strong>: {r.status ?? 'historical run'}<br />
+          Corpus SHA-256: <span className="mono">{r.corpus_sha256 ?? 'not recorded in this historical run'}</span><br />
+          Protocol: {typeof r.protocol === 'object' ? JSON.stringify(r.protocol) : r.protocol ?? 'not recorded'}<br />
+          Source: {r.source}
+        </div>)}
+      </details>
       <p className="small muted" style={{ marginTop: 14 }}>
-        Detector frozen{commit ? <> at <span className="mono">{commit.slice(0, 7)}</span></> : null};
+        Recorded detector revision{commit ? <> at <span className="mono">{commit.slice(0, 7)}</span></> : null};
         temperature {llms[0]?.temperature ?? 'n/a'}. Accuracy counts alerts on labeled attack frames;
-        false alarms are excluded. {runs.find((r) => r.rescore_method)?.rescore_method}
+        false alarms are excluded. Valid citations do not establish factual support. {runs.find((r) => r.rescore_method)?.rescore_method}
         {' '}Sources: {runs.map((r) => r.source).join(', ')}.
       </p>
     </div>
   )
 }
 
-function AlertReasoning({ alert, runs, llms, panelRef, onClose }) {
+export function AlertReasoning({ alert, runs, llms, panelRef, onClose }) {
   const control = alert.results[runs[0].id]
   return (
     <section className="benchmark-detail-panel" ref={panelRef} aria-label="Selected alert reasoning">
@@ -250,11 +276,15 @@ function AlertReasoning({ alert, runs, llms, panelRef, onClose }) {
               <Prediction alert={alert} result={res} />
               <span className="badge">confidence {fmt.pct(res.confidence)}</span>
               <span className={`badge ${res.grounded ? 'ok' : 'mismatch'}`}>
-                <span className="dot" />{res.grounded ? 'all claims cited' : 'uncited claims'}
+                <span className="dot" />{res.grounded ? 'valid citations' : 'citation issues'}
                 {res.grounded !== res.grounded_as_run ? ' after E0 rescore' : ''}
               </span>
               <span className="badge">{secs(res.latency_s)}</span>
             </div>
+            {predictionType(res) === 'request_failed' ? <p className="error">
+              The requested model failed. Any control fallback shown below receives no model accuracy credit.
+            </p> : null}
+            <ValidationWarnings warnings={res.validation_warnings} />
             <p className="benchmark-summary">{res.summary}</p>
             <ul className="claims">
               {(res.claims ?? []).map((c, i) => (
@@ -282,6 +312,7 @@ function AlertReasoning({ alert, runs, llms, panelRef, onClose }) {
             <strong>{runs[0].label}</strong>
             <Prediction alert={alert} result={control} />
           </div>
+          <ValidationWarnings warnings={control.validation_warnings} />
           <p className="benchmark-summary">{control.summary}</p>
         </div>
       ) : null}

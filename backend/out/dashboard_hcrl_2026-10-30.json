@@ -1,0 +1,61 @@
+{
+  "created_utc": "2026-10-30T16:37:03.496099+00:00",
+  "code_sha256": {
+    "app/main.py": "92540deaa3e023b1c52d510afd683111b97f2228fb705233250efdf07685be70",
+    "app/pipeline.py": "1878f369e50e9f7af1c8d7614794b619bd1c5cee6ce2e7030668479f5472d807",
+    "scripts/benchmark_dashboard.py": "80930809f4ccb1dfbfe77c7db5f3c86f2d5e96e21a1a88a2439a89a03cd4494b"
+  },
+  "scope": "in-process FastAPI TestClient; no network or browser rendering; no model calls",
+  "inputs": {
+    "data/evaluation_inputs/explanations_2026-10-21/hcrl/DoS_dataset_0_120/DoS_dataset.csv": "e7a57fe9b31456b1c11a266d84729d0e790987323e97ac1f02ef657838a0dbf2",
+    "data/evaluation_inputs/explanations_2026-10-21/hcrl/normal_run_data_0_120/normal_run_data.txt": "55bed4ea14a31146cc04cf3ed01a9ee91e710763d86218430fe5e2bc0af53031"
+  },
+  "python": "3.12.14",
+  "frame_count": 161482,
+  "analyze_s": 3.1627306660084287,
+  "ingest_frames_per_second": 51057.777930803306,
+  "stage_timing_s": {
+    "baseline": 0.3535,
+    "features": 1.319,
+    "detection": 0.0277,
+    "total": 3.0817,
+    "parse": 1.3815
+  },
+  "endpoints": {
+    "summary": {
+      "cold_ms": 6.873500009533018,
+      "warm_median_ms": 6.1501459931605496,
+      "warm_p95_ms": 6.87791699601803,
+      "response_bytes": 752,
+      "warm_requests": 10
+    },
+    "timeline": {
+      "cold_ms": 2.758707996690646,
+      "warm_median_ms": 2.309562507434748,
+      "warm_p95_ms": 2.524083000025712,
+      "response_bytes": 34239,
+      "warm_requests": 10
+    },
+    "alerts": {
+      "cold_ms": 68.01712499873247,
+      "warm_median_ms": 0.9702710012788884,
+      "warm_p95_ms": 1.1257500009378418,
+      "response_bytes": 10005,
+      "warm_requests": 10
+    },
+    "metrics": {
+      "cold_ms": 1.9604999979492277,
+      "warm_median_ms": 1.7318119935225695,
+      "warm_p95_ms": 1.9686249870574102,
+      "response_bytes": 480,
+      "warm_requests": 10
+    },
+    "ids": {
+      "cold_ms": 66.96216700947843,
+      "warm_median_ms": 0.9133124985964969,
+      "warm_p95_ms": 1.1615409894147888,
+      "response_bytes": 5825,
+      "warm_requests": 10
+    }
+  }
+}

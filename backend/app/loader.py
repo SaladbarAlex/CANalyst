@@ -30,6 +30,40 @@ def _norm_bytes(row_bytes: list) -> list[int]:
     return out
 
 
+def _validate_payloads(df: pd.DataFrame) -> pd.DataFrame:
+    if df.empty:
+        raise ValueError("Capture contains no frames.")
+    if not np.isfinite(df["timestamp"].to_numpy(dtype=float)).all():
+        raise ValueError("Capture contains nonfinite timestamps.")
+    if not df["dlc"].between(0, 8).all():
+        raise ValueError("Only classic CAN payload lengths 0 through 8 are supported.")
+    if any(len(payload) != int(dlc) or any(b < 0 or b > 255 for b in payload)
+           for payload, dlc in zip(df["data"], df["dlc"])):
+        raise ValueError("CAN payload does not match its DLC or contains invalid bytes.")
+    if not df["can_id"].between(0, 0x1FFFFFFF).all():
+        raise ValueError("CAN arbitration ID is out of range.")
+    return df
+
+
+def _labels(values: pd.Series, positive: set[str], negative: set[str]) -> pd.Series:
+    normalized = values.astype(str).str.strip().str.lower()
+    if not normalized.isin(positive | negative).all():
+        raise ValueError("Unrecognized or missing traffic label; refusing to mark it normal.")
+    return normalized.isin(positive).astype(int)
+
+
+def _extract_lines(lines: pd.Series, pattern: re.Pattern, format_name: str) -> pd.DataFrame:
+    nonempty = lines[lines.str.strip().ne("")]
+    extracted = nonempty.str.extract(pattern)
+    invalid = extracted[0].isna()
+    if invalid.any():
+        line_number = int(extracted.index[invalid][0]) + 1
+        raise ValueError(f"Malformed {format_name} record at line {line_number}.")
+    if extracted.empty:
+        raise ValueError("Capture contains no frames.")
+    return extracted
+
+
 def load_carhacking(csv: str | io.StringIO, has_header: bool = True,
                     attack_type: str = "injected") -> pd.DataFrame:
     """Load an HCRL Car-Hacking style CSV.
@@ -52,22 +86,25 @@ def load_carhacking(csv: str | io.StringIO, has_header: bool = True,
         "timestamp": ts - ts.min(),
         "can_id": raw["CAN ID"].apply(lambda v: int(str(v).strip(), 16)),
         "dlc": raw["DLC"].astype(float).astype(int),
-        "data": raw[data_cols].apply(lambda r: _norm_bytes(list(r)), axis=1),
+        "data": [_norm_bytes(list(row))[:int(float(dlc))]
+                 for row, dlc in zip(raw[data_cols].to_numpy(), raw["DLC"])],
     })
     if flag_col is not None:
-        df["label"] = (raw[flag_col].astype(str).str.upper().str.strip() == "T").astype(int)
+        df["label"] = _labels(raw[flag_col], {"t"}, {"r", "f"})
         df["attack_type"] = [attack_type if x else "normal" for x in df["label"]]
     else:
         df["label"] = 0
         df["attack_type"] = "unknown"
     df.attrs["source"] = "car-hacking"
-    return df.sort_values("timestamp").reset_index(drop=True)
+    return _validate_payloads(df).sort_values("timestamp", kind="stable").reset_index(drop=True)
 
 
 def _load_carhacking_ragged(csv: str | io.StringIO, attack_type: str) -> pd.DataFrame:
     raw = pd.read_csv(csv, header=None, names=range(12), dtype=str)
     vals = raw.to_numpy()
     dlc = raw[2].astype(int).to_numpy()
+    if ((dlc < 0) | (dlc > 8)).any():
+        raise ValueError("Only classic CAN payload lengths 0 through 8 are supported.")
     flag = vals[np.arange(len(vals)), 3 + dlc]
     has_flag = pd.notna(flag).any()
     ts = raw[0].astype(float)
@@ -78,17 +115,17 @@ def _load_carhacking_ragged(csv: str | io.StringIO, attack_type: str) -> pd.Data
         "data": [[int(b, 16) for b in row[3:3 + n]] for row, n in zip(vals, dlc)],
     })
     if has_flag:
-        df["label"] = (pd.Series(flag).astype(str).str.upper().str.strip() == "T").astype(int)
+        df["label"] = _labels(pd.Series(flag), {"t"}, {"r", "f"})
         df["attack_type"] = np.where(df["label"] == 1, attack_type, "normal")
     else:
         df["label"] = 0
         df["attack_type"] = "unknown"
     df.attrs["source"] = "car-hacking"
-    return df.sort_values("timestamp", kind="stable").reset_index(drop=True)
+    return _validate_payloads(df).sort_values("timestamp", kind="stable").reset_index(drop=True)
 
 
 _CH_TXT = re.compile(
-    r"Timestamp:\s*([\d.]+)\s+ID:\s*([0-9A-Fa-f]+)\s+\S+\s+DLC:\s*(\d+)\s*([0-9A-Fa-f ]*)")
+    r"^Timestamp:\s*([\d.]+)\s+ID:\s*([0-9A-Fa-f]+)\s+\S+\s+DLC:\s*(\d+)\s*([0-9A-Fa-f ]*)$")
 
 
 def load_carhacking_txt(path: str) -> pd.DataFrame:
@@ -99,7 +136,7 @@ def load_carhacking_txt(path: str) -> pd.DataFrame:
     """
     with open(path, "r", errors="replace") as fh:
         lines = pd.Series(fh.read().splitlines())
-    m = lines.str.extract(_CH_TXT).dropna(subset=[0])
+    m = _extract_lines(lines, _CH_TXT, "Car-Hacking")
     ts = m[0].astype(float)
     df = pd.DataFrame({
         "timestamp": (ts - ts.min()).to_numpy(),
@@ -110,10 +147,10 @@ def load_carhacking_txt(path: str) -> pd.DataFrame:
         "attack_type": "normal",
     })
     df.attrs["source"] = "car-hacking"
-    return df.sort_values("timestamp", kind="stable").reset_index(drop=True)
+    return _validate_payloads(df).sort_values("timestamp", kind="stable").reset_index(drop=True)
 
 
-_CANDUMP = re.compile(r"\(([\d.]+)\)\s+\S+\s+([0-9A-Fa-f]+)#([0-9A-Fa-f]*)")
+_CANDUMP = re.compile(r"^\(([\d.]+)\)\s+\S+\s+([0-9A-Fa-f]+)#([0-9A-Fa-f]*)\s*$")
 
 
 def road_attack_type(capture: str) -> str:
@@ -135,7 +172,7 @@ def load_candump(path: str, meta: dict | None = None,
     """
     with open(path, "r", errors="replace") as fh:
         lines = pd.Series(fh.read().splitlines())
-    m = lines.str.extract(_CANDUMP).dropna(subset=[0])
+    m = _extract_lines(lines, _CANDUMP, "classic candump")
     ts = m[0].astype(float).to_numpy()
     payloads = m[2].tolist()
     df = pd.DataFrame({
@@ -164,7 +201,7 @@ def load_candump(path: str, meta: dict | None = None,
     df = df[["timestamp", "can_id", "dlc", "data", "label", "attack_type"]]
     df = df.sort_values("timestamp", kind="stable").reset_index(drop=True)
     df.attrs.update(attrs, source="road")
-    return df
+    return _validate_payloads(df)
 
 
 def load_road(csv: str | io.StringIO) -> pd.DataFrame:
@@ -184,7 +221,7 @@ def load_road(csv: str | io.StringIO) -> pd.DataFrame:
 
     ts = raw[time_col].astype(float)
     payloads = raw[data_col].astype(str).str.replace(" ", "").str.strip()
-    data = payloads.apply(lambda h: [int(h[i:i + 2], 16) for i in range(0, len(h) - 1, 2)])
+    data = payloads.apply(lambda h: list(bytes.fromhex(h)))
     df = pd.DataFrame({
         "timestamp": ts - ts.min(),
         "can_id": raw[id_col].apply(lambda v: int(str(v).strip(), 16)),
@@ -192,13 +229,13 @@ def load_road(csv: str | io.StringIO) -> pd.DataFrame:
         "data": data,
     })
     if label_col:
-        df["label"] = raw[label_col].astype(str).str.lower().isin(["1", "true", "attack"]).astype(int)
+        df["label"] = _labels(raw[label_col], {"1", "true", "attack", "t"}, {"0", "false", "normal", "f"})
         df["attack_type"] = ["injected" if x else "normal" for x in df["label"]]
     else:
         df["label"] = 0
         df["attack_type"] = "unknown"
     df.attrs["source"] = "road"
-    return df.sort_values("timestamp").reset_index(drop=True)
+    return _validate_payloads(df).sort_values("timestamp", kind="stable").reset_index(drop=True)
 
 
 def concat_captures(dfs: list[pd.DataFrame]) -> pd.DataFrame:
@@ -207,9 +244,14 @@ def concat_captures(dfs: list[pd.DataFrame]) -> pd.DataFrame:
     Each capture is shifted to start just after the previous one ends, so
     rates are not diluted by the time between recordings.
     """
+    if not dfs or any(d.empty for d in dfs):
+        raise ValueError("Provide at least one nonempty normal capture.")
     parts, offset = [], 0.0
-    for d in dfs:
-        part = d.copy()
+    for capture_id, d in enumerate(dfs):
+        if "label" in d and (d["label"] != 0).any():
+            raise ValueError("Normal baseline captures contain labeled attack frames.")
+        part = d.sort_values("timestamp", kind="stable").copy()
+        part["_capture_id"] = capture_id
         part["timestamp"] = part["timestamp"] - part["timestamp"].min() + offset
         offset = float(part["timestamp"].max()) + 0.01
         parts.append(part)

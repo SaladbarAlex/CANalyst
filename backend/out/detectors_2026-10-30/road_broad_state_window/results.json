@@ -1,0 +1,1750 @@
+{
+  "created_utc": "2026-10-30T16:38:49.831625+00:00",
+  "status": "complete",
+  "dataset": "road",
+  "baseline_profile": "broad",
+  "detector": "state_window",
+  "methodology": "Fixed parameters; independent normal temporal split inside each recording; same ROAD capture/window scopes as paired detector experiment; no evaluation-label tuning. Baseline fits per-window rates/entropy/bitflips/jitter and payload-byte support.",
+  "excluded_attacks": [
+    "accelerator_attack_drive_1",
+    "accelerator_attack_drive_2",
+    "accelerator_attack_reverse_1",
+    "accelerator_attack_reverse_2"
+  ],
+  "baseline_inputs": [
+    {
+      "source": "data/raw/road/road/ambient/ambient_dyno_drive_basic_short.log",
+      "source_sha256": "c9f65e0050dfbbce10105a48d7da6aae9facb1d3d499b8968262c29cff9612bb",
+      "selected_input": "data/evaluation_inputs/detectors_2026-10-30/road_broad_state_window/ambient_dyno_drive_basic_short_0_120/ambient_dyno_drive_basic_short.log",
+      "selected_input_sha256": "17777ec2c6dcb61d65a41dfe718f79ba1958ae182dc66d5be52e7f65fe380bd4",
+      "source_relative_start_s": 0.0,
+      "source_relative_stop_s_exclusive": 120.0,
+      "frame_count": 287073,
+      "selected_nonempty_lines": 287073,
+      "skipped_selected_lines": 0,
+      "duration_s": 119.99934899806976,
+      "unique_ids": 106,
+      "attack_labeled_frames": 0
+    },
+    {
+      "source": "data/raw/road/road/ambient/ambient_dyno_drive_extended_long.log",
+      "source_sha256": "f06d22c9f67ce5bf42945441b9b0f48b677a4fc3004cb67147cffb1a58c72788",
+      "selected_input": "data/evaluation_inputs/detectors_2026-10-30/road_broad_state_window/ambient_dyno_drive_extended_long_0_120/ambient_dyno_drive_extended_long.log",
+      "selected_input_sha256": "3a9561cc5e47d58507841f34c414bde8e976a8153fa55de8a78ac69c3803fcc6",
+      "source_relative_start_s": 0.0,
+      "source_relative_stop_s_exclusive": 120.0,
+      "frame_count": 155202,
+      "selected_nonempty_lines": 155202,
+      "skipped_selected_lines": 0,
+      "duration_s": 119.9980719089508,
+      "unique_ids": 106,
+      "attack_labeled_frames": 0
+    },
+    {
+      "source": "data/raw/road/road/ambient/ambient_dyno_reverse.log",
+      "source_sha256": "c21004cd476155bde8459d7a96b87a8eec996d7410d294f51ee66c3217a13001",
+      "selected_input": "data/evaluation_inputs/detectors_2026-10-30/road_broad_state_window/ambient_dyno_reverse_0_120/ambient_dyno_reverse.log",
+      "selected_input_sha256": "c21004cd476155bde8459d7a96b87a8eec996d7410d294f51ee66c3217a13001",
+      "source_relative_start_s": 0.0,
+      "source_relative_stop_s_exclusive": 120.0,
+      "frame_count": 123047,
+      "selected_nonempty_lines": 123047,
+      "skipped_selected_lines": 0,
+      "duration_s": 51.434144020080566,
+      "unique_ids": 106,
+      "attack_labeled_frames": 0
+    },
+    {
+      "source": "data/raw/road/road/ambient/ambient_dyno_idle_radio_infotainment.log",
+      "source_sha256": "a410eb564cab15a3de84f97f4b8d84753c7fcaaed24da7eb05074ac7ef4d800c",
+      "selected_input": "data/evaluation_inputs/detectors_2026-10-30/road_broad_state_window/ambient_dyno_idle_radio_infotainment_0_120/ambient_dyno_idle_radio_infotainment.log",
+      "selected_input_sha256": "49737021226005aba8e366c95fa0deb4f6d52522c6a4dff0b7d85311c864aeca",
+      "source_relative_start_s": 0.0,
+      "source_relative_stop_s_exclusive": 120.0,
+      "frame_count": 285218,
+      "selected_nonempty_lines": 285218,
+      "skipped_selected_lines": 0,
+      "duration_s": 119.99918305873871,
+      "unique_ids": 106,
+      "attack_labeled_frames": 0
+    },
+    {
+      "source": "data/raw/road/road/ambient/ambient_dyno_drive_radio_infotainment.log",
+      "source_sha256": "8e06679eaa54d627a9346ab400a6fc51bba9313ed3f50883aeb4ca9ad0365ff4",
+      "selected_input": "data/evaluation_inputs/detectors_2026-10-30/road_broad_state_window/ambient_dyno_drive_radio_infotainment_0_120/ambient_dyno_drive_radio_infotainment.log",
+      "selected_input_sha256": "e8b08a810787e2537ca5e145098f50bf3a61ec3541f0323054d0e007bb29c881",
+      "source_relative_start_s": 0.0,
+      "source_relative_stop_s_exclusive": 120.0,
+      "frame_count": 286849,
+      "selected_nonempty_lines": 286849,
+      "skipped_selected_lines": 0,
+      "duration_s": 119.99993300437927,
+      "unique_ids": 106,
+      "attack_labeled_frames": 0
+    }
+  ],
+  "captures": [
+    {
+      "capture": "correlated_signal_attack_1",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/road/road/attacks/correlated_signal_attack_1.log",
+        "source_sha256": "46f1c4ecd3392515f8e9b4d6ef8d7ebc5890f6695258dc45ece896ad99cd06f1",
+        "selected_input": "data/raw/road/road/attacks/correlated_signal_attack_1.log",
+        "selected_input_sha256": "46f1c4ecd3392515f8e9b4d6ef8d7ebc5890f6695258dc45ece896ad99cd06f1",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": null,
+        "frame_count": 81262,
+        "selected_nonempty_lines": 81262,
+        "skipped_selected_lines": 0,
+        "duration_s": 33.10185205936432,
+        "unique_ids": 106,
+        "attack_labeled_frames": 4172
+      },
+      "detection": {
+        "windows_evaluated": 132,
+        "true_positive": 84,
+        "false_positive": 1,
+        "false_negative": 2,
+        "true_negative": 45,
+        "precision": 0.9882,
+        "recall": 0.9767,
+        "f1": 0.9825,
+        "false_positive_rate": 0.0217,
+        "per_attack_type": {
+          "spoofing": {
+            "windows": 86,
+            "detected": 84,
+            "recall": 0.9767
+          }
+        },
+        "labeled": true
+      },
+      "alerts": 2,
+      "ingest_s": 0.23763424999197014,
+      "features_score_s": 2.34133816701069,
+      "end_to_end_frames_per_s": 31448.263607559868,
+      "scores": "correlated_signal_attack_1__attack_capture_windows.csv.gz",
+      "scores_sha256": "3310aade8bdba009c4b5a9e0a85c01d83546e009fdcd5a79f39757abd67b53b4",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "correlated_signal_attack_1_masquerade",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/road/road/attacks/correlated_signal_attack_1_masquerade.log",
+        "source_sha256": "6b6a32c590f766fe338d29840679b5e6aac44c9b193430cdceda06d80e2d4c7e",
+        "selected_input": "data/raw/road/road/attacks/correlated_signal_attack_1_masquerade.log",
+        "selected_input_sha256": "6b6a32c590f766fe338d29840679b5e6aac44c9b193430cdceda06d80e2d4c7e",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": null,
+        "frame_count": 79176,
+        "selected_nonempty_lines": 79176,
+        "skipped_selected_lines": 0,
+        "duration_s": 33.10185205936432,
+        "unique_ids": 106,
+        "attack_labeled_frames": 2086
+      },
+      "detection": {
+        "windows_evaluated": 132,
+        "true_positive": 2,
+        "false_positive": 1,
+        "false_negative": 84,
+        "true_negative": 45,
+        "precision": 0.6667,
+        "recall": 0.0233,
+        "f1": 0.0449,
+        "false_positive_rate": 0.0217,
+        "per_attack_type": {
+          "masquerade": {
+            "windows": 86,
+            "detected": 2,
+            "recall": 0.0233
+          }
+        },
+        "labeled": true
+      },
+      "alerts": 2,
+      "ingest_s": 0.19203645800007507,
+      "features_score_s": 2.3123524169932352,
+      "end_to_end_frames_per_s": 31562.957596644505,
+      "scores": "correlated_signal_attack_1_masquerade__attack_capture_windows.csv.gz",
+      "scores_sha256": "5d16d74275763bf168dbb5373cb2932bd2618b716d89a9a585340123a96c9c66",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "correlated_signal_attack_2",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/road/road/attacks/correlated_signal_attack_2.log",
+        "source_sha256": "d0f659b172554110e9b67f9951ac478d67ce37481efd6a2dd9ef53b8e305e421",
+        "selected_input": "data/raw/road/road/attacks/correlated_signal_attack_2.log",
+        "selected_input_sha256": "d0f659b172554110e9b67f9951ac478d67ce37481efd6a2dd9ef53b8e305e421",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": null,
+        "frame_count": 69657,
+        "selected_nonempty_lines": 69657,
+        "skipped_selected_lines": 0,
+        "duration_s": 28.226892948150635,
+        "unique_ids": 106,
+        "attack_labeled_frames": 4279
+      },
+      "detection": {
+        "windows_evaluated": 112,
+        "true_positive": 86,
+        "false_positive": 0,
+        "false_negative": 0,
+        "true_negative": 26,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "false_positive_rate": 0.0,
+        "per_attack_type": {
+          "spoofing": {
+            "windows": 86,
+            "detected": 86,
+            "recall": 1.0
+          }
+        },
+        "labeled": true
+      },
+      "alerts": 1,
+      "ingest_s": 0.17029770799854305,
+      "features_score_s": 2.030289874994196,
+      "end_to_end_frames_per_s": 31596.917978068723,
+      "scores": "correlated_signal_attack_2__attack_capture_windows.csv.gz",
+      "scores_sha256": "990aafe4462f3018513f50ea0dcbc6e6819db1a0bf50c759527d4d269dabbec4",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "correlated_signal_attack_2_masquerade",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/road/road/attacks/correlated_signal_attack_2_masquerade.log",
+        "source_sha256": "53cb0ba23ee6a36ae63b731d924a10402a5b28974f746af4aaa801322f3f70eb",
+        "selected_input": "data/raw/road/road/attacks/correlated_signal_attack_2_masquerade.log",
+        "selected_input_sha256": "53cb0ba23ee6a36ae63b731d924a10402a5b28974f746af4aaa801322f3f70eb",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": null,
+        "frame_count": 67517,
+        "selected_nonempty_lines": 67517,
+        "skipped_selected_lines": 0,
+        "duration_s": 28.226892948150635,
+        "unique_ids": 106,
+        "attack_labeled_frames": 2139
+      },
+      "detection": {
+        "windows_evaluated": 112,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 86,
+        "true_negative": 26,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_positive_rate": 0.0,
+        "per_attack_type": {
+          "masquerade": {
+            "windows": 86,
+            "detected": 0,
+            "recall": 0.0
+          }
+        },
+        "labeled": true
+      },
+      "alerts": 0,
+      "ingest_s": 0.16393287500250153,
+      "features_score_s": 1.8992747500014957,
+      "end_to_end_frames_per_s": 32670.68132883168,
+      "scores": "correlated_signal_attack_2_masquerade__attack_capture_windows.csv.gz",
+      "scores_sha256": "61d2ce56ffb876f18b91188c2ae4286452859fafcb3d8b7c9f0764e7ae4d8093",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "correlated_signal_attack_3",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/road/road/attacks/correlated_signal_attack_3.log",
+        "source_sha256": "ef8c97a6a4bd6eaaf14dfc6ff5908c38c02676d3a384e9bcf5b857fe71866110",
+        "selected_input": "data/raw/road/road/attacks/correlated_signal_attack_3.log",
+        "selected_input_sha256": "ef8c97a6a4bd6eaaf14dfc6ff5908c38c02676d3a384e9bcf5b857fe71866110",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": null,
+        "frame_count": 41829,
+        "selected_nonempty_lines": 41829,
+        "skipped_selected_lines": 0,
+        "duration_s": 16.963904976844788,
+        "unique_ids": 105,
+        "attack_labeled_frames": 2529
+      },
+      "detection": {
+        "windows_evaluated": 67,
+        "true_positive": 51,
+        "false_positive": 0,
+        "false_negative": 0,
+        "true_negative": 16,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "false_positive_rate": 0.0,
+        "per_attack_type": {
+          "spoofing": {
+            "windows": 51,
+            "detected": 51,
+            "recall": 1.0
+          }
+        },
+        "labeled": true
+      },
+      "alerts": 1,
+      "ingest_s": 0.08886999999231193,
+      "features_score_s": 1.1434390000067651,
+      "end_to_end_frames_per_s": 33853.45129309637,
+      "scores": "correlated_signal_attack_3__attack_capture_windows.csv.gz",
+      "scores_sha256": "bed99ad99fb417ac5737f6ea41418cf48b646dc27deb6e9832feafbb4d4b19c6",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "correlated_signal_attack_3_masquerade",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/road/road/attacks/correlated_signal_attack_3_masquerade.log",
+        "source_sha256": "e7053700495a18a67882c7666a0344bb0d43e0743744d42e3f502c7a0962e490",
+        "selected_input": "data/raw/road/road/attacks/correlated_signal_attack_3_masquerade.log",
+        "selected_input_sha256": "e7053700495a18a67882c7666a0344bb0d43e0743744d42e3f502c7a0962e490",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": null,
+        "frame_count": 40565,
+        "selected_nonempty_lines": 40565,
+        "skipped_selected_lines": 0,
+        "duration_s": 16.963905096054077,
+        "unique_ids": 105,
+        "attack_labeled_frames": 1263
+      },
+      "detection": {
+        "windows_evaluated": 67,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 51,
+        "true_negative": 16,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_positive_rate": 0.0,
+        "per_attack_type": {
+          "masquerade": {
+            "windows": 51,
+            "detected": 0,
+            "recall": 0.0
+          }
+        },
+        "labeled": true
+      },
+      "alerts": 0,
+      "ingest_s": 0.08786683400103357,
+      "features_score_s": 1.1861555829964345,
+      "end_to_end_frames_per_s": 31758.17386583954,
+      "scores": "correlated_signal_attack_3_masquerade__attack_capture_windows.csv.gz",
+      "scores_sha256": "e9cf036a7bf5d05d7af00d8142a266db1a8fbe28b35378a75f5e4eff31dc4fc4",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "fuzzing_attack_1",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/road/road/attacks/fuzzing_attack_1.log",
+        "source_sha256": "04173a8403e8fc9996d3228889685b93f8327240fcbb84965e64ed853b3d39bc",
+        "selected_input": "data/raw/road/road/attacks/fuzzing_attack_1.log",
+        "selected_input_sha256": "04173a8403e8fc9996d3228889685b93f8327240fcbb84965e64ed853b3d39bc",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": null,
+        "frame_count": 49342,
+        "selected_nonempty_lines": 49342,
+        "skipped_selected_lines": 0,
+        "duration_s": 20.338948965072632,
+        "unique_ids": 662,
+        "attack_labeled_frames": 8569
+      },
+      "detection": {
+        "windows_evaluated": 81,
+        "true_positive": 15,
+        "false_positive": 38,
+        "false_negative": 0,
+        "true_negative": 28,
+        "precision": 0.283,
+        "recall": 1.0,
+        "f1": 0.4412,
+        "false_positive_rate": 0.5758,
+        "per_attack_type": {
+          "fuzzing": {
+            "windows": 15,
+            "detected": 15,
+            "recall": 1.0
+          }
+        },
+        "labeled": true
+      },
+      "alerts": 2,
+      "ingest_s": 0.11793475000013132,
+      "features_score_s": 1.4263657090050401,
+      "end_to_end_frames_per_s": 31885.321736053113,
+      "scores": "fuzzing_attack_1__attack_capture_windows.csv.gz",
+      "scores_sha256": "3ddf080b5495aeb78829cf5f8bdebc18f7d0c72a0bd4d3db72995de450ab8a29",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "fuzzing_attack_2",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/road/road/attacks/fuzzing_attack_2.log",
+        "source_sha256": "99f9ca4c9ebb0fbdebb1bedd3c0ff51869c9efeb8aba6dd8e8006083b7bd9e4f",
+        "selected_input": "data/raw/road/road/attacks/fuzzing_attack_2.log",
+        "selected_input_sha256": "99f9ca4c9ebb0fbdebb1bedd3c0ff51869c9efeb8aba6dd8e8006083b7bd9e4f",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": null,
+        "frame_count": 32351,
+        "selected_nonempty_lines": 32351,
+        "skipped_selected_lines": 0,
+        "duration_s": 13.365329027175903,
+        "unique_ids": 443,
+        "attack_labeled_frames": 5097
+      },
+      "detection": {
+        "windows_evaluated": 53,
+        "true_positive": 9,
+        "false_positive": 1,
+        "false_negative": 0,
+        "true_negative": 43,
+        "precision": 0.9,
+        "recall": 1.0,
+        "f1": 0.9474,
+        "false_positive_rate": 0.0227,
+        "per_attack_type": {
+          "fuzzing": {
+            "windows": 9,
+            "detected": 9,
+            "recall": 1.0
+          }
+        },
+        "labeled": true
+      },
+      "alerts": 2,
+      "ingest_s": 0.07110520800051745,
+      "features_score_s": 0.9285457919904729,
+      "end_to_end_frames_per_s": 32275.423062336362,
+      "scores": "fuzzing_attack_2__attack_capture_windows.csv.gz",
+      "scores_sha256": "c0a49187890f2c2c2aa3197b4da56416f0866a7d6437768dfa2523ff943701c6",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "fuzzing_attack_3",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/road/road/attacks/fuzzing_attack_3.log",
+        "source_sha256": "53a67622b04e0ff0c63ca10b567a8ee31f17effbb96af8d369b8bbaadc0040aa",
+        "selected_input": "data/raw/road/road/attacks/fuzzing_attack_3.log",
+        "selected_input_sha256": "53a67622b04e0ff0c63ca10b567a8ee31f17effbb96af8d369b8bbaadc0040aa",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": null,
+        "frame_count": 13238,
+        "selected_nonempty_lines": 13238,
+        "skipped_selected_lines": 0,
+        "duration_s": 5.482836961746216,
+        "unique_ids": 217,
+        "attack_labeled_frames": 1663
+      },
+      "detection": {
+        "windows_evaluated": 21,
+        "true_positive": 3,
+        "false_positive": 0,
+        "false_negative": 0,
+        "true_negative": 18,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "false_positive_rate": 0.0,
+        "per_attack_type": {
+          "fuzzing": {
+            "windows": 3,
+            "detected": 3,
+            "recall": 1.0
+          }
+        },
+        "labeled": true
+      },
+      "alerts": 1,
+      "ingest_s": 0.02915070801100228,
+      "features_score_s": 0.35814483399735764,
+      "end_to_end_frames_per_s": 33973.12022428848,
+      "scores": "fuzzing_attack_3__attack_capture_windows.csv.gz",
+      "scores_sha256": "0346241741ee698d395d1b14870a0d69dd1f3d452bcecb382fd50151abd6212c",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "max_engine_coolant_temp_attack",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/road/road/attacks/max_engine_coolant_temp_attack.log",
+        "source_sha256": "0f907546586b3f9401772df4d7642e995f30e764baa86f0aec46b72598e2b541",
+        "selected_input": "data/raw/road/road/attacks/max_engine_coolant_temp_attack.log",
+        "selected_input_sha256": "0f907546586b3f9401772df4d7642e995f30e764baa86f0aec46b72598e2b541",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": null,
+        "frame_count": 61923,
+        "selected_nonempty_lines": 61923,
+        "skipped_selected_lines": 0,
+        "duration_s": 25.875547885894775,
+        "unique_ids": 106,
+        "attack_labeled_frames": 85
+      },
+      "detection": {
+        "windows_evaluated": 103,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 19,
+        "true_negative": 84,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_positive_rate": 0.0,
+        "per_attack_type": {
+          "spoofing": {
+            "windows": 19,
+            "detected": 0,
+            "recall": 0.0
+          }
+        },
+        "labeled": true
+      },
+      "alerts": 0,
+      "ingest_s": 0.14942625000549015,
+      "features_score_s": 1.8891836660041008,
+      "end_to_end_frames_per_s": 30324.169351662742,
+      "scores": "max_engine_coolant_temp_attack__attack_capture_windows.csv.gz",
+      "scores_sha256": "24c8166ae0c1cf37d061e2af0cd696a566c156371fc9db87990d3eba21f40d89",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "max_engine_coolant_temp_attack_masquerade",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/road/road/attacks/max_engine_coolant_temp_attack_masquerade.log",
+        "source_sha256": "6a6f3e419963b2118a9cc116021e62ad22c4138497aec0840b30f47320595c73",
+        "selected_input": "data/raw/road/road/attacks/max_engine_coolant_temp_attack_masquerade.log",
+        "selected_input_sha256": "6a6f3e419963b2118a9cc116021e62ad22c4138497aec0840b30f47320595c73",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": null,
+        "frame_count": 61881,
+        "selected_nonempty_lines": 61881,
+        "skipped_selected_lines": 0,
+        "duration_s": 25.875547885894775,
+        "unique_ids": 106,
+        "attack_labeled_frames": 43
+      },
+      "detection": {
+        "windows_evaluated": 103,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 19,
+        "true_negative": 84,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_positive_rate": 0.0,
+        "per_attack_type": {
+          "masquerade": {
+            "windows": 19,
+            "detected": 0,
+            "recall": 0.0
+          }
+        },
+        "labeled": true
+      },
+      "alerts": 0,
+      "ingest_s": 0.1503133750084089,
+      "features_score_s": 1.7600448750017677,
+      "end_to_end_frames_per_s": 32333.53863270004,
+      "scores": "max_engine_coolant_temp_attack_masquerade__attack_capture_windows.csv.gz",
+      "scores_sha256": "d109c14b7341aa08268cf991b6fa93add8575d4146facb19365fa8f4ba63272c",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "max_speedometer_attack_1",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/road/road/attacks/max_speedometer_attack_1.log",
+        "source_sha256": "6d36e0985dc7e962f600f328d2056d013f759df8a4daeb2db1505274fcecaca1",
+        "selected_input": "data/raw/road/road/attacks/max_speedometer_attack_1.log",
+        "selected_input_sha256": "6d36e0985dc7e962f600f328d2056d013f759df8a4daeb2db1505274fcecaca1",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": null,
+        "frame_count": 213397,
+        "selected_nonempty_lines": 213397,
+        "skipped_selected_lines": 0,
+        "duration_s": 88.02157688140869,
+        "unique_ids": 106,
+        "attack_labeled_frames": 4887
+      },
+      "detection": {
+        "windows_evaluated": 352,
+        "true_positive": 99,
+        "false_positive": 26,
+        "false_negative": 0,
+        "true_negative": 227,
+        "precision": 0.792,
+        "recall": 1.0,
+        "f1": 0.8839,
+        "false_positive_rate": 0.1028,
+        "per_attack_type": {
+          "spoofing": {
+            "windows": 99,
+            "detected": 99,
+            "recall": 1.0
+          }
+        },
+        "labeled": true
+      },
+      "alerts": 2,
+      "ingest_s": 0.6160099999979138,
+      "features_score_s": 6.210512292003841,
+      "end_to_end_frames_per_s": 31237.601890128888,
+      "scores": "max_speedometer_attack_1__attack_capture_windows.csv.gz",
+      "scores_sha256": "b0b0882bc79143b7efb6bf973476f76f462f81d722cdaa876eb986673a7ce5ae",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "max_speedometer_attack_1_masquerade",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/road/road/attacks/max_speedometer_attack_1_masquerade.log",
+        "source_sha256": "9905b3b4305c86f1562659e48327aa9ba471941078dcbf93aea4f001620e20a6",
+        "selected_input": "data/raw/road/road/attacks/max_speedometer_attack_1_masquerade.log",
+        "selected_input_sha256": "9905b3b4305c86f1562659e48327aa9ba471941078dcbf93aea4f001620e20a6",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": null,
+        "frame_count": 210953,
+        "selected_nonempty_lines": 210953,
+        "skipped_selected_lines": 0,
+        "duration_s": 88.02157688140869,
+        "unique_ids": 106,
+        "attack_labeled_frames": 2443
+      },
+      "detection": {
+        "windows_evaluated": 352,
+        "true_positive": 0,
+        "false_positive": 26,
+        "false_negative": 99,
+        "true_negative": 227,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_positive_rate": 0.1028,
+        "per_attack_type": {
+          "masquerade": {
+            "windows": 99,
+            "detected": 0,
+            "recall": 0.0
+          }
+        },
+        "labeled": true
+      },
+      "alerts": 1,
+      "ingest_s": 0.9447843340021791,
+      "features_score_s": 7.06746912500239,
+      "end_to_end_frames_per_s": 26311.392184739918,
+      "scores": "max_speedometer_attack_1_masquerade__attack_capture_windows.csv.gz",
+      "scores_sha256": "7d27d6631bb2b909f8f789d46c95a598d8e420e387b64cb1ca697033510099ad",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "max_speedometer_attack_2",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/road/road/attacks/max_speedometer_attack_2.log",
+        "source_sha256": "20e8877307407de41b66c84d29205e99329590cbf47c1894ffe4713bd29d68dd",
+        "selected_input": "data/raw/road/road/attacks/max_speedometer_attack_2.log",
+        "selected_input_sha256": "20e8877307407de41b66c84d29205e99329590cbf47c1894ffe4713bd29d68dd",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": null,
+        "frame_count": 145894,
+        "selected_nonempty_lines": 145894,
+        "skipped_selected_lines": 0,
+        "duration_s": 59.69697308540344,
+        "unique_ids": 106,
+        "attack_labeled_frames": 6279
+      },
+      "detection": {
+        "windows_evaluated": 238,
+        "true_positive": 127,
+        "false_positive": 0,
+        "false_negative": 0,
+        "true_negative": 111,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "false_positive_rate": 0.0,
+        "per_attack_type": {
+          "spoofing": {
+            "windows": 127,
+            "detected": 127,
+            "recall": 1.0
+          }
+        },
+        "labeled": true
+      },
+      "alerts": 1,
+      "ingest_s": 0.4101293340063421,
+      "features_score_s": 4.224701125000138,
+      "end_to_end_frames_per_s": 31451.77099764979,
+      "scores": "max_speedometer_attack_2__attack_capture_windows.csv.gz",
+      "scores_sha256": "2f91d2431bd04d23735df355cba4d0596e79efec840aac24f677757fb18c04a9",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "max_speedometer_attack_2_masquerade",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/road/road/attacks/max_speedometer_attack_2_masquerade.log",
+        "source_sha256": "e0fdb8078d2aa9ce26cae34d2dbe216aab654cb77eddfb4917b41f0f574298e3",
+        "selected_input": "data/raw/road/road/attacks/max_speedometer_attack_2_masquerade.log",
+        "selected_input_sha256": "e0fdb8078d2aa9ce26cae34d2dbe216aab654cb77eddfb4917b41f0f574298e3",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": null,
+        "frame_count": 142754,
+        "selected_nonempty_lines": 142754,
+        "skipped_selected_lines": 0,
+        "duration_s": 59.69697308540344,
+        "unique_ids": 106,
+        "attack_labeled_frames": 3139
+      },
+      "detection": {
+        "windows_evaluated": 238,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 127,
+        "true_negative": 111,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_positive_rate": 0.0,
+        "per_attack_type": {
+          "masquerade": {
+            "windows": 127,
+            "detected": 0,
+            "recall": 0.0
+          }
+        },
+        "labeled": true
+      },
+      "alerts": 0,
+      "ingest_s": 0.39914195900200866,
+      "features_score_s": 4.475613290996989,
+      "end_to_end_frames_per_s": 29259.729347678516,
+      "scores": "max_speedometer_attack_2_masquerade__attack_capture_windows.csv.gz",
+      "scores_sha256": "5febef377001105380c6fa85bce7a1538be58325dce07236355ac021661b22c3",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "max_speedometer_attack_3",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/road/road/attacks/max_speedometer_attack_3.log",
+        "source_sha256": "dff0445e7941722227668865e10947e6c7a7bb15d1bf39b9425de4347288bd10",
+        "selected_input": "data/raw/road/road/attacks/max_speedometer_attack_3.log",
+        "selected_input_sha256": "dff0445e7941722227668865e10947e6c7a7bb15d1bf39b9425de4347288bd10",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": null,
+        "frame_count": 213551,
+        "selected_nonempty_lines": 213551,
+        "skipped_selected_lines": 0,
+        "duration_s": 86.76666688919067,
+        "unique_ids": 106,
+        "attack_labeled_frames": 12214
+      },
+      "detection": {
+        "windows_evaluated": 347,
+        "true_positive": 245,
+        "false_positive": 1,
+        "false_negative": 1,
+        "true_negative": 100,
+        "precision": 0.9959,
+        "recall": 0.9959,
+        "f1": 0.9959,
+        "false_positive_rate": 0.0099,
+        "per_attack_type": {
+          "spoofing": {
+            "windows": 246,
+            "detected": 245,
+            "recall": 0.9959
+          }
+        },
+        "labeled": true
+      },
+      "alerts": 2,
+      "ingest_s": 0.6496349169901805,
+      "features_score_s": 6.445204375006142,
+      "end_to_end_frames_per_s": 30078.2384418593,
+      "scores": "max_speedometer_attack_3__attack_capture_windows.csv.gz",
+      "scores_sha256": "1d0028e2af1340a5db05c9aad6a1e0b76a4a0aece6159aba8cc2fc8e3910f813",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "max_speedometer_attack_3_masquerade",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/road/road/attacks/max_speedometer_attack_3_masquerade.log",
+        "source_sha256": "f8bea0945d47fcbcdea26dcab38845274a20ba17698eb417e68bb3ba57863388",
+        "selected_input": "data/raw/road/road/attacks/max_speedometer_attack_3_masquerade.log",
+        "selected_input_sha256": "f8bea0945d47fcbcdea26dcab38845274a20ba17698eb417e68bb3ba57863388",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": null,
+        "frame_count": 207444,
+        "selected_nonempty_lines": 207444,
+        "skipped_selected_lines": 0,
+        "duration_s": 86.76666688919067,
+        "unique_ids": 106,
+        "attack_labeled_frames": 6107
+      },
+      "detection": {
+        "windows_evaluated": 347,
+        "true_positive": 3,
+        "false_positive": 1,
+        "false_negative": 243,
+        "true_negative": 100,
+        "precision": 0.75,
+        "recall": 0.0122,
+        "f1": 0.024,
+        "false_positive_rate": 0.0099,
+        "per_attack_type": {
+          "masquerade": {
+            "windows": 246,
+            "detected": 3,
+            "recall": 0.0122
+          }
+        },
+        "labeled": true
+      },
+      "alerts": 2,
+      "ingest_s": 0.6672331250010757,
+      "features_score_s": 6.293764583009761,
+      "end_to_end_frames_per_s": 29774.943291364012,
+      "scores": "max_speedometer_attack_3_masquerade__attack_capture_windows.csv.gz",
+      "scores_sha256": "7edf7fd71bdba85cb995c79738efa41a8e1d51a7b078d0dd817d218bde992e16",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "reverse_light_off_attack_1",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/road/road/attacks/reverse_light_off_attack_1.log",
+        "source_sha256": "0e253c574f6c8ba2a03c39f7fbbdb2c450bf2c4c072ac817f22c961d32996560",
+        "selected_input": "data/raw/road/road/attacks/reverse_light_off_attack_1.log",
+        "selected_input_sha256": "0e253c574f6c8ba2a03c39f7fbbdb2c450bf2c4c072ac817f22c961d32996560",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": null,
+        "frame_count": 67902,
+        "selected_nonempty_lines": 67902,
+        "skipped_selected_lines": 0,
+        "duration_s": 28.1098690032959,
+        "unique_ids": 106,
+        "attack_labeled_frames": 1344
+      },
+      "detection": {
+        "windows_evaluated": 112,
+        "true_positive": 27,
+        "false_positive": 0,
+        "false_negative": 2,
+        "true_negative": 83,
+        "precision": 1.0,
+        "recall": 0.931,
+        "f1": 0.9643,
+        "false_positive_rate": 0.0,
+        "per_attack_type": {
+          "spoofing": {
+            "windows": 29,
+            "detected": 27,
+            "recall": 0.931
+          }
+        },
+        "labeled": true
+      },
+      "alerts": 1,
+      "ingest_s": 0.19160824999562465,
+      "features_score_s": 2.2097884160029935,
+      "end_to_end_frames_per_s": 28227.07395900951,
+      "scores": "reverse_light_off_attack_1__attack_capture_windows.csv.gz",
+      "scores_sha256": "4bfe06b2094180d5ac4c16f3efd0fa505db7adbbd2872ffc99e088729bdcb6e3",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "reverse_light_off_attack_1_masquerade",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/road/road/attacks/reverse_light_off_attack_1_masquerade.log",
+        "source_sha256": "4cd8616e2bfd0623b99a72e63876dc966d0c3a29252a2ac4cba736d0bfb0398b",
+        "selected_input": "data/raw/road/road/attacks/reverse_light_off_attack_1_masquerade.log",
+        "selected_input_sha256": "4cd8616e2bfd0623b99a72e63876dc966d0c3a29252a2ac4cba736d0bfb0398b",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": null,
+        "frame_count": 67230,
+        "selected_nonempty_lines": 67230,
+        "skipped_selected_lines": 0,
+        "duration_s": 28.1098690032959,
+        "unique_ids": 106,
+        "attack_labeled_frames": 672
+      },
+      "detection": {
+        "windows_evaluated": 112,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 29,
+        "true_negative": 83,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_positive_rate": 0.0,
+        "per_attack_type": {
+          "masquerade": {
+            "windows": 29,
+            "detected": 0,
+            "recall": 0.0
+          }
+        },
+        "labeled": true
+      },
+      "alerts": 0,
+      "ingest_s": 0.18914362500072457,
+      "features_score_s": 2.169043125002645,
+      "end_to_end_frames_per_s": 28468.373555106366,
+      "scores": "reverse_light_off_attack_1_masquerade__attack_capture_windows.csv.gz",
+      "scores_sha256": "6e461183a691635038ef7d822c88532879b4e2d2e9b73af3e3fbaa2ff5dc3e61",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "reverse_light_off_attack_2",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/road/road/attacks/reverse_light_off_attack_2.log",
+        "source_sha256": "e2247262c4ff7b2d3f9b509916c8c18487a4e5dc8ee0c282ba5c7da0d321ba48",
+        "selected_input": "data/raw/road/road/attacks/reverse_light_off_attack_2.log",
+        "selected_input_sha256": "e2247262c4ff7b2d3f9b509916c8c18487a4e5dc8ee0c282ba5c7da0d321ba48",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": null,
+        "frame_count": 99628,
+        "selected_nonempty_lines": 99628,
+        "skipped_selected_lines": 0,
+        "duration_s": 40.66529607772827,
+        "unique_ids": 106,
+        "attack_labeled_frames": 4741
+      },
+      "detection": {
+        "windows_evaluated": 162,
+        "true_positive": 95,
+        "false_positive": 0,
+        "false_negative": 2,
+        "true_negative": 65,
+        "precision": 1.0,
+        "recall": 0.9794,
+        "f1": 0.9896,
+        "false_positive_rate": 0.0,
+        "per_attack_type": {
+          "spoofing": {
+            "windows": 97,
+            "detected": 95,
+            "recall": 0.9794
+          }
+        },
+        "labeled": true
+      },
+      "alerts": 1,
+      "ingest_s": 0.31216766699799336,
+      "features_score_s": 3.2380962909955997,
+      "end_to_end_frames_per_s": 28013.211715373207,
+      "scores": "reverse_light_off_attack_2__attack_capture_windows.csv.gz",
+      "scores_sha256": "3c5748f8ad38de168b3b6f053c304d7f8741db5142fa9313444d6b1a59292010",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "reverse_light_off_attack_2_masquerade",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/road/road/attacks/reverse_light_off_attack_2_masquerade.log",
+        "source_sha256": "e576b6a7a608afebcd6438d92ea0e9f8314936d676a4e46e7700e4cbefd17771",
+        "selected_input": "data/raw/road/road/attacks/reverse_light_off_attack_2_masquerade.log",
+        "selected_input_sha256": "e576b6a7a608afebcd6438d92ea0e9f8314936d676a4e46e7700e4cbefd17771",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": null,
+        "frame_count": 97257,
+        "selected_nonempty_lines": 97257,
+        "skipped_selected_lines": 0,
+        "duration_s": 40.66529607772827,
+        "unique_ids": 106,
+        "attack_labeled_frames": 2370
+      },
+      "detection": {
+        "windows_evaluated": 162,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 97,
+        "true_negative": 65,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_positive_rate": 0.0,
+        "per_attack_type": {
+          "masquerade": {
+            "windows": 97,
+            "detected": 0,
+            "recall": 0.0
+          }
+        },
+        "labeled": true
+      },
+      "alerts": 0,
+      "ingest_s": 0.3785135420039296,
+      "features_score_s": 3.136380124997231,
+      "end_to_end_frames_per_s": 27638.40242032357,
+      "scores": "reverse_light_off_attack_2_masquerade__attack_capture_windows.csv.gz",
+      "scores_sha256": "04be013be2c81d81a8e9bfb50efe56c3590efa0bcfff9a7322ebe02b1f0c1a03",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "reverse_light_off_attack_3",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/road/road/attacks/reverse_light_off_attack_3.log",
+        "source_sha256": "b359e592f92775a9f10540b83f29a2e3de89e77b6828dee698fec3f9a8ee29ad",
+        "selected_input": "data/raw/road/road/attacks/reverse_light_off_attack_3.log",
+        "selected_input_sha256": "b359e592f92775a9f10540b83f29a2e3de89e77b6828dee698fec3f9a8ee29ad",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": null,
+        "frame_count": 140855,
+        "selected_nonempty_lines": 140855,
+        "skipped_selected_lines": 0,
+        "duration_s": 57.8848819732666,
+        "unique_ids": 106,
+        "attack_labeled_frames": 4868
+      },
+      "detection": {
+        "windows_evaluated": 231,
+        "true_positive": 98,
+        "false_positive": 0,
+        "false_negative": 1,
+        "true_negative": 132,
+        "precision": 1.0,
+        "recall": 0.9899,
+        "f1": 0.9949,
+        "false_positive_rate": 0.0,
+        "per_attack_type": {
+          "spoofing": {
+            "windows": 99,
+            "detected": 98,
+            "recall": 0.9899
+          }
+        },
+        "labeled": true
+      },
+      "alerts": 1,
+      "ingest_s": 0.46336341700225603,
+      "features_score_s": 4.363472957993508,
+      "end_to_end_frames_per_s": 29145.338373031187,
+      "scores": "reverse_light_off_attack_3__attack_capture_windows.csv.gz",
+      "scores_sha256": "831223912a5b8364ea99f6bd14bd2117a71e29fae34d99f323874181da24c3dd",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "reverse_light_off_attack_3_masquerade",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/road/road/attacks/reverse_light_off_attack_3_masquerade.log",
+        "source_sha256": "19d02cc4c85c22aaab8e80ee700e0b139cc888c3232b2bd7c371c0877d6a9582",
+        "selected_input": "data/raw/road/road/attacks/reverse_light_off_attack_3_masquerade.log",
+        "selected_input_sha256": "19d02cc4c85c22aaab8e80ee700e0b139cc888c3232b2bd7c371c0877d6a9582",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": null,
+        "frame_count": 138421,
+        "selected_nonempty_lines": 138421,
+        "skipped_selected_lines": 0,
+        "duration_s": 57.8848819732666,
+        "unique_ids": 106,
+        "attack_labeled_frames": 2434
+      },
+      "detection": {
+        "windows_evaluated": 231,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 99,
+        "true_negative": 132,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_positive_rate": 0.0,
+        "per_attack_type": {
+          "masquerade": {
+            "windows": 99,
+            "detected": 0,
+            "recall": 0.0
+          }
+        },
+        "labeled": true
+      },
+      "alerts": 0,
+      "ingest_s": 0.39019449999614153,
+      "features_score_s": 4.182031707998249,
+      "end_to_end_frames_per_s": 30236.756769756463,
+      "scores": "reverse_light_off_attack_3_masquerade__attack_capture_windows.csv.gz",
+      "scores_sha256": "cc8a5895e3cc5cefbe8d15c719aad53cf781e714f094210b9628a382b4258c9e",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "reverse_light_on_attack_1",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/road/road/attacks/reverse_light_on_attack_1.log",
+        "source_sha256": "c5c34833e27241ced63b0b6e074d80651897a505f8f4fd6d005f859432384c82",
+        "selected_input": "data/raw/road/road/attacks/reverse_light_on_attack_1.log",
+        "selected_input_sha256": "c5c34833e27241ced63b0b6e074d80651897a505f8f4fd6d005f859432384c82",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": null,
+        "frame_count": 133237,
+        "selected_nonempty_lines": 133237,
+        "skipped_selected_lines": 0,
+        "duration_s": 54.85020709037781,
+        "unique_ids": 106,
+        "attack_labeled_frames": 3983
+      },
+      "detection": {
+        "windows_evaluated": 219,
+        "true_positive": 80,
+        "false_positive": 1,
+        "false_negative": 2,
+        "true_negative": 136,
+        "precision": 0.9877,
+        "recall": 0.9756,
+        "f1": 0.9816,
+        "false_positive_rate": 0.0073,
+        "per_attack_type": {
+          "spoofing": {
+            "windows": 82,
+            "detected": 80,
+            "recall": 0.9756
+          }
+        },
+        "labeled": true
+      },
+      "alerts": 2,
+      "ingest_s": 0.41000879199418705,
+      "features_score_s": 4.172913292000885,
+      "end_to_end_frames_per_s": 29045.743859855582,
+      "scores": "reverse_light_on_attack_1__attack_capture_windows.csv.gz",
+      "scores_sha256": "8fd134e7d34b6f55a07514745d7d1f577559ed1da759dfe1c3c8ca8197859fd6",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "reverse_light_on_attack_1_masquerade",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/road/road/attacks/reverse_light_on_attack_1_masquerade.log",
+        "source_sha256": "9a1d6907104e4a94495552818b8d8aaf0852c8ffc58c12b2f602ee5ee1bffd1e",
+        "selected_input": "data/raw/road/road/attacks/reverse_light_on_attack_1_masquerade.log",
+        "selected_input_sha256": "9a1d6907104e4a94495552818b8d8aaf0852c8ffc58c12b2f602ee5ee1bffd1e",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": null,
+        "frame_count": 131246,
+        "selected_nonempty_lines": 131246,
+        "skipped_selected_lines": 0,
+        "duration_s": 54.85020709037781,
+        "unique_ids": 106,
+        "attack_labeled_frames": 1992
+      },
+      "detection": {
+        "windows_evaluated": 219,
+        "true_positive": 0,
+        "false_positive": 1,
+        "false_negative": 82,
+        "true_negative": 136,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_positive_rate": 0.0073,
+        "per_attack_type": {
+          "masquerade": {
+            "windows": 82,
+            "detected": 0,
+            "recall": 0.0
+          }
+        },
+        "labeled": true
+      },
+      "alerts": 1,
+      "ingest_s": 0.487071499999729,
+      "features_score_s": 4.250545707996935,
+      "end_to_end_frames_per_s": 27679.15569779652,
+      "scores": "reverse_light_on_attack_1_masquerade__attack_capture_windows.csv.gz",
+      "scores_sha256": "0da74c588bf5264043844c824cba608e4c3f223963c7aeb44b875431340b1d8e",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "reverse_light_on_attack_2",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/road/road/attacks/reverse_light_on_attack_2.log",
+        "source_sha256": "1f8bb86b754127e61149cecee33ce924a66f1d7e3f7b06890715c240c6843fd3",
+        "selected_input": "data/raw/road/road/attacks/reverse_light_on_attack_2.log",
+        "selected_input_sha256": "1f8bb86b754127e61149cecee33ce924a66f1d7e3f7b06890715c240c6843fd3",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": null,
+        "frame_count": 175945,
+        "selected_nonempty_lines": 175945,
+        "skipped_selected_lines": 0,
+        "duration_s": 72.02090501785278,
+        "unique_ids": 106,
+        "attack_labeled_frames": 7379
+      },
+      "detection": {
+        "windows_evaluated": 288,
+        "true_positive": 148,
+        "false_positive": 0,
+        "false_negative": 2,
+        "true_negative": 138,
+        "precision": 1.0,
+        "recall": 0.9867,
+        "f1": 0.9933,
+        "false_positive_rate": 0.0,
+        "per_attack_type": {
+          "spoofing": {
+            "windows": 150,
+            "detected": 148,
+            "recall": 0.9867
+          }
+        },
+        "labeled": true
+      },
+      "alerts": 1,
+      "ingest_s": 0.5316853329859441,
+      "features_score_s": 5.530378750001546,
+      "end_to_end_frames_per_s": 29001.410773404714,
+      "scores": "reverse_light_on_attack_2__attack_capture_windows.csv.gz",
+      "scores_sha256": "f2b0d6ba40f15154e296c5046aa3fd62d69a91326d995b509afbfdfc8d6795e8",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "reverse_light_on_attack_2_masquerade",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/road/road/attacks/reverse_light_on_attack_2_masquerade.log",
+        "source_sha256": "c15e11e83895deeaecf904ca0757efb0acd84053f58637d6d7029c6f58344da1",
+        "selected_input": "data/raw/road/road/attacks/reverse_light_on_attack_2_masquerade.log",
+        "selected_input_sha256": "c15e11e83895deeaecf904ca0757efb0acd84053f58637d6d7029c6f58344da1",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": null,
+        "frame_count": 172256,
+        "selected_nonempty_lines": 172256,
+        "skipped_selected_lines": 0,
+        "duration_s": 72.02090501785278,
+        "unique_ids": 106,
+        "attack_labeled_frames": 3690
+      },
+      "detection": {
+        "windows_evaluated": 288,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 150,
+        "true_negative": 138,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_positive_rate": 0.0,
+        "per_attack_type": {
+          "masquerade": {
+            "windows": 150,
+            "detected": 0,
+            "recall": 0.0
+          }
+        },
+        "labeled": true
+      },
+      "alerts": 0,
+      "ingest_s": 0.8122924999915995,
+      "features_score_s": 5.454880834004143,
+      "end_to_end_frames_per_s": 27461.563052697074,
+      "scores": "reverse_light_on_attack_2_masquerade__attack_capture_windows.csv.gz",
+      "scores_sha256": "0f210eb28911cba302d5662f549ad64bab3eb6939fbf0c486abfe956b8c9bee6",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "reverse_light_on_attack_3",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/road/road/attacks/reverse_light_on_attack_3.log",
+        "source_sha256": "8ad277b7b19e66a4744f8309c02e4c7a9c149ce4c3b141f557780baefe9dcb8e",
+        "selected_input": "data/raw/road/road/attacks/reverse_light_on_attack_3.log",
+        "selected_input_sha256": "8ad277b7b19e66a4744f8309c02e4c7a9c149ce4c3b141f557780baefe9dcb8e",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": null,
+        "frame_count": 156052,
+        "selected_nonempty_lines": 156052,
+        "skipped_selected_lines": 0,
+        "duration_s": 64.25877094268799,
+        "unique_ids": 106,
+        "attack_labeled_frames": 4701
+      },
+      "detection": {
+        "windows_evaluated": 257,
+        "true_positive": 95,
+        "false_positive": 1,
+        "false_negative": 1,
+        "true_negative": 160,
+        "precision": 0.9896,
+        "recall": 0.9896,
+        "f1": 0.9896,
+        "false_positive_rate": 0.0062,
+        "per_attack_type": {
+          "spoofing": {
+            "windows": 96,
+            "detected": 95,
+            "recall": 0.9896
+          }
+        },
+        "labeled": true
+      },
+      "alerts": 2,
+      "ingest_s": 0.5549670420004986,
+      "features_score_s": 5.316547582988278,
+      "end_to_end_frames_per_s": 26556.95340920155,
+      "scores": "reverse_light_on_attack_3__attack_capture_windows.csv.gz",
+      "scores_sha256": "6d775f3c62b942b90146ba82fc528e87fee428e2748327411f738e04a183fc72",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "reverse_light_on_attack_3_masquerade",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/road/road/attacks/reverse_light_on_attack_3_masquerade.log",
+        "source_sha256": "4fbbce65cbe81c5fd762dd0440486a5dc0bb53cff3f29b408ab798236ba9c6e1",
+        "selected_input": "data/raw/road/road/attacks/reverse_light_on_attack_3_masquerade.log",
+        "selected_input_sha256": "4fbbce65cbe81c5fd762dd0440486a5dc0bb53cff3f29b408ab798236ba9c6e1",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": null,
+        "frame_count": 153701,
+        "selected_nonempty_lines": 153701,
+        "skipped_selected_lines": 0,
+        "duration_s": 64.25877094268799,
+        "unique_ids": 106,
+        "attack_labeled_frames": 2350
+      },
+      "detection": {
+        "windows_evaluated": 257,
+        "true_positive": 0,
+        "false_positive": 1,
+        "false_negative": 96,
+        "true_negative": 160,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_positive_rate": 0.0062,
+        "per_attack_type": {
+          "masquerade": {
+            "windows": 96,
+            "detected": 0,
+            "recall": 0.0
+          }
+        },
+        "labeled": true
+      },
+      "alerts": 1,
+      "ingest_s": 0.5317230829969049,
+      "features_score_s": 4.853152041992871,
+      "end_to_end_frames_per_s": 28518.149672275656,
+      "scores": "reverse_light_on_attack_3_masquerade__attack_capture_windows.csv.gz",
+      "scores_sha256": "0bd404063f4588aa3aa98a6a7d04ebc43a319e5ee9fafbba8c81ce0ce4b85fae",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "ambient_dyno_drive_basic_long",
+      "role": "held_out_normal",
+      "input": {
+        "source": "data/raw/road/road/ambient/ambient_dyno_drive_basic_long.log",
+        "source_sha256": "38b6cf1b806dbff515ce31f287d445ae6148db513d58c79509b2311d62bcffe7",
+        "selected_input": "data/evaluation_inputs/detectors_2026-10-30/road_broad_state_window/ambient_dyno_drive_basic_long_0_120/ambient_dyno_drive_basic_long.log",
+        "selected_input_sha256": "4906aae867e3fd98ccacc401db635428b644246e3555ecbcf5890053a6e783cf",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": 120.0,
+        "frame_count": 286945,
+        "selected_nonempty_lines": 286945,
+        "skipped_selected_lines": 0,
+        "duration_s": 119.99899911880493,
+        "unique_ids": 106,
+        "attack_labeled_frames": 0
+      },
+      "detection": {
+        "windows_evaluated": 479,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "true_negative": 479,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_positive_rate": 0.0,
+        "per_attack_type": {},
+        "labeled": true
+      },
+      "alerts": 0,
+      "ingest_s": 1.1887445419997675,
+      "features_score_s": 7.327425124996807,
+      "end_to_end_frames_per_s": 33671.91156912129,
+      "scores": "ambient_dyno_drive_basic_long__held_out_normal_windows.csv.gz",
+      "scores_sha256": "b35ea3a7b51160a44f4339a6131053bde74a3dcf76401663089aab76168b37c0",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "ambient_dyno_drive_benign_anomaly",
+      "role": "held_out_normal",
+      "input": {
+        "source": "data/raw/road/road/ambient/ambient_dyno_drive_benign_anomaly.log",
+        "source_sha256": "2578f97340613b93b62a222769332019e78e4014278840c5e569f6b395b4d10d",
+        "selected_input": "data/evaluation_inputs/detectors_2026-10-30/road_broad_state_window/ambient_dyno_drive_benign_anomaly_0_120/ambient_dyno_drive_benign_anomaly.log",
+        "selected_input_sha256": "6b075b319abd48f5218889c98c4eb3008f2f2ffcbebd912636f41c03d54f1c0a",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": 120.0,
+        "frame_count": 108740,
+        "selected_nonempty_lines": 108740,
+        "skipped_selected_lines": 0,
+        "duration_s": 119.99462699890137,
+        "unique_ids": 106,
+        "attack_labeled_frames": 0
+      },
+      "detection": {
+        "windows_evaluated": 478,
+        "true_positive": 0,
+        "false_positive": 446,
+        "false_negative": 0,
+        "true_negative": 32,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_positive_rate": 0.9331,
+        "per_attack_type": {},
+        "labeled": true
+      },
+      "alerts": 4,
+      "ingest_s": 0.37413412499881815,
+      "features_score_s": 3.2609768330003135,
+      "end_to_end_frames_per_s": 29870.451957039866,
+      "scores": "ambient_dyno_drive_benign_anomaly__held_out_normal_windows.csv.gz",
+      "scores_sha256": "3bbda350e37f0bf26e3a1c107d6c1a7da2a0af98230e1bf809604d039bad9d71",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "input": {
+        "source": "data/raw/road/road/ambient/ambient_dyno_drive_extended_short.log",
+        "source_sha256": "ddc11a7ed5dcb85b7de063c609638b123eaf59b52939da55ea8a0cbfe6fe24b0",
+        "selected_input": "data/evaluation_inputs/detectors_2026-10-30/road_broad_state_window/ambient_dyno_drive_extended_short_0_120/ambient_dyno_drive_extended_short.log",
+        "selected_input_sha256": "431b3c004cf83b4126f5eb0871caa212287eded2715d8c8a5227351e4ad2a92c",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": 120.0,
+        "frame_count": 255230,
+        "selected_nonempty_lines": 255230,
+        "skipped_selected_lines": 0,
+        "duration_s": 119.99910497665405,
+        "unique_ids": 106,
+        "attack_labeled_frames": 0
+      },
+      "detection": {
+        "windows_evaluated": 479,
+        "true_positive": 0,
+        "false_positive": 17,
+        "false_negative": 0,
+        "true_negative": 462,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_positive_rate": 0.0355,
+        "per_attack_type": {},
+        "labeled": true
+      },
+      "alerts": 3,
+      "ingest_s": 0.9289706669951556,
+      "features_score_s": 6.683407707998413,
+      "end_to_end_frames_per_s": 33504.339549826815,
+      "scores": "ambient_dyno_drive_extended_short__held_out_normal_windows.csv.gz",
+      "scores_sha256": "46f804e658ccadd7a1407fe814ae40bc54c0f777eb2a7c19c0ae748fbd118845",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "ambient_dyno_drive_winter",
+      "role": "held_out_normal",
+      "input": {
+        "source": "data/raw/road/road/ambient/ambient_dyno_drive_winter.log",
+        "source_sha256": "29868df8bdab5380ed7b643ebc4bcfdd6c11cca3486830b7b326ff4745433894",
+        "selected_input": "data/evaluation_inputs/detectors_2026-10-30/road_broad_state_window/ambient_dyno_drive_winter_0_120/ambient_dyno_drive_winter.log",
+        "selected_input_sha256": "29868df8bdab5380ed7b643ebc4bcfdd6c11cca3486830b7b326ff4745433894",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": 120.0,
+        "frame_count": 114148,
+        "selected_nonempty_lines": 114148,
+        "skipped_selected_lines": 0,
+        "duration_s": 47.73052203655243,
+        "unique_ids": 106,
+        "attack_labeled_frames": 0
+      },
+      "detection": {
+        "windows_evaluated": 190,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "true_negative": 190,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_positive_rate": 0.0,
+        "per_attack_type": {},
+        "labeled": true
+      },
+      "alerts": 0,
+      "ingest_s": 0.8048757499927888,
+      "features_score_s": 2.8297832920070505,
+      "end_to_end_frames_per_s": 31369.673692020504,
+      "scores": "ambient_dyno_drive_winter__held_out_normal_windows.csv.gz",
+      "scores_sha256": "2401ad76391ee266e37781da3e0977e1028f57a9ff2daceb685edc9fce78194e",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "ambient_dyno_exercise_all_bits",
+      "role": "held_out_normal",
+      "input": {
+        "source": "data/raw/road/road/ambient/ambient_dyno_exercise_all_bits.log",
+        "source_sha256": "710d0deff388686b05765573b36bccdbbc175fa693caafd6f18fadec0f226cd7",
+        "selected_input": "data/evaluation_inputs/detectors_2026-10-30/road_broad_state_window/ambient_dyno_exercise_all_bits_0_120/ambient_dyno_exercise_all_bits.log",
+        "selected_input_sha256": "e9642ac24a5ea3ce048c6a0450d5bcb42557d791a2ec745b836399087111a515",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": 120.0,
+        "frame_count": 61358,
+        "selected_nonempty_lines": 61358,
+        "skipped_selected_lines": 0,
+        "duration_s": 119.99734199047089,
+        "unique_ids": 55,
+        "attack_labeled_frames": 0
+      },
+      "detection": {
+        "windows_evaluated": 378,
+        "true_positive": 0,
+        "false_positive": 3,
+        "false_negative": 0,
+        "true_negative": 375,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_positive_rate": 0.0079,
+        "per_attack_type": {},
+        "labeled": true
+      },
+      "alerts": 3,
+      "ingest_s": 0.26938595800311305,
+      "features_score_s": 2.1636191669967957,
+      "end_to_end_frames_per_s": 25166.39502725255,
+      "scores": "ambient_dyno_exercise_all_bits__held_out_normal_windows.csv.gz",
+      "scores_sha256": "95e83fa5a02ac8b759991238fcc83302a5ee21fdadd6104a4910632d79b91d29",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "ambient_highway_street_driving_diagnostics",
+      "role": "held_out_normal",
+      "input": {
+        "source": "data/raw/road/road/ambient/ambient_highway_street_driving_diagnostics.log",
+        "source_sha256": "95ccdc033aadf9156dc055f09ede2ca849b7c69a889c61c74107016c4956fa54",
+        "selected_input": "data/evaluation_inputs/detectors_2026-10-30/road_broad_state_window/ambient_highway_street_driving_diagnostics_0_120/ambient_highway_street_driving_diagnostics.log",
+        "selected_input_sha256": "2560a7d60084563d4860909af094ca671d2eb2f77c6de140f1d80f50b4401b02",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": 120.0,
+        "frame_count": 287156,
+        "selected_nonempty_lines": 287156,
+        "skipped_selected_lines": 0,
+        "duration_s": 119.9978129863739,
+        "unique_ids": 106,
+        "attack_labeled_frames": 0
+      },
+      "detection": {
+        "windows_evaluated": 479,
+        "true_positive": 0,
+        "false_positive": 12,
+        "false_negative": 0,
+        "true_negative": 467,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_positive_rate": 0.0251,
+        "per_attack_type": {},
+        "labeled": true
+      },
+      "alerts": 6,
+      "ingest_s": 1.143696833998547,
+      "features_score_s": 7.576152082998306,
+      "end_to_end_frames_per_s": 32914.370335489,
+      "scores": "ambient_highway_street_driving_diagnostics__held_out_normal_windows.csv.gz",
+      "scores_sha256": "9afae248840fe943f7aaa5067fe07fba84fc7b32d76ae74c7e894812bece54e1",
+      "paired_reference_verified": true
+    },
+    {
+      "capture": "ambient_highway_street_driving_long",
+      "role": "held_out_normal",
+      "input": {
+        "source": "data/raw/road/road/ambient/ambient_highway_street_driving_long.log",
+        "source_sha256": "5d4d2715dfac8089fdea4e3bfd39609f1e863336657379a705c9ce790efcfc76",
+        "selected_input": "data/evaluation_inputs/detectors_2026-10-30/road_broad_state_window/ambient_highway_street_driving_long_0_120/ambient_highway_street_driving_long.log",
+        "selected_input_sha256": "ff8bb19c709c2d1405551dcae45f2b0e9195e4f57cbcd51029eb116ab02ae8d2",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": 120.0,
+        "frame_count": 286942,
+        "selected_nonempty_lines": 286942,
+        "skipped_selected_lines": 0,
+        "duration_s": 119.99969410896301,
+        "unique_ids": 106,
+        "attack_labeled_frames": 0
+      },
+      "detection": {
+        "windows_evaluated": 479,
+        "true_positive": 0,
+        "false_positive": 20,
+        "false_negative": 0,
+        "true_negative": 459,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_positive_rate": 0.0418,
+        "per_attack_type": {},
+        "labeled": true
+      },
+      "alerts": 6,
+      "ingest_s": 1.292029749994981,
+      "features_score_s": 6.839792625003611,
+      "end_to_end_frames_per_s": 35263.2240993607,
+      "scores": "ambient_highway_street_driving_long__held_out_normal_windows.csv.gz",
+      "scores_sha256": "411f6266b9b336796e1dbcbd081831c1317255b8395091561f44902d2daf8622",
+      "paired_reference_verified": true
+    }
+  ],
+  "source_sha256": {
+    "app/state_detector.py": "278bc314f68a18d90c5dd0a1e77190be4ec0fa37e3ea4cb2ac003a91ad33ce37",
+    "app/features.py": "14d15d0b8629f9a58748af4470e16d7f5567ea6d26e9f3c02ea0490ccc242874",
+    "app/loader.py": "977763617e0fafbafce66d7de56c89a0423c174c50d694cf5c9d119aa73db0b1",
+    "app/detector.py": "ed784982e2d5a0932b0bd1bc3bf89fd45eea38dd99da138ac008cfc76863029b",
+    "app/metrics.py": "fc54ece7768270f9d55f704c46be3a554527852b370e3d405c47b47d6709dec3",
+    "scripts/evaluate_state_detector.py": "a3979950c408ea876ee4acf3c09888293559cbe8a85d25ac4bb019eb00a1087c",
+    "scripts/evaluate_detectors.py": "ff2a6b4a453c4137d88f6ba5362bcccba9c7935fcec5de30787252177b1f176d",
+    "scripts/evaluate_midterm.py": "f6236b907b13b85ed95287ad51cc6746dbf182971e003ea59eb3ea8e839989ad"
+  },
+  "calibration": {
+    "method": "per_capture_normal_window_profiles_v1",
+    "normal_fraction_for_fitting": 0.8,
+    "alpha_target": 0.01,
+    "component_quantile": 0.9966666666666667,
+    "cutoffs": {
+      "state_deviation": 4.992000000000229,
+      "payload_novelty": 1.0,
+      "unknown_rate": 4.0
+    },
+    "training_windows_per_capture": [
+      382,
+      382,
+      163,
+      382,
+      382
+    ],
+    "calibration_windows_per_capture": [
+      94,
+      94,
+      39,
+      94,
+      94
+    ],
+    "split_timestamp_per_capture": [
+      95.99947919845582,
+      95.99845752716065,
+      41.147315216064456,
+      95.99934644699097,
+      95.99994640350343
+    ],
+    "field_scale_floors": {
+      "rate": 6.0,
+      "entropy": 0.15,
+      "bitflip_rate": 0.02,
+      "iat_std_ms": 0.005
+    },
+    "component_floors": {
+      "state_deviation": 1.0,
+      "payload_novelty": 0.25,
+      "unknown_rate": 4.0
+    },
+    "decision": "max(raw_component / normal_cutoff) > 1; displayed score ratio/(1+ratio)",
+    "normal_profiles": 5,
+    "limitations": "Normal calibration targets are empirical; overlapping windows are dependent. A saturated novelty cutoff of 1 disables that component. No accuracy guarantee."
+  },
+  "fit_s": 25.036142667013337,
+  "paired_reference": {
+    "path": "out/detectors_2026-10-30/road_broad",
+    "results_sha256": "cc5fe00baa74f81e8380a9aabb01b63946cd6a7bcff2c94de94eb1038442c4d7"
+  },
+  "pooled": {
+    "all": {
+      "true_positive": 1267,
+      "false_positive": 597,
+      "false_negative": 1294,
+      "true_negative": 5199,
+      "windows_evaluated": 8357,
+      "precision": 0.6797210300429185,
+      "recall": 0.49472862163217496,
+      "f1": 0.5726553672316385,
+      "false_positive_rate": 0.10300207039337474,
+      "captures": 36,
+      "frame_count": 4666983
+    },
+    "attack_capture": {
+      "true_positive": 1267,
+      "false_positive": 99,
+      "false_negative": 1294,
+      "true_negative": 2735,
+      "windows_evaluated": 5395,
+      "precision": 0.9275256222547584,
+      "recall": 0.49472862163217496,
+      "f1": 0.6452762923351159,
+      "false_positive_rate": 0.03493295695130558,
+      "captures": 29,
+      "frame_count": 3266464
+    },
+    "held_out_normal": {
+      "true_positive": 0,
+      "false_positive": 498,
+      "false_negative": 0,
+      "true_negative": 2464,
+      "windows_evaluated": 2962,
+      "precision": 0.0,
+      "recall": null,
+      "f1": 0.0,
+      "false_positive_rate": 0.16812964213369344,
+      "captures": 7,
+      "frame_count": 1400519
+    }
+  },
+  "per_attack_type": {
+    "spoofing": {
+      "windows": 1267,
+      "detected": 1235,
+      "recall": 0.9747434885556433
+    },
+    "masquerade": {
+      "windows": 1267,
+      "detected": 5,
+      "recall": 0.003946329913180742
+    },
+    "fuzzing": {
+      "windows": 27,
+      "detected": 27,
+      "recall": 1.0
+    }
+  },
+  "elapsed_s": 179.7440478750068
+}

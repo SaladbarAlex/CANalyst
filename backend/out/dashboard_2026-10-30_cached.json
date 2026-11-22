@@ -1,0 +1,56 @@
+{
+  "created_utc": "2026-10-30T16:31:05.540675+00:00",
+  "code_sha256": {
+    "app/main.py": "2dd7e19ab71c1902f251f4baddf93481ee3c5036dda916a4461097a3b73e4de4",
+    "app/pipeline.py": "2b591229fa412dc1a76f29fd46d0baa740e374cec0f264ab03dad361b2bfb6fb",
+    "scripts/benchmark_dashboard.py": "82794f900ed8f09b6454adc3f82c9e84dc0424c8925bbf13813afbbed8b40354"
+  },
+  "scope": "in-process FastAPI TestClient; no network or browser rendering; no model calls",
+  "python": "3.12.14",
+  "frame_count": 70924,
+  "analyze_s": 1.6352912909933366,
+  "ingest_frames_per_second": 43370.866334717735,
+  "stage_timing_s": {
+    "baseline": 0.0203,
+    "features": 1.2996,
+    "detection": 0.0208,
+    "total": 1.3406
+  },
+  "endpoints": {
+    "summary": {
+      "cold_ms": 4.664499996579252,
+      "warm_median_ms": 4.224687501846347,
+      "warm_p95_ms": 4.495374989346601,
+      "response_bytes": 1151,
+      "warm_requests": 10
+    },
+    "timeline": {
+      "cold_ms": 2.622167012304999,
+      "warm_median_ms": 2.3575414961669594,
+      "warm_p95_ms": 2.4752500030444935,
+      "response_bytes": 32750,
+      "warm_requests": 10
+    },
+    "alerts": {
+      "cold_ms": 21.96041599381715,
+      "warm_median_ms": 4.08249950123718,
+      "warm_p95_ms": 4.963792001944967,
+      "response_bytes": 1954,
+      "warm_requests": 10
+    },
+    "metrics": {
+      "cold_ms": 5.5795419903006405,
+      "warm_median_ms": 5.058917005953845,
+      "warm_p95_ms": 5.679291993146762,
+      "response_bytes": 627,
+      "warm_requests": 10
+    },
+    "ids": {
+      "cold_ms": 207.48724999430124,
+      "warm_median_ms": 0.939145997108426,
+      "warm_p95_ms": 1.234500014106743,
+      "response_bytes": 17060,
+      "warm_requests": 10
+    }
+  }
+}

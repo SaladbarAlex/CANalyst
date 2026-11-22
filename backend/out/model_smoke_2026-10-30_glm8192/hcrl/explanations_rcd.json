@@ -1,0 +1,101 @@
+{
+  "dataset": "hcrl",
+  "corpus_sha256": "bb6b24bfe74acabe85c34f5b26346d13c8e24511d8198b252a4315c928538ea5",
+  "manifest": {
+    "corpus_sha256": "bb6b24bfe74acabe85c34f5b26346d13c8e24511d8198b252a4315c928538ea5",
+    "selector": "rcd:glm-5.3",
+    "request_key": "rcd:glm-5.3:4004ae43f4fa",
+    "prompt_sha256": "7ecbc0cf3fe34478a45f2cc6420118b94f5648164b8a9d01546a72b1ad6e1f68",
+    "llm_code_sha256": "6d206f81ab6e1106a39cb049a74b70611f55cfb2601aea70843437e420474e3a",
+    "runner_sha256": "ae9008e8b98cedd7989dfcd6099f45702cfa95428cd93503ec4bb819ddb85114",
+    "limit": 1,
+    "prices": null,
+    "workers": 2,
+    "timeout_s": 90.0
+  },
+  "model": "glm-5.3",
+  "explainer": "rcd",
+  "temperature": 0.0,
+  "git": "5b8d6c6994a857569166540c1aa69f532ce59fef",
+  "prompt_version": "can-evidence-v2",
+  "status": "complete_with_failures",
+  "expected_alerts": 1,
+  "alerts": [
+    {
+      "capture": "DoS_dataset",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 0.5,
+      "end": 5.75,
+      "true_type": "dos",
+      "detector_score": 0.6667,
+      "corpus_index": 0,
+      "evidence_sha256": "16e93e1b3026f8334c56bb0016b334476e4b79367b820208016c7a751e315881",
+      "explanation": {
+        "attack_type": "dos",
+        "confidence": 0.9,
+        "severity": "high",
+        "affected_function": "Whole bus (arbitration starvation)",
+        "summary": "DOS on Whole bus (arbitration starvation). Window 0.50s to 5.75s, 8091 frames, IDs of interest 0x000, 0x5A2, 0x5A0. Detector score 0.67 (strongest component: missing_ids).",
+        "claims": [
+          {
+            "text": "Total bus load reached 1.07x baseline.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "0x000 is the highest priority ID on CAN and sent 3724 frames in this window, consistent with a high-priority flooding attempt; actual deadline misses are unmeasured.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Treat as a denial of service. Identify the physical node injecting 0x000 and check whether safety messages missed their deadlines.",
+        "model": "mock (fallback: JSONDecodeError)",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 27.604,
+        "requested_model": "glm-5.3",
+        "fallback": true,
+        "error_type": "JSONDecodeError",
+        "usage": {},
+        "prompt_version": "control-v2"
+      },
+      "estimated_cost_usd": null
+    }
+  ],
+  "scoring": "Attack-label accuracy on frozen alerts; failures count as incorrect, never control predictions. Normal alerts scored separately. Development corpus, not an untouched test set.",
+  "summary": {
+    "attempts": 1,
+    "successful_responses": 0,
+    "fallbacks": 1,
+    "classification": {
+      "scored_alerts": 1,
+      "correct": 0,
+      "accuracy": 0.0,
+      "successful_only_accuracy": null,
+      "confusion": {
+        "dos": {
+          "request_failed": 1
+        }
+      }
+    },
+    "false_alarms": 0,
+    "false_alarms_labeled_benign": 0,
+    "grounding": {
+      "rate": null,
+      "meaning": "Citation validity only; semantic claim support needs review"
+    },
+    "latency_s_median": null,
+    "latency_s_p95": null,
+    "latency_s_max": null,
+    "attempt_latency_s_p95": 27.604,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "estimated_cost_usd": null,
+    "successful_alerts_per_second": 0.0
+  },
+  "wall_seconds": 27.606571,
+  "updated_at": "2026-10-30T16:26:26.714130+00:00"
+}

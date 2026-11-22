@@ -59,6 +59,8 @@ def bitflip_rate(payloads: list[list[int]]) -> float:
     if len(payloads) < 2:
         return 0.0
     width = max(len(p) for p in payloads)
+    if width == 0:
+        return 0.0
     padded = np.array([[p[i] if i < len(p) else 0 for i in range(width)] for p in payloads],
                       dtype=np.uint8)
     xor = np.bitwise_xor(padded[1:], padded[:-1])
@@ -75,10 +77,25 @@ def learn_baseline(df: pd.DataFrame, end_s: float, window_s: float = 0.5) -> Bas
     ECUs vary a lot window to window. The floor is the lowest per-window
     jitter seen, so "collapsed" means quieter than this ID ever was.
     """
-    seg = df[df["timestamp"] < end_s]
+    if not np.isfinite(window_s) or window_s <= 0:
+        raise ValueError("window_s must be positive and finite.")
+    if np.isnan(end_s) or end_s <= 0:
+        raise ValueError("Baseline end must be positive.")
+    seg = df[df["timestamp"] < end_s].sort_values("timestamp", kind="stable")
     if seg.empty:
         raise ValueError("Baseline segment is empty; increase benign_prefix_s.")
-    span = max(1e-6, float(seg["timestamp"].max() - seg["timestamp"].min()))
+    if not np.isfinite(seg["timestamp"].to_numpy()).all():
+        raise ValueError("Baseline timestamps must be finite.")
+    if "label" in seg and (seg["label"] != 0).any():
+        raise ValueError("Baseline contains labeled attack frames; provide attack-free traffic.")
+    # Separate recordings are separate observations: never interpret a join as
+    # a measured inter-arrival time or include the artificial joining gap.
+    capture_col = "_capture_id" if "_capture_id" in seg else None
+    captures = list(seg.groupby(capture_col)) if capture_col else [(0, seg)]
+    span = sum(float(part["timestamp"].max() - part["timestamp"].min())
+               for _, part in captures)
+    if span <= 0:
+        raise ValueError("Baseline needs at least two distinct timestamps.")
     bl = Baseline(known_ids=set(int(i) for i in seg["can_id"].unique()))
     bl.total_rate = len(seg) / span
     chunk_all = (seg["timestamp"].to_numpy() // window_s).astype(np.int64)
@@ -87,20 +104,25 @@ def learn_baseline(df: pd.DataFrame, end_s: float, window_s: float = 0.5) -> Bas
     bl.presence = {int(c): float(n) / active for c, n in present.items()}
     for cid, grp in seg.groupby("can_id"):
         cid = int(cid)
-        ts = grp["timestamp"].to_numpy()
-        iats = np.diff(ts)
+        groups = list(grp.groupby(capture_col)) if capture_col else [(0, grp)]
+        timestamp_groups = [part["timestamp"].to_numpy() for _, part in groups]
+        iats = np.concatenate([np.diff(ts) for ts in timestamp_groups])
+        iat_ends = np.concatenate([ts[1:] for ts in timestamp_groups])
         bl.rate[cid] = len(grp) / span
         bl.iat_mean[cid] = float(iats.mean()) if iats.size else 0.0
         bl.iat_std[cid] = float(iats.std()) if iats.size else 0.0
         bl.jitter_floor[cid] = bl.iat_std[cid]
         if iats.size >= 7:
-            chunks = pd.Series(iats).groupby((ts[1:] // window_s).astype(np.int64))
+            chunks = pd.Series(iats).groupby((iat_ends // window_s).astype(np.int64))
             per_chunk = chunks.std(ddof=0)[chunks.count() >= 7]
             if not per_chunk.empty:
                 bl.jitter_floor[cid] = float(per_chunk.min())
         payloads = list(grp["data"])
         bl.entropy[cid] = byte_entropy(payloads)
-        bl.bitflip[cid] = bitflip_rate(payloads)
+        pairs = [max(len(part) - 1, 0) for _, part in groups]
+        bl.bitflip[cid] = (sum(bitflip_rate(list(part["data"])) * n
+                              for (_, part), n in zip(groups, pairs)) / sum(pairs)
+                           if sum(pairs) else 0.0)
     return bl
 
 
@@ -133,6 +155,15 @@ def extract_windows(df: pd.DataFrame, baseline: Baseline,
     Returns one row per window with feature columns plus 'per_id' (a dict)
     and ground-truth 'label' / 'attack_type' when the log is labeled.
     """
+    if not np.isfinite(window_s) or window_s <= 0:
+        raise ValueError("window_s must be positive and finite.")
+    if not np.isfinite(stride_s) or stride_s <= 0 or stride_s > window_s:
+        raise ValueError("stride_s must be positive and no greater than window_s.")
+    if df.empty:
+        raise ValueError("Capture contains no frames.")
+    if not np.isfinite(df["timestamp"].to_numpy()).all() or (df["timestamp"] < 0).any():
+        raise ValueError("Capture timestamps must be finite and nonnegative.")
+    df = df.sort_values("timestamp", kind="stable")
     t_end = float(df["timestamp"].max())
     starts = np.arange(0.0, max(window_s, t_end - window_s + stride_s), stride_s)
     ts_all = df["timestamp"].to_numpy()
@@ -144,6 +175,8 @@ def extract_windows(df: pd.DataFrame, baseline: Baseline,
         if hi <= lo:
             continue
         win = df.iloc[lo:hi]
+        if "_capture_id" in win and win["_capture_id"].nunique() > 1:
+            continue
         n = len(win)
         ids_seen = set(int(i) for i in win["can_id"].unique())
         unknown = sorted(ids_seen - baseline.known_ids)
@@ -173,7 +206,11 @@ def extract_windows(df: pd.DataFrame, baseline: Baseline,
             flip_delta = flip - baseline.bitflip.get(cid, 0.0)
             # A frozen signal (std of IAT collapsing to ~0) is the masquerade tell.
             # Relative to the ID's quietest baseline window, so < 1 is already unusual.
-            jitter_ratio = _safe_ratio(iat_std, max(baseline.jitter_floor.get(cid, 0.0), 1e-5))
+            jitter_floor = baseline.jitter_floor.get(cid, 0.0)
+            # A perfectly periodic baseline cannot lose meaningful jitter.
+            # Dividing zero by an artificial epsilon used to flag it as an attack.
+            jitter_ratio = (_safe_ratio(iat_std, jitter_floor) if jitter_floor > 1e-5
+                            else max(1.0, iat_std / 1e-5))
 
             per_id[cid] = {
                 "count": int(len(grp)),
@@ -215,6 +252,10 @@ def extract_windows(df: pd.DataFrame, baseline: Baseline,
             "max_iat_z": round(max_iat_z, 2),
             "max_entropy_delta": round(max_entropy_delta, 3),
             "max_bitflip_delta": round(max_flip_delta, 4),
+            "n_jitter_collapses": sum(
+                v["known"] and v["count"] >= 8 and v["jitter_ratio"] is not None
+                and v["jitter_ratio"] < JITTER_COLLAPSE and v["baseline_iat_ms"] > 0
+                and 0.8 <= (v["rate_ratio"] or 0) <= 1.25 for v in per_id.values()),
             "mean_entropy": round(byte_entropy(list(win["data"])), 3),
             "label": int(win["label"].max()) if "label" in win else 0,
             "attack_type": (win.loc[win["label"] == 1, "attack_type"].mode().iat[0]
@@ -230,4 +271,5 @@ def extract_windows(df: pd.DataFrame, baseline: Baseline,
 FEATURE_COLUMNS = [
     "rate_ratio_total", "n_unknown_ids", "n_missing_ids",
     "max_rate_ratio", "max_iat_z", "max_entropy_delta", "max_bitflip_delta",
+    "n_jitter_collapses",
 ]

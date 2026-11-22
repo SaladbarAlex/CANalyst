@@ -21,16 +21,21 @@ call so evaluation runs can be audited without calling the model again.
 """
 from __future__ import annotations
 
+import hashlib
 import json
+import math
 import os
 import time
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
 from .features import JITTER_COLLAPSE
-from .synth import ID_INFO
+from .validation import VALIDATION_VERSION, identifier_warnings
 
 ATTACK_LABELS = ["dos", "fuzzing", "spoofing", "replay", "masquerade", "benign", "unknown"]
+
+PROMPT_VERSION = "can-evidence-v3"
+CONTROL_VERSION = "control-v5"
 
 SYSTEM_PROMPT = """You are a vehicle network security analyst assistant. You are \
 given a structured evidence packet describing one time window of CAN bus traffic \
@@ -48,11 +53,15 @@ rather than guessing.
  "recommended_action": str}
 
 Reference on CAN attack signatures:
-- dos: a very high priority ID (often 0x000) floods the bus; total load spikes; other IDs are delayed.
+- dos: sustained high-rate injection on a very high priority ID (often 0x000) suggests flooding. Total bus load need not double. Frame counts alone do not prove arbitration starvation or missed deadlines.
 - fuzzing: arbitration IDs absent from the baseline appear; payload entropy jumps.
-- spoofing (fabrication): a known ID transmits well above its baseline rate; payload values are implausible.
-- replay: valid-looking payloads arrive at the wrong time; rate roughly doubles with normal-looking values.
-- masquerade: the real sender is suppressed, so the rate looks normal but timing jitter collapses or shifts.
+- spoofing (fabrication): a known ID transmits well above its baseline rate, consistent with added frames. Implausible values require signal decoding that may not be available.
+- replay: requires evidence of an earlier payload sequence being repeated out of context. Doubled rates, normal-looking payloads, or unchanged entropy alone cannot distinguish replay from fabrication. Without sequence evidence, use spoofing for added frames or unknown when ambiguous.
+- masquerade: normal rate with collapsed timing jitter can suggest a replacement sender, but does not prove physical identity or suppression.
+- benign: deviations explained by supported normal behavior. If a baseline may omit normal vehicle states, use unknown unless evidence supports benign.
+- A pair of identical payloads on a periodic CAN ID is not sequence-replay evidence. These sample frames are all from the alert, with no earlier reference sequence or semantic freshness check.
+- raw rate_ratio is observed/baseline. detector_rate_ratio divides by a minimum expected rate to suppress sparse-ID false alarms; never describe it as the raw rate change. IAT unavailable means unmeasured, not zero. Assess jitter collapse only when jitter_eligible is true (at least eight frames).
+- All rates, counts and entropy have scopes: peak-window statistics are not full-alert measurements. A citation resolving does not prove the claim follows from it.
 """
 
 
@@ -70,6 +79,17 @@ class Explanation:
     raw_response: str = ""  # model text before parsing; empty for the mock
     latency_s: float | None = None  # wall time of the API call, fallbacks included
 
+    requested_model: str | None = None
+    fallback: bool = False
+    error_type: str | None = None
+    usage: dict[str, int] = field(default_factory=dict)
+    prompt_version: str = PROMPT_VERSION
+    finish_reason: str | None = None
+    response_model: str | None = None
+    reasoning_effort: str | None = None
+    validation_version: str = VALIDATION_VERSION
+    validation_warnings: list[dict[str, Any]] = field(default_factory=list)
+
     def to_json(self) -> dict:
         return asdict(self)
 
@@ -77,7 +97,7 @@ class Explanation:
 def _check_citations(exp: Explanation, evidence: dict) -> Explanation:
     """Drop citations that point at nothing and mark the result ungrounded."""
     valid = {item["id"] for item in evidence.get("items", [])}
-    ok = True
+    ok = bool(exp.claims)
     for claim in exp.claims:
         cites = [c for c in claim.get("cites", []) if c in valid]
         if len(cites) != len(claim.get("cites", [])):
@@ -86,6 +106,8 @@ def _check_citations(exp: Explanation, evidence: dict) -> Explanation:
         if not cites:
             ok = False
     exp.grounded = ok
+    exp.validation_version = VALIDATION_VERSION
+    exp.validation_warnings = identifier_warnings(exp.to_json(), evidence)
     return exp
 
 
@@ -122,25 +144,34 @@ class MockExplainer(Explainer):
         unknown = by_kind.get("unknown_id", [])
         id_stats = by_kind.get("id_stats", [])
         missing = by_kind.get("missing_id", [])
-        inflated = [i for i in id_stats if (i["detail"].get("rate_ratio") or 0) >= 1.5]
+        def detector_ratio(item):
+            detail = item["detail"]
+            return detail.get("detector_rate_ratio", detail.get("rate_ratio"))
+
+        inflated = [i for i in id_stats if (detector_ratio(i) or 0) >= 1.5]
         jitter_collapsed = [i for i in id_stats
                             if (i["detail"].get("count") or 0) >= 8
-                            and (i["detail"].get("jitter_ratio") or 1) < JITTER_COLLAPSE
-                            and 0.8 <= (i["detail"].get("rate_ratio") or 1) <= 1.25]
+                            and i["detail"].get("jitter_ratio") is not None
+                            and i["detail"]["jitter_ratio"] < JITTER_COLLAPSE
+                            and 0.8 <= (detector_ratio(i) or 1) <= 1.25]
 
         claims: list[dict] = []
         cite = lambda item: [item["id"]] if item else []
 
-        if load_ratio >= 2.0 and (unknown and any(
-                i["detail"]["can_id"] in ("0x000", "0x00") for i in unknown)):
+        # A sustained highest-priority injection need not double aggregate
+        # bus load. Use its measured per-ID rate and share, not the total alone.
+        flood = next((i for i in unknown
+                      if i["detail"]["can_id"] in ("0x000", "0x00")
+                      and i["detail"].get("alert_mean_rate", i["detail"].get("rate", 0)) >= 100
+                      and i["detail"].get("count", 0) >= 8), None)
+        if flood is not None:
             attack, conf, sev = "dos", 0.9, "high"
-            function = "Whole bus (arbitration starvation)"
-            flood = next(i for i in unknown if i["detail"]["can_id"] in ("0x000", "0x00"))
+            function = "Bus availability (starvation not measured)"
             claims.append({"text": f"Total bus load reached {load_ratio:.2f}x baseline.",
                            "cites": cite(load_item)})
             claims.append({"text": f"{flood['detail']['can_id']} is the highest priority ID on "
                                    f"CAN and sent {flood['detail']['count']} frames in this window, "
-                                   f"so it wins arbitration against every real message.",
+                                   f"consistent with a high-priority flooding attempt; actual deadline misses are unmeasured.",
                            "cites": cite(flood)})
             action = ("Treat as a denial of service. Identify the physical node injecting 0x000 "
                       "and check whether safety messages missed their deadlines.")
@@ -149,10 +180,11 @@ class MockExplainer(Explainer):
             function = "Multiple, undirected"
             ids = ", ".join(i["detail"]["can_id"] for i in unknown[:4])
             claims.append({"text": f"{len(unknown)} arbitration IDs absent from the baseline "
-                                   f"appeared ({ids}), which indicates undirected injection.",
-                           "cites": [i["id"] for i in unknown[:4]]})
+                                   f"appear in the retained evidence ({ids}), consistent with undirected injection "
+                                   f"or incomplete normal calibration.",
+                           "cites": [i["id"] for i in unknown]})
             if load_item:
-                claims.append({"text": f"Bus load rose to {load_ratio:.2f}x baseline.",
+                claims.append({"text": f"Bus load was {load_ratio:.2f}x baseline.",
                                "cites": cite(load_item)})
             action = ("Capture the full window and check whether any injected ID triggered an "
                       "ECU response. Fuzzing often precedes a targeted attack.")
@@ -162,28 +194,14 @@ class MockExplainer(Explainer):
             function = tgt["detail"].get("function") or "unknown"
             claims.append({"text": f"{tgt['detail']['can_id']} keeps a normal message rate but its "
                                    f"timing jitter collapsed to {tgt['detail']['jitter_ratio']}x "
-                                   f"the quietest baseline window, which is what a different "
-                                   f"physical sender looks like.",
+                                   f"the quietest baseline window; this suggests a timing change but does not "
+                                   f"identify the physical sender.",
                            "cites": cite(tgt)})
             if missing:
-                claims.append({"text": f"{missing[0]['detail']['can_id']} stopped transmitting, "
-                                       f"consistent with the real ECU being suppressed.",
+                claims.append({"text": f"{missing[0]['detail']['can_id']} was absent in at least one scored window.",
                                "cites": cite(missing[0])})
             action = ("Confirm with clock-skew fingerprinting (CIDS-style). Rate-based detection "
                       "will not catch this class of attack.")
-        elif len(inflated) >= 3:
-            attack, conf, sev = "replay", 0.6, "medium"
-            function = "Multiple ECUs (bus-wide duplication)"
-            ids = ", ".join(i["detail"]["can_id"] for i in inflated[:4])
-            claims.append({"text": f"{len(inflated)} known IDs are simultaneously above their "
-                                   f"baseline rate ({ids}), so whole frames are being duplicated "
-                                   f"rather than one signal targeted.",
-                           "cites": [i["id"] for i in inflated[:4]]})
-            claims.append({"text": "Payload entropy stays near baseline, which fits previously "
-                                   "valid frames being resent.",
-                           "cites": cite(inflated[0])})
-            action = ("Compare payloads against traffic from earlier in the capture to confirm a "
-                      "replay, and check whether any ECU acted on the stale values.")
         elif inflated:
             attack, conf, sev = "spoofing", 0.84, "high"
             tgt = inflated[0]
@@ -191,8 +209,8 @@ class MockExplainer(Explainer):
             claims.append({"text": f"{tgt['detail']['can_id']} transmitted at "
                                    f"{tgt['detail']['rate_ratio']}x its baseline rate "
                                    f"({tgt['detail']['rate']} versus "
-                                   f"{tgt['detail']['baseline_rate']} msg/s), so frames are being "
-                                   f"added alongside the legitimate ones.",
+                                   f"{tgt['detail']['baseline_rate']} msg/s), consistent with added frames "
+                                   f"but also requiring a check for benign operating-state changes.",
                            "cites": cite(tgt)})
             if tgt["detail"].get("entropy_delta", 0) != 0:
                 claims.append({"text": f"Payload entropy for that ID moved "
@@ -203,8 +221,7 @@ class MockExplainer(Explainer):
         elif missing:
             attack, conf, sev = "unknown", 0.45, "medium"
             function = missing[0]["detail"].get("function") or "unknown"
-            claims.append({"text": f"{missing[0]['detail']['can_id']} stopped transmitting while "
-                                   f"the rest of the bus looked normal.",
+            claims.append({"text": f"{missing[0]['detail']['can_id']} was absent in at least one scored window.",
                            "cites": cite(missing[0])})
             action = ("Could be suppression, a bus-off attack, or an ECU fault. Check for error "
                       "frames around this window.")
@@ -225,6 +242,7 @@ class MockExplainer(Explainer):
         exp = Explanation(attack_type=attack, confidence=conf, severity=sev,
                           affected_function=function, summary=summary, claims=claims,
                           recommended_action=action, model="mock")
+        exp.prompt_version = CONTROL_VERSION
         return _check_citations(exp, evidence)
 
     def answer(self, question: str, context: dict) -> str:
@@ -251,15 +269,27 @@ class _APIExplainer(Explainer):
             "frame_count": evidence["frame_count"],
             "detector_score": evidence["detector_score"],
             "detector_components": evidence["detector_components"],
-            "evidence": [{"id": i["id"], "kind": i["kind"], "text": i["text"]}
-                         for i in evidence["items"]],
+            "evidence": [{"id": i["id"], "kind": i["kind"], "text": i["text"],
+                          "detail": i.get("detail", {})} for i in evidence["items"]],
             "sample_frames": evidence["sample_frames"][:6],
         }
-        return "Evidence packet:\n" + json.dumps(slim, indent=2)
+        return "Evidence packet:\n" + json.dumps(slim, separators=(",", ":"), allow_nan=False)
 
     def _parse(self, text: str, evidence: dict, model: str) -> Explanation:
         start, end = text.find("{"), text.rfind("}")
         payload = json.loads(text[start:end + 1])
+        if not isinstance(payload, dict):
+            raise ValueError("Response must be a JSON object")
+        confidence = payload.get("confidence")
+        if isinstance(confidence, bool) or not isinstance(confidence, (int, float)) or not math.isfinite(confidence) or not 0 <= confidence <= 1:
+            raise ValueError("confidence must be finite and between zero and one")
+        if payload.get("severity") not in {"low", "medium", "high"}:
+            raise ValueError("invalid severity")
+        if not isinstance(payload.get("claims"), list) or not payload["claims"]:
+            raise ValueError("at least one claim is required")
+        for claim in payload["claims"]:
+            if not isinstance(claim, dict) or not isinstance(claim.get("text"), str) or not claim["text"].strip() or not isinstance(claim.get("cites"), list) or not all(isinstance(c, str) for c in claim["cites"]):
+                raise ValueError("malformed claim")
         exp = Explanation(
             attack_type=str(payload.get("attack_type", "unknown")).lower(),
             confidence=float(payload.get("confidence", 0.5)),
@@ -271,7 +301,7 @@ class _APIExplainer(Explainer):
             model=model,
         )
         if exp.attack_type not in ATTACK_LABELS:
-            exp.attack_type = "unknown"
+            raise ValueError("invalid attack_type")
         return _check_citations(exp, evidence)
 
 
@@ -282,22 +312,39 @@ class ClaudeExplainer(_APIExplainer):
         self.model = model
         self.temperature = temperature
         self._fallback = MockExplainer()
+        self.timeout_s = float(os.environ.get("LLM_TIMEOUT_S", "90"))
+        self.max_tokens = int(os.environ.get("LLM_MAX_TOKENS", "1800"))
 
     def explain(self, evidence: dict) -> Explanation:
         started, text = time.perf_counter(), ""
         try:
             import anthropic
-            client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+            client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"], timeout=self.timeout_s, max_retries=0)
             msg = client.messages.create(
-                model=self.model, max_tokens=1200, system=SYSTEM_PROMPT,
+                model=self.model, max_tokens=self.max_tokens, system=SYSTEM_PROMPT,
                 temperature=self.temperature,
                 messages=[{"role": "user", "content": self._user_prompt(evidence)}],
             )
-            text = msg.content[0].text
+            text = "\n".join(b.text for b in msg.content if getattr(b, "type", "text") == "text")
             exp = self._parse(text, evidence, self.model)
         except Exception as exc:  # network, key, or malformed JSON
             exp = self._fallback.explain(evidence)
             exp.model = f"mock (fallback: {type(exc).__name__})"
+            exp.fallback = True
+            exp.error_type = type(exc).__name__
+        response = locals().get("resp", locals().get("msg"))
+        usage = getattr(response, "usage", None)
+        if usage is not None:
+            exp.usage = {"input_tokens": int(getattr(usage, "prompt_tokens", getattr(usage, "input_tokens", 0)) or 0),
+                         "output_tokens": int(getattr(usage, "completion_tokens", getattr(usage, "output_tokens", 0)) or 0)}
+            details = getattr(usage, "completion_tokens_details", None)
+            if getattr(details, "reasoning_tokens", None) is not None:
+                exp.usage["reasoning_tokens"] = details.reasoning_tokens
+        choices = getattr(response, "choices", [])
+        exp.finish_reason = getattr(choices[0], "finish_reason", None) if choices else getattr(response, "stop_reason", None)
+        exp.response_model = getattr(response, "model", None)
+        exp.reasoning_effort = getattr(self, "reasoning_effort", None)
+        exp.requested_model = self.model
         exp.raw_response = text
         exp.latency_s = round(time.perf_counter() - started, 3)
         return exp
@@ -305,7 +352,7 @@ class ClaudeExplainer(_APIExplainer):
     def answer(self, question: str, context: dict) -> str:
         try:
             import anthropic
-            client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+            client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"], timeout=self.timeout_s, max_retries=0)
             prompt = ("Answer the analyst's question using only this analysis context. "
                       "Cite alert ids and CAN IDs.\n\nContext:\n"
                       + json.dumps(context, indent=2)[:60000]
@@ -328,17 +375,25 @@ class OpenAIExplainer(_APIExplainer):
         self.model = model
         self.temperature = temperature
         self._fallback = MockExplainer()
+        self.timeout_s = float(os.environ.get("LLM_TIMEOUT_S", "90"))
+        self.max_tokens = int(os.environ.get("LLM_MAX_TOKENS", "1800"))
+        # RCD GLM-5.3 is forced-thinking; its default effort can consume the
+        # entire token budget before producing content. Low was live-tested.
+        self.reasoning_effort = os.environ.get("LLM_REASONING_EFFORT") or ("low" if model.lower().startswith("glm-5.3") else None)
 
     def _client(self):
         from openai import OpenAI
-        return OpenAI(api_key=os.environ[self.api_key_env], base_url=self.base_url)
+        return OpenAI(api_key=os.environ[self.api_key_env], base_url=self.base_url,
+                      timeout=self.timeout_s, max_retries=0)
 
     def explain(self, evidence: dict) -> Explanation:
         started, text = time.perf_counter(), ""
         try:
             extra = {"response_format": {"type": "json_object"}} if self.json_mode else {}
+            if self.reasoning_effort:
+                extra["reasoning_effort"] = self.reasoning_effort
             resp = self._client().chat.completions.create(
-                model=self.model, temperature=self.temperature,
+                model=self.model, temperature=self.temperature, max_tokens=self.max_tokens,
                 messages=[{"role": "system", "content": SYSTEM_PROMPT},
                           {"role": "user", "content": self._user_prompt(evidence)}],
                 **extra,
@@ -348,6 +403,21 @@ class OpenAIExplainer(_APIExplainer):
         except Exception as exc:
             exp = self._fallback.explain(evidence)
             exp.model = f"mock (fallback: {type(exc).__name__})"
+            exp.fallback = True
+            exp.error_type = type(exc).__name__
+        response = locals().get("resp", locals().get("msg"))
+        usage = getattr(response, "usage", None)
+        if usage is not None:
+            exp.usage = {"input_tokens": int(getattr(usage, "prompt_tokens", getattr(usage, "input_tokens", 0)) or 0),
+                         "output_tokens": int(getattr(usage, "completion_tokens", getattr(usage, "output_tokens", 0)) or 0)}
+            details = getattr(usage, "completion_tokens_details", None)
+            if getattr(details, "reasoning_tokens", None) is not None:
+                exp.usage["reasoning_tokens"] = details.reasoning_tokens
+        choices = getattr(response, "choices", [])
+        exp.finish_reason = getattr(choices[0], "finish_reason", None) if choices else getattr(response, "stop_reason", None)
+        exp.response_model = getattr(response, "model", None)
+        exp.reasoning_effort = getattr(self, "reasoning_effort", None)
+        exp.requested_model = self.model
         exp.raw_response = text
         exp.latency_s = round(time.perf_counter() - started, 3)
         return exp
@@ -355,7 +425,8 @@ class OpenAIExplainer(_APIExplainer):
     def answer(self, question: str, context: dict) -> str:
         try:
             resp = self._client().chat.completions.create(
-                model=self.model,
+                model=self.model, max_tokens=self.max_tokens,
+                **({"reasoning_effort": self.reasoning_effort} if self.reasoning_effort else {}),
                 messages=[{"role": "user", "content":
                            "Answer using only this context:\n"
                            + json.dumps(context, indent=2)[:60000]
@@ -387,39 +458,51 @@ class RCDExplainer(OpenAIExplainer):
 
 
 def explainer_key(explainer: Explainer) -> str:
-    """Cache key: two explainers share one only if they would give the same answer."""
-    model = getattr(explainer, "model", None)
-    return f"{explainer.name}:{model}" if model else explainer.name
+    """Include every request setting that can change the cached response."""
+    settings = {"model": getattr(explainer, "model", None),
+                "base_url": getattr(explainer, "base_url", None),
+                "temperature": getattr(explainer, "temperature", None),
+                "max_tokens": getattr(explainer, "max_tokens", None),
+                "reasoning_effort": getattr(explainer, "reasoning_effort", None),
+                "validation_version": VALIDATION_VERSION,
+                "version": CONTROL_VERSION if explainer.name == "mock" else PROMPT_VERSION}
+    digest = hashlib.sha256(json.dumps(settings, sort_keys=True).encode()).hexdigest()[:12]
+    return f"{explainer.name}:{settings['model'] or 'control'}:{digest}"
 
 
 def explainer_options() -> dict:
-    """What the dashboard's explainer picker can offer, and which ones have a key."""
+    """Configured options; a key being present does not prove service readiness."""
     env = os.environ.get
-    options = [
-        {"kind": "mock", "label": "Offline control", "detail": "rule based, instant",
-         "available": True},
-        {"kind": "rcd", "label": f"{env('RCD_LLM_MODEL', 'glm-5.3')} (Clemson RCD)",
-         "detail": "campus network or CUVPN, about 30 s per alert",
-         "available": bool(env("RCD_LLM_API_KEY"))},
+    configured = env("RCD_LLM_MODELS", env("RCD_LLM_MODEL", "glm-5.3") + ",gemma-4-31b")
+    models = list(dict.fromkeys(m.strip() for m in configured.split(",") if m.strip()))
+    options = [{"kind": "mock", "label": "Offline control", "detail": "rule based, instant", "available": True}]
+    options.extend({"kind": "rcd:" + model, "label": f"{model} (Clemson RCD)",
+                    "detail": "Requires Clemson network; latency measured per request",
+                    "available": bool(env("RCD_LLM_API_KEY"))} for model in models)
+    options.extend([
         {"kind": "claude", "label": env("CLAUDE_MODEL", "claude-sonnet-4-5"),
          "detail": "Anthropic API", "available": bool(env("ANTHROPIC_API_KEY"))},
         {"kind": "openai", "label": env("OPENAI_MODEL", "gpt-4o-mini"),
          "detail": "OpenAI API", "available": bool(env("OPENAI_API_KEY"))},
-    ]
-    default = get_explainer().name
-    return {"default": default if any(o["kind"] == default and o["available"] for o in options)
-            else "mock", "options": options}
+    ])
+    ex = get_explainer()
+    default = f"rcd:{ex.model}" if ex.name == "rcd" else ex.name
+    return {"default": default if any(o["kind"] == default and o["available"] for o in options) else "mock",
+            "options": options}
 
 
 def get_explainer(kind: str | None = None) -> Explainer:
-    kind = (kind or os.environ.get("EXPLAINER", "mock")).lower()
+    selector = kind or os.environ.get("EXPLAINER", "mock")
+    provider, _, model = selector.partition(":")
+    provider = provider.lower()
     temperature = float(os.environ.get("LLM_TEMPERATURE", "0"))
-    if kind in ("claude", "anthropic"):
-        return ClaudeExplainer(os.environ.get("CLAUDE_MODEL", "claude-sonnet-4-5"), temperature)
-    if kind in ("openai", "gpt"):
-        return OpenAIExplainer(os.environ.get("OPENAI_MODEL", "gpt-4o-mini"), temperature)
-    if kind in ("rcd", "clemson"):
-        return RCDExplainer(os.environ.get("RCD_LLM_MODEL", "glm-5.3"),
-                            os.environ.get("RCD_LLM_BASE_URL", "https://llm.rcd.clemson.edu/v1"),
-                            temperature)
+    if provider in ("claude", "anthropic"):
+        return ClaudeExplainer(model or os.environ.get("CLAUDE_MODEL", "claude-sonnet-4-5"), temperature)
+    if provider in ("openai", "gpt"):
+        return OpenAIExplainer(model or os.environ.get("OPENAI_MODEL", "gpt-4o-mini"), temperature)
+    if provider in ("rcd", "clemson"):
+        return RCDExplainer(model or os.environ.get("RCD_LLM_MODEL", "glm-5.3"),
+                            os.environ.get("RCD_LLM_BASE_URL", "https://llm.rcd.clemson.edu/v1"), temperature)
+    if provider != "mock" or model:
+        raise ValueError(f"Unknown explainer: {selector}")
     return MockExplainer()

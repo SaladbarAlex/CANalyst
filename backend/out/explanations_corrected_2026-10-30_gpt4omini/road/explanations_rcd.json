@@ -1,0 +1,1799 @@
+{
+  "dataset": "road",
+  "corpus_sha256": "46e3d55089806e0cee6130727820f4be647fa92810cc31b4cb8bb81f782267a0",
+  "manifest": {
+    "corpus_sha256": "46e3d55089806e0cee6130727820f4be647fa92810cc31b4cb8bb81f782267a0",
+    "selector": "rcd:gpt-4o-mini",
+    "request_key": "rcd:gpt-4o-mini:9beb0e1b9996",
+    "prompt_sha256": "7ecbc0cf3fe34478a45f2cc6420118b94f5648164b8a9d01546a72b1ad6e1f68",
+    "llm_code_sha256": "6d206f81ab6e1106a39cb049a74b70611f55cfb2601aea70843437e420474e3a",
+    "runner_sha256": "ae9008e8b98cedd7989dfcd6099f45702cfa95428cd93503ec4bb819ddb85114",
+    "limit": null,
+    "prices": null,
+    "workers": 2,
+    "timeout_s": 90.0
+  },
+  "model": "gpt-4o-mini",
+  "explainer": "rcd",
+  "temperature": 0.0,
+  "git": "5b8d6c6994a857569166540c1aa69f532ce59fef",
+  "prompt_version": "can-evidence-v2",
+  "status": "complete",
+  "expected_alerts": 31,
+  "alerts": [
+    {
+      "capture": "correlated_signal_attack_1",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 9.25,
+      "end": 30.0,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 0,
+      "evidence_sha256": "3a4f84451dd1697bb7c12c7cd0ff7bea22f70ead879b5b3998af7067a7c35366",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.8,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic shows a significant increase in message rate for ID 0x6E0, indicating potential spoofing activity. The payload entropy is lower than expected, suggesting that the messages may not be legitimate.",
+        "claims": [
+          {
+            "text": "In the window, ID 0x6E0 transmitted at 202.0 msg/s versus a baseline of 100.0 msg/s, indicating a rate inflation.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The payload entropy for ID 0x6E0 is 3.746 versus a baseline of 6.952, suggesting less variability in the payload.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The overall detector score for the window is 0.583, indicating a notable anomaly.",
+            "cites": [
+              "E0"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of messages from ID 0x6E0 for potential spoofing.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.8,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic shows a significant increase in message rate for ID 0x6E0, indicating potential spoofing activity. The payload entropy is lower than expected, suggesting that the messages may not be legitimate.\",\n  \"claims\": [\n    {\n      \"text\": \"In the window, ID 0x6E0 transmitted at 202.0 msg/s versus a baseline of 100.0 msg/s, indicating a rate inflation.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"The payload entropy for ID 0x6E0 is 3.746 versus a baseline of 6.952, suggesting less variability in the payload.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"The overall detector score for the window is 0.583, indicating a notable anomaly.\",\n      \"cites\": [\"E0\"]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of messages from ID 0x6E0 for potential spoofing.\"\n}\n```",
+        "latency_s": 3.83,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2785,
+          "output_tokens": 259
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "correlated_signal_attack_2",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 7.0,
+      "end": 28.0,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 1,
+      "evidence_sha256": "1f92c4b53739c10abdcbf25f9e69129706fb342416fb3dd6d9148815ce648a65",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.8,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic shows a significant increase in message rates for known IDs, indicating potential spoofing activity. The rate for ID 0x6E0 is 2.02 times its baseline, suggesting added frames.",
+        "claims": [
+          {
+            "text": "In [7.25, 7.75)s, 0x6E0 shows a rate of 202.0 msg/s versus a baseline of 100.0 msg/s (2.02x).",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The peak scored-window bus rate was 2524 msg/s versus a 2392 msg/s baseline (1.06x).",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the high message rates for ID 0x6E0 and monitor for further anomalies.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.8,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic shows a significant increase in message rates for known IDs, indicating potential spoofing activity. The rate for ID 0x6E0 is 2.02 times its baseline, suggesting added frames.\",\n  \"claims\": [\n    {\n      \"text\": \"In [7.25, 7.75)s, 0x6E0 shows a rate of 202.0 msg/s versus a baseline of 100.0 msg/s (2.02x).\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"The peak scored-window bus rate was 2524 msg/s versus a 2392 msg/s baseline (1.06x).\",\n      \"cites\": [\"E1\"]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the high message rates for ID 0x6E0 and monitor for further anomalies.\"\n}\n```",
+        "latency_s": 3.831,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2773,
+          "output_tokens": 233
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "correlated_signal_attack_2_masquerade",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 25.25,
+      "end": 25.75,
+      "true_type": "masquerade",
+      "detector_score": 0.5652,
+      "corpus_index": 2,
+      "evidence_sha256": "30debea565561481aa5f29fd3cf0b4e78556e3fe653e3a17b2b9c133b5358b5c",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.7,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic shows a significant increase in the rate of messages for certain IDs, indicating potential spoofing activity. The observed rates for some IDs are well above their baseline rates, suggesting added frames.",
+        "claims": [
+          {
+            "text": "In [25.25, 25.75)s, 0x025 (unknown function): 12.0 msg/s versus 1.28 baseline (2.0x)",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "In [25.25, 25.75)s, 0x69D (unknown function): 2.0 msg/s versus 1.0 baseline (0.333x)",
+            "cites": [
+              "E3"
+            ]
+          },
+          {
+            "text": "In [25.25, 25.75)s, 0x075 (unknown function): 2.0 msg/s versus 2.0 baseline (0.333x)",
+            "cites": [
+              "E4"
+            ]
+          },
+          {
+            "text": "In [25.25, 25.75)s, 0x4EE (unknown function): 2.0 msg/s versus 1.0 baseline (0.333x)",
+            "cites": [
+              "E5"
+            ]
+          },
+          {
+            "text": "In [25.25, 25.75)s, 0x3B9 (unknown function): 2.0 msg/s versus 1.0 baseline (0.333x)",
+            "cites": [
+              "E6"
+            ]
+          },
+          {
+            "text": "In [25.25, 25.75)s, 0x0F1 (unknown function): 2.0 msg/s versus 2.0 baseline (0.333x)",
+            "cites": [
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the increased message rates for the identified CAN IDs and verify their legitimacy.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.7,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic shows a significant increase in the rate of messages for certain IDs, indicating potential spoofing activity. The observed rates for some IDs are well above their baseline rates, suggesting added frames.\",\n  \"claims\": [\n    {\n      \"text\": \"In [25.25, 25.75)s, 0x025 (unknown function): 12.0 msg/s versus 1.28 baseline (2.0x)\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"In [25.25, 25.75)s, 0x69D (unknown function): 2.0 msg/s versus 1.0 baseline (0.333x)\",\n      \"cites\": [\"E3\"]\n    },\n    {\n      \"text\": \"In [25.25, 25.75)s, 0x075 (unknown function): 2.0 msg/s versus 2.0 baseline (0.333x)\",\n      \"cites\": [\"E4\"]\n    },\n    {\n      \"text\": \"In [25.25, 25.75)s, 0x4EE (unknown function): 2.0 msg/s versus 1.0 baseline (0.333x)\",\n      \"cites\": [\"E5\"]\n    },\n    {\n      \"text\": \"In [25.25, 25.75)s, 0x3B9 (unknown function): 2.0 msg/s versus 1.0 baseline (0.333x)\",\n      \"cites\": [\"E6\"]\n    },\n    {\n      \"text\": \"In [25.25, 25.75)s, 0x0F1 (unknown function): 2.0 msg/s versus 2.0 baseline (0.333x)\",\n      \"cites\": [\"E7\"]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the increased message rates for the identified CAN IDs and verify their legitimacy.\"\n}\n```",
+        "latency_s": 5.738,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2619,
+          "output_tokens": 459
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "correlated_signal_attack_2_masquerade",
+      "role": "attack_capture",
+      "alert_id": 1,
+      "start": 26.25,
+      "end": 27.5,
+      "true_type": "masquerade",
+      "detector_score": 0.5652,
+      "corpus_index": 3,
+      "evidence_sha256": "de99329161515b5dbfc1d66cc84acbce0cef18d19162d8266cc6005ee13e6c47",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.7,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic shows a significant increase in message rates for certain IDs, indicating potential spoofing activity. The observed rates for some IDs are well above their baseline, suggesting added frames.",
+        "claims": [
+          {
+            "text": "In [26.25, 26.75)s, 0x025 (unknown function): 12.0 msg/s versus 1.28 baseline (2.0x); mean gap 85.369 ms versus 781.8 ms (1.83 sigma).",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "In [26.25, 26.75)s, 0x69D (unknown function): 2.0 msg/s versus 1.0 baseline (0.333x); mean gap 0.0 ms versus 1000.037 ms (0.0 sigma).",
+            "cites": [
+              "E3"
+            ]
+          },
+          {
+            "text": "In [26.25, 26.75)s, 0x075 (unknown function): 2.0 msg/s versus 2.0 baseline (0.333x); mean gap 0.0 ms versus 500.024 ms (0.0 sigma).",
+            "cites": [
+              "E4"
+            ]
+          },
+          {
+            "text": "In [26.25, 26.75)s, 0x4EE (unknown function): 2.0 msg/s versus 1.0 baseline (0.333x); mean gap 0.0 ms versus 1000.047 ms (0.0 sigma).",
+            "cites": [
+              "E5"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the increased message rates for IDs 0x025, 0x69D, 0x075, and 0x4EE to determine if they are legitimate or indicative of spoofing.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.7,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic shows a significant increase in message rates for certain IDs, indicating potential spoofing activity. The observed rates for some IDs are well above their baseline, suggesting added frames.\",\n  \"claims\": [\n    {\n      \"text\": \"In [26.25, 26.75)s, 0x025 (unknown function): 12.0 msg/s versus 1.28 baseline (2.0x); mean gap 85.369 ms versus 781.8 ms (1.83 sigma).\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"In [26.25, 26.75)s, 0x69D (unknown function): 2.0 msg/s versus 1.0 baseline (0.333x); mean gap 0.0 ms versus 1000.037 ms (0.0 sigma).\",\n      \"cites\": [\"E3\"]\n    },\n    {\n      \"text\": \"In [26.25, 26.75)s, 0x075 (unknown function): 2.0 msg/s versus 2.0 baseline (0.333x); mean gap 0.0 ms versus 500.024 ms (0.0 sigma).\",\n      \"cites\": [\"E4\"]\n    },\n    {\n      \"text\": \"In [26.25, 26.75)s, 0x4EE (unknown function): 2.0 msg/s versus 1.0 baseline (0.333x); mean gap 0.0 ms versus 1000.047 ms (0.0 sigma).\",\n      \"cites\": [\"E5\"]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the increased message rates for IDs 0x025, 0x69D, 0x075, and 0x4EE to determine if they are legitimate or indicative of spoofing.\"\n}\n```",
+        "latency_s": 5.775,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2775,
+          "output_tokens": 448
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "correlated_signal_attack_3",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 4.5,
+      "end": 16.75,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 4,
+      "evidence_sha256": "25a7e6bba5331defd2ecd1d334a1a23b1253004f0877780c0ad4fabd5b89ea40",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.8,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic shows a significant increase in message rate for ID 0x6E0, indicating potential spoofing activity. The rate is more than double the baseline, with a notable decrease in timing gaps and payload entropy.",
+        "claims": [
+          {
+            "text": "In [5.50, 6.00)s, 0x6E0 (unknown function): 202.0 msg/s versus 100.0 baseline (2.02x); mean gap 4.989 ms versus 10.0 ms (1.7 sigma); entropy 3.931 versus 6.952.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Peak scored-window bus rate was 2522 msg/s versus a 2392 msg/s baseline (1.05x).",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "The detector score is 0.583, indicating a significant anomaly in the traffic.",
+            "cites": [
+              "E0"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of messages from ID 0x6E0 for potential spoofing and verify the integrity of the vehicle's communication system.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.8,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic shows a significant increase in message rate for ID 0x6E0, indicating potential spoofing activity. The rate is more than double the baseline, with a notable decrease in timing gaps and payload entropy.\",\n  \"claims\": [\n    {\n      \"text\": \"In [5.50, 6.00)s, 0x6E0 (unknown function): 202.0 msg/s versus 100.0 baseline (2.02x); mean gap 4.989 ms versus 10.0 ms (1.7 sigma); entropy 3.931 versus 6.952.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"Peak scored-window bus rate was 2522 msg/s versus a 2392 msg/s baseline (1.05x).\",\n      \"cites\": [\"E1\"]\n    },\n    {\n      \"text\": \"The detector score is 0.583, indicating a significant anomaly in the traffic.\",\n      \"cites\": [\"E0\"]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of messages from ID 0x6E0 for potential spoofing and verify the integrity of the vehicle's communication system.\"\n}\n```",
+        "latency_s": 4.375,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2787,
+          "output_tokens": 300
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "fuzzing_attack_1",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 4.25,
+      "end": 8.25,
+      "true_type": "fuzzing",
+      "detector_score": 1.0,
+      "corpus_index": 5,
+      "evidence_sha256": "f891c353a2e6f48a338af8ebfe3b231a3d21c15954feb9ca345c3908d0a21c7b",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.9,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic shows multiple unknown IDs transmitting frames at a rate significantly above baseline, indicating potential spoofing activity.",
+        "claims": [
+          {
+            "text": "Multiple unknown IDs (0x070, 0x095, 0x09F, 0x0B3, 0x0C4, 0x0CA) were detected, each sending 1 frame during the alert window.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The peak bus rate was 2598 msg/s, which is above the baseline of 2392 msg/s.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "The unknown IDs sent frames with a payload entropy of -0.000 bits, indicating no variation in the payload.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the unknown IDs and monitor for further anomalous behavior.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.9,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic shows multiple unknown IDs transmitting frames at a rate significantly above baseline, indicating potential spoofing activity.\",\n  \"claims\": [\n    {\n      \"text\": \"Multiple unknown IDs (0x070, 0x095, 0x09F, 0x0B3, 0x0C4, 0x0CA) were detected, each sending 1 frame during the alert window.\",\n      \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]\n    },\n    {\n      \"text\": \"The peak bus rate was 2598 msg/s, which is above the baseline of 2392 msg/s.\",\n      \"cites\": [\"E1\"]\n    },\n    {\n      \"text\": \"The unknown IDs sent frames with a payload entropy of -0.000 bits, indicating no variation in the payload.\",\n      \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the unknown IDs and monitor for further anomalous behavior.\"\n}\n```",
+        "latency_s": 4.305,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2233,
+          "output_tokens": 289
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "fuzzing_attack_1",
+      "role": "attack_capture",
+      "alert_id": 1,
+      "start": 16.25,
+      "end": 20.0,
+      "true_type": "normal",
+      "detector_score": 0.5652,
+      "corpus_index": 6,
+      "evidence_sha256": "84a08a88a77164a694734da767610329e3508b79e545b7c294c131c845628498",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.7,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic shows a significant increase in the rate of messages from known IDs, indicating potential spoofing activity. The payloads appear normal but the rate is inconsistent with baseline behavior.",
+        "claims": [
+          {
+            "text": "In the window, the peak bus rate was 2428 msg/s versus a 2392 msg/s baseline, indicating a slight increase in traffic.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "The ID 0x025 showed a rate of 12.0 msg/s versus a baseline of 1.28 msg/s, which is a 2.0x increase.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The ID 0x69D showed a rate of 2.0 msg/s versus a baseline of 1.0 msg/s, indicating an increase.",
+            "cites": [
+              "E3"
+            ]
+          },
+          {
+            "text": "The ID 0x075 showed a rate of 2.0 msg/s versus a baseline of 2.0 msg/s, indicating no change but with a significant number of alerts.",
+            "cites": [
+              "E4"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the increased message rates for IDs 0x025 and 0x69D to determine if they are legitimate or spoofed.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.7,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic shows a significant increase in the rate of messages from known IDs, indicating potential spoofing activity. The payloads appear normal but the rate is inconsistent with baseline behavior.\",\n  \"claims\": [\n    {\n      \"text\": \"In the window, the peak bus rate was 2428 msg/s versus a 2392 msg/s baseline, indicating a slight increase in traffic.\",\n      \"cites\": [\"E1\"]\n    },\n    {\n      \"text\": \"The ID 0x025 showed a rate of 12.0 msg/s versus a baseline of 1.28 msg/s, which is a 2.0x increase.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"The ID 0x69D showed a rate of 2.0 msg/s versus a baseline of 1.0 msg/s, indicating an increase.\",\n      \"cites\": [\"E3\"]\n    },\n    {\n      \"text\": \"The ID 0x075 showed a rate of 2.0 msg/s versus a baseline of 2.0 msg/s, indicating no change but with a significant number of alerts.\",\n      \"cites\": [\"E4\"]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the increased message rates for IDs 0x025 and 0x69D to determine if they are legitimate or spoofed.\"\n}\n```",
+        "latency_s": 4.941,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2778,
+          "output_tokens": 335
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "fuzzing_attack_2",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 11.0,
+      "end": 13.5,
+      "true_type": "fuzzing",
+      "detector_score": 1.0,
+      "corpus_index": 7,
+      "evidence_sha256": "c05d46bd1ebc0f4fc9705fa977029edf1ed784ed3ed8cceec81c69813a856319",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.9,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic window shows multiple unknown IDs transmitting frames at a rate significantly above their baseline, indicating potential spoofing activity.",
+        "claims": [
+          {
+            "text": "0x070 is not in the baseline ID set and sent 1 frame(s) across the full alert.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "0x095 is not in the baseline ID set and sent 1 frame(s) across the full alert.",
+            "cites": [
+              "E3"
+            ]
+          },
+          {
+            "text": "0x09F is not in the baseline ID set and sent 1 frame(s) across the full alert.",
+            "cites": [
+              "E4"
+            ]
+          },
+          {
+            "text": "0x0B3 is not in the baseline ID set and sent 1 frame(s) across the full alert.",
+            "cites": [
+              "E5"
+            ]
+          },
+          {
+            "text": "0x0C4 is not in the baseline ID set and sent 1 frame(s) across the full alert.",
+            "cites": [
+              "E6"
+            ]
+          },
+          {
+            "text": "0x0CA is not in the baseline ID set and sent 1 frame(s) across the full alert.",
+            "cites": [
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the unknown IDs and their source to determine if they are legitimate or malicious.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.9,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic window shows multiple unknown IDs transmitting frames at a rate significantly above their baseline, indicating potential spoofing activity.\",\n  \"claims\": [\n    {\n      \"text\": \"0x070 is not in the baseline ID set and sent 1 frame(s) across the full alert.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"0x095 is not in the baseline ID set and sent 1 frame(s) across the full alert.\",\n      \"cites\": [\"E3\"]\n    },\n    {\n      \"text\": \"0x09F is not in the baseline ID set and sent 1 frame(s) across the full alert.\",\n      \"cites\": [\"E4\"]\n    },\n    {\n      \"text\": \"0x0B3 is not in the baseline ID set and sent 1 frame(s) across the full alert.\",\n      \"cites\": [\"E5\"]\n    },\n    {\n      \"text\": \"0x0C4 is not in the baseline ID set and sent 1 frame(s) across the full alert.\",\n      \"cites\": [\"E6\"]\n    },\n    {\n      \"text\": \"0x0CA is not in the baseline ID set and sent 1 frame(s) across the full alert.\",\n      \"cites\": [\"E7\"]\n    }\n  ],\n  \"recommended_action\": \"Investigate the unknown IDs and their source to determine if they are legitimate or malicious.\"\n}\n```",
+        "latency_s": 4.892,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2233,
+          "output_tokens": 346
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "fuzzing_attack_3",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 4.5,
+      "end": 5.5,
+      "true_type": "fuzzing",
+      "detector_score": 1.0,
+      "corpus_index": 8,
+      "evidence_sha256": "663df7c02acd6349746d0b1a3465689605546a18ffa97e8183dac280016731c4",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.9,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic shows multiple unknown IDs transmitting frames at a rate significantly above their baseline, indicating potential spoofing activity.",
+        "claims": [
+          {
+            "text": "Multiple unknown IDs (0x04A, 0x070, 0x095, 0x09F, 0x0B3, 0x0C4) were detected, each sending 1 frame during the alert window.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The unknown IDs were not present in the baseline ID set, indicating they are likely fabricated.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The payloads of the unknown IDs were all identical (FF FF FF FF FF FF FF FF), which is suspicious.",
+            "cites": [
+              "E8"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the unknown IDs and assess the integrity of the CAN bus system.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.9,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic shows multiple unknown IDs transmitting frames at a rate significantly above their baseline, indicating potential spoofing activity.\",\n  \"claims\": [\n    {\n      \"text\": \"Multiple unknown IDs (0x04A, 0x070, 0x095, 0x09F, 0x0B3, 0x0C4) were detected, each sending 1 frame during the alert window.\",\n      \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]\n    },\n    {\n      \"text\": \"The unknown IDs were not present in the baseline ID set, indicating they are likely fabricated.\",\n      \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]\n    },\n    {\n      \"text\": \"The payloads of the unknown IDs were all identical (FF FF FF FF FF FF FF FF), which is suspicious.\",\n      \"cites\": [\"E8\"]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the unknown IDs and assess the integrity of the CAN bus system.\"\n}\n```",
+        "latency_s": 7.664,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2233,
+          "output_tokens": 288
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "max_engine_coolant_temp_attack",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 20.25,
+      "end": 24.25,
+      "true_type": "spoofing",
+      "detector_score": 0.7391,
+      "corpus_index": 9,
+      "evidence_sha256": "e016bf1c86f4c103b3ecd10c24d68dc949196524615815cc0374fd997e7dd7bd",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.739,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic shows a significant increase in message rate for ID 0x4E7, indicating potential spoofing activity. The rate is 2.2 times the baseline, with a very low inter-arrival time suggesting abnormal behavior.",
+        "claims": [
+          {
+            "text": "In [21.00, 21.50)s, 0x4E7 (unknown function): 22.0 msg/s versus 10.0 baseline (2.2x); mean gap 47.017 ms versus 100.0 ms (157.98 sigma); entropy 1.673 versus 2.148.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Peak scored-window bus rate was 2430 msg/s versus a 2392 msg/s baseline (1.02x).",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of messages from ID 0x4E7 for potential spoofing and verify the integrity of the vehicle's communication system.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.739,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic shows a significant increase in message rate for ID 0x4E7, indicating potential spoofing activity. The rate is 2.2 times the baseline, with a very low inter-arrival time suggesting abnormal behavior.\",\n  \"claims\": [\n    {\n      \"text\": \"In [21.00, 21.50)s, 0x4E7 (unknown function): 22.0 msg/s versus 10.0 baseline (2.2x); mean gap 47.017 ms versus 100.0 ms (157.98 sigma); entropy 1.673 versus 2.148.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"Peak scored-window bus rate was 2430 msg/s versus a 2392 msg/s baseline (1.02x).\",\n      \"cites\": [\"E1\"]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of messages from ID 0x4E7 for potential spoofing and verify the integrity of the vehicle's communication system.\"\n}\n```",
+        "latency_s": 4.393,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2789,
+          "output_tokens": 268
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "max_speedometer_attack_1",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 42.0,
+      "end": 66.75,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 10,
+      "evidence_sha256": "6d7256fcd97d40b1799c7f363d13412ba539d5b4b53e9a49220347fb2a411341",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.9,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic shows a significant increase in message rates for certain IDs, indicating potential spoofing activity. The observed rates for IDs 0x0D0 and 0x280 are well above their baseline rates, suggesting added frames.",
+        "claims": [
+          {
+            "text": "In [42.25, 42.75)s, 0x0D0: 202.0 msg/s versus 100.0 baseline (2.02x); mean gap 4.99 ms versus 10.0 ms (3.9 sigma).",
+            "cites": [
+              "E3"
+            ]
+          },
+          {
+            "text": "In [44.25, 44.75)s, 0x280: 26.0 msg/s versus 5.03 baseline (4.333x); mean gap 38.333 ms versus 198.754 ms (11.97 sigma).",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Peak scored-window bus rate was 2536 msg/s versus a 2392 msg/s baseline (1.06x).",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the high message rates for IDs 0x0D0 and 0x280 to determine if they are legitimate or if spoofing is occurring.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic shows a significant increase in message rates for certain IDs, indicating potential spoofing activity. The observed rates for IDs 0x0D0 and 0x280 are well above their baseline rates, suggesting added frames.\",\n  \"claims\": [\n    {\n      \"text\": \"In [42.25, 42.75)s, 0x0D0: 202.0 msg/s versus 100.0 baseline (2.02x); mean gap 4.99 ms versus 10.0 ms (3.9 sigma).\",\n      \"cites\": [\"E3\"]\n    },\n    {\n      \"text\": \"In [44.25, 44.75)s, 0x280: 26.0 msg/s versus 5.03 baseline (4.333x); mean gap 38.333 ms versus 198.754 ms (11.97 sigma).\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"Peak scored-window bus rate was 2536 msg/s versus a 2392 msg/s baseline (1.06x).\",\n      \"cites\": [\"E1\"]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the high message rates for IDs 0x0D0 and 0x280 to determine if they are legitimate or if spoofing is occurring.\"\n}\n```",
+        "latency_s": 4.692,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2778,
+          "output_tokens": 333
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "max_speedometer_attack_1_masquerade",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 42.0,
+      "end": 66.75,
+      "true_type": "masquerade",
+      "detector_score": 1.0,
+      "corpus_index": 11,
+      "evidence_sha256": "02a00cb53b8ac718fa191776ff834c36edcd81fabcca0af6fbac2d9aa23d3737",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.9,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic shows a significant increase in the rate of messages from ID 0x280, indicating potential spoofing activity. The rate increased from a baseline of 5.03 msg/s to 26.0 msg/s, which is a 4.333x increase, suggesting added frames.",
+        "claims": [
+          {
+            "text": "In [44.25, 44.75)s, 0x280 (unknown function): 26.0 msg/s versus 5.03 baseline (4.333x); mean gap 38.333 ms versus 198.754 ms (11.97 sigma); entropy 1.181 versus 1.518.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Peak scored-window bus rate was 2436 msg/s versus a 2392 msg/s baseline (1.02x).",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of messages from ID 0x280 for potential spoofing and verify the integrity of the vehicle's communication system.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic shows a significant increase in the rate of messages from ID 0x280, indicating potential spoofing activity. The rate increased from a baseline of 5.03 msg/s to 26.0 msg/s, which is a 4.333x increase, suggesting added frames.\",\n  \"claims\": [\n    {\n      \"text\": \"In [44.25, 44.75)s, 0x280 (unknown function): 26.0 msg/s versus 5.03 baseline (4.333x); mean gap 38.333 ms versus 198.754 ms (11.97 sigma); entropy 1.181 versus 1.518.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"Peak scored-window bus rate was 2436 msg/s versus a 2392 msg/s baseline (1.02x).\",\n      \"cites\": [\"E1\"]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of messages from ID 0x280 for potential spoofing and verify the integrity of the vehicle's communication system.\"\n}\n```",
+        "latency_s": 4.496,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2770,
+          "output_tokens": 276
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "max_speedometer_attack_2",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 16.0,
+      "end": 47.25,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 12,
+      "evidence_sha256": "80057c639c24ecdc5425f8fbaf48922695941411eccdf49688acaf182267e59b",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.8,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic shows a significant rate inflation for ID 0x0D0, indicating potential spoofing activity. The rate of this ID is more than double its baseline, suggesting added frames.",
+        "claims": [
+          {
+            "text": "In [16.25, 16.75)s, 0x0D0 (unknown function): 202.0 msg/s versus 100.0 baseline (2.02x); mean gap 4.991 ms versus 10.0 ms (3.9 sigma); entropy 4.776 versus 6.055.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Peak scored-window bus rate was 2506 msg/s versus a 2392 msg/s baseline (1.05x).",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of ID 0x0D0 and verify its legitimacy. Monitor for further anomalies.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.8,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic shows a significant rate inflation for ID 0x0D0, indicating potential spoofing activity. The rate of this ID is more than double its baseline, suggesting added frames.\",\n  \"claims\": [\n    {\n      \"text\": \"In [16.25, 16.75)s, 0x0D0 (unknown function): 202.0 msg/s versus 100.0 baseline (2.02x); mean gap 4.991 ms versus 10.0 ms (3.9 sigma); entropy 4.776 versus 6.055.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"Peak scored-window bus rate was 2506 msg/s versus a 2392 msg/s baseline (1.05x).\",\n      \"cites\": [\"E1\"]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of ID 0x0D0 and verify its legitimacy. Monitor for further anomalies.\"\n}\n```",
+        "latency_s": 3.732,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2785,
+          "output_tokens": 252
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "max_speedometer_attack_3",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 10.0,
+      "end": 70.5,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 13,
+      "evidence_sha256": "707613bbbd1032ace6846a10be67e64a57b41ef2c76868dc766a96a6b72fe4b0",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.8,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic shows a significant increase in the rate of messages from ID 0x0D0, which is transmitting at more than double its baseline rate. This suggests potential spoofing activity.",
+        "claims": [
+          {
+            "text": "In [10.25, 10.75)s, 0x0D0 (unknown function): 202.0 msg/s versus 100.0 baseline (2.02x); mean gap 4.99 ms versus 10.0 ms (3.9 sigma); entropy 4.351 versus 6.055.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Peak scored-window bus rate was 2510 msg/s versus a 2392 msg/s baseline (1.05x).",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of messages from ID 0x0D0 for potential spoofing.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.8,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic shows a significant increase in the rate of messages from ID 0x0D0, which is transmitting at more than double its baseline rate. This suggests potential spoofing activity.\",\n  \"claims\": [\n    {\n      \"text\": \"In [10.25, 10.75)s, 0x0D0 (unknown function): 202.0 msg/s versus 100.0 baseline (2.02x); mean gap 4.99 ms versus 10.0 ms (3.9 sigma); entropy 4.351 versus 6.055.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"Peak scored-window bus rate was 2510 msg/s versus a 2392 msg/s baseline (1.05x).\",\n      \"cites\": [\"E1\"]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of messages from ID 0x0D0 for potential spoofing.\"\n}\n```",
+        "latency_s": 3.366,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2789,
+          "output_tokens": 249
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_off_attack_1",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 16.75,
+      "end": 23.25,
+      "true_type": "spoofing",
+      "detector_score": 0.5652,
+      "corpus_index": 14,
+      "evidence_sha256": "7e3787af15ead96bd8470472f2663d14abe5101994344136a8b1bc172d6a6a9c",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.7,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic shows a significant increase in the rate of messages for ID 0x0D0, indicating potential spoofing activity. The rate of this ID is double its baseline, with a notable decrease in inter-arrival time and entropy.",
+        "claims": [
+          {
+            "text": "In [16.75, 17.25)s, 0x0D0 (unknown function): 200.0 msg/s versus 100.0 baseline (2.0x); mean gap 4.97 ms versus 10.0 ms (3.91 sigma); entropy 4.386 versus 6.055.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Peak scored-window bus rate was 2520 msg/s versus a 2392 msg/s baseline (1.05x).",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of messages for ID 0x0D0 and verify their legitimacy.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.7,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic shows a significant increase in the rate of messages for ID 0x0D0, indicating potential spoofing activity. The rate of this ID is double its baseline, with a notable decrease in inter-arrival time and entropy.\",\n  \"claims\": [\n    {\n      \"text\": \"In [16.75, 17.25)s, 0x0D0 (unknown function): 200.0 msg/s versus 100.0 baseline (2.0x); mean gap 4.97 ms versus 10.0 ms (3.91 sigma); entropy 4.386 versus 6.055.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"Peak scored-window bus rate was 2520 msg/s versus a 2392 msg/s baseline (1.05x).\",\n      \"cites\": [\"E1\"]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of messages for ID 0x0D0 and verify their legitimacy.\"\n}\n```",
+        "latency_s": 3.64,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2794,
+          "output_tokens": 259
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_off_attack_2",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 13.25,
+      "end": 36.75,
+      "true_type": "spoofing",
+      "detector_score": 0.5652,
+      "corpus_index": 15,
+      "evidence_sha256": "44ccec9542cbbe4570af5412588ed92975395aa0e1662a3fbd307498e4993645",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.7,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic shows a significant increase in the rate of messages for certain IDs, indicating potential spoofing activity. The observed rates for some IDs are well above their baseline, suggesting added frames.",
+        "claims": [
+          {
+            "text": "In [13.25, 13.75)s, 0x0D0 (unknown function): 200.0 msg/s versus 100.0 baseline (2.0x); mean gap 4.985 ms versus 10.0 ms (3.9 sigma).",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Peak scored-window bus rate was 2520 msg/s versus a 2392 msg/s baseline (1.05x).",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "In [13.75, 14.25)s, 0x69D (unknown function): 2.0 msg/s versus 1.0 baseline (0.333x); mean gap 0.0 ms versus 1000.037 ms (0.0 sigma).",
+            "cites": [
+              "E3"
+            ]
+          },
+          {
+            "text": "In [13.25, 13.75)s, 0x075 (unknown function): 2.0 msg/s versus 2.0 baseline (0.333x); mean gap 0.0 ms versus 500.024 ms (0.0 sigma).",
+            "cites": [
+              "E4"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the high message rates for IDs 0x0D0 and others, and verify their legitimacy.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.7,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic shows a significant increase in the rate of messages for certain IDs, indicating potential spoofing activity. The observed rates for some IDs are well above their baseline, suggesting added frames.\",\n  \"claims\": [\n    {\n      \"text\": \"In [13.25, 13.75)s, 0x0D0 (unknown function): 200.0 msg/s versus 100.0 baseline (2.0x); mean gap 4.985 ms versus 10.0 ms (3.9 sigma).\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"Peak scored-window bus rate was 2520 msg/s versus a 2392 msg/s baseline (1.05x).\",\n      \"cites\": [\"E1\"]\n    },\n    {\n      \"text\": \"In [13.75, 14.25)s, 0x69D (unknown function): 2.0 msg/s versus 1.0 baseline (0.333x); mean gap 0.0 ms versus 1000.037 ms (0.0 sigma).\",\n      \"cites\": [\"E3\"]\n    },\n    {\n      \"text\": \"In [13.25, 13.75)s, 0x075 (unknown function): 2.0 msg/s versus 2.0 baseline (0.333x); mean gap 0.0 ms versus 500.024 ms (0.0 sigma).\",\n      \"cites\": [\"E4\"]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the high message rates for IDs 0x0D0 and others, and verify their legitimacy.\"\n}\n```",
+        "latency_s": 4.247,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2790,
+          "output_tokens": 398
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_off_attack_3",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 16.75,
+      "end": 40.75,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 16,
+      "evidence_sha256": "a4be7ce3da251c21f3942b55ff231b6d0dbb650611e367da078dc9b6a3d03920",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.8,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic shows a significant increase in the rate of messages from ID 0x0D0, which is transmitting at more than double its baseline rate. This suggests potential spoofing activity.",
+        "claims": [
+          {
+            "text": "In the window, ID 0x0D0 transmitted at 202.0 msg/s versus a baseline of 100.0 msg/s (2.02x).",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The overall detector score for the window is 0.583, indicating a notable anomaly.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "The peak bus rate was 2518 msg/s compared to a baseline of 2392 msg/s, indicating increased activity.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of messages from ID 0x0D0 for potential spoofing.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.8,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic shows a significant increase in the rate of messages from ID 0x0D0, which is transmitting at more than double its baseline rate. This suggests potential spoofing activity.\",\n  \"claims\": [\n    {\n      \"text\": \"In the window, ID 0x0D0 transmitted at 202.0 msg/s versus a baseline of 100.0 msg/s (2.02x).\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"The overall detector score for the window is 0.583, indicating a notable anomaly.\",\n      \"cites\": [\"E0\"]\n    },\n    {\n      \"text\": \"The peak bus rate was 2518 msg/s compared to a baseline of 2392 msg/s, indicating increased activity.\",\n      \"cites\": [\"E1\"]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of messages from ID 0x0D0 for potential spoofing.\"\n}\n```",
+        "latency_s": 3.679,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2799,
+          "output_tokens": 250
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_on_attack_1",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 19.0,
+      "end": 38.75,
+      "true_type": "spoofing",
+      "detector_score": 0.5652,
+      "corpus_index": 17,
+      "evidence_sha256": "5a1ca1df389f0d29ccfe88a173f5d73f55479e3d503a120ee1d350d1fff91b49",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.7,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic shows a significant increase in the rate of messages from ID 0x0D0, which is transmitting at double its baseline rate. This suggests potential spoofing activity.",
+        "claims": [
+          {
+            "text": "In the time window, ID 0x0D0 transmitted at 200.0 msg/s versus a baseline of 100.0 msg/s, indicating a rate inflation.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The mean gap for ID 0x0D0 was 4.982 ms compared to a baseline of 10.0 ms, indicating abnormal timing.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The entropy for ID 0x0D0 decreased from 6.055 to 4.543, suggesting less variability in the payload.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of messages from ID 0x0D0 for potential spoofing.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.7,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic shows a significant increase in the rate of messages from ID 0x0D0, which is transmitting at double its baseline rate. This suggests potential spoofing activity.\",\n  \"claims\": [\n    {\n      \"text\": \"In the time window, ID 0x0D0 transmitted at 200.0 msg/s versus a baseline of 100.0 msg/s, indicating a rate inflation.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"The mean gap for ID 0x0D0 was 4.982 ms compared to a baseline of 10.0 ms, indicating abnormal timing.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"The entropy for ID 0x0D0 decreased from 6.055 to 4.543, suggesting less variability in the payload.\",\n      \"cites\": [\"E2\"]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of messages from ID 0x0D0 for potential spoofing.\"\n}\n```",
+        "latency_s": 4.815,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2794,
+          "output_tokens": 266
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_on_attack_2",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 20.5,
+      "end": 57.25,
+      "true_type": "spoofing",
+      "detector_score": 0.6,
+      "corpus_index": 18,
+      "evidence_sha256": "d2ccd41df5b62b96251e914949817e3fe10bfcde7ca7401f7ca52bc719f49d7a",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.7,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic shows a significant rate inflation for ID 0x0D0, indicating potential spoofing activity. Other IDs exhibit unusual timing and entropy characteristics, suggesting manipulation.",
+        "claims": [
+          {
+            "text": "In the window, ID 0x0D0 transmitted at 200.0 msg/s versus a baseline of 100.0 msg/s, indicating a rate inflation of 2.0x.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The mean gap for ID 0x0D0 was 4.98 ms versus a baseline of 10.0 ms, indicating abnormal timing.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The payload entropy for ID 0x0D0 decreased from 6.055 to 4.612, suggesting less randomness in the payload.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Other IDs (0x69D, 0x075, etc.) showed similar patterns of low rates and abnormal timing, indicating potential spoofing.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of ID 0x0D0 and other IDs with abnormal characteristics for potential spoofing.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.7,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic shows a significant rate inflation for ID 0x0D0, indicating potential spoofing activity. Other IDs exhibit unusual timing and entropy characteristics, suggesting manipulation.\",\n  \"claims\": [\n    {\n      \"text\": \"In the window, ID 0x0D0 transmitted at 200.0 msg/s versus a baseline of 100.0 msg/s, indicating a rate inflation of 2.0x.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"The mean gap for ID 0x0D0 was 4.98 ms versus a baseline of 10.0 ms, indicating abnormal timing.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"The payload entropy for ID 0x0D0 decreased from 6.055 to 4.612, suggesting less randomness in the payload.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"Other IDs (0x69D, 0x075, etc.) showed similar patterns of low rates and abnormal timing, indicating potential spoofing.\",\n      \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of ID 0x0D0 and other IDs with abnormal characteristics for potential spoofing.\"\n}\n```",
+        "latency_s": 4.285,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2791,
+          "output_tokens": 337
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_on_attack_2",
+      "role": "attack_capture",
+      "alert_id": 1,
+      "start": 71.25,
+      "end": 71.75,
+      "true_type": "normal",
+      "detector_score": 0.6,
+      "corpus_index": 19,
+      "evidence_sha256": "1ccb5ff70b771957ee9fc3fc9ad8272301bd495638013b69cc6697fa77479029",
+      "explanation": {
+        "attack_type": "unknown",
+        "confidence": 0.6,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic during the specified window shows a high frame count with normal bus load and no unknown IDs. However, the timing component indicates some irregularities, suggesting potential anomalies.",
+        "claims": [
+          {
+            "text": "The alert window recorded 1196 frames with a detector score of 0.600, indicating some level of anomaly.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "The peak scored-window bus rate was 2392 msg/s, which is consistent with the baseline rate of 2392 msg/s.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "Several IDs showed normal rates compared to their baselines, but some had reduced entropy, indicating potential anomalies.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Further investigation is needed to determine the cause of the anomalies in timing and entropy.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"unknown\",\n  \"confidence\": 0.6,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic during the specified window shows a high frame count with normal bus load and no unknown IDs. However, the timing component indicates some irregularities, suggesting potential anomalies.\",\n  \"claims\": [\n    {\n      \"text\": \"The alert window recorded 1196 frames with a detector score of 0.600, indicating some level of anomaly.\",\n      \"cites\": [\"E0\"]\n    },\n    {\n      \"text\": \"The peak scored-window bus rate was 2392 msg/s, which is consistent with the baseline rate of 2392 msg/s.\",\n      \"cites\": [\"E1\"]\n    },\n    {\n      \"text\": \"Several IDs showed normal rates compared to their baselines, but some had reduced entropy, indicating potential anomalies.\",\n      \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]\n    }\n  ],\n  \"recommended_action\": \"Further investigation is needed to determine the cause of the anomalies in timing and entropy.\"\n}\n```",
+        "latency_s": 3.806,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2614,
+          "output_tokens": 254
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_on_attack_2_masquerade",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 45.25,
+      "end": 45.75,
+      "true_type": "masquerade",
+      "detector_score": 0.6,
+      "corpus_index": 20,
+      "evidence_sha256": "75ecd834e4f0f263257b40b0bffb0f9ef525e7365de3ab44d9df4c893aaf64d7",
+      "explanation": {
+        "attack_type": "unknown",
+        "confidence": 0.6,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic during the specified window shows a high frame count with normal rates for known IDs, but with some deviations in timing and entropy. The anomaly detector flagged this window due to timing irregularities, but no specific vehicle function is identified as affected.",
+        "claims": [
+          {
+            "text": "The alert window had a total of 1198 frames with a detector score of 0.600, indicating potential anomalies.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "The peak bus rate was 2396 msg/s, which is slightly above the baseline of 2392 msg/s.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "For CAN ID 0x230, the rate was consistent with the baseline, but the entropy was lower than expected.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Other IDs such as 0x075, 0x3B9, and others showed low rates and significant deviations in inter-arrival times and entropy.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Further investigation is needed to determine the cause of the timing irregularities and low entropy in the observed CAN frames.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"unknown\",\n  \"confidence\": 0.6,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic during the specified window shows a high frame count with normal rates for known IDs, but with some deviations in timing and entropy. The anomaly detector flagged this window due to timing irregularities, but no specific vehicle function is identified as affected.\",\n  \"claims\": [\n    {\n      \"text\": \"The alert window had a total of 1198 frames with a detector score of 0.600, indicating potential anomalies.\",\n      \"cites\": [\"E0\"]\n    },\n    {\n      \"text\": \"The peak bus rate was 2396 msg/s, which is slightly above the baseline of 2392 msg/s.\",\n      \"cites\": [\"E1\"]\n    },\n    {\n      \"text\": \"For CAN ID 0x230, the rate was consistent with the baseline, but the entropy was lower than expected.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"Other IDs such as 0x075, 0x3B9, and others showed low rates and significant deviations in inter-arrival times and entropy.\",\n      \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]\n    }\n  ],\n  \"recommended_action\": \"Further investigation is needed to determine the cause of the timing irregularities and low entropy in the observed CAN frames.\"\n}\n```",
+        "latency_s": 4.127,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2612,
+          "output_tokens": 322
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_on_attack_2_masquerade",
+      "role": "attack_capture",
+      "alert_id": 1,
+      "start": 71.25,
+      "end": 71.75,
+      "true_type": "normal",
+      "detector_score": 0.6,
+      "corpus_index": 21,
+      "evidence_sha256": "1ccb5ff70b771957ee9fc3fc9ad8272301bd495638013b69cc6697fa77479029",
+      "explanation": {
+        "attack_type": "unknown",
+        "confidence": 0.6,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic during the specified window shows a high frame count with normal bus load and no unknown IDs. However, the timing component indicates some irregularities, leading to an uncertain classification.",
+        "claims": [
+          {
+            "text": "The alert window recorded 1196 frames with a detector score of 0.600, indicating potential anomalies.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "The peak bus rate was 2392 msg/s, which is consistent with the baseline rate of 2391.51 msg/s.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "Several CAN IDs showed normal rates compared to their baselines, but with notable deviations in timing and entropy.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Further investigation is needed to determine the nature of the anomalies and whether they pose a security risk.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"unknown\",\n  \"confidence\": 0.6,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic during the specified window shows a high frame count with normal bus load and no unknown IDs. However, the timing component indicates some irregularities, leading to an uncertain classification.\",\n  \"claims\": [\n    {\n      \"text\": \"The alert window recorded 1196 frames with a detector score of 0.600, indicating potential anomalies.\",\n      \"cites\": [\"E0\"]\n    },\n    {\n      \"text\": \"The peak bus rate was 2392 msg/s, which is consistent with the baseline rate of 2391.51 msg/s.\",\n      \"cites\": [\"E1\"]\n    },\n    {\n      \"text\": \"Several CAN IDs showed normal rates compared to their baselines, but with notable deviations in timing and entropy.\",\n      \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]\n    }\n  ],\n  \"recommended_action\": \"Further investigation is needed to determine the nature of the anomalies and whether they pose a security risk.\"\n}\n```",
+        "latency_s": 3.823,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2614,
+          "output_tokens": 257
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_on_attack_3",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 23.25,
+      "end": 46.5,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 22,
+      "evidence_sha256": "5e07de8a545a685a91292d9356414e490d8604fa0e06164d107c9f5bc3ed174a",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.8,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic shows a significant rate inflation for ID 0x0D0, indicating potential spoofing activity. The observed rate is more than double the baseline, suggesting added frames.",
+        "claims": [
+          {
+            "text": "In [26.25, 26.75)s, 0x0D0 (unknown function): 202.0 msg/s versus 100.0 baseline (2.02x); mean gap 4.99 ms versus 10.0 ms (3.9 sigma); entropy 4.774 versus 6.055.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Peak scored-window bus rate was 2524 msg/s versus a 2392 msg/s baseline (1.06x).",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "Detector score 0.583; components: rate_inflation 0.583.",
+            "cites": [
+              "E0"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of ID 0x0D0 and verify its legitimacy. Monitor for further anomalies.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.8,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic shows a significant rate inflation for ID 0x0D0, indicating potential spoofing activity. The observed rate is more than double the baseline, suggesting added frames.\",\n  \"claims\": [\n    {\n      \"text\": \"In [26.25, 26.75)s, 0x0D0 (unknown function): 202.0 msg/s versus 100.0 baseline (2.02x); mean gap 4.99 ms versus 10.0 ms (3.9 sigma); entropy 4.774 versus 6.055.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"Peak scored-window bus rate was 2524 msg/s versus a 2392 msg/s baseline (1.06x).\",\n      \"cites\": [\"E1\"]\n    },\n    {\n      \"text\": \"Detector score 0.583; components: rate_inflation 0.583.\",\n      \"cites\": [\"E0\"]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of ID 0x0D0 and verify its legitimacy. Monitor for further anomalies.\"\n}\n```",
+        "latency_s": 3.727,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2794,
+          "output_tokens": 286
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_basic_long",
+      "role": "held_out_normal",
+      "alert_id": 0,
+      "start": 67.25,
+      "end": 67.75,
+      "true_type": "normal",
+      "detector_score": 0.5652,
+      "corpus_index": 23,
+      "evidence_sha256": "d20938e2ae9f8a440cb76d2b6ab5d13ff80d2113ac3a1ab45d147a9ed90ea23c",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.7,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic shows a significant increase in the rate of messages from ID 0x025, indicating potential spoofing activity. The rate of 12.0 msg/s is notably higher than the baseline of 1.28 msg/s.",
+        "claims": [
+          {
+            "text": "In [67.25, 67.75)s, 0x025 (unknown function): 12.0 msg/s versus 1.28 baseline (2.0x); mean gap 80.007 ms versus 781.8 ms (1.85 sigma); entropy 2.875 versus 3.28.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Peak scored-window bus rate was 2382 msg/s versus a 2392 msg/s baseline (1.00x).",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of messages from ID 0x025 for potential spoofing.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.7,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic shows a significant increase in the rate of messages from ID 0x025, indicating potential spoofing activity. The rate of 12.0 msg/s is notably higher than the baseline of 1.28 msg/s.\",\n  \"claims\": [\n    {\n      \"text\": \"In [67.25, 67.75)s, 0x025 (unknown function): 12.0 msg/s versus 1.28 baseline (2.0x); mean gap 80.007 ms versus 781.8 ms (1.85 sigma); entropy 2.875 versus 3.28.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"Peak scored-window bus rate was 2382 msg/s versus a 2392 msg/s baseline (1.00x).\",\n      \"cites\": [\"E1\"]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of messages from ID 0x025 for potential spoofing.\"\n}\n```",
+        "latency_s": 3.346,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2617,
+          "output_tokens": 254
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 0,
+      "start": 0.0,
+      "end": 23.0,
+      "true_type": "normal",
+      "detector_score": 1.0,
+      "corpus_index": 24,
+      "evidence_sha256": "008a874ac879f5e96877eeba7ed77edb5e6d4bdd1aad1646a344e15955f8951c",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.9,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic shows a significant increase in the rate of messages from ID 0x297, which is transmitting at a rate of 12.0 msg/s compared to a baseline of 2.0 msg/s. This indicates potential spoofing activity as the rate is well above the expected baseline.",
+        "claims": [
+          {
+            "text": "In [22.50, 23.00)s, 0x297 (unknown function): 12.0 msg/s versus 2.0 baseline (2.0x); mean gap 66.298 ms versus 500.003 ms (401.69 sigma); entropy 3.01 versus 2.0.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Peak scored-window bus rate was 2250 msg/s versus a 2392 msg/s baseline (0.94x).",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "The detector score for this window is 1.000, indicating a high likelihood of an anomaly.",
+            "cites": [
+              "E0"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of messages from ID 0x297 and verify their legitimacy. Monitor for further anomalies.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic shows a significant increase in the rate of messages from ID 0x297, which is transmitting at a rate of 12.0 msg/s compared to a baseline of 2.0 msg/s. This indicates potential spoofing activity as the rate is well above the expected baseline.\",\n  \"claims\": [\n    {\n      \"text\": \"In [22.50, 23.00)s, 0x297 (unknown function): 12.0 msg/s versus 2.0 baseline (2.0x); mean gap 66.298 ms versus 500.003 ms (401.69 sigma); entropy 3.01 versus 2.0.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"Peak scored-window bus rate was 2250 msg/s versus a 2392 msg/s baseline (0.94x).\",\n      \"cites\": [\"E1\"]\n    },\n    {\n      \"text\": \"The detector score for this window is 1.000, indicating a high likelihood of an anomaly.\",\n      \"cites\": [\"E0\"]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of messages from ID 0x297 and verify their legitimacy. Monitor for further anomalies.\"\n}\n```",
+        "latency_s": 3.801,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3051,
+          "output_tokens": 309
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 1,
+      "start": 24.0,
+      "end": 25.25,
+      "true_type": "normal",
+      "detector_score": 0.8548,
+      "corpus_index": 25,
+      "evidence_sha256": "2f36f69482a77e3848dc63428c9c232260dcedf8046cd78b19bd097adf445ebd",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.855,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic shows a significant increase in the rate of messages from ID 0x21D, indicating potential spoofing activity. The rate increased from a baseline of 1.0 msg/s to 14.0 msg/s, which is a 2.333x increase, along with a very low inter-arrival time mean of 66.015 ms compared to a baseline of 999.673 ms.",
+        "claims": [
+          {
+            "text": "In [24.50, 25.00)s, 0x21D (unknown function): 14.0 msg/s versus 1.0 baseline (2.333x); mean gap 66.015 ms versus 999.673 ms (1029.21 sigma); entropy 1.328 versus 0.544.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Peak scored-window bus rate was 2432 msg/s versus a 2392 msg/s baseline (1.02x).",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of messages from ID 0x21D for potential spoofing and assess the integrity of the vehicle's communication system.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.855,\n  \"severity\": \"high\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic shows a significant increase in the rate of messages from ID 0x21D, indicating potential spoofing activity. The rate increased from a baseline of 1.0 msg/s to 14.0 msg/s, which is a 2.333x increase, along with a very low inter-arrival time mean of 66.015 ms compared to a baseline of 999.673 ms.\",\n  \"claims\": [\n    {\n      \"text\": \"In [24.50, 25.00)s, 0x21D (unknown function): 14.0 msg/s versus 1.0 baseline (2.333x); mean gap 66.015 ms versus 999.673 ms (1029.21 sigma); entropy 1.328 versus 0.544.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"Peak scored-window bus rate was 2432 msg/s versus a 2392 msg/s baseline (1.02x).\",\n      \"cites\": [\"E1\"]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of messages from ID 0x21D for potential spoofing and assess the integrity of the vehicle's communication system.\"\n}\n```",
+        "latency_s": 3.769,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2782,
+          "output_tokens": 303
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 2,
+      "start": 26.0,
+      "end": 27.25,
+      "true_type": "normal",
+      "detector_score": 0.8548,
+      "corpus_index": 26,
+      "evidence_sha256": "7ecb928d2fb3dfc29776f5dd2dff00967c26736af4e837f329bc5287f73cd181",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.855,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic shows a significant increase in message rate for ID 0x21D, indicating potential spoofing activity. The rate increased from a baseline of 1.0 msg/s to 14.0 msg/s, with a high entropy value suggesting abnormal payloads.",
+        "claims": [
+          {
+            "text": "In [26.25, 26.75)s, 0x21D (unknown function): 14.0 msg/s versus 1.0 baseline (2.333x); mean gap 75.079 ms versus 999.673 ms (1019.22 sigma); entropy 1.514 versus 0.544.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Peak scored-window bus rate was 2440 msg/s versus a 2392 msg/s baseline (1.02x).",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "Detector score of 0.8548 indicates a high likelihood of anomaly.",
+            "cites": [
+              "E0"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of messages from ID 0x21D for potential spoofing and verify the integrity of the vehicle's communication system.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.855,\n  \"severity\": \"high\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic shows a significant increase in message rate for ID 0x21D, indicating potential spoofing activity. The rate increased from a baseline of 1.0 msg/s to 14.0 msg/s, with a high entropy value suggesting abnormal payloads.\",\n  \"claims\": [\n    {\n      \"text\": \"In [26.25, 26.75)s, 0x21D (unknown function): 14.0 msg/s versus 1.0 baseline (2.333x); mean gap 75.079 ms versus 999.673 ms (1019.22 sigma); entropy 1.514 versus 0.544.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"Peak scored-window bus rate was 2440 msg/s versus a 2392 msg/s baseline (1.02x).\",\n      \"cites\": [\"E1\"]\n    },\n    {\n      \"text\": \"Detector score of 0.8548 indicates a high likelihood of anomaly.\",\n      \"cites\": [\"E0\"]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of messages from ID 0x21D for potential spoofing and verify the integrity of the vehicle's communication system.\"\n}\n```",
+        "latency_s": 3.906,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2782,
+          "output_tokens": 307
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 3,
+      "start": 44.25,
+      "end": 45.25,
+      "true_type": "normal",
+      "detector_score": 0.6196,
+      "corpus_index": 27,
+      "evidence_sha256": "5450dfa0d8015b75406795b19ec386018a8730f7d675206b80434b0fa8bb628b",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.6196,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic shows multiple instances of known IDs transmitting at rates significantly above their baseline, indicating potential spoofing activity.",
+        "claims": [
+          {
+            "text": "In the window, the frame count was 2390 with a detector score of 0.6196, indicating unusual activity.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "The ID 0x69D transmitted at 2.0 msg/s versus a baseline of 1.0 msg/s, indicating an inflated rate.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The ID 0x075 transmitted at 2.0 msg/s versus a baseline of 2.0 msg/s, but with a mean gap of 0.0 ms, suggesting abnormal timing.",
+            "cites": [
+              "E3"
+            ]
+          },
+          {
+            "text": "The ID 0x4EE transmitted at 2.0 msg/s versus a baseline of 1.0 msg/s, indicating an inflated rate.",
+            "cites": [
+              "E4"
+            ]
+          },
+          {
+            "text": "The ID 0x3B9 transmitted at 2.0 msg/s versus a baseline of 1.0 msg/s, indicating an inflated rate.",
+            "cites": [
+              "E5"
+            ]
+          },
+          {
+            "text": "The ID 0x6D7 transmitted at 2.0 msg/s versus a baseline of 1.0 msg/s, indicating an inflated rate.",
+            "cites": [
+              "E6"
+            ]
+          },
+          {
+            "text": "The ID 0x655 transmitted at 2.0 msg/s versus a baseline of 1.0 msg/s, indicating an inflated rate.",
+            "cites": [
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the inflated message rates for IDs 0x69D, 0x4EE, 0x3B9, 0x6D7, and 0x655 to determine if they are legitimate or spoofed.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.6196,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic shows multiple instances of known IDs transmitting at rates significantly above their baseline, indicating potential spoofing activity.\",\n  \"claims\": [\n    {\n      \"text\": \"In the window, the frame count was 2390 with a detector score of 0.6196, indicating unusual activity.\",\n      \"cites\": [\"E0\"]\n    },\n    {\n      \"text\": \"The ID 0x69D transmitted at 2.0 msg/s versus a baseline of 1.0 msg/s, indicating an inflated rate.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"The ID 0x075 transmitted at 2.0 msg/s versus a baseline of 2.0 msg/s, but with a mean gap of 0.0 ms, suggesting abnormal timing.\",\n      \"cites\": [\"E3\"]\n    },\n    {\n      \"text\": \"The ID 0x4EE transmitted at 2.0 msg/s versus a baseline of 1.0 msg/s, indicating an inflated rate.\",\n      \"cites\": [\"E4\"]\n    },\n    {\n      \"text\": \"The ID 0x3B9 transmitted at 2.0 msg/s versus a baseline of 1.0 msg/s, indicating an inflated rate.\",\n      \"cites\": [\"E5\"]\n    },\n    {\n      \"text\": \"The ID 0x6D7 transmitted at 2.0 msg/s versus a baseline of 1.0 msg/s, indicating an inflated rate.\",\n      \"cites\": [\"E6\"]\n    },\n    {\n      \"text\": \"The ID 0x655 transmitted at 2.0 msg/s versus a baseline of 1.0 msg/s, indicating an inflated rate.\",\n      \"cites\": [\"E7\"]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the inflated message rates for IDs 0x69D, 0x4EE, 0x3B9, 0x6D7, and 0x655 to determine if they are legitimate or spoofed.\"\n}\n```",
+        "latency_s": 6.025,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2633,
+          "output_tokens": 484
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 4,
+      "start": 45.75,
+      "end": 72.0,
+      "true_type": "normal",
+      "detector_score": 0.7316,
+      "corpus_index": 28,
+      "evidence_sha256": "447800b092b0041f236cce36d778e0ae59a48d3c2ad738daac3c31311a97f6bc",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.8,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic shows a significant increase in message rates for known IDs, indicating potential spoofing activity. The payload entropy is also lower than expected, suggesting manipulation.",
+        "claims": [
+          {
+            "text": "In [46.00, 46.50)s, 0x025 (unknown function): 12.0 msg/s versus 1.28 baseline (2.0x); mean gap 80.348 ms versus 781.8 ms (1.85 sigma); entropy 2.812 versus 3.28.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Peak scored-window bus rate was 2434 msg/s versus a 2392 msg/s baseline (1.02x).",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "In [45.75, 46.25)s, 0x69D (unknown function): 2.0 msg/s versus 1.0 baseline (0.333x); mean gap 0.0 ms versus 1000.037 ms (0.0 sigma); entropy 3.0 versus 5.621.",
+            "cites": [
+              "E3"
+            ]
+          },
+          {
+            "text": "In [45.75, 46.25)s, 0x075 (unknown function): 2.0 msg/s versus 2.0 baseline (0.333x); mean gap 0.0 ms versus 500.024 ms (0.0 sigma); entropy 2.5 versus 4.742.",
+            "cites": [
+              "E4"
+            ]
+          },
+          {
+            "text": "In [45.75, 46.25)s, 0x3B9 (unknown function): 2.0 msg/s versus 1.0 baseline (0.333x); mean gap 0.0 ms versus 999.675 ms (0.0 sigma); entropy 2.406 versus 3.981.",
+            "cites": [
+              "E5"
+            ]
+          },
+          {
+            "text": "In [45.75, 46.25)s, 0x4EE (unknown function): 2.0 msg/s versus 1.0 baseline (0.333x); mean gap 0.0 ms versus 1000.047 ms (0.0 sigma); entropy 2.75 versus 4.084.",
+            "cites": [
+              "E6"
+            ]
+          },
+          {
+            "text": "In [46.00, 46.50)s, 0x6D7 (unknown function): 2.0 msg/s versus 1.0 baseline (0.333x); mean gap 0.0 ms versus 1000.002 ms (0.0 sigma); entropy 3.0 versus 4.057.",
+            "cites": [
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the increased message rates and verify the integrity of the CAN bus communications.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.8,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic shows a significant increase in message rates for known IDs, indicating potential spoofing activity. The payload entropy is also lower than expected, suggesting manipulation.\",\n  \"claims\": [\n    {\n      \"text\": \"In [46.00, 46.50)s, 0x025 (unknown function): 12.0 msg/s versus 1.28 baseline (2.0x); mean gap 80.348 ms versus 781.8 ms (1.85 sigma); entropy 2.812 versus 3.28.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"Peak scored-window bus rate was 2434 msg/s versus a 2392 msg/s baseline (1.02x).\",\n      \"cites\": [\"E1\"]\n    },\n    {\n      \"text\": \"In [45.75, 46.25)s, 0x69D (unknown function): 2.0 msg/s versus 1.0 baseline (0.333x); mean gap 0.0 ms versus 1000.037 ms (0.0 sigma); entropy 3.0 versus 5.621.\",\n      \"cites\": [\"E3\"]\n    },\n    {\n      \"text\": \"In [45.75, 46.25)s, 0x075 (unknown function): 2.0 msg/s versus 2.0 baseline (0.333x); mean gap 0.0 ms versus 500.024 ms (0.0 sigma); entropy 2.5 versus 4.742.\",\n      \"cites\": [\"E4\"]\n    },\n    {\n      \"text\": \"In [45.75, 46.25)s, 0x3B9 (unknown function): 2.0 msg/s versus 1.0 baseline (0.333x); mean gap 0.0 ms versus 999.675 ms (0.0 sigma); entropy 2.406 versus 3.981.\",\n      \"cites\": [\"E5\"]\n    },\n    {\n      \"text\": \"In [45.75, 46.25)s, 0x4EE (unknown function): 2.0 msg/s versus 1.0 baseline (0.333x); mean gap 0.0 ms versus 1000.047 ms (0.0 sigma); entropy 2.75 versus 4.084.\",\n      \"cites\": [\"E6\"]\n    },\n    {\n      \"text\": \"In [46.00, 46.50)s, 0x6D7 (unknown function): 2.0 msg/s versus 1.0 baseline (0.333x); mean gap 0.0 ms versus 1000.002 ms (0.0 sigma); entropy 3.0 versus 4.057.\",\n      \"cites\": [\"E7\"]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the increased message rates and verify the integrity of the CAN bus communications.\"\n}\n```",
+        "latency_s": 8.306,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2780,
+          "output_tokens": 679
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 5,
+      "start": 72.75,
+      "end": 73.75,
+      "true_type": "normal",
+      "detector_score": 0.592,
+      "corpus_index": 29,
+      "evidence_sha256": "85830c2058ac5fe33f87e125f4e55fbdb88f6cc2bc83e71be7b17d53f3fb69a4",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.8,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic shows multiple IDs transmitting at rates significantly higher than their baseline, indicating potential spoofing activity.",
+        "claims": [
+          {
+            "text": "In [72.75, 73.25)s, 0x69D transmitted at 2.0 msg/s versus a baseline of 1.0 msg/s.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "In [72.75, 73.25)s, 0x075 transmitted at 2.0 msg/s versus a baseline of 2.0 msg/s, but with a mean gap of 0.0 ms.",
+            "cites": [
+              "E3"
+            ]
+          },
+          {
+            "text": "In [72.75, 73.25)s, 0x3B9 transmitted at 2.0 msg/s versus a baseline of 1.0 msg/s.",
+            "cites": [
+              "E4"
+            ]
+          },
+          {
+            "text": "In [72.75, 73.25)s, 0x4EE transmitted at 2.0 msg/s versus a baseline of 1.0 msg/s.",
+            "cites": [
+              "E5"
+            ]
+          },
+          {
+            "text": "In [73.25, 73.75)s, 0x6D7 transmitted at 2.0 msg/s versus a baseline of 1.0 msg/s.",
+            "cites": [
+              "E6"
+            ]
+          },
+          {
+            "text": "In [72.75, 73.25)s, 0x655 transmitted at 2.0 msg/s versus a baseline of 1.0 msg/s.",
+            "cites": [
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the high-rate transmissions for potential spoofing.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.8,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic shows multiple IDs transmitting at rates significantly higher than their baseline, indicating potential spoofing activity.\",\n  \"claims\": [\n    {\n      \"text\": \"In [72.75, 73.25)s, 0x69D transmitted at 2.0 msg/s versus a baseline of 1.0 msg/s.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"In [72.75, 73.25)s, 0x075 transmitted at 2.0 msg/s versus a baseline of 2.0 msg/s, but with a mean gap of 0.0 ms.\",\n      \"cites\": [\"E3\"]\n    },\n    {\n      \"text\": \"In [72.75, 73.25)s, 0x3B9 transmitted at 2.0 msg/s versus a baseline of 1.0 msg/s.\",\n      \"cites\": [\"E4\"]\n    },\n    {\n      \"text\": \"In [72.75, 73.25)s, 0x4EE transmitted at 2.0 msg/s versus a baseline of 1.0 msg/s.\",\n      \"cites\": [\"E5\"]\n    },\n    {\n      \"text\": \"In [73.25, 73.75)s, 0x6D7 transmitted at 2.0 msg/s versus a baseline of 1.0 msg/s.\",\n      \"cites\": [\"E6\"]\n    },\n    {\n      \"text\": \"In [72.75, 73.25)s, 0x655 transmitted at 2.0 msg/s versus a baseline of 1.0 msg/s.\",\n      \"cites\": [\"E7\"]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the high-rate transmissions for potential spoofing.\"\n}\n```",
+        "latency_s": 5.819,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2635,
+          "output_tokens": 430
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 6,
+      "start": 75.5,
+      "end": 120.0,
+      "true_type": "normal",
+      "detector_score": 0.668,
+      "corpus_index": 30,
+      "evidence_sha256": "cca5a5736b7d961c15298e24bdc33b38058da359b58c371fc2521dc1eb112e55",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.8,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The CAN bus traffic shows a significant increase in message rates for known IDs, indicating potential spoofing activity. The payload entropy is also elevated, suggesting unusual data patterns.",
+        "claims": [
+          {
+            "text": "In [79.75, 80.25)s, 0x4C9 shows a rate of 18.0 msg/s versus a baseline of 10.0 msg/s (1.8x), with a mean gap of 56.242 ms versus 99.978 ms (44.48 sigma) and increased entropy.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "In [96.50, 97.00)s, 0x280 shows a rate of 10.0 msg/s versus a baseline of 5.03 msg/s (1.667x), with a mean gap of 99.755 ms versus 198.754 ms (7.39 sigma).",
+            "cites": [
+              "E3"
+            ]
+          },
+          {
+            "text": "The overall detector score for the window is 0.668, indicating a notable deviation from normal behavior.",
+            "cites": [
+              "E0"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the increased message rates for IDs 0x4C9 and 0x280, and verify the integrity of the data being transmitted.",
+        "model": "gpt-4o-mini",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.8,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The CAN bus traffic shows a significant increase in message rates for known IDs, indicating potential spoofing activity. The payload entropy is also elevated, suggesting unusual data patterns.\",\n  \"claims\": [\n    {\n      \"text\": \"In [79.75, 80.25)s, 0x4C9 shows a rate of 18.0 msg/s versus a baseline of 10.0 msg/s (1.8x), with a mean gap of 56.242 ms versus 99.978 ms (44.48 sigma) and increased entropy.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"In [96.50, 97.00)s, 0x280 shows a rate of 10.0 msg/s versus a baseline of 5.03 msg/s (1.667x), with a mean gap of 99.755 ms versus 198.754 ms (7.39 sigma).\",\n      \"cites\": [\"E3\"]\n    },\n    {\n      \"text\": \"The overall detector score for the window is 0.668, indicating a notable deviation from normal behavior.\",\n      \"cites\": [\"E0\"]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the increased message rates for IDs 0x4C9 and 0x280, and verify the integrity of the data being transmitted.\"\n}\n```",
+        "latency_s": 4.366,
+        "requested_model": "gpt-4o-mini",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2787,
+          "output_tokens": 334
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    }
+  ],
+  "scoring": "Attack-label accuracy on frozen alerts; failures count as incorrect, never control predictions. Normal alerts scored separately. Development corpus, not an untouched test set.",
+  "summary": {
+    "attempts": 31,
+    "successful_responses": 31,
+    "fallbacks": 0,
+    "classification": {
+      "scored_alerts": 20,
+      "correct": 13,
+      "accuracy": 0.65,
+      "successful_only_accuracy": 0.65,
+      "confusion": {
+        "spoofing": {
+          "spoofing": 13
+        },
+        "masquerade": {
+          "spoofing": 3,
+          "unknown": 1
+        },
+        "fuzzing": {
+          "spoofing": 3
+        }
+      }
+    },
+    "false_alarms": 11,
+    "false_alarms_labeled_benign": 0,
+    "grounding": {
+      "rate": 1.0,
+      "meaning": "Citation validity only; semantic claim support needs review"
+    },
+    "latency_s_median": 4.285,
+    "latency_s_p95": 6.8445,
+    "latency_s_max": 8.306,
+    "attempt_latency_s_p95": 6.8445,
+    "input_tokens": 83796,
+    "output_tokens": 10064,
+    "estimated_cost_usd": null,
+    "successful_alerts_per_second": 0.4325929361034278
+  },
+  "wall_seconds": 71.660902,
+  "updated_at": "2026-10-30T16:28:11.177831+00:00"
+}

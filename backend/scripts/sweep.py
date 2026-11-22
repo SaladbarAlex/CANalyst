@@ -18,6 +18,8 @@ Examples (from the backend folder):
 from __future__ import annotations
 
 import argparse
+import hashlib
+import json
 import sys
 import time
 from pathlib import Path
@@ -34,11 +36,44 @@ COMPONENTS = ["bus_load", "unknown_ids", "rate_inflation", "missing_ids", "timin
 DEFAULT_THRESHOLDS = [0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.9]
 
 
+def cache_signature(log: str, baseline_df: pd.DataFrame | None) -> dict:
+    """Hash inputs and implementation; changing a baseline must invalidate scores."""
+    def file_hash(path: Path) -> str:
+        digest = hashlib.sha256()
+        with path.open("rb") as stream:
+            for block in iter(lambda: stream.read(1024 * 1024), b""):
+                digest.update(block)
+        return digest.hexdigest()
+
+    baseline_hash = None
+    if baseline_df is not None:
+        normalized = baseline_df.copy()
+        normalized["data"] = normalized["data"].map(bytes)
+        baseline_hash = hashlib.sha256(
+            pd.util.hash_pandas_object(normalized, index=False).values.tobytes()).hexdigest()
+    backend = Path(__file__).resolve().parents[1]
+    meta = Path(log).parent / "capture_metadata.json"
+    return {"version": 2, "source_path": str(Path(log).resolve()),
+            "source_sha256": file_hash(Path(log)), "baseline_sha256": baseline_hash,
+            "metadata_sha256": file_hash(meta) if meta.exists() else None,
+            "code_sha256": {name: file_hash(backend / name) for name in
+                            ["app/features.py", "app/loader.py", "app/detector.py",
+                             "app/pipeline.py", "scripts/sweep.py"]}}
+
+
 def score_log(log: str, baseline_df: pd.DataFrame | None, cache: Path, group: str) -> Path:
     out = cache / f"{group}__{Path(log).stem}.csv.gz"
-    if out.exists():
-        print(f"cached  {out.name}")
-        return out
+    signature = cache_signature(log, baseline_df)
+    manifest = out.with_suffix(out.suffix + ".meta.json")
+    if out.exists() and manifest.exists():
+        try:
+            cached = json.loads(manifest.read_text())
+        except (OSError, ValueError):
+            cached = None
+        if cached == signature:
+            print(f"cached  {out.name}")
+            return out
+    cache.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
     df = loader.load_auto(log)
     a = pipeline.run_analysis(df, source=log, params={"log": log},
@@ -50,8 +85,9 @@ def score_log(log: str, baseline_df: pd.DataFrame | None, cache: Path, group: st
     })
     for c in COMPONENTS:
         rows[c] = [comp.get(c, 0.0) for comp in w["components"]]
-    rows = rows[rows["end"] > a.baseline_end]
+    rows = rows[rows["start"] >= a.baseline_end]
     rows.to_csv(out, index=False)
+    manifest.write_text(json.dumps(signature, indent=2) + "\n")
     print(f"scored  {out.name}: {len(df):,} frames, {len(rows):,} windows, "
           f"{int(rows['label'].sum()):,} attack windows, {time.time() - t0:.0f}s")
     return out
@@ -69,10 +105,27 @@ def metrics_at(w: pd.DataFrame, t: float) -> dict:
             "fpr": fp / (fp + tn) if fp + tn else 0.0}
 
 
-def report(cache: Path, thresholds: list[float]) -> None:
+def report(cache: Path, thresholds: list[float], allow_stale: bool = False) -> None:
     files = sorted(cache.glob("*.csv.gz"))
     if not files:
         sys.exit(f"nothing cached in {cache}")
+    backend = Path(__file__).resolve().parents[1]
+    stale = []
+    for file in files:
+        manifest = file.with_suffix(file.suffix + ".meta.json")
+        try:
+            provenance = json.loads(manifest.read_text())
+            code_hashes = provenance["code_sha256"]
+            if not code_hashes or any(hashlib.sha256((backend / name).read_bytes()).hexdigest() != digest
+                                      for name, digest in code_hashes.items()):
+                stale.append(file.name)
+        except (OSError, ValueError, KeyError):
+            stale.append(file.name)
+    if stale:
+        message = "Cached scores lack current code provenance: " + ", ".join(stale)
+        if not allow_stale:
+            raise ValueError(message + ". Rescore the inputs, or use --allow-stale for historical inspection.")
+        print("WARNING: historical/mixed-version scores; do not treat as a current benchmark. " + message)
     data = {f.name[:-7]: pd.read_csv(f) for f in files}
     rows = []
     for name, w in data.items():
@@ -127,11 +180,15 @@ def main() -> None:
     ap.add_argument("--cache", default="out/sweep")
     ap.add_argument("--thresholds", type=float, nargs="*", default=DEFAULT_THRESHOLDS)
     ap.add_argument("--report", action="store_true")
+    ap.add_argument("--allow-stale", action="store_true",
+                    help="inspect legacy cached scores with an explicit provenance warning")
     args = ap.parse_args()
 
     cache = Path(args.cache)
     cache.mkdir(parents=True, exist_ok=True)
     if args.logs:
+        if {Path(p).resolve() for p in args.logs} & {Path(p).resolve() for p in args.baseline}:
+            ap.error("A recording cannot be both the complete baseline and an evaluation log.")
         baseline_df = None
         if args.baseline:
             t0 = time.time()
@@ -142,7 +199,7 @@ def main() -> None:
         for log in args.logs:
             score_log(log, baseline_df, cache, group)
     if args.report or not args.logs:
-        report(cache, args.thresholds)
+        report(cache, args.thresholds, allow_stale=args.allow_stale)
 
 
 if __name__ == "__main__":

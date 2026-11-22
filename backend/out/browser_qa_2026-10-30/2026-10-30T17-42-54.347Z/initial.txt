@@ -1,0 +1,148 @@
+CANalyst
+CAN bus attack analysis
+Source synthetic
+Detector rule
+baseline clean prefix
+Explainer
+Offline control
+glm-5.3 (Clemson RCD)
+gemma-4-31b (Clemson RCD)
+claude-sonnet-4-5 (unavailable)
+gpt-4o-mini (unavailable)
+Appearance
+Original
+Pastel
+Capture settings
+Generate demo traffic or upload a log
+Configure
+＋
+
+CAPTURE REVIEW
+
+Understand the alerts.
+
+Select a detection to explore its explanation and supporting evidence.
+
+                                                            
+                                                            
+                                                            
+                                                            
+                                                            
+                   ###################                      
+                   #######################                  
+                   *******;;;;;;;;;;;;########              
+            ###########***;;;;;;#########!!--;              
+            **###################;;;;;;;;=---               
+             ****########==--;;;;;;;;;;;::---               
+             *******;;;;=-=---;;;;                          
+                ****;;;;=--=--                              
+                    ;; -~----                               
+                                                            
+                                                            
+Analysis ready
+Frames
+85,938
+150s capture
+Bus load
+573
+msg/s mean
+Unique IDs
+1448
+1436 outside baseline
+Alerts
+5
+599 windows scored · 4.21s processing
+Precision / recall
+100.0% / 90.9%
+F1 0.952
+Ground truth
+5 intervals
+dos, fuzzing, spoofing, replay, masquerade
+Analysis
+Per-ID view
+Evaluation
+Ask
+Benchmark
+Traffic context
+
+Message rate and detector score across the capture
+
+message rate
+detector score
+labeled attack
+baseline rate
+alert threshold
+click a shaded region to open its alert
+msg/s
+0s
+40s
+80s
+149.5s
+0
+950
+1900
+2850
+3800
+score
+0s
+40s
+80s
+149.5s
+0.25
+1
+Alerts
+5
+
+Select an alert to review
+
+Filter alerts by CAN ID or classification
+33.00s to 38.75s
+1.00
+dos
+0x000 0x0C8 0x130
+✓ dos
+59.75s to 65.50s
+1.00
+unclassified
+0x088 0x040 0x036
+truth: fuzzing
+84.75s to 89.50s
+0.65
+unclassified
+0x2C0 0x0C8 0x0A0
+truth: spoofing
+103.75s to 108.75s
+0.74
+unclassified
+0x0C8 0x130 0x0A0
+truth: replay
+140.50s to 145.50s
+0.60
+unclassified
+0x0B4 0x130 0x0A0
+truth: masquerade
+Explanation and evidence
+Alert 00
+33.00s to 38.75s
+Re-explain
+dos
+severity high
+confidence 90.0%
+valid citations
+model: mock
+
+Citation validity checks references, not whether they support the claim.
+
+DOS on Bus availability (starvation not measured). Window 33.00s to 38.75s, 19138 frames, IDs of interest 0x000, 0x0C8, 0x130. Detector score 1.00 (strongest component: bus_load).
+
+Affected function: Bus availability (starvation not measured)
+Reasoning
+Total bus load reached 8.76x baseline.E1
+0x000 is the highest priority ID on CAN and sent 16667 frames in this window, consistent with a high-priority flooding attempt; actual deadline misses are unmeasured.E2
+Next step
+Treat as a denial of service. Identify the physical node injecting 0x000 and check whether safety messages missed their deadlines.
+Why the detector flagged it
+Evidence · 9 measurements
+Sample frames
+CANalyst, CPSC 8580 course project. Detection is statistical; classification and explanation come from the configured explainer. Citations link claims to measurements; their validity does not establish that a claim or attack label is correct.
+3800

@@ -1,0 +1,50 @@
+{
+  "scope": "in-process FastAPI TestClient; no network or browser rendering; no model calls",
+  "python": "3.12.14",
+  "frame_count": 70924,
+  "analyze_s": 1.703613542005769,
+  "ingest_frames_per_second": 41631.507528695045,
+  "stage_timing_s": {
+    "baseline": 0.0174,
+    "features": 1.3975,
+    "detection": 0.0207,
+    "total": 1.4356
+  },
+  "endpoints": {
+    "summary": {
+      "cold_ms": 5.235375007032417,
+      "warm_median_ms": 5.934771004831418,
+      "warm_p95_ms": 10.645375004969537,
+      "response_bytes": 1151,
+      "warm_requests": 10
+    },
+    "timeline": {
+      "cold_ms": 4.678540994063951,
+      "warm_median_ms": 2.517938002711162,
+      "warm_p95_ms": 4.763915989315137,
+      "response_bytes": 32750,
+      "warm_requests": 10
+    },
+    "alerts": {
+      "cold_ms": 25.411624999833293,
+      "warm_median_ms": 4.522271010500845,
+      "warm_p95_ms": 6.866625000839122,
+      "response_bytes": 1954,
+      "warm_requests": 10
+    },
+    "metrics": {
+      "cold_ms": 8.772000001044944,
+      "warm_median_ms": 8.1242710002698,
+      "warm_p95_ms": 14.43716700305231,
+      "response_bytes": 627,
+      "warm_requests": 10
+    },
+    "ids": {
+      "cold_ms": 214.76245801022742,
+      "warm_median_ms": 210.62695899308892,
+      "warm_p95_ms": 403.1479999976,
+      "response_bytes": 17060,
+      "warm_requests": 10
+    }
+  }
+}

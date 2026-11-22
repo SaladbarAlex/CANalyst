@@ -513,3 +513,17 @@ footer.foot {
   .kpi .value { font-size: 22px; }
   .legend .hint { margin-left: 0; }
 }
+
+/* Capture inputs and progress share both appearance themes. */
+.upload-settings { grid-column: 1 / -1; margin: 4px 0 0; border: 1px solid var(--border-strong); border-radius: var(--radius); min-width: 0; padding: 14px; }
+.upload-settings legend { color: var(--text-primary); padding: 0 6px; font-weight: 600; }
+.upload-settings > p:first-of-type { margin-top: 0; }
+.upload-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.upload-grid input[type='file'] { width: 100%; min-width: 0; font-size: 12px; padding: 7px; }
+.batch-status { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center; padding: 12px; margin-bottom: 14px; border: 1px solid var(--border-strong); background: var(--surface-2); }
+.score-controls { margin-bottom: 18px; }
+.benchmark-grid > div { min-width: 0; overflow-x: auto; }
+@media (max-width: 600px) { .upload-grid { grid-template-columns: minmax(0, 1fr); } }
+
+.identifier-warnings { border-left: 3px solid var(--warning); padding-left: 12px; margin: 10px 0; }
+.identifier-warnings > summary { color: var(--text-primary); }

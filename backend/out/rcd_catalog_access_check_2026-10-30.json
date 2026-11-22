@@ -1,0 +1,9 @@
+{
+  "retrieved_at": "2026-10-31T01:07:13.406856+00:00",
+  "endpoint": "https://llm.rcd.clemson.edu/v1/models?full=true",
+  "status": "blocked",
+  "http_status": 302,
+  "redirect_host": "access.rcd.clemson.edu",
+  "redirect_path": "/",
+  "reason": "Network access or authentication gate; connect to Clemson/CUVPN and retry."
+}

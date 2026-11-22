@@ -38,6 +38,10 @@ def main() -> None:
                          "public datasets, whose logs have no clean opening stretch")
     ap.add_argument("--out", default=None, help="write the full report as JSON")
     args = ap.parse_args()
+    if not args.csv and not args.seeds:
+        ap.error("At least one synthetic seed is required.")
+    if args.csv and Path(args.csv).resolve() in {Path(p).resolve() for p in args.baseline}:
+        ap.error("Evaluation capture must not also be a complete baseline capture.")
 
     explainer = get_explainer(args.explainer)
     reports = []
@@ -80,6 +84,7 @@ def main() -> None:
             print(f"  {atype:<12} {statistics.mean(vals):.3f}")
 
     if args.out:
+        Path(args.out).parent.mkdir(parents=True, exist_ok=True)
         Path(args.out).write_text(json.dumps(reports, indent=2))
         print(f"\nwrote {args.out}")
 

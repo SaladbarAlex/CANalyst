@@ -40,6 +40,8 @@ class RuleDetector:
     name = "rule"
 
     def __init__(self, baseline: Baseline, threshold: float = 0.55):
+        if not 0 <= threshold <= 1:
+            raise ValueError("threshold must be between 0 and 1.")
         self.baseline = baseline
         self.threshold = threshold
 
@@ -124,11 +126,11 @@ class RuleDetector:
             reasons_all.append(r)
             tops.append(t)
         out = windows.copy()
-        out["score"] = np.round(scores, 4)
+        out["score"] = np.asarray(scores, dtype=float)
         out["components"] = comps
         out["reasons"] = reasons_all
         out["top_ids"] = tops
-        out["flagged"] = out["score"] >= self.threshold
+        out["flagged"] = np.asarray(scores) >= self.threshold
 
         alerts: list[Alert] = []
         for i, (_, row) in enumerate(out[out["flagged"]].iterrows()):
@@ -146,35 +148,105 @@ class RuleDetector:
 
 
 class ForestDetector:
-    """IsolationForest baseline over the same features, for comparison."""
+    """IsolationForest trained and calibrated exclusively on normal windows.
+
+    Scores use a fixed sigmoid anchored at a held-out normal-score quantile.
+    A score of 0.5 is the calibration cutoff, not a probability. Unlike a
+    per-capture min/max, this mapping is unchanged by other evaluation rows.
+    """
 
     name = "forest"
 
-    def __init__(self, baseline: Baseline, contamination: float = 0.1):
+    def __init__(self, baseline: Baseline, contamination: float = 0.01,
+                 threshold: float = 0.55):
         from sklearn.ensemble import IsolationForest
+        if not 0 < contamination <= 0.5:
+            raise ValueError("contamination must be in (0, 0.5].")
+        if not 0 <= threshold <= 1:
+            raise ValueError("threshold must be between 0 and 1.")
         self.baseline = baseline
+        self.threshold = threshold
+        self.contamination = contamination
         self.model = IsolationForest(n_estimators=200, contamination=contamination,
                                      random_state=0)
+        self.calibration: dict = {}
 
     def _matrix(self, windows: pd.DataFrame) -> np.ndarray:
         X = windows[FEATURE_COLUMNS].to_numpy(dtype=float)
-        return np.nan_to_num(X, nan=0.0, posinf=1e6, neginf=-1e6)
+        if not np.isfinite(X).all():
+            raise ValueError("Detector features must be finite.")
+        return X
+
+    def fit(self, normal_windows: pd.DataFrame,
+            calibration_windows: pd.DataFrame | None = None) -> "ForestDetector":
+        """Use early normal windows for fitting and later, disjoint ones for calibration.
+
+        There must be at least ten training and five calibration windows. We
+        fail instead of silently substituting evaluation data when normal data
+        is insufficient. The temporal split drops boundary-crossing windows.
+        An explicit calibration set supports per-recording splits; both sets
+        must use one shared timeline and must not overlap.
+        """
+        if normal_windows.empty:
+            raise ValueError("IsolationForest needs separate normal training windows.")
+        if "label" in normal_windows and (normal_windows["label"] != 0).any():
+            raise ValueError("IsolationForest training/calibration contains labeled attacks.")
+        normal = normal_windows.sort_values("start", kind="stable")
+        if calibration_windows is None:
+            split = float(normal.iloc[min(int(len(normal) * 0.8), len(normal) - 1)]["start"])
+            train = normal[normal["end"] <= split]
+            calibration = normal[normal["start"] >= split]
+            method = "normal_temporal_holdout_sigmoid_v1"
+        else:
+            train = normal
+            calibration = calibration_windows.sort_values("start", kind="stable")
+            if "label" in calibration and (calibration["label"] != 0).any():
+                raise ValueError("IsolationForest calibration contains labeled attacks.")
+            # Both sets use the same concatenated-capture timeline. Disallow any
+            # shared time span, including different overlapping sliding windows.
+            starts = train["start"].to_numpy()
+            ends = np.maximum.accumulate(train["end"].to_numpy())
+            for row in calibration.itertuples():
+                last = np.searchsorted(starts, row.end, side="left") - 1
+                if last >= 0 and ends[last] > row.start:
+                    raise ValueError("Training and calibration windows overlap.")
+            method = "normal_explicit_holdout_sigmoid_v1"
+        if len(train) < 10 or len(calibration) < 5:
+            raise ValueError("IsolationForest needs at least 10 training and 5 disjoint "
+                             "calibration windows; provide a longer normal baseline.")
+        self.model.fit(self._matrix(train))
+        raw = -self.model.score_samples(self._matrix(calibration))
+        self.cutoff = float(np.quantile(raw, 1.0 - self.contamination))
+        # A bounded scale keeps near-constant normal data numerically stable.
+        self.scale = max(float(np.quantile(raw, 0.75) - np.quantile(raw, 0.25)), 0.01)
+        self.calibration = {
+            "method": method,
+            "training_windows": len(train), "calibration_windows": len(calibration),
+            "training_end": float(train["end"].max()),
+            "calibration_start": float(calibration["start"].min()),
+            "normal_quantile": 1.0 - self.contamination,
+            "raw_cutoff": self.cutoff, "scale": self.scale,
+            "threshold": self.threshold, "features": list(FEATURE_COLUMNS),
+        }
+        return self
 
     def run(self, windows: pd.DataFrame, fit_until: float | None = None
             ) -> tuple[pd.DataFrame, list[Alert]]:
+        if fit_until is not None:
+            self.fit(windows[windows["end"] <= fit_until])
+        if not self.calibration:
+            raise ValueError("Fit IsolationForest on normal windows before scoring evaluation data.")
         X = self._matrix(windows)
-        fit_rows = X if fit_until is None else X[windows["end"].to_numpy() <= fit_until]
-        self.model.fit(fit_rows if len(fit_rows) > 10 else X)
-        raw = -self.model.score_samples(X)  # higher means more anomalous
-        lo, hi = float(raw.min()), float(raw.max())
-        norm = (raw - lo) / (hi - lo) if hi > lo else np.zeros_like(raw)
+        raw = -self.model.score_samples(X) if len(X) else np.array([])
+        norm = 1.0 / (1.0 + np.exp(-np.clip((raw - self.cutoff) / self.scale, -60, 60)))
         out = windows.copy()
-        out["score"] = np.round(norm, 4)
+        out["score"] = norm
         out["components"] = [{"isolation_forest": round(float(v), 3)} for v in norm]
-        out["reasons"] = [["IsolationForest flagged this window as an outlier"] for _ in norm]
+        out["flagged"] = norm >= self.threshold
+        out["reasons"] = [["IsolationForest exceeded the normal-calibrated threshold"] if f
+                          else [] for f in out["flagged"]]
         out["top_ids"] = [sorted(r, key=lambda c: r[c]["count"], reverse=True)[:5]
                           for r in windows["per_id"]]
-        out["flagged"] = out["score"] >= 0.6
         alerts = [
             Alert(alert_id=i, window=int(row["window"]), start=float(row["start"]),
                   end=float(row["end"]), score=float(row["score"]),
@@ -224,5 +296,7 @@ def merge_adjacent(alerts: list[Alert], gap_s: float = 0.26) -> list[Alert]:
 
 def get_detector(kind: str, baseline: Baseline, threshold: float = 0.55):
     if kind == "forest":
-        return ForestDetector(baseline)
+        return ForestDetector(baseline, threshold=threshold)
+    if kind != "rule":
+        raise ValueError(f"Unknown detector: {kind}")
     return RuleDetector(baseline, threshold=threshold)

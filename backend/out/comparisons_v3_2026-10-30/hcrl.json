@@ -1,0 +1,196 @@
+{
+  "comparisons": [
+    {
+      "dataset": "hcrl",
+      "corpus_sha256": "b30ce3b23dae77e2fb1bfe97caf1fc808f2d0d4684f1e54fca23759823749f94",
+      "control": "mock",
+      "model": "glm-5.3",
+      "matched_alerts": 69,
+      "matched_attack_alerts": 69,
+      "paired_attack_outcomes": {
+        "both_correct": 69,
+        "control_only_correct": 0,
+        "model_only_correct": 0,
+        "neither_correct": 0
+      },
+      "model_minus_control_accuracy": 0.0,
+      "observed_accuracy_at_least_control": true,
+      "control_summary": {
+        "attempts": 69,
+        "successful_responses": 69,
+        "fallbacks": 0,
+        "classification": {
+          "scored_alerts": 69,
+          "correct": 69,
+          "accuracy": 1.0,
+          "successful_only_accuracy": 1.0,
+          "confusion": {
+            "dos": {
+              "dos": 16
+            },
+            "fuzzing": {
+              "fuzzing": 15
+            },
+            "spoofing": {
+              "spoofing": 38
+            }
+          }
+        },
+        "false_alarms": 0,
+        "false_alarms_labeled_benign": 0,
+        "grounding": {
+          "rate": 1.0,
+          "meaning": "Citation validity only; semantic claim support needs review"
+        },
+        "latency_s_median": 1.9e-05,
+        "latency_s_p95": 3.4e-05,
+        "latency_s_max": 8.4e-05,
+        "attempt_latency_s_p95": 3.4e-05,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0.0
+      },
+      "model_summary": {
+        "attempts": 69,
+        "successful_responses": 69,
+        "fallbacks": 0,
+        "classification": {
+          "scored_alerts": 69,
+          "correct": 69,
+          "accuracy": 1.0,
+          "successful_only_accuracy": 1.0,
+          "confusion": {
+            "dos": {
+              "dos": 16
+            },
+            "fuzzing": {
+              "fuzzing": 15
+            },
+            "spoofing": {
+              "spoofing": 38
+            }
+          }
+        },
+        "false_alarms": 0,
+        "false_alarms_labeled_benign": 0,
+        "grounding": {
+          "rate": 1.0,
+          "meaning": "Citation validity only; semantic claim support needs review"
+        },
+        "latency_s_median": 3.363,
+        "latency_s_p95": 4.9246,
+        "latency_s_max": 5.938,
+        "attempt_latency_s_p95": 4.9246,
+        "input_tokens": 231588,
+        "output_tokens": 46473,
+        "estimated_cost_usd": null
+      },
+      "errors": [],
+      "interpretation": "Observed paired outcomes on this development corpus only, not statistical equivalence, held-out validation, or evidence of analyst benefit. Alerts may overlap and share captures.",
+      "source_sha256": {
+        "control": "62797579974308c9f5a8c6a627521276a3b2c8550c7cf2a3da4a585e60f77680",
+        "model": "aab1fa3cb3461dbb62ffe4f88c043fda61f1d6d52595ac8f9a944a04fdd996a5"
+      },
+      "source_paths": {
+        "control": "out/explanations_v3_2026-10-30_control/hcrl/explanations_mock.json",
+        "model": "out/explanations_v3_2026-10-30_glm_low/hcrl/explanations_rcd.json"
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_sha256": "b30ce3b23dae77e2fb1bfe97caf1fc808f2d0d4684f1e54fca23759823749f94",
+      "control": "mock",
+      "model": "gemma-4-31b",
+      "matched_alerts": 69,
+      "matched_attack_alerts": 69,
+      "paired_attack_outcomes": {
+        "both_correct": 69,
+        "control_only_correct": 0,
+        "model_only_correct": 0,
+        "neither_correct": 0
+      },
+      "model_minus_control_accuracy": 0.0,
+      "observed_accuracy_at_least_control": true,
+      "control_summary": {
+        "attempts": 69,
+        "successful_responses": 69,
+        "fallbacks": 0,
+        "classification": {
+          "scored_alerts": 69,
+          "correct": 69,
+          "accuracy": 1.0,
+          "successful_only_accuracy": 1.0,
+          "confusion": {
+            "dos": {
+              "dos": 16
+            },
+            "fuzzing": {
+              "fuzzing": 15
+            },
+            "spoofing": {
+              "spoofing": 38
+            }
+          }
+        },
+        "false_alarms": 0,
+        "false_alarms_labeled_benign": 0,
+        "grounding": {
+          "rate": 1.0,
+          "meaning": "Citation validity only; semantic claim support needs review"
+        },
+        "latency_s_median": 1.9e-05,
+        "latency_s_p95": 3.4e-05,
+        "latency_s_max": 8.4e-05,
+        "attempt_latency_s_p95": 3.4e-05,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0.0
+      },
+      "model_summary": {
+        "attempts": 69,
+        "successful_responses": 69,
+        "fallbacks": 0,
+        "classification": {
+          "scored_alerts": 69,
+          "correct": 69,
+          "accuracy": 1.0,
+          "successful_only_accuracy": 1.0,
+          "confusion": {
+            "dos": {
+              "dos": 16
+            },
+            "fuzzing": {
+              "fuzzing": 15
+            },
+            "spoofing": {
+              "spoofing": 38
+            }
+          }
+        },
+        "false_alarms": 0,
+        "false_alarms_labeled_benign": 0,
+        "grounding": {
+          "rate": 1.0,
+          "meaning": "Citation validity only; semantic claim support needs review"
+        },
+        "latency_s_median": 13.633,
+        "latency_s_p95": 16.1426,
+        "latency_s_max": 18.875,
+        "attempt_latency_s_p95": 16.1426,
+        "input_tokens": 279612,
+        "output_tokens": 32651,
+        "estimated_cost_usd": null
+      },
+      "errors": [],
+      "interpretation": "Observed paired outcomes on this development corpus only, not statistical equivalence, held-out validation, or evidence of analyst benefit. Alerts may overlap and share captures.",
+      "source_sha256": {
+        "control": "62797579974308c9f5a8c6a627521276a3b2c8550c7cf2a3da4a585e60f77680",
+        "model": "4139b0c5948a774fb0466b4354766fee3b40236044b61c15f2df6ceaab920493"
+      },
+      "source_paths": {
+        "control": "out/explanations_v3_2026-10-30_control/hcrl/explanations_mock.json",
+        "model": "out/explanations_v3_2026-10-30_gemma/hcrl/explanations_rcd.json"
+      }
+    }
+  ]
+}

@@ -5,19 +5,26 @@ Docs at:   http://localhost:8000/docs
 """
 from __future__ import annotations
 
-import io
+import json
+import tempfile
+import time
+from pathlib import Path
+from typing import Literal
 import os
+import threading
 
-from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi import FastAPI, File, HTTPException, UploadFile, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
+from starlette.middleware.gzip import GZipMiddleware
 
 from . import benchmark, loader, pipeline
-from .llm import explainer_options, get_explainer
+from .llm import explainer_options, get_explainer as _configured_explainer
 from .pipeline import STORE
 
 app = FastAPI(title="CANalyst API", version="0.1.0",
               description="LLM-assisted analysis of CAN bus attacks")
+app.add_middleware(GZipMiddleware, minimum_size=1000, compresslevel=5)
 
 app.add_middleware(
     CORSMiddleware,
@@ -30,10 +37,10 @@ app.add_middleware(
 class SyntheticRequest(BaseModel):
     duration_s: float = Field(120.0, ge=20.0, le=900.0)
     seed: int = 7
-    attacks: list[str] = ["dos", "fuzzing", "spoofing", "masquerade"]
+    attacks: list[Literal["dos", "fuzzing", "spoofing", "replay", "masquerade"]] = ["dos", "fuzzing", "spoofing", "masquerade"]
     window_s: float = Field(0.5, gt=0.05, le=5.0)
     stride_s: float = Field(0.25, gt=0.01, le=5.0)
-    detector: str = "rule"
+    detector: Literal["rule", "forest"] = "rule"
     threshold: float = Field(0.55, ge=0.05, le=0.99)
 
 
@@ -45,6 +52,13 @@ class AskRequest(BaseModel):
 class ExplainRequest(BaseModel):
     explainer: str | None = None
     force: bool = False
+
+
+def get_explainer(selector: str | None = None):
+    try:
+        return _configured_explainer(selector)
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
 
 
 def _get(analysis_id: str):
@@ -70,34 +84,100 @@ def saved_benchmark() -> dict:
     return benchmark.load()
 
 
+@app.get("/api/benchmark/detection")
+def saved_detection_benchmark() -> dict:
+    return benchmark.load_detection()
+
+
+_real_example_lock = threading.Lock()
+_real_example_id: str | None = None
+
+
+@app.post("/api/analyze/real-example")
+def analyze_real_example() -> dict:
+    """Open the installed ROAD example with its independent normal baseline."""
+    global _real_example_id
+    with _real_example_lock:
+        existing = STORE.get(_real_example_id) if _real_example_id else None
+        if existing is not None:
+            return existing.summary()
+        road = Path(__file__).resolve().parents[1] / "data/raw/road/road"
+        capture = road / "attacks/correlated_signal_attack_3.log"
+        normal = road / "ambient/ambient_dyno_drive_basic_short.log"
+        metadata = capture.parent / "capture_metadata.json"
+        if not all(p.is_file() for p in (capture, normal, metadata)):
+            raise HTTPException(404, "ROAD example data is not installed. Upload a capture or generate demo traffic in Capture settings.")
+        analysis = pipeline.run_analysis(
+            loader.load_auto(str(capture)), source=capture.name,
+            params={"example": "ROAD correlated-signal attack 3"},
+            baseline_df=loader.load_auto(str(normal)), detector="rule",
+            window_s=0.5, stride_s=0.25, threshold=0.55,
+        )
+        _real_example_id = analysis.analysis_id
+        return analysis.summary()
+
+
 @app.post("/api/analyze/synthetic")
 def analyze_synthetic(req: SyntheticRequest) -> dict:
-    analysis = pipeline.run_synthetic(
-        duration_s=req.duration_s, seed=req.seed, attacks=req.attacks,
-        window_s=req.window_s, stride_s=req.stride_s,
-        detector=req.detector, threshold=req.threshold,
-    )
+    if req.stride_s > req.window_s:
+        raise HTTPException(422, "stride_s must not exceed window_s")
+    try:
+        analysis = pipeline.run_synthetic(
+            duration_s=req.duration_s, seed=req.seed, attacks=req.attacks,
+            window_s=req.window_s, stride_s=req.stride_s,
+            detector=req.detector, threshold=req.threshold,
+        )
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
     return analysis.summary()
+
+
+def _parse_upload(file: UploadFile, metadata: dict | None = None):
+    # Reuse the benchmark's content-sniffing parser for CSV, candump, and HCRL TXT.
+    with tempfile.TemporaryDirectory(prefix="canalyst-upload-") as directory:
+        name = Path(file.filename or "capture.csv").name
+        path = Path(directory) / name
+        raw = file.file.read()
+        if not raw.strip():
+            raise ValueError("Capture is empty")
+        path.write_bytes(raw)
+        if metadata is not None:
+            if "injection_interval" in metadata:
+                metadata = {path.stem: metadata}
+            if raw.lstrip().startswith(b"(") and path.stem not in metadata:
+                raise ValueError(f"ROAD metadata has no entry for capture {path.stem}")
+            (path.parent / "capture_metadata.json").write_text(json.dumps(metadata))
+        return loader.load_auto(str(path))
 
 
 @app.post("/api/analyze/upload")
-async def analyze_upload(file: UploadFile = File(...), detector: str = "rule",
-                         window_s: float = 0.5, stride_s: float = 0.25) -> dict:
-    raw = (await file.read()).decode("utf-8", errors="replace")
-    name = (file.filename or "").lower()
+def analyze_upload(file: UploadFile = File(...),
+                   baseline_file: UploadFile | None = File(None),
+                   metadata_file: UploadFile | None = File(None),
+                   detector: Literal["rule", "forest"] = "rule",
+                   window_s: float = Query(0.5, gt=0.05, le=5),
+                   stride_s: float = Query(0.25, gt=0.01, le=5),
+                   threshold: float = Query(0.55, ge=0.05, le=0.99),
+                   baseline_s: float | None = Query(None, gt=0)) -> dict:
+    started = time.perf_counter()
     try:
-        if "road" in name:
-            df = loader.load_road(io.StringIO(raw))
-        else:
-            head = raw.split("\n", 1)[0].lower()
-            has_header = "timestamp" in head or "can id" in head
-            df = loader.load_carhacking(io.StringIO(raw), has_header=has_header)
-    except Exception as exc:
-        raise HTTPException(400, f"Could not parse {file.filename}: {exc}")
-    analysis = pipeline.run_analysis(df, source=file.filename or "upload",
-                                     params={"uploaded": True}, detector=detector,
-                                     window_s=window_s, stride_s=stride_s)
-    return analysis.summary()
+        metadata = json.loads(metadata_file.file.read()) if metadata_file else None
+        if metadata is not None and not isinstance(metadata, dict):
+            raise ValueError("ROAD metadata must be a JSON object")
+        df = _parse_upload(file, metadata)
+        normal = _parse_upload(baseline_file) if baseline_file else None
+        traffic_columns = ["timestamp", "can_id", "dlc", "data"]
+        if normal is not None and df[traffic_columns].equals(normal[traffic_columns]):
+            raise ValueError("Evaluation capture and baseline must be separate traffic")
+        parse_seconds = time.perf_counter() - started
+        analysis = pipeline.run_analysis(df, source=file.filename or "upload",
+            params={"uploaded": True}, detector=detector, threshold=threshold,
+            window_s=window_s, stride_s=stride_s, baseline_s=baseline_s, baseline_df=normal)
+        analysis.timing_s["parse"] = round(parse_seconds, 4)
+        analysis.timing_s["total"] = round(time.perf_counter() - started, 4)
+        return analysis.summary()
+    except (ValueError, KeyError, TypeError, IndexError) as exc:
+        raise HTTPException(400, f"Could not analyze capture: {exc}") from exc
 
 
 @app.get("/api/analysis/{analysis_id}/summary")
@@ -106,17 +186,17 @@ def summary(analysis_id: str) -> dict:
 
 
 @app.get("/api/analysis/{analysis_id}/timeline")
-def timeline(analysis_id: str) -> dict:
-    return _get(analysis_id).timeline()
+def timeline(analysis_id: str, max_points: int = Query(2000, ge=100, le=20000)) -> dict:
+    return _get(analysis_id).timeline(max_points=max_points)
 
 
 @app.get("/api/analysis/{analysis_id}/ids")
-def ids(analysis_id: str, limit: int = 80) -> list[dict]:
+def ids(analysis_id: str, limit: int = Query(80, ge=1, le=1000)) -> list[dict]:
     return _get(analysis_id).id_table(limit=limit)
 
 
 @app.get("/api/analysis/{analysis_id}/ids/{can_id}/series")
-def id_series(analysis_id: str, can_id: str, bucket_s: float = 0.5) -> dict:
+def id_series(analysis_id: str, can_id: str, bucket_s: float = Query(0.5, ge=0.05, le=60)) -> dict:
     a = _get(analysis_id)
     try:
         cid = int(can_id, 16) if can_id.lower().startswith("0x") else int(can_id, 16)
@@ -139,7 +219,7 @@ def alert_detail(analysis_id: str, alert_id: int, explainer: str | None = None) 
     ex = get_explainer(explainer)
     exp = a.cached_explanation(alert_id, ex)
     return {
-        "alert": a.alert_list(include_explanations=True, explainer=ex)[alert_id],
+        "alert": a.alert_item(alert_id, include_explanations=True, explainer=ex),
         "evidence": a.evidence_for(alert_id),
         "explanation": exp.to_json() if exp else None,
     }
@@ -160,14 +240,15 @@ def explain_alert(analysis_id: str, alert_id: int, req: ExplainRequest) -> dict:
 def explain_all(analysis_id: str, req: ExplainRequest) -> dict:
     a = _get(analysis_id)
     explainer = get_explainer(req.explainer)
-    pipeline.explain_all(a, explainer)
+    for alert in a.alerts:
+        a.explain(alert.alert_id, explainer, force=req.force)
     return {"explained": len(a.alerts), "explainer": explainer.name}
 
 
 @app.get("/api/analysis/{analysis_id}/metrics")
 def analysis_metrics(analysis_id: str, explainer: str | None = None) -> dict:
     a = _get(analysis_id)
-    return pipeline.evaluation_report(a, get_explainer(explainer))
+    return pipeline.evaluation_report(a, get_explainer(explainer), generate=False)
 
 
 @app.get("/api/analysis/{analysis_id}/baseline")

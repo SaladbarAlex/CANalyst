@@ -1,0 +1,2119 @@
+{
+  "dataset": "road",
+  "corpus_sha256": "46e3d55089806e0cee6130727820f4be647fa92810cc31b4cb8bb81f782267a0",
+  "manifest": {
+    "corpus_sha256": "46e3d55089806e0cee6130727820f4be647fa92810cc31b4cb8bb81f782267a0",
+    "selector": "rcd:gemma-4-31b",
+    "request_key": "rcd:gemma-4-31b:c40089f21ed4",
+    "prompt_sha256": "7ecbc0cf3fe34478a45f2cc6420118b94f5648164b8a9d01546a72b1ad6e1f68",
+    "llm_code_sha256": "6d206f81ab6e1106a39cb049a74b70611f55cfb2601aea70843437e420474e3a",
+    "runner_sha256": "ae9008e8b98cedd7989dfcd6099f45702cfa95428cd93503ec4bb819ddb85114",
+    "limit": null,
+    "prices": null,
+    "workers": 2,
+    "timeout_s": 90.0
+  },
+  "model": "gemma-4-31b",
+  "explainer": "rcd",
+  "temperature": 0.0,
+  "git": "5b8d6c6994a857569166540c1aa69f532ce59fef",
+  "prompt_version": "can-evidence-v2",
+  "status": "complete",
+  "expected_alerts": 31,
+  "alerts": [
+    {
+      "capture": "correlated_signal_attack_1",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 9.25,
+      "end": 30.0,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 0,
+      "evidence_sha256": "3a4f84451dd1697bb7c12c7cd0ff7bea22f70ead879b5b3998af7067a7c35366",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.8,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window characterized by rate inflation, primarily driven by CAN ID 0x6E0, which exhibited a transmission rate double its baseline.",
+        "claims": [
+          {
+            "text": "The alert window occurred from 9.25s to 30.00s with a detector score of 0.583, where rate inflation was the primary component (0.583).",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "CAN ID 0x6E0 transmitted at 202.0 msg/s, which is 2.02x its baseline rate of 100.0 msg/s.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "A total of 4151 frames for ID 0x6E0 were recorded during the full alert window.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The affected vehicle function for ID 0x6E0 is unknown.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The peak bus rate during the window was 2516 msg/s, a slight increase (1.05x) over the 2392 msg/s baseline.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of ID 0x6E0 to determine if the increased rate is due to a malfunctioning ECU or an external injection tool. Perform signal decoding on 0x6E0 to check for implausible data values.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.8,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The anomaly detector flagged a window characterized by rate inflation, primarily driven by CAN ID 0x6E0, which exhibited a transmission rate double its baseline.\",\n  \"claims\": [\n    {\n      \"text\": \"The alert window occurred from 9.25s to 30.00s with a detector score of 0.583, where rate inflation was the primary component (0.583).\",\n      \"cites\": [\n        \"E0\"\n      ]\n    },\n    {\n      \"text\": \"CAN ID 0x6E0 transmitted at 202.0 msg/s, which is 2.02x its baseline rate of 100.0 msg/s.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"A total of 4151 frames for ID 0x6E0 were recorded during the full alert window.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The affected vehicle function for ID 0x6E0 is unknown.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The peak bus rate during the window was 2516 msg/s, a slight increase (1.05x) over the 2392 msg/s baseline.\",\n      \"cites\": [\n        \"E1\"\n      ]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of ID 0x6E0 to determine if the increased rate is due to a malfunctioning ECU or an external injection tool. Perform signal decoding on 0x6E0 to check for implausible data values.\"\n}\n```",
+        "latency_s": 13.115,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3375,
+          "output_tokens": 459
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "correlated_signal_attack_2",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 7.0,
+      "end": 28.0,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 1,
+      "evidence_sha256": "1f92c4b53739c10abdcbf25f9e69129706fb342416fb3dd6d9148815ce648a65",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.8,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window characterized by rate inflation. Specifically, CAN ID 0x6E0 showed a significant increase in transmission rate, doubling its baseline from 100.0 msg/s to 202.0 msg/s in a sampled interval, with a total of 4200 frames across the alert window. ID 0x025 also showed a rate increase to 2.0x its baseline. These patterns of known IDs transmitting well above baseline rates are consistent with spoofing (fabrication).",
+        "claims": [
+          {
+            "text": "The detector score was 0.583, primarily driven by rate_inflation (0.583) and payload_entropy (0.470).",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "CAN ID 0x6E0 transmitted at 202.0 msg/s, which is 2.02x its baseline of 100.0 msg/s, with a total of 4200 frames in the alert window.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "CAN ID 0x025 transmitted at 12.0 msg/s, which is 2.0x its baseline of 1.28 msg/s, with a total of 46 frames in the alert window.",
+            "cites": [
+              "E3"
+            ]
+          },
+          {
+            "text": "The affected functions for IDs 0x6E0 and 0x025 are not identified in the evidence.",
+            "cites": [
+              "E2",
+              "E3"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the increased traffic for IDs 0x6E0 and 0x025 to determine if an unauthorized device is injecting frames into the network.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.8,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The anomaly detector flagged a window characterized by rate inflation. Specifically, CAN ID 0x6E0 showed a significant increase in transmission rate, doubling its baseline from 100.0 msg/s to 202.0 msg/s in a sampled interval, with a total of 4200 frames across the alert window. ID 0x025 also showed a rate increase to 2.0x its baseline. These patterns of known IDs transmitting well above baseline rates are consistent with spoofing (fabrication).\",\n  \"claims\": [\n    {\n      \"text\": \"The detector score was 0.583, primarily driven by rate_inflation (0.583) and payload_entropy (0.470).\",\n      \"cites\": [\n        \"E0\"\n      ]\n    },\n    {\n      \"text\": \"CAN ID 0x6E0 transmitted at 202.0 msg/s, which is 2.02x its baseline of 100.0 msg/s, with a total of 4200 frames in the alert window.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"CAN ID 0x025 transmitted at 12.0 msg/s, which is 2.0x its baseline of 1.28 msg/s, with a total of 46 frames in the alert window.\",\n      \"cites\": [\n        \"E3\"\n      ]\n    },\n    {\n      \"text\": \"The affected functions for IDs 0x6E0 and 0x025 are not identified in the evidence.\",\n      \"cites\": [\n        \"E2\",\n        \"E3\"\n      ]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the increased traffic for IDs 0x6E0 and 0x025 to determine if an unauthorized device is injecting frames into the network.\"\n}\n```",
+        "latency_s": 14.678,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3372,
+          "output_tokens": 507
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "correlated_signal_attack_2_masquerade",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 25.25,
+      "end": 25.75,
+      "true_type": "masquerade",
+      "detector_score": 0.5652,
+      "corpus_index": 2,
+      "evidence_sha256": "30debea565561481aa5f29fd3cf0b4e78556e3fe653e3a17b2b9c133b5358b5c",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.7,
+        "severity": "low",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window due to rate inflation (E0). Specifically, CAN ID 0x025 exhibited a transmission rate of 12.0 msg/s, which is 2.0x its baseline of 1.28 msg/s (E2). This increase in frequency for a known ID is consistent with spoofing/fabrication of frames.",
+        "claims": [
+          {
+            "text": "The detector flagged the window with a score of 0.565, primarily driven by rate inflation (0.565) (E0).",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "CAN ID 0x025 transmitted at 12.0 msg/s, which is double its baseline rate of 1.28 msg/s (E2).",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The overall bus load remained nearly stable, with a peak rate of 2418 msg/s compared to a 2392 msg/s baseline (E1).",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "The function associated with CAN ID 0x025 is not identified in the evidence (E2).",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of CAN ID 0x025 to determine if the increased rate is due to a legitimate vehicle state change or an external injection tool.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.7,\n  \"severity\": \"low\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The anomaly detector flagged a window due to rate inflation (E0). Specifically, CAN ID 0x025 exhibited a transmission rate of 12.0 msg/s, which is 2.0x its baseline of 1.28 msg/s (E2). This increase in frequency for a known ID is consistent with spoofing/fabrication of frames.\",\n  \"claims\": [\n    {\n      \"text\": \"The detector flagged the window with a score of 0.565, primarily driven by rate inflation (0.565) (E0).\",\n      \"cites\": [\n        \"E0\"\n      ]\n    },\n    {\n      \"text\": \"CAN ID 0x025 transmitted at 12.0 msg/s, which is double its baseline rate of 1.28 msg/s (E2).\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The overall bus load remained nearly stable, with a peak rate of 2418 msg/s compared to a 2392 msg/s baseline (E1).\",\n      \"cites\": [\n        \"E1\"\n      ]\n    },\n    {\n      \"text\": \"The function associated with CAN ID 0x025 is not identified in the evidence (E2).\",\n      \"cites\": [\n        \"E2\"\n      ]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of CAN ID 0x025 to determine if the increased rate is due to a legitimate vehicle state change or an external injection tool.\"\n}\n```",
+        "latency_s": 12.035,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3177,
+          "output_tokens": 429
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "correlated_signal_attack_2_masquerade",
+      "role": "attack_capture",
+      "alert_id": 1,
+      "start": 26.25,
+      "end": 27.5,
+      "true_type": "masquerade",
+      "detector_score": 0.5652,
+      "corpus_index": 3,
+      "evidence_sha256": "de99329161515b5dbfc1d66cc84acbce0cef18d19162d8266cc6005ee13e6c47",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.7,
+        "severity": "low",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window due to rate inflation, specifically involving CAN ID 0x025, which exhibited a transmission rate 2.0x higher than its baseline.",
+        "claims": [
+          {
+            "text": "The detector flagged the window from 26.25s to 27.50s with a score of 0.565, primarily driven by rate inflation (0.565) and payload entropy (0.167).",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "CAN ID 0x025 showed a transmission rate of 12.0 msg/s compared to a baseline of 1.28 msg/s, representing a 2.0x increase.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The overall peak bus rate was 2424 msg/s, which is only 1.01x the baseline of 2392 msg/s.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "The function associated with CAN ID 0x025 is unknown.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the increased transmission rate for CAN ID 0x025 to determine if it is a legitimate vehicle state change or an external injection.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.7,\n  \"severity\": \"low\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The anomaly detector flagged a window due to rate inflation, specifically involving CAN ID 0x025, which exhibited a transmission rate 2.0x higher than its baseline.\",\n  \"claims\": [\n    {\n      \"text\": \"The detector flagged the window from 26.25s to 27.50s with a score of 0.565, primarily driven by rate inflation (0.565) and payload entropy (0.167).\",\n      \"cites\": [\n        \"E0\"\n      ]\n    },\n    {\n      \"text\": \"CAN ID 0x025 showed a transmission rate of 12.0 msg/s compared to a baseline of 1.28 msg/s, representing a 2.0x increase.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The overall peak bus rate was 2424 msg/s, which is only 1.01x the baseline of 2392 msg/s.\",\n      \"cites\": [\n        \"E1\"\n      ]\n    },\n    {\n      \"text\": \"The function associated with CAN ID 0x025 is unknown.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the increased transmission rate for CAN ID 0x025 to determine if it is a legitimate vehicle state change or an external injection.\"\n}\n```",
+        "latency_s": 11.391,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3375,
+          "output_tokens": 404
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "correlated_signal_attack_3",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 4.5,
+      "end": 16.75,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 4,
+      "evidence_sha256": "25a7e6bba5331defd2ecd1d334a1a23b1253004f0877780c0ad4fabd5b89ea40",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.8,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window characterized by rate inflation, primarily driven by CAN ID 0x6E0, which exhibited a transmission rate double its baseline.",
+        "claims": [
+          {
+            "text": "The alert window occurred from 4.50s to 16.75s with a detector score of 0.583, where rate inflation was the primary component (0.583).",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "CAN ID 0x6E0 transmitted at 202.0 msg/s between 5.50s and 6.00s, which is 2.02x its baseline rate of 100.0 msg/s.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "A total of 2450 frames for ID 0x6E0 were recorded across the full alert window.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The function associated with ID 0x6E0 is unknown.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The peak bus rate during the window was 2522 msg/s, only slightly above the 2392 msg/s baseline (1.05x).",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the increased frame rate for ID 0x6E0 to determine if it is a malfunctioning ECU or an external injection tool.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.8,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The anomaly detector flagged a window characterized by rate inflation, primarily driven by CAN ID 0x6E0, which exhibited a transmission rate double its baseline.\",\n  \"claims\": [\n    {\n      \"text\": \"The alert window occurred from 4.50s to 16.75s with a detector score of 0.583, where rate inflation was the primary component (0.583).\",\n      \"cites\": [\n        \"E0\"\n      ]\n    },\n    {\n      \"text\": \"CAN ID 0x6E0 transmitted at 202.0 msg/s between 5.50s and 6.00s, which is 2.02x its baseline rate of 100.0 msg/s.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"A total of 2450 frames for ID 0x6E0 were recorded across the full alert window.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The function associated with ID 0x6E0 is unknown.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The peak bus rate during the window was 2522 msg/s, only slightly above the 2392 msg/s baseline (1.05x).\",\n      \"cites\": [\n        \"E1\"\n      ]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the increased frame rate for ID 0x6E0 to determine if it is a malfunctioning ECU or an external injection tool.\"\n}\n```",
+        "latency_s": 12.564,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3352,
+          "output_tokens": 454
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "fuzzing_attack_1",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 4.25,
+      "end": 8.25,
+      "true_type": "fuzzing",
+      "detector_score": 1.0,
+      "corpus_index": 5,
+      "evidence_sha256": "f891c353a2e6f48a338af8ebfe3b231a3d21c15954feb9ca345c3908d0a21c7b",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.9,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window containing multiple arbitration IDs that are absent from the baseline, which is characteristic of a fuzzing attack. Several unknown IDs (0x070, 0x095, 0x09F, 0x0B3, 0x0C4, 0x0CA) each transmitted a single frame during the alert window, with representative frames showing identical payloads of all 'FF', suggesting a systematic probe of the network.",
+        "claims": [
+          {
+            "text": "The detector reported a score of 1.0, driven primarily by the presence of unknown IDs.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "Six arbitration IDs not present in the baseline were observed: 0x070, 0x095, 0x09F, 0x0B3, 0x0C4, and 0x0CA.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "Representative frames for IDs 0x095, 0x09F, and 0x070 all contained the payload 'FF FF FF FF FF FF FF FF'.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "The peak bus rate was 2598 msg/s, which is only 1.09x the baseline of 2392 msg/s.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the unknown IDs and analyze the vehicle's response to the 'FF' payload patterns to determine if any ECU entered an error state or unexpected behavior.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"fuzzing\",\n  \"confidence\": 0.9,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The anomaly detector flagged a window containing multiple arbitration IDs that are absent from the baseline, which is characteristic of a fuzzing attack. Several unknown IDs (0x070, 0x095, 0x09F, 0x0B3, 0x0C4, 0x0CA) each transmitted a single frame during the alert window, with representative frames showing identical payloads of all 'FF', suggesting a systematic probe of the network.\",\n  \"claims\": [\n    {\n      \"text\": \"The detector reported a score of 1.0, driven primarily by the presence of unknown IDs.\",\n      \"cites\": [\n        \"E0\"\n      ]\n    },\n    {\n      \"text\": \"Six arbitration IDs not present in the baseline were observed: 0x070, 0x095, 0x09F, 0x0B3, 0x0C4, and 0x0CA.\",\n      \"cites\": [\n        \"E2\",\n        \"E3\",\n        \"E4\",\n        \"E5\",\n        \"E6\",\n        \"E7\"\n      ]\n    },\n    {\n      \"text\": \"Representative frames for IDs 0x095, 0x09F, and 0x070 all contained the payload 'FF FF FF FF FF FF FF FF'.\",\n      \"cites\": [\n        \"E8\"\n      ]\n    },\n    {\n      \"text\": \"The peak bus rate was 2598 msg/s, which is only 1.09x the baseline of 2392 msg/s.\",\n      \"cites\": [\n        \"E1\"\n      ]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the unknown IDs and analyze the vehicle's response to the 'FF' payload patterns to determine if any ECU entered an error state or unexpected behavior.\"\n}\n```",
+        "latency_s": 13.659,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2603,
+          "output_tokens": 496
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "fuzzing_attack_1",
+      "role": "attack_capture",
+      "alert_id": 1,
+      "start": 16.25,
+      "end": 20.0,
+      "true_type": "normal",
+      "detector_score": 0.5652,
+      "corpus_index": 6,
+      "evidence_sha256": "84a08a88a77164a694734da767610329e3508b79e545b7c294c131c845628498",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.7,
+        "severity": "low",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window with rate inflation, primarily driven by ID 0x025, which exhibited a transmission rate 2.0x higher than its baseline. Other IDs showed negligible rate changes or slight decreases, and the overall bus load remained nearly constant, suggesting a targeted injection of frames for a specific ID rather than a network-wide attack.",
+        "claims": [
+          {
+            "text": "The alert window occurred from 16.25s to 20.00s with a detector score of 0.565, where rate inflation (0.565) was the primary contributing component.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "ID 0x025 showed a rate of 12.0 msg/s, which is 2.0x its baseline of 1.28 msg/s, with a total of 41 frames across the alert window.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The peak bus rate was 2428 msg/s, only a 1.02x increase over the 2392 msg/s baseline.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "Other IDs such as 0x69D, 0x075, 0x4EE, 0x6D7, and 0x655 showed rates that were either equal to or lower than their baselines (0.333x ratio).",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The affected vehicle functions for the observed IDs are not identified in the evidence.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of ID 0x025 to determine if the increased rate is due to a malfunctioning ECU or an external injection tool. Analyze the payload of 0x025 to check for implausible signal values.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.7,\n  \"severity\": \"low\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The anomaly detector flagged a window with rate inflation, primarily driven by ID 0x025, which exhibited a transmission rate 2.0x higher than its baseline. Other IDs showed negligible rate changes or slight decreases, and the overall bus load remained nearly constant, suggesting a targeted injection of frames for a specific ID rather than a network-wide attack.\",\n  \"claims\": [\n    {\n      \"text\": \"The alert window occurred from 16.25s to 20.00s with a detector score of 0.565, where rate inflation (0.565) was the primary contributing component.\",\n      \"cites\": [\n        \"E0\"\n      ]\n    },\n    {\n      \"text\": \"ID 0x025 showed a rate of 12.0 msg/s, which is 2.0x its baseline of 1.28 msg/s, with a total of 41 frames across the alert window.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The peak bus rate was 2428 msg/s, only a 1.02x increase over the 2392 msg/s baseline.\",\n      \"cites\": [\n        \"E1\"\n      ]\n    },\n    {\n      \"text\": \"Other IDs such as 0x69D, 0x075, 0x4EE, 0x6D7, and 0x655 showed rates that were either equal to or lower than their baselines (0.333x ratio).\",\n      \"cites\": [\n        \"E3\",\n        \"E4\",\n        \"E5\",\n        \"E6\",\n        \"E7\"\n      ]\n    },\n    {\n      \"text\": \"The affected vehicle functions for the observed IDs are not identified in the evidence.\",\n      \"cites\": [\n        \"E2\",\n        \"E3\",\n        \"E4\",\n        \"E5\",\n        \"E6\",\n        \"E7\"\n      ]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of ID 0x025 to determine if the increased rate is due to a malfunctioning ECU or an external injection tool. Analyze the payload of 0x025 to check for implausible signal values.\"\n}\n```",
+        "latency_s": 16.514,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3372,
+          "output_tokens": 598
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "fuzzing_attack_2",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 11.0,
+      "end": 13.5,
+      "true_type": "fuzzing",
+      "detector_score": 1.0,
+      "corpus_index": 7,
+      "evidence_sha256": "c05d46bd1ebc0f4fc9705fa977029edf1ed784ed3ed8cceec81c69813a856319",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.9,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window containing multiple arbitration IDs that are absent from the baseline, which is a primary signature of a fuzzing attack. Several unknown IDs (0x070, 0x095, 0x09F, 0x0B3, 0x0C4, 0x0CA) each transmitted a single frame during the alert window, and representative frames show payloads consisting of all 'FF' bytes, indicating synthetic or test data injection.",
+        "claims": [
+          {
+            "text": "The alert window occurred from 11.00s to 13.50s with a detector score of 1.000, driven primarily by the presence of unknown IDs.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "Six arbitration IDs not present in the baseline were observed: 0x070, 0x095, 0x09F, 0x0B3, 0x0C4, and 0x0CA.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "Representative frames for IDs 0x095, 0x09F, and 0x070 all contain the payload 'FF FF FF FF FF FF FF FF'.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "The peak bus rate was 2606 msg/s, which is 1.09x the baseline of 2392 msg/s.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the unauthorized frames and check for any unexpected ECU behavior or crashes resulting from the injection of these unknown IDs and payloads.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"fuzzing\",\n  \"confidence\": 0.9,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The anomaly detector flagged a window containing multiple arbitration IDs that are absent from the baseline, which is a primary signature of a fuzzing attack. Several unknown IDs (0x070, 0x095, 0x09F, 0x0B3, 0x0C4, 0x0CA) each transmitted a single frame during the alert window, and representative frames show payloads consisting of all 'FF' bytes, indicating synthetic or test data injection.\",\n  \"claims\": [\n    {\n      \"text\": \"The alert window occurred from 11.00s to 13.50s with a detector score of 1.000, driven primarily by the presence of unknown IDs.\",\n      \"cites\": [\n        \"E0\"\n      ]\n    },\n    {\n      \"text\": \"Six arbitration IDs not present in the baseline were observed: 0x070, 0x095, 0x09F, 0x0B3, 0x0C4, and 0x0CA.\",\n      \"cites\": [\n        \"E2\",\n        \"E3\",\n        \"E4\",\n        \"E5\",\n        \"E6\",\n        \"E7\"\n      ]\n    },\n    {\n      \"text\": \"Representative frames for IDs 0x095, 0x09F, and 0x070 all contain the payload 'FF FF FF FF FF FF FF FF'.\",\n      \"cites\": [\n        \"E8\"\n      ]\n    },\n    {\n      \"text\": \"The peak bus rate was 2606 msg/s, which is 1.09x the baseline of 2392 msg/s.\",\n      \"cites\": [\n        \"E1\"\n      ]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the unauthorized frames and check for any unexpected ECU behavior or crashes resulting from the injection of these unknown IDs and payloads.\"\n}\n```",
+        "latency_s": 13.776,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2594,
+          "output_tokens": 512
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "fuzzing_attack_3",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 4.5,
+      "end": 5.5,
+      "true_type": "fuzzing",
+      "detector_score": 1.0,
+      "corpus_index": 8,
+      "evidence_sha256": "663df7c02acd6349746d0b1a3465689605546a18ffa97e8183dac280016731c4",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.9,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window containing multiple arbitration IDs that are absent from the baseline, which is a primary signature of fuzzing. Several unknown IDs (0x04A, 0x070, 0x095, 0x09F, 0x0B3, 0x0C4) each transmitted a single frame during the alert window, with representative frames showing identical, high-value payloads (FF FF FF FF FF FF FF FF).",
+        "claims": [
+          {
+            "text": "The detector score was 1.0, driven primarily by the presence of unknown IDs.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "Arbitration IDs 0x04A, 0x070, 0x095, 0x09F, 0x0B3, and 0x0C4 were observed but are not present in the baseline ID set.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "Representative frames for IDs 0x095, 0x070, and 0x04A all contained the payload 'FF FF FF FF FF FF FF FF'.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "The peak bus rate was 2556 msg/s, which is only 1.07x the baseline of 2392 msg/s, indicating no significant flooding.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the non-baseline IDs and analyze the vehicle's response to the 'FF' payload patterns to determine if they trigger unintended diagnostic or operational behaviors.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"fuzzing\",\n  \"confidence\": 0.9,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The anomaly detector flagged a window containing multiple arbitration IDs that are absent from the baseline, which is a primary signature of fuzzing. Several unknown IDs (0x04A, 0x070, 0x095, 0x09F, 0x0B3, 0x0C4) each transmitted a single frame during the alert window, with representative frames showing identical, high-value payloads (FF FF FF FF FF FF FF FF).\",\n  \"claims\": [\n    {\n      \"text\": \"The detector score was 1.0, driven primarily by the presence of unknown IDs.\",\n      \"cites\": [\n        \"E0\"\n      ]\n    },\n    {\n      \"text\": \"Arbitration IDs 0x04A, 0x070, 0x095, 0x09F, 0x0B3, and 0x0C4 were observed but are not present in the baseline ID set.\",\n      \"cites\": [\n        \"E2\",\n        \"E3\",\n        \"E4\",\n        \"E5\",\n        \"E6\",\n        \"E7\"\n      ]\n    },\n    {\n      \"text\": \"Representative frames for IDs 0x095, 0x070, and 0x04A all contained the payload 'FF FF FF FF FF FF FF FF'.\",\n      \"cites\": [\n        \"E8\"\n      ]\n    },\n    {\n      \"text\": \"The peak bus rate was 2556 msg/s, which is only 1.07x the baseline of 2392 msg/s, indicating no significant flooding.\",\n      \"cites\": [\n        \"E1\"\n      ]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the non-baseline IDs and analyze the vehicle's response to the 'FF' payload patterns to determine if they trigger unintended diagnostic or operational behaviors.\"\n}\n```",
+        "latency_s": 13.891,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2574,
+          "output_tokens": 506
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "max_engine_coolant_temp_attack",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 20.25,
+      "end": 24.25,
+      "true_type": "spoofing",
+      "detector_score": 0.7391,
+      "corpus_index": 9,
+      "evidence_sha256": "e016bf1c86f4c103b3ecd10c24d68dc949196524615815cc0374fd997e7dd7bd",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.8,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window characterized by rate inflation, primarily driven by CAN ID 0x4E7, which exhibited a transmission rate 2.2x higher than its baseline.",
+        "claims": [
+          {
+            "text": "The alert window from 20.25s to 24.25s showed a detector score of 0.739, with rate_inflation as the primary component (0.739).",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "CAN ID 0x4E7 transmitted at 22.0 msg/s in the interval [21.00, 21.50)s, which is 2.2x its baseline rate of 10.0 msg/s.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The mean gap for ID 0x4E7 was 47.017 ms, significantly lower than the 100.0 ms baseline.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The overall peak bus rate was 2430 msg/s, only slightly above the 2392 msg/s baseline (1.02x), indicating the inflation was limited to specific IDs rather than a global flood.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "The affected function for ID 0x4E7 is not identified in the evidence.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the increased frame rate for CAN ID 0x4E7 to determine if it is caused by a malfunctioning ECU or an external injection tool.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.8,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The anomaly detector flagged a window characterized by rate inflation, primarily driven by CAN ID 0x4E7, which exhibited a transmission rate 2.2x higher than its baseline.\",\n  \"claims\": [\n    {\n      \"text\": \"The alert window from 20.25s to 24.25s showed a detector score of 0.739, with rate_inflation as the primary component (0.739).\",\n      \"cites\": [\n        \"E0\"\n      ]\n    },\n    {\n      \"text\": \"CAN ID 0x4E7 transmitted at 22.0 msg/s in the interval [21.00, 21.50)s, which is 2.2x its baseline rate of 10.0 msg/s.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The mean gap for ID 0x4E7 was 47.017 ms, significantly lower than the 100.0 ms baseline.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The overall peak bus rate was 2430 msg/s, only slightly above the 2392 msg/s baseline (1.02x), indicating the inflation was limited to specific IDs rather than a global flood.\",\n      \"cites\": [\n        \"E1\"\n      ]\n    },\n    {\n      \"text\": \"The affected function for ID 0x4E7 is not identified in the evidence.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the increased frame rate for CAN ID 0x4E7 to determine if it is caused by a malfunctioning ECU or an external injection tool.\"\n}\n```",
+        "latency_s": 13.243,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3380,
+          "output_tokens": 489
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "max_speedometer_attack_1",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 42.0,
+      "end": 66.75,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 10,
+      "evidence_sha256": "6d7256fcd97d40b1799c7f363d13412ba539d5b4b53e9a49220347fb2a411341",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.8,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window with significant rate inflation (score 1.0) E0. Multiple known IDs exhibit transmission rates well above their baselines, most notably 0x280 which increased by 4.333x E2 and 0x0D0 which increased by 2.02x E3. This pattern of added frames for known IDs is consistent with a spoofing attack.",
+        "claims": [
+          {
+            "text": "The detector reported a rate_inflation component of 1.000 for the window from 42.00s to 66.75s.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "CAN ID 0x280 showed a rate of 26.0 msg/s, which is 4.333x its baseline of 5.03 msg/s.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "CAN ID 0x0D0 showed a rate of 202.0 msg/s, which is 2.02x its baseline of 100.0 msg/s.",
+            "cites": [
+              "E3"
+            ]
+          },
+          {
+            "text": "The affected vehicle functions for IDs 0x280, 0x0D0, 0x69D, 0x075, 0x4EE, and 0x6D7 are unknown.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the additional frames for IDs 0x280 and 0x0D0 to determine if an unauthorized device is injecting traffic onto the bus.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.8,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The anomaly detector flagged a window with significant rate inflation (score 1.0) E0. Multiple known IDs exhibit transmission rates well above their baselines, most notably 0x280 which increased by 4.333x E2 and 0x0D0 which increased by 2.02x E3. This pattern of added frames for known IDs is consistent with a spoofing attack.\",\n  \"claims\": [\n    {\n      \"text\": \"The detector reported a rate_inflation component of 1.000 for the window from 42.00s to 66.75s.\",\n      \"cites\": [\n        \"E0\"\n      ]\n    },\n    {\n      \"text\": \"CAN ID 0x280 showed a rate of 26.0 msg/s, which is 4.333x its baseline of 5.03 msg/s.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"CAN ID 0x0D0 showed a rate of 202.0 msg/s, which is 2.02x its baseline of 100.0 msg/s.\",\n      \"cites\": [\n        \"E3\"\n      ]\n    },\n    {\n      \"text\": \"The affected vehicle functions for IDs 0x280, 0x0D0, 0x69D, 0x075, 0x4EE, and 0x6D7 are unknown.\",\n      \"cites\": [\n        \"E2\",\n        \"E3\",\n        \"E4\",\n        \"E5\",\n        \"E6\",\n        \"E7\"\n      ]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the additional frames for IDs 0x280 and 0x0D0 to determine if an unauthorized device is injecting traffic onto the bus.\"\n}\n```",
+        "latency_s": 14.051,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3427,
+          "output_tokens": 507
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "max_speedometer_attack_1_masquerade",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 42.0,
+      "end": 66.75,
+      "true_type": "masquerade",
+      "detector_score": 1.0,
+      "corpus_index": 11,
+      "evidence_sha256": "02a00cb53b8ac718fa191776ff834c36edcd81fabcca0af6fbac2d9aa23d3737",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.8,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window with a high rate_inflation score (1.0) E0. Analysis shows that CAN ID 0x280 experienced a significant increase in transmission rate, reaching 26.0 msg/s compared to a baseline of 5.03 msg/s (4.333x increase) E2. This is consistent with the injection of additional frames for a known ID, which characterizes spoofing.",
+        "claims": [
+          {
+            "text": "The detector reported a rate_inflation component of 1.000 for the window from 42.00s to 66.75s.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "CAN ID 0x280 showed a transmission rate of 26.0 msg/s, which is 4.333 times its baseline rate of 5.03 msg/s.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The mean gap for ID 0x280 decreased to 38.333 ms from a baseline of 198.754 ms.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The function associated with CAN ID 0x280 is unknown.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The overall peak bus rate was 2436 msg/s, only slightly above the baseline of 2392 msg/s (1.02x), indicating the attack did not cause a total bus flood.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the increased traffic for CAN ID 0x280 to determine if it originates from a compromised ECU or an external tool. Perform signal decoding on 0x280 to check for implausible values.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.8,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The anomaly detector flagged a window with a high rate_inflation score (1.0) E0. Analysis shows that CAN ID 0x280 experienced a significant increase in transmission rate, reaching 26.0 msg/s compared to a baseline of 5.03 msg/s (4.333x increase) E2. This is consistent with the injection of additional frames for a known ID, which characterizes spoofing.\",\n  \"claims\": [\n    {\n      \"text\": \"The detector reported a rate_inflation component of 1.000 for the window from 42.00s to 66.75s.\",\n      \"cites\": [\n        \"E0\"\n      ]\n    },\n    {\n      \"text\": \"CAN ID 0x280 showed a transmission rate of 26.0 msg/s, which is 4.333 times its baseline rate of 5.03 msg/s.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The mean gap for ID 0x280 decreased to 38.333 ms from a baseline of 198.754 ms.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The function associated with CAN ID 0x280 is unknown.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The overall peak bus rate was 2436 msg/s, only slightly above the baseline of 2392 msg/s (1.02x), indicating the attack did not cause a total bus flood.\",\n      \"cites\": [\n        \"E1\"\n      ]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the increased traffic for CAN ID 0x280 to determine if it originates from a compromised ECU or an external tool. Perform signal decoding on 0x280 to check for implausible values.\"\n}\n```",
+        "latency_s": 14.882,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3396,
+          "output_tokens": 529
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "max_speedometer_attack_2",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 16.0,
+      "end": 47.25,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 12,
+      "evidence_sha256": "80057c639c24ecdc5425f8fbaf48922695941411eccdf49688acaf182267e59b",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.85,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window characterized by rate inflation, primarily driven by CAN ID 0x0D0, which exhibited a transmission rate approximately double its baseline.",
+        "claims": [
+          {
+            "text": "The alert window occurred from 16.00s to 47.25s with a detector score of 0.583, where rate inflation was the primary contributing component (0.583).",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "CAN ID 0x0D0 showed a transmission rate of 202.0 msg/s, which is 2.02x its baseline of 100.0 msg/s.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The mean gap for 0x0D0 was 4.991 ms compared to a baseline of 10.0 ms, representing a 3.9 sigma deviation.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "A total of 6249 frames for ID 0x0D0 were recorded across the full alert window.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The affected vehicle function for ID 0x0D0 is not identified in the evidence.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the additional frames for CAN ID 0x0D0 to determine if they originate from a compromised ECU or an external injection tool.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.85,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The anomaly detector flagged a window characterized by rate inflation, primarily driven by CAN ID 0x0D0, which exhibited a transmission rate approximately double its baseline.\",\n  \"claims\": [\n    {\n      \"text\": \"The alert window occurred from 16.00s to 47.25s with a detector score of 0.583, where rate inflation was the primary contributing component (0.583).\",\n      \"cites\": [\n        \"E0\"\n      ]\n    },\n    {\n      \"text\": \"CAN ID 0x0D0 showed a transmission rate of 202.0 msg/s, which is 2.02x its baseline of 100.0 msg/s.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The mean gap for 0x0D0 was 4.991 ms compared to a baseline of 10.0 ms, representing a 3.9 sigma deviation.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"A total of 6249 frames for ID 0x0D0 were recorded across the full alert window.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The affected vehicle function for ID 0x0D0 is not identified in the evidence.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the additional frames for CAN ID 0x0D0 to determine if they originate from a compromised ECU or an external injection tool.\"\n}\n```",
+        "latency_s": 12.644,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3400,
+          "output_tokens": 453
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "max_speedometer_attack_3",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 10.0,
+      "end": 70.5,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 13,
+      "evidence_sha256": "707613bbbd1032ace6846a10be67e64a57b41ef2c76868dc766a96a6b72fe4b0",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.8,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window characterized by rate inflation, primarily driven by CAN ID 0x0D0, which exhibited a transmission rate approximately double its baseline.",
+        "claims": [
+          {
+            "text": "The alert window occurred from 10.00s to 70.50s with a detector score of 0.583, where rate inflation was the primary contributing component (0.583).",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "CAN ID 0x0D0 showed a transmission rate of 202.0 msg/s, which is 2.02x its baseline of 100.0 msg/s, with a total of 12,100 frames across the alert window.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The mean gap for 0x0D0 decreased to 4.99 ms from a baseline of 10.0 ms, representing a 3.9 sigma deviation.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The function associated with CAN ID 0x0D0 is unknown.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Other IDs such as 0x69D, 0x075, 0x4EE, 0x6D7, and 0x3B9 showed minimal rate deviations or counts too low to indicate a systemic attack.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the increased transmission rate for CAN ID 0x0D0 to determine if it is caused by a malfunctioning ECU or an external injection tool.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.8,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The anomaly detector flagged a window characterized by rate inflation, primarily driven by CAN ID 0x0D0, which exhibited a transmission rate approximately double its baseline.\",\n  \"claims\": [\n    {\n      \"text\": \"The alert window occurred from 10.00s to 70.50s with a detector score of 0.583, where rate inflation was the primary contributing component (0.583).\",\n      \"cites\": [\n        \"E0\"\n      ]\n    },\n    {\n      \"text\": \"CAN ID 0x0D0 showed a transmission rate of 202.0 msg/s, which is 2.02x its baseline of 100.0 msg/s, with a total of 12,100 frames across the alert window.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The mean gap for 0x0D0 decreased to 4.99 ms from a baseline of 10.0 ms, representing a 3.9 sigma deviation.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The function associated with CAN ID 0x0D0 is unknown.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"Other IDs such as 0x69D, 0x075, 0x4EE, 0x6D7, and 0x3B9 showed minimal rate deviations or counts too low to indicate a systemic attack.\",\n      \"cites\": [\n        \"E3\",\n        \"E4\",\n        \"E5\",\n        \"E6\",\n        \"E7\"\n      ]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the increased transmission rate for CAN ID 0x0D0 to determine if it is caused by a malfunctioning ECU or an external injection tool.\"\n}\n```",
+        "latency_s": 14.293,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3404,
+          "output_tokens": 517
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_off_attack_1",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 16.75,
+      "end": 23.25,
+      "true_type": "spoofing",
+      "detector_score": 0.5652,
+      "corpus_index": 14,
+      "evidence_sha256": "7e3787af15ead96bd8470472f2663d14abe5101994344136a8b1bc172d6a6a9c",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.8,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window characterized by rate inflation, primarily driven by CAN ID 0x0D0, which exhibited a transmission rate double its baseline.",
+        "claims": [
+          {
+            "text": "The alert window occurred from 16.75s to 23.25s with a total of 16208 frames.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "The detector identified rate inflation as the primary component of the anomaly score (0.565).",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "CAN ID 0x0D0 transmitted at 200.0 msg/s, which is 2.0x its baseline rate of 100.0 msg/s.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The mean gap for ID 0x0D0 was 4.97 ms, compared to a baseline of 10.0 ms.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The function associated with ID 0x0D0 is unknown.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Overall bus load increased slightly to 2520 msg/s from a baseline of 2392 msg/s (1.05x).",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the increased transmission rate for CAN ID 0x0D0 to determine if it is caused by a malfunctioning ECU or an external injection tool.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.8,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The anomaly detector flagged a window characterized by rate inflation, primarily driven by CAN ID 0x0D0, which exhibited a transmission rate double its baseline.\",\n  \"claims\": [\n    {\n      \"text\": \"The alert window occurred from 16.75s to 23.25s with a total of 16208 frames.\",\n      \"cites\": [\n        \"E0\"\n      ]\n    },\n    {\n      \"text\": \"The detector identified rate inflation as the primary component of the anomaly score (0.565).\",\n      \"cites\": [\n        \"E0\"\n      ]\n    },\n    {\n      \"text\": \"CAN ID 0x0D0 transmitted at 200.0 msg/s, which is 2.0x its baseline rate of 100.0 msg/s.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The mean gap for ID 0x0D0 was 4.97 ms, compared to a baseline of 10.0 ms.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The function associated with ID 0x0D0 is unknown.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"Overall bus load increased slightly to 2520 msg/s from a baseline of 2392 msg/s (1.05x).\",\n      \"cites\": [\n        \"E1\"\n      ]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the increased transmission rate for CAN ID 0x0D0 to determine if it is caused by a malfunctioning ECU or an external injection tool.\"\n}\n```",
+        "latency_s": 13.297,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3410,
+          "output_tokens": 479
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_off_attack_2",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 13.25,
+      "end": 36.75,
+      "true_type": "spoofing",
+      "detector_score": 0.5652,
+      "corpus_index": 15,
+      "evidence_sha256": "44ccec9542cbbe4570af5412588ed92975395aa0e1662a3fbd307498e4993645",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.8,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window characterized by rate inflation, primarily driven by CAN ID 0x0D0, which exhibited a transmission rate double its baseline. Other IDs showed negligible rate changes, and the overall bus load remained near baseline levels.",
+        "claims": [
+          {
+            "text": "The alert window occurred from 13.25s to 36.75s with a detector score of 0.565, where rate_inflation (0.565) was the primary component.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "CAN ID 0x0D0 transmitted at 200.0 msg/s, which is 2.0x its baseline rate of 100.0 msg/s.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The mean gap for 0x0D0 was 4.985 ms compared to a 10.0 ms baseline, representing a 3.9 sigma deviation.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The peak bus rate during the window was 2520 msg/s, only 1.05x the baseline of 2392 msg/s.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "The affected vehicle function for ID 0x0D0 is not identified in the evidence.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the additional frames for CAN ID 0x0D0 to determine if they originate from a compromised ECU or an external injection tool.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.8,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The anomaly detector flagged a window characterized by rate inflation, primarily driven by CAN ID 0x0D0, which exhibited a transmission rate double its baseline. Other IDs showed negligible rate changes, and the overall bus load remained near baseline levels.\",\n  \"claims\": [\n    {\n      \"text\": \"The alert window occurred from 13.25s to 36.75s with a detector score of 0.565, where rate_inflation (0.565) was the primary component.\",\n      \"cites\": [\n        \"E0\"\n      ]\n    },\n    {\n      \"text\": \"CAN ID 0x0D0 transmitted at 200.0 msg/s, which is 2.0x its baseline rate of 100.0 msg/s.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The mean gap for 0x0D0 was 4.985 ms compared to a 10.0 ms baseline, representing a 3.9 sigma deviation.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The peak bus rate during the window was 2520 msg/s, only 1.05x the baseline of 2392 msg/s.\",\n      \"cites\": [\n        \"E1\"\n      ]\n    },\n    {\n      \"text\": \"The affected vehicle function for ID 0x0D0 is not identified in the evidence.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the additional frames for CAN ID 0x0D0 to determine if they originate from a compromised ECU or an external injection tool.\"\n}\n```",
+        "latency_s": 13.25,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3402,
+          "output_tokens": 475
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_off_attack_3",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 16.75,
+      "end": 40.75,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 16,
+      "evidence_sha256": "a4be7ce3da251c21f3942b55ff231b6d0dbb650611e367da078dc9b6a3d03920",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.8,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window characterized by rate inflation, primarily driven by CAN ID 0x0D0, which exhibited a transmission rate double its baseline.",
+        "claims": [
+          {
+            "text": "The alert window occurred from 16.75s to 40.75s with a detector score of 0.583, where rate inflation was the primary contributing component.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "CAN ID 0x0D0 showed a transmission rate of 202.0 msg/s, which is 2.02x its baseline of 100.0 msg/s.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The mean gap for 0x0D0 was 4.989 ms compared to a baseline of 10.0 ms, representing a 3.9 sigma deviation.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "A total of 4800 frames for ID 0x0D0 were recorded across the full alert window.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The affected vehicle function for ID 0x0D0 is not identified in the evidence.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the increased transmission rate for CAN ID 0x0D0 to determine if it is caused by a malfunctioning ECU or an external injection tool.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.8,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The anomaly detector flagged a window characterized by rate inflation, primarily driven by CAN ID 0x0D0, which exhibited a transmission rate double its baseline.\",\n  \"claims\": [\n    {\n      \"text\": \"The alert window occurred from 16.75s to 40.75s with a detector score of 0.583, where rate inflation was the primary contributing component.\",\n      \"cites\": [\n        \"E0\"\n      ]\n    },\n    {\n      \"text\": \"CAN ID 0x0D0 showed a transmission rate of 202.0 msg/s, which is 2.02x its baseline of 100.0 msg/s.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The mean gap for 0x0D0 was 4.989 ms compared to a baseline of 10.0 ms, representing a 3.9 sigma deviation.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"A total of 4800 frames for ID 0x0D0 were recorded across the full alert window.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The affected vehicle function for ID 0x0D0 is not identified in the evidence.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the increased transmission rate for CAN ID 0x0D0 to determine if it is caused by a malfunctioning ECU or an external injection tool.\"\n}\n```",
+        "latency_s": 12.448,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3411,
+          "output_tokens": 446
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_on_attack_1",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 19.0,
+      "end": 38.75,
+      "true_type": "spoofing",
+      "detector_score": 0.5652,
+      "corpus_index": 17,
+      "evidence_sha256": "5a1ca1df389f0d29ccfe88a173f5d73f55479e3d503a120ee1d350d1fff91b49",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.8,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window characterized by rate inflation, primarily driven by CAN ID 0x0D0, which exhibited a transmission rate double its baseline.",
+        "claims": [
+          {
+            "text": "The alert window occurred from 19.00s to 38.75s with a detector score of 0.565, where rate inflation was the primary component (0.565).",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "CAN ID 0x0D0 transmitted at 200.0 msg/s, which is 2.0x its baseline rate of 100.0 msg/s.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The mean gap for 0x0D0 was 4.982 ms compared to a 10.0 ms baseline, representing a 3.9 sigma deviation.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The function associated with CAN ID 0x0D0 is unknown.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Peak bus load was 2518 msg/s, a slight increase (1.05x) over the 2392 msg/s baseline.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the increased transmission rate for CAN ID 0x0D0 to determine if it is caused by a malfunctioning ECU or an external injection tool.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.8,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The anomaly detector flagged a window characterized by rate inflation, primarily driven by CAN ID 0x0D0, which exhibited a transmission rate double its baseline.\",\n  \"claims\": [\n    {\n      \"text\": \"The alert window occurred from 19.00s to 38.75s with a detector score of 0.565, where rate inflation was the primary component (0.565).\",\n      \"cites\": [\n        \"E0\"\n      ]\n    },\n    {\n      \"text\": \"CAN ID 0x0D0 transmitted at 200.0 msg/s, which is 2.0x its baseline rate of 100.0 msg/s.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The mean gap for 0x0D0 was 4.982 ms compared to a 10.0 ms baseline, representing a 3.9 sigma deviation.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The function associated with CAN ID 0x0D0 is unknown.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"Peak bus load was 2518 msg/s, a slight increase (1.05x) over the 2392 msg/s baseline.\",\n      \"cites\": [\n        \"E1\"\n      ]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the increased transmission rate for CAN ID 0x0D0 to determine if it is caused by a malfunctioning ECU or an external injection tool.\"\n}\n```",
+        "latency_s": 12.652,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3398,
+          "output_tokens": 454
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_on_attack_2",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 20.5,
+      "end": 57.25,
+      "true_type": "spoofing",
+      "detector_score": 0.6,
+      "corpus_index": 18,
+      "evidence_sha256": "d2ccd41df5b62b96251e914949817e3fe10bfcde7ca7401f7ca52bc719f49d7a",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.8,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window with significant rate inflation and timing deviations. Specifically, CAN ID 0x0D0 exhibited a transmission rate of 200.0 msg/s, which is 2.0x its baseline of 100.0 msg/s, consistent with the injection of additional frames.",
+        "claims": [
+          {
+            "text": "The alert window occurred from 20.50s to 57.25s with a detector score of 0.600, driven by timing (0.600) and rate inflation (0.565).",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "CAN ID 0x0D0 transmitted at 200.0 msg/s, double its baseline rate of 100.0 msg/s.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The mean gap for ID 0x0D0 was 4.98 ms, compared to a baseline of 10.0 ms, representing a 3.91 sigma deviation.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The function associated with ID 0x0D0 is unknown.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The peak bus rate during the window was 2520 msg/s, a slight increase (1.05x) over the 2392 msg/s baseline.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of ID 0x0D0 to determine if a compromised ECU or external device is injecting frames. Perform signal decoding on ID 0x0D0 to assess the impact of the spoofed data on vehicle behavior.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.8,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The anomaly detector flagged a window with significant rate inflation and timing deviations. Specifically, CAN ID 0x0D0 exhibited a transmission rate of 200.0 msg/s, which is 2.0x its baseline of 100.0 msg/s, consistent with the injection of additional frames.\",\n  \"claims\": [\n    {\n      \"text\": \"The alert window occurred from 20.50s to 57.25s with a detector score of 0.600, driven by timing (0.600) and rate inflation (0.565).\",\n      \"cites\": [\n        \"E0\"\n      ]\n    },\n    {\n      \"text\": \"CAN ID 0x0D0 transmitted at 200.0 msg/s, double its baseline rate of 100.0 msg/s.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The mean gap for ID 0x0D0 was 4.98 ms, compared to a baseline of 10.0 ms, representing a 3.91 sigma deviation.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The function associated with ID 0x0D0 is unknown.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The peak bus rate during the window was 2520 msg/s, a slight increase (1.05x) over the 2392 msg/s baseline.\",\n      \"cites\": [\n        \"E1\"\n      ]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of ID 0x0D0 to determine if a compromised ECU or external device is injecting frames. Perform signal decoding on ID 0x0D0 to assess the impact of the spoofed data on vehicle behavior.\"\n}\n```",
+        "latency_s": 14.086,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3384,
+          "output_tokens": 510
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_on_attack_2",
+      "role": "attack_capture",
+      "alert_id": 1,
+      "start": 71.25,
+      "end": 71.75,
+      "true_type": "normal",
+      "detector_score": 0.6,
+      "corpus_index": 19,
+      "evidence_sha256": "1ccb5ff70b771957ee9fc3fc9ad8272301bd495638013b69cc6697fa77479029",
+      "explanation": {
+        "attack_type": "benign",
+        "confidence": 0.9,
+        "severity": "low",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window due to timing and entropy components, but the evidence shows no signs of an attack. Bus load is identical to the baseline, no unknown IDs were introduced, and no IDs showed rate inflation. The observed frame counts and rates for the listed IDs are consistent with or below their baseline values.",
+        "claims": [
+          {
+            "text": "The peak bus rate of 2392 msg/s is identical to the baseline of 2392 msg/s.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "No unknown IDs were detected in the window.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "ID 0x230 maintained its baseline rate of 50.0 msg/s.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "IDs 0x075, 0x3B9, 0x0F1, 0x025, and 0x03A all showed rate ratios of 0.333x or similar, indicating they were transmitting at or below baseline levels during the window.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The affected vehicle functions for the observed IDs are not identified in the evidence.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "No action required. The alert appears to be a false positive as there is no evidence of injection, flooding, or unauthorized ID activity.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"benign\",\n  \"confidence\": 0.9,\n  \"severity\": \"low\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The anomaly detector flagged a window due to timing and entropy components, but the evidence shows no signs of an attack. Bus load is identical to the baseline, no unknown IDs were introduced, and no IDs showed rate inflation. The observed frame counts and rates for the listed IDs are consistent with or below their baseline values.\",\n  \"claims\": [\n    {\n      \"text\": \"The peak bus rate of 2392 msg/s is identical to the baseline of 2392 msg/s.\",\n      \"cites\": [\n        \"E1\"\n      ]\n    },\n    {\n      \"text\": \"No unknown IDs were detected in the window.\",\n      \"cites\": [\n        \"E0\"\n      ]\n    },\n    {\n      \"text\": \"ID 0x230 maintained its baseline rate of 50.0 msg/s.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"IDs 0x075, 0x3B9, 0x0F1, 0x025, and 0x03A all showed rate ratios of 0.333x or similar, indicating they were transmitting at or below baseline levels during the window.\",\n      \"cites\": [\n        \"E3\",\n        \"E4\",\n        \"E5\",\n        \"E6\",\n        \"E7\"\n      ]\n    },\n    {\n      \"text\": \"The affected vehicle functions for the observed IDs are not identified in the evidence.\",\n      \"cites\": [\n        \"E2\",\n        \"E3\",\n        \"E4\",\n        \"E5\",\n        \"E6\",\n        \"E7\"\n      ]\n    }\n  ],\n  \"recommended_action\": \"No action required. The alert appears to be a false positive as there is no evidence of injection, flooding, or unauthorized ID activity.\"\n}\n```",
+        "latency_s": 13.584,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3172,
+          "output_tokens": 492
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_on_attack_2_masquerade",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 45.25,
+      "end": 45.75,
+      "true_type": "masquerade",
+      "detector_score": 0.6,
+      "corpus_index": 20,
+      "evidence_sha256": "75ecd834e4f0f263257b40b0bffb0f9ef525e7365de3ab44d9df4c893aaf64d7",
+      "explanation": {
+        "attack_type": "benign",
+        "confidence": 0.9,
+        "severity": "low",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window based on timing and payload entropy, but the evidence shows no significant deviations from the baseline. Bus load, rate inflation, and unknown IDs are all reported as 0.0, and the primary ID (0x230) is operating exactly at its baseline rate with negligible jitter.",
+        "claims": [
+          {
+            "text": "The detector score was 0.6, driven by timing (0.6) and payload entropy (0.193), while bus load, unknown IDs, rate inflation, and missing IDs were all 0.0.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "The peak bus rate of 2396 msg/s is nearly identical to the baseline of 2392 msg/s (1.00x).",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "ID 0x230 transmitted at 50.0 msg/s, which matches its baseline rate of 50.0 msg/s.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The mean gap for ID 0x230 was 20.006 ms compared to a 20.0 ms baseline, representing 0.0 sigma deviation.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The affected vehicle functions for IDs 0x230, 0x075, 0x3B9, 0x0F1, 0x025, and 0x03A are unknown.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "No action required. The alert appears to be a false positive as there is no evidence of injection, flooding, or unauthorized IDs.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n \"attack_type\": \"benign\",\n \"confidence\": 0.9,\n \"severity\": \"low\",\n \"affected_function\": \"unknown\",\n \"summary\": \"The anomaly detector flagged a window based on timing and payload entropy, but the evidence shows no significant deviations from the baseline. Bus load, rate inflation, and unknown IDs are all reported as 0.0, and the primary ID (0x230) is operating exactly at its baseline rate with negligible jitter.\",\n \"claims\": [\n  {\n   \"text\": \"The detector score was 0.6, driven by timing (0.6) and payload entropy (0.193), while bus load, unknown IDs, rate inflation, and missing IDs were all 0.0.\",\n   \"cites\": [\n    \"E0\"\n   ]\n  },\n  {\n   \"text\": \"The peak bus rate of 2396 msg/s is nearly identical to the baseline of 2392 msg/s (1.00x).\",\n   \"cites\": [\n    \"E1\"\n   ]\n  },\n  {\n   \"text\": \"ID 0x230 transmitted at 50.0 msg/s, which matches its baseline rate of 50.0 msg/s.\",\n   \"cites\": [\n    \"E2\"\n   ]\n  },\n  {\n   \"text\": \"The mean gap for ID 0x230 was 20.006 ms compared to a 20.0 ms baseline, representing 0.0 sigma deviation.\",\n   \"cites\": [\n    \"E2\"\n   ]\n  },\n  {\n   \"text\": \"The affected vehicle functions for IDs 0x230, 0x075, 0x3B9, 0x0F1, 0x025, and 0x03A are unknown.\",\n   \"cites\": [\n    \"E2\",\n    \"E3\",\n    \"E4\",\n    \"E5\",\n    \"E6\",\n    \"E7\"\n   ]\n  }\n ],\n \"recommended_action\": \"No action required. The alert appears to be a false positive as there is no evidence of injection, flooding, or unauthorized IDs.\"\n}\n```",
+        "latency_s": 14.251,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3169,
+          "output_tokens": 529
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_on_attack_2_masquerade",
+      "role": "attack_capture",
+      "alert_id": 1,
+      "start": 71.25,
+      "end": 71.75,
+      "true_type": "normal",
+      "detector_score": 0.6,
+      "corpus_index": 21,
+      "evidence_sha256": "1ccb5ff70b771957ee9fc3fc9ad8272301bd495638013b69cc6697fa77479029",
+      "explanation": {
+        "attack_type": "benign",
+        "confidence": 0.9,
+        "severity": "low",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window based on timing and payload entropy, but the evidence shows no malicious activity. Bus load is stable at 1.0x baseline, no unknown IDs were introduced, and no IDs showed rate inflation. The observed frame rates for the listed IDs are either consistent with or lower than their baselines.",
+        "claims": [
+          {
+            "text": "The bus load remained stable at 2392 msg/s, which is 1.0x the baseline.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "No unknown IDs were detected in the window.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "ID 0x230 maintained a rate of 50.0 msg/s, matching its baseline of 50.0 msg/s.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "IDs 0x075, 0x3B9, 0x0F1, 0x025, and 0x03A all showed rates that were either equal to or lower than their baseline rates (rate ratios of 0.333x or 1.0x).",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The affected vehicle functions for the observed IDs are not identified in the evidence.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "No action required. The alert appears to be a false positive as there is no evidence of injection, flooding, or unauthorized ID activity.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"benign\",\n  \"confidence\": 0.9,\n  \"severity\": \"low\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The anomaly detector flagged a window based on timing and payload entropy, but the evidence shows no malicious activity. Bus load is stable at 1.0x baseline, no unknown IDs were introduced, and no IDs showed rate inflation. The observed frame rates for the listed IDs are either consistent with or lower than their baselines.\",\n  \"claims\": [\n    {\n      \"text\": \"The bus load remained stable at 2392 msg/s, which is 1.0x the baseline.\",\n      \"cites\": [\n        \"E1\"\n      ]\n    },\n    {\n      \"text\": \"No unknown IDs were detected in the window.\",\n      \"cites\": [\n        \"E0\"\n      ]\n    },\n    {\n      \"text\": \"ID 0x230 maintained a rate of 50.0 msg/s, matching its baseline of 50.0 msg/s.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"IDs 0x075, 0x3B9, 0x0F1, 0x025, and 0x03A all showed rates that were either equal to or lower than their baseline rates (rate ratios of 0.333x or 1.0x).\",\n      \"cites\": [\n        \"E3\",\n        \"E4\",\n        \"E5\",\n        \"E6\",\n        \"E7\"\n      ]\n    },\n    {\n      \"text\": \"The affected vehicle functions for the observed IDs are not identified in the evidence.\",\n      \"cites\": [\n        \"E2\",\n        \"E3\",\n        \"E4\",\n        \"E5\",\n        \"E6\",\n        \"E7\"\n      ]\n    }\n  ],\n  \"recommended_action\": \"No action required. The alert appears to be a false positive as there is no evidence of injection, flooding, or unauthorized ID activity.\"\n}\n```",
+        "latency_s": 13.723,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3172,
+          "output_tokens": 508
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_on_attack_3",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 23.25,
+      "end": 46.5,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 22,
+      "evidence_sha256": "5e07de8a545a685a91292d9356414e490d8604fa0e06164d107c9f5bc3ed174a",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.8,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window characterized by rate inflation (0.583) and payload entropy changes (0.364) (E0). Specifically, CAN ID 0x0D0 exhibited a significant increase in transmission rate, reaching 202.0 msg/s compared to a 100.0 msg/s baseline (2.02x) during a specific interval (E2). This increased rate is consistent across the full alert window with a mean rate of 200.0 msg/s (E2). Other IDs (0x69D, 0x075, 0x4EE, 0x6D7, 0x3B9) showed negligible or insignificant rate deviations (E3, E4, E5, E6, E7).",
+        "claims": [
+          {
+            "text": "The detector reported a rate_inflation component of 0.583 and a payload_entropy component of 0.364.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "CAN ID 0x0D0 transmitted at 202.0 msg/s, which is 2.02x its baseline of 100.0 msg/s.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The full alert window mean rate for 0x0D0 was 200.0 msg/s, with a total of 4650 frames.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The affected vehicle function for ID 0x0D0 is not identified in the evidence.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Peak bus load was 2524 msg/s, a slight increase (1.06x) over the 2392 msg/s baseline.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the increased transmission rate for CAN ID 0x0D0 to determine if it is caused by a malfunctioning ECU or an external injection tool.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.8,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The anomaly detector flagged a window characterized by rate inflation (0.583) and payload entropy changes (0.364) (E0). Specifically, CAN ID 0x0D0 exhibited a significant increase in transmission rate, reaching 202.0 msg/s compared to a 100.0 msg/s baseline (2.02x) during a specific interval (E2). This increased rate is consistent across the full alert window with a mean rate of 200.0 msg/s (E2). Other IDs (0x69D, 0x075, 0x4EE, 0x6D7, 0x3B9) showed negligible or insignificant rate deviations (E3, E4, E5, E6, E7).\",\n  \"claims\": [\n    {\n      \"text\": \"The detector reported a rate_inflation component of 0.583 and a payload_entropy component of 0.364.\",\n      \"cites\": [\n        \"E0\"\n      ]\n    },\n    {\n      \"text\": \"CAN ID 0x0D0 transmitted at 202.0 msg/s, which is 2.02x its baseline of 100.0 msg/s.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The full alert window mean rate for 0x0D0 was 200.0 msg/s, with a total of 4650 frames.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The affected vehicle function for ID 0x0D0 is not identified in the evidence.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"Peak bus load was 2524 msg/s, a slight increase (1.06x) over the 2392 msg/s baseline.\",\n      \"cites\": [\n        \"E1\"\n      ]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the increased transmission rate for CAN ID 0x0D0 to determine if it is caused by a malfunctioning ECU or an external injection tool.\"\n}\n```",
+        "latency_s": 16.255,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3405,
+          "output_tokens": 580
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_basic_long",
+      "role": "held_out_normal",
+      "alert_id": 0,
+      "start": 67.25,
+      "end": 67.75,
+      "true_type": "normal",
+      "detector_score": 0.5652,
+      "corpus_index": 23,
+      "evidence_sha256": "d20938e2ae9f8a440cb76d2b6ab5d13ff80d2113ac3a1ab45d147a9ed90ea23c",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.8,
+        "severity": "low",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window due to rate inflation, specifically caused by CAN ID 0x025 transmitting at double its baseline rate. No other IDs showed significant rate increases, and the overall bus load remained stable.",
+        "claims": [
+          {
+            "text": "The detector flagged the window from 67.25s to 67.75s primarily due to rate inflation (0.565).",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "CAN ID 0x025 transmitted at a rate of 12.0 msg/s, which is 2.0x its baseline of 1.28 msg/s.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The mean gap for ID 0x025 decreased to 80.007 ms from a baseline of 781.8 ms.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The overall peak bus rate of 2382 msg/s was nearly identical to the baseline of 2392 msg/s (1.00x).",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "The function associated with CAN ID 0x025 is unknown.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the additional frames for ID 0x025 to determine if they are legitimate state-dependent messages or an external injection.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n \"attack_type\": \"spoofing\",\n \"confidence\": 0.8,\n \"severity\": \"low\",\n \"affected_function\": \"unknown\",\n \"summary\": \"The anomaly detector flagged a window due to rate inflation, specifically caused by CAN ID 0x025 transmitting at double its baseline rate. No other IDs showed significant rate increases, and the overall bus load remained stable.\",\n \"claims\": [\n  {\n   \"text\": \"The detector flagged the window from 67.25s to 67.75s primarily due to rate inflation (0.565).\",\n   \"cites\": [\n    \"E0\"\n   ]\n  },\n  {\n   \"text\": \"CAN ID 0x025 transmitted at a rate of 12.0 msg/s, which is 2.0x its baseline of 1.28 msg/s.\",\n   \"cites\": [\n    \"E2\"\n   ]\n  },\n  {\n   \"text\": \"The mean gap for ID 0x025 decreased to 80.007 ms from a baseline of 781.8 ms.\",\n   \"cites\": [\n    \"E2\"\n   ]\n  },\n  {\n   \"text\": \"The overall peak bus rate of 2382 msg/s was nearly identical to the baseline of 2392 msg/s (1.00x).\",\n   \"cites\": [\n    \"E1\"\n   ]\n  },\n  {\n   \"text\": \"The function associated with CAN ID 0x025 is unknown.\",\n   \"cites\": [\n    \"E2\"\n   ]\n  }\n ],\n \"recommended_action\": \"Investigate the source of the additional frames for ID 0x025 to determine if they are legitimate state-dependent messages or an external injection.\"\n}\n```",
+        "latency_s": 11.953,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3202,
+          "output_tokens": 440
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 0,
+      "start": 0.0,
+      "end": 23.0,
+      "true_type": "normal",
+      "detector_score": 1.0,
+      "corpus_index": 24,
+      "evidence_sha256": "008a874ac879f5e96877eeba7ed77edb5e6d4bdd1aad1646a344e15955f8951c",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.7,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The window exhibits evidence of spoofing on CAN ID 0x297, characterized by a rate increase to 2.0x the baseline and a significant decrease in mean inter-arrival gap. Additionally, the window shows widespread missing IDs (0x00E, 0x033, 0x03D), suggesting potential interference or a change in vehicle state, though the primary active anomaly is the rate inflation of 0x297.",
+        "claims": [
+          {
+            "text": "CAN ID 0x297 showed a rate of 12.0 msg/s, which is 2.0x its baseline of 2.0 msg/s",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The mean gap for 0x297 was 66.298 ms, compared to a baseline of 500.003 ms",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "CAN ID 0x00E was absent in 73 of 91 scored windows",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "CAN ID 0x033 was absent in 80 of 91 scored windows",
+            "cites": [
+              "E9"
+            ]
+          },
+          {
+            "text": "CAN ID 0x03D was absent in 75 of 91 scored windows",
+            "cites": [
+              "E10"
+            ]
+          },
+          {
+            "text": "The affected vehicle functions for the identified IDs are unknown",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7",
+              "E8",
+              "E9",
+              "E10"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the increased transmission rate for ID 0x297 and determine why high-frequency IDs 0x00E, 0x033, and 0x03D are missing from the traffic.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.7,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The window exhibits evidence of spoofing on CAN ID 0x297, characterized by a rate increase to 2.0x the baseline and a significant decrease in mean inter-arrival gap. Additionally, the window shows widespread missing IDs (0x00E, 0x033, 0x03D), suggesting potential interference or a change in vehicle state, though the primary active anomaly is the rate inflation of 0x297.\",\n  \"claims\": [\n    {\n      \"text\": \"CAN ID 0x297 showed a rate of 12.0 msg/s, which is 2.0x its baseline of 2.0 msg/s\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The mean gap for 0x297 was 66.298 ms, compared to a baseline of 500.003 ms\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"CAN ID 0x00E was absent in 73 of 91 scored windows\",\n      \"cites\": [\n        \"E8\"\n      ]\n    },\n    {\n      \"text\": \"CAN ID 0x033 was absent in 80 of 91 scored windows\",\n      \"cites\": [\n        \"E9\"\n      ]\n    },\n    {\n      \"text\": \"CAN ID 0x03D was absent in 75 of 91 scored windows\",\n      \"cites\": [\n        \"E10\"\n      ]\n    },\n    {\n      \"text\": \"The affected vehicle functions for the identified IDs are unknown\",\n      \"cites\": [\n        \"E2\",\n        \"E3\",\n        \"E4\",\n        \"E5\",\n        \"E6\",\n        \"E7\",\n        \"E8\",\n        \"E9\",\n        \"E10\"\n      ]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the increased transmission rate for ID 0x297 and determine why high-frequency IDs 0x00E, 0x033, and 0x03D are missing from the traffic.\"\n}\n```",
+        "latency_s": 16.15,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3677,
+          "output_tokens": 586
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 1,
+      "start": 24.0,
+      "end": 25.25,
+      "true_type": "normal",
+      "detector_score": 0.8548,
+      "corpus_index": 25,
+      "evidence_sha256": "2f36f69482a77e3848dc63428c9c232260dcedf8046cd78b19bd097adf445ebd",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.8,
+        "severity": "low",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window with significant rate inflation (0.855) [E0]. Specifically, CAN ID 0x21D exhibited a rate of 14.0 msg/s, which is 2.333x its baseline of 1.0 msg/s [E2]. The mean gap for 0x21D decreased from 999.673 ms to 66.015 ms [E2], and its payload entropy increased from 0.544 to 1.328 [E2]. Other IDs showed negligible or decreasing rates [E3, E4, E5, E6, E7]. The overall bus load remained nearly constant (1.02x baseline) [E1], indicating a targeted injection of frames for ID 0x21D rather than a bus-wide flood.",
+        "claims": [
+          {
+            "text": "The detector reported a rate_inflation component of 0.855 for the window 24.00s to 25.25s.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "CAN ID 0x21D transmitted at 14.0 msg/s, exceeding its baseline of 1.0 msg/s by a factor of 2.333x.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The mean inter-arrival gap for 0x21D dropped to 66.015 ms from a baseline of 999.673 ms.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The payload entropy for 0x21D increased to 1.328 from a baseline of 0.544.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The peak bus rate was 2432 msg/s, only 1.02x the baseline of 2392 msg/s.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "The function associated with CAN ID 0x21D is unknown.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the increased transmission rate for CAN ID 0x21D and decode the payloads to determine if the injected data is malicious or corresponds to a legitimate but undocumented vehicle state.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.8,\n  \"severity\": \"low\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The anomaly detector flagged a window with significant rate inflation (0.855) [E0]. Specifically, CAN ID 0x21D exhibited a rate of 14.0 msg/s, which is 2.333x its baseline of 1.0 msg/s [E2]. The mean gap for 0x21D decreased from 999.673 ms to 66.015 ms [E2], and its payload entropy increased from 0.544 to 1.328 [E2]. Other IDs showed negligible or decreasing rates [E3, E4, E5, E6, E7]. The overall bus load remained nearly constant (1.02x baseline) [E1], indicating a targeted injection of frames for ID 0x21D rather than a bus-wide flood.\",\n  \"claims\": [\n    {\n      \"text\": \"The detector reported a rate_inflation component of 0.855 for the window 24.00s to 25.25s.\",\n      \"cites\": [\n        \"E0\"\n      ]\n    },\n    {\n      \"text\": \"CAN ID 0x21D transmitted at 14.0 msg/s, exceeding its baseline of 1.0 msg/s by a factor of 2.333x.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The mean inter-arrival gap for 0x21D dropped to 66.015 ms from a baseline of 999.673 ms.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The payload entropy for 0x21D increased to 1.328 from a baseline of 0.544.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The peak bus rate was 2432 msg/s, only 1.02x the baseline of 2392 msg/s.\",\n      \"cites\": [\n        \"E1\"\n      ]\n    },\n    {\n      \"text\": \"The function associated with CAN ID 0x21D is unknown.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the increased transmission rate for CAN ID 0x21D and decode the payloads to determine if the injected data is malicious or corresponds to a legitimate but undocumented vehicle state.\"\n}\n```",
+        "latency_s": 18.031,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3386,
+          "output_tokens": 658
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 2,
+      "start": 26.0,
+      "end": 27.25,
+      "true_type": "normal",
+      "detector_score": 0.8548,
+      "corpus_index": 26,
+      "evidence_sha256": "7ecb928d2fb3dfc29776f5dd2dff00967c26736af4e837f329bc5287f73cd181",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.8,
+        "severity": "low",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window characterized by rate inflation, primarily driven by CAN ID 0x21D, which exhibited a transmission rate 2.333x higher than its baseline.",
+        "claims": [
+          {
+            "text": "The alert window occurred from 26.00s to 27.25s with a detector score of 0.855, where rate inflation was the primary component (0.855).",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "CAN ID 0x21D showed a rate of 14.0 msg/s compared to a baseline of 1.0 msg/s, representing a 2.333x increase.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The mean gap for 0x21D decreased significantly to 75.079 ms from a baseline of 999.673 ms.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The payload entropy for 0x21D increased to 1.514 from a baseline of 0.544.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The function associated with CAN ID 0x21D is unknown.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Overall bus load remained stable, with a peak rate of 2440 msg/s versus a 2392 msg/s baseline (1.02x).",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the increased transmission rate for CAN ID 0x21D to determine if it is a malfunctioning ECU or an external injection tool.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.8,\n  \"severity\": \"low\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The anomaly detector flagged a window characterized by rate inflation, primarily driven by CAN ID 0x21D, which exhibited a transmission rate 2.333x higher than its baseline.\",\n  \"claims\": [\n    {\n      \"text\": \"The alert window occurred from 26.00s to 27.25s with a detector score of 0.855, where rate inflation was the primary component (0.855).\",\n      \"cites\": [\n        \"E0\"\n      ]\n    },\n    {\n      \"text\": \"CAN ID 0x21D showed a rate of 14.0 msg/s compared to a baseline of 1.0 msg/s, representing a 2.333x increase.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The mean gap for 0x21D decreased significantly to 75.079 ms from a baseline of 999.673 ms.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The payload entropy for 0x21D increased to 1.514 from a baseline of 0.544.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The function associated with CAN ID 0x21D is unknown.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"Overall bus load remained stable, with a peak rate of 2440 msg/s versus a 2392 msg/s baseline (1.02x).\",\n      \"cites\": [\n        \"E1\"\n      ]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the increased transmission rate for CAN ID 0x21D to determine if it is a malfunctioning ECU or an external injection tool.\"\n}\n```",
+        "latency_s": 14.358,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3390,
+          "output_tokens": 520
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 3,
+      "start": 44.25,
+      "end": 45.25,
+      "true_type": "normal",
+      "detector_score": 0.6196,
+      "corpus_index": 27,
+      "evidence_sha256": "5450dfa0d8015b75406795b19ec386018a8730f7d675206b80434b0fa8bb628b",
+      "explanation": {
+        "attack_type": "unknown",
+        "confidence": 0.5,
+        "severity": "low",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window based on payload entropy, but the evidence shows no significant bus load increase, no unknown IDs, and no substantial rate inflation. Several IDs (0x69D, 0x075, 0x4EE, 0x3B9, 0x6D7, 0x655) show minimal frame counts (1-2 frames) and entropy decreases rather than increases, which does not align with typical attack signatures like fuzzing or spoofing.",
+        "claims": [
+          {
+            "text": "The alert window from 44.25s to 45.25s had a detector score of 0.620, driven exclusively by payload entropy.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "The peak bus rate of 2396 msg/s is nearly identical to the baseline of 2392 msg/s.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "Multiple IDs including 0x69D, 0x4EE, 0x3B9, 0x6D7, and 0x655 showed a total alert count of only 1 frame each.",
+            "cites": [
+              "E2",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "ID 0x075 had a total alert count of 2 frames.",
+            "cites": [
+              "E3"
+            ]
+          },
+          {
+            "text": "The payload entropy for the flagged IDs decreased compared to their baselines (e.g., 0x69D decreased from 5.621 to 3.0).",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The affected vehicle functions for the flagged IDs are unknown.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Monitor the bus for sustained entropy shifts or rate increases. The current alert appears to be a low-confidence trigger based on a very small number of frames.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"unknown\",\n  \"confidence\": 0.5,\n  \"severity\": \"low\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The anomaly detector flagged a window based on payload entropy, but the evidence shows no significant bus load increase, no unknown IDs, and no substantial rate inflation. Several IDs (0x69D, 0x075, 0x4EE, 0x3B9, 0x6D7, 0x655) show minimal frame counts (1-2 frames) and entropy decreases rather than increases, which does not align with typical attack signatures like fuzzing or spoofing.\",\n  \"claims\": [\n    {\n      \"text\": \"The alert window from 44.25s to 45.25s had a detector score of 0.620, driven exclusively by payload entropy.\",\n      \"cites\": [\n        \"E0\"\n      ]\n    },\n    {\n      \"text\": \"The peak bus rate of 2396 msg/s is nearly identical to the baseline of 2392 msg/s.\",\n      \"cites\": [\n        \"E1\"\n      ]\n    },\n    {\n      \"text\": \"Multiple IDs including 0x69D, 0x4EE, 0x3B9, 0x6D7, and 0x655 showed a total alert count of only 1 frame each.\",\n      \"cites\": [\n        \"E2\",\n        \"E4\",\n        \"E5\",\n        \"E6\",\n        \"E7\"\n      ]\n    },\n    {\n      \"text\": \"ID 0x075 had a total alert count of 2 frames.\",\n      \"cites\": [\n        \"E3\"\n      ]\n    },\n    {\n      \"text\": \"The payload entropy for the flagged IDs decreased compared to their baselines (e.g., 0x69D decreased from 5.621 to 3.0).\",\n      \"cites\": [\n        \"E2\",\n        \"E3\",\n        \"E4\",\n        \"E5\",\n        \"E6\",\n        \"E7\"\n      ]\n    },\n    {\n      \"text\": \"The affected vehicle functions for the flagged IDs are unknown.\",\n      \"cites\": [\n        \"E2\",\n        \"E3\",\n        \"E4\",\n        \"E5\",\n        \"E6\",\n        \"E7\"\n      ]\n    }\n  ],\n  \"recommended_action\": \"Monitor the bus for sustained entropy shifts or rate increases. The current alert appears to be a low-confidence trigger based on a very small number of frames.\"\n}\n```",
+        "latency_s": 17.516,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3158,
+          "output_tokens": 641
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 4,
+      "start": 45.75,
+      "end": 72.0,
+      "true_type": "normal",
+      "detector_score": 0.7316,
+      "corpus_index": 28,
+      "evidence_sha256": "447800b092b0041f236cce36d778e0ae59a48d3c2ad738daac3c31311a97f6bc",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.7,
+        "severity": "low",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window with rate inflation and payload entropy deviations. Specifically, CAN ID 0x025 exhibited a transmission rate of 12.0 msg/s, which is 2.0x its baseline of 1.28 msg/s, indicating the injection of additional frames.",
+        "claims": [
+          {
+            "text": "The alert window occurred from 45.75s to 72.00s with a detector score of 0.732",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "CAN ID 0x025 transmitted at 12.0 msg/s, which is 2.0x its baseline rate of 1.28 msg/s",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The peak bus rate was 2434 msg/s, only 1.02x the baseline of 2392 msg/s",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "The affected vehicle function for ID 0x025 is unknown",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the increased frame rate for CAN ID 0x025 to determine if it is caused by a malfunctioning ECU or an external injection tool.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.7,\n  \"severity\": \"low\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The anomaly detector flagged a window with rate inflation and payload entropy deviations. Specifically, CAN ID 0x025 exhibited a transmission rate of 12.0 msg/s, which is 2.0x its baseline of 1.28 msg/s, indicating the injection of additional frames.\",\n  \"claims\": [\n    {\n      \"text\": \"The alert window occurred from 45.75s to 72.00s with a detector score of 0.732\",\n      \"cites\": [\n        \"E0\"\n      ]\n    },\n    {\n      \"text\": \"CAN ID 0x025 transmitted at 12.0 msg/s, which is 2.0x its baseline rate of 1.28 msg/s\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"The peak bus rate was 2434 msg/s, only 1.02x the baseline of 2392 msg/s\",\n      \"cites\": [\n        \"E1\"\n      ]\n    },\n    {\n      \"text\": \"The affected vehicle function for ID 0x025 is unknown\",\n      \"cites\": [\n        \"E2\"\n      ]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the increased frame rate for CAN ID 0x025 to determine if it is caused by a malfunctioning ECU or an external injection tool.\"\n}\n```",
+        "latency_s": 11.209,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3401,
+          "output_tokens": 401
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 5,
+      "start": 72.75,
+      "end": 73.75,
+      "true_type": "normal",
+      "detector_score": 0.592,
+      "corpus_index": 29,
+      "evidence_sha256": "85830c2058ac5fe33f87e125f4e55fbdb88f6cc2bc83e71be7b17d53f3fb69a4",
+      "explanation": {
+        "attack_type": "unknown",
+        "confidence": 0.7,
+        "severity": "low",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window due to payload entropy, but the evidence shows no significant deviation in bus load or frame rates. Several IDs show minor rate fluctuations and decreased entropy, but these are based on very low frame counts (1-2 frames per ID), making it impossible to establish a pattern of spoofing, fuzzing, or DoS.",
+        "claims": [
+          {
+            "text": "The detector score was 0.592, driven entirely by the payload_entropy component.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "The peak bus rate of 2400 msg/s is nearly identical to the baseline of 2392 msg/s.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "Multiple IDs (0x69D, 0x075, 0x3B9, 0x4EE, 0x6D7, 0x655) are listed with rate ratios of 0.333x, but their total frame counts in the alert window are extremely low, ranging from 1 to 2 frames.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The affected vehicle functions for the observed IDs are not identified.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Monitor the bus for sustained entropy shifts or rate increases. The current evidence is insufficient to classify an attack due to the very low number of frames associated with the flagged IDs.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"unknown\",\n  \"confidence\": 0.7,\n  \"severity\": \"low\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The anomaly detector flagged a window due to payload entropy, but the evidence shows no significant deviation in bus load or frame rates. Several IDs show minor rate fluctuations and decreased entropy, but these are based on very low frame counts (1-2 frames per ID), making it impossible to establish a pattern of spoofing, fuzzing, or DoS.\",\n  \"claims\": [\n    {\n      \"text\": \"The detector score was 0.592, driven entirely by the payload_entropy component.\",\n      \"cites\": [\n        \"E0\"\n      ]\n    },\n    {\n      \"text\": \"The peak bus rate of 2400 msg/s is nearly identical to the baseline of 2392 msg/s.\",\n      \"cites\": [\n        \"E1\"\n      ]\n    },\n    {\n      \"text\": \"Multiple IDs (0x69D, 0x075, 0x3B9, 0x4EE, 0x6D7, 0x655) are listed with rate ratios of 0.333x, but their total frame counts in the alert window are extremely low, ranging from 1 to 2 frames.\",\n      \"cites\": [\n        \"E2\",\n        \"E3\",\n        \"E4\",\n        \"E5\",\n        \"E6\",\n        \"E7\"\n      ]\n    },\n    {\n      \"text\": \"The affected vehicle functions for the observed IDs are not identified.\",\n      \"cites\": [\n        \"E2\",\n        \"E3\",\n        \"E4\",\n        \"E5\",\n        \"E6\",\n        \"E7\"\n      ]\n    }\n  ],\n  \"recommended_action\": \"Monitor the bus for sustained entropy shifts or rate increases. The current evidence is insufficient to classify an attack due to the very low number of frames associated with the flagged IDs.\"\n}\n```",
+        "latency_s": 13.484,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3164,
+          "output_tokens": 486
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 6,
+      "start": 75.5,
+      "end": 120.0,
+      "true_type": "normal",
+      "detector_score": 0.668,
+      "corpus_index": 30,
+      "evidence_sha256": "cca5a5736b7d961c15298e24bdc33b38058da359b58c371fc2521dc1eb112e55",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.7,
+        "severity": "low",
+        "affected_function": "unknown",
+        "summary": "Multiple known CAN IDs exhibited rate inflation during the alert window, most notably 0x4C9 and 0x280, which transmitted at 1.8x and 1.667x their baseline rates respectively. This is consistent with the injection of additional frames (spoofing).",
+        "claims": [
+          {
+            "text": "The alert window occurred from 75.50s to 120.00s with a total of 106,506 frames.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "CAN ID 0x4C9 showed a rate of 18.0 msg/s, which is 1.8x its baseline of 10.0 msg/s, with a mean gap of 56.242 ms compared to a 99.978 ms baseline.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "CAN ID 0x280 showed a rate of 10.0 msg/s, which is 1.667x its baseline of 5.03 msg/s.",
+            "cites": [
+              "E3"
+            ]
+          },
+          {
+            "text": "The overall peak bus rate was 2436 msg/s, only 1.02x the baseline of 2392 msg/s, indicating no significant bus flooding.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "The affected vehicle functions for IDs 0x4C9, 0x280, 0x69D, 0x075, 0x3B9, and 0x4EE are not identified.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the additional frames for IDs 0x4C9 and 0x280 and verify if these rate increases correspond to any legitimate vehicle state changes not captured in the baseline.",
+        "model": "gemma-4-31b",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.7,\n  \"severity\": \"low\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"Multiple known CAN IDs exhibited rate inflation during the alert window, most notably 0x4C9 and 0x280, which transmitted at 1.8x and 1.667x their baseline rates respectively. This is consistent with the injection of additional frames (spoofing).\",\n  \"claims\": [\n    {\n      \"text\": \"The alert window occurred from 75.50s to 120.00s with a total of 106,506 frames.\",\n      \"cites\": [\n        \"E0\"\n      ]\n    },\n    {\n      \"text\": \"CAN ID 0x4C9 showed a rate of 18.0 msg/s, which is 1.8x its baseline of 10.0 msg/s, with a mean gap of 56.242 ms compared to a 99.978 ms baseline.\",\n      \"cites\": [\n        \"E2\"\n      ]\n    },\n    {\n      \"text\": \"CAN ID 0x280 showed a rate of 10.0 msg/s, which is 1.667x its baseline of 5.03 msg/s.\",\n      \"cites\": [\n        \"E3\"\n      ]\n    },\n    {\n      \"text\": \"The overall peak bus rate was 2436 msg/s, only 1.02x the baseline of 2392 msg/s, indicating no significant bus flooding.\",\n      \"cites\": [\n        \"E1\"\n      ]\n    },\n    {\n      \"text\": \"The affected vehicle functions for IDs 0x4C9, 0x280, 0x69D, 0x075, 0x3B9, and 0x4EE are not identified.\",\n      \"cites\": [\n        \"E2\",\n        \"E3\",\n        \"E4\",\n        \"E5\",\n        \"E6\",\n        \"E7\"\n      ]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the additional frames for IDs 0x4C9 and 0x280 and verify if these rate increases correspond to any legitimate vehicle state changes not captured in the baseline.\"\n}\n```",
+        "latency_s": 15.635,
+        "requested_model": "gemma-4-31b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3438,
+          "output_tokens": 582
+        },
+        "prompt_version": "can-evidence-v2"
+      },
+      "estimated_cost_usd": null
+    }
+  ],
+  "scoring": "Attack-label accuracy on frozen alerts; failures count as incorrect, never control predictions. Normal alerts scored separately. Development corpus, not an untouched test set.",
+  "summary": {
+    "attempts": 31,
+    "successful_responses": 31,
+    "fallbacks": 0,
+    "classification": {
+      "scored_alerts": 20,
+      "correct": 16,
+      "accuracy": 0.8,
+      "successful_only_accuracy": 0.8,
+      "confusion": {
+        "spoofing": {
+          "spoofing": 13
+        },
+        "masquerade": {
+          "spoofing": 3,
+          "benign": 1
+        },
+        "fuzzing": {
+          "fuzzing": 3
+        }
+      }
+    },
+    "false_alarms": 11,
+    "false_alarms_labeled_benign": 2,
+    "grounding": {
+      "rate": 1.0,
+      "meaning": "Citation validity only; semantic claim support needs review"
+    },
+    "latency_s_median": 13.723,
+    "latency_s_p95": 17.015,
+    "latency_s_max": 18.031,
+    "attempt_latency_s_p95": 17.015,
+    "input_tokens": 101540,
+    "output_tokens": 15647,
+    "estimated_cost_usd": null,
+    "successful_alerts_per_second": 0.14143893207802724
+  },
+  "wall_seconds": 219.175863,
+  "updated_at": "2026-10-30T16:37:39.464505+00:00"
+}

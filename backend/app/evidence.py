@@ -16,7 +16,7 @@ from typing import Any
 import pandas as pd
 
 from .detector import Alert
-from .features import JITTER_COLLAPSE, Baseline
+from .features import JITTER_COLLAPSE, MIN_EXPECTED_FRAMES, Baseline, byte_entropy
 from .synth import ID_INFO
 
 
@@ -33,13 +33,19 @@ def build_evidence(alert: Alert, df: pd.DataFrame, windows: pd.DataFrame,
     if rows.empty:
         rows = windows[windows["window"] == alert.window]
 
+    seg = df[(df["timestamp"] >= alert.start) & (df["timestamp"] < alert.end)]
+    alert_counts = seg["can_id"].value_counts()
+    duration = max(alert.end - alert.start, 1e-9)
+    # Keep peak-window statistics explicitly scoped; overlapping windows must
+    # never be summed to obtain frame counts for the merged alert.
     # Merge per-ID detail across the windows this alert spans.
     merged: dict[int, dict] = {}
-    for per_id in rows["per_id"]:
-        for cid, v in per_id.items():
+    for row in rows.itertuples():
+        for cid, v in row.per_id.items():
             cur = merged.get(cid)
             if cur is None or (v["rate_ratio"] or 0) > (cur["rate_ratio"] or 0):
-                merged[cid] = dict(v)
+                merged[cid] = {**v, "statistics_start": float(row.start),
+                               "statistics_end": float(row.end)}
 
     def interest(cid: int) -> tuple:
         v = merged[cid]
@@ -68,39 +74,84 @@ def build_evidence(alert: Alert, df: pd.DataFrame, windows: pd.DataFrame,
 
     total_rate = float(rows["msg_rate"].max())
     add("bus_load",
-        f"Bus carried {total_rate:.0f} msg/s versus a {baseline.total_rate:.0f} msg/s baseline "
+        f"Peak scored-window bus rate was {total_rate:.0f} msg/s versus a {baseline.total_rate:.0f} msg/s baseline "
         f"({total_rate / max(baseline.total_rate, 1e-6):.2f}x).",
         {"observed": round(total_rate, 2), "baseline": round(baseline.total_rate, 2)})
 
     for cid in ranked:
-        v = merged[cid]
+        v = dict(merged[cid])
+        v["window_count"] = v["count"]
+        if v["window_count"] < 2:
+            # A transition statistic needs a pair; zero would falsely imply
+            # a measured constant payload.
+            v["bitflip_rate"] = v["bitflip_delta"] = None
+        v["alert_count"] = int(alert_counts.get(cid, 0))
+        v["alert_mean_rate"] = round(v["alert_count"] / duration, 3)
+        scope = f"In [{v['statistics_start']:.2f}, {v['statistics_end']:.2f})s, "
         info = id_info.get(cid, {})
         label = f"0x{cid:03X}"
         if v["known"]:
+            # Feature rate_ratio guards rare IDs with a minimum expected count;
+            # it is a detector score input, not observed_rate / baseline_rate.
+            v["detector_rate_ratio"] = v["rate_ratio"]
+            actual_baseline_rate = float(baseline.rate.get(cid, 0))
+            v["baseline_rate"] = round(actual_baseline_rate, 6)
+            v["rate_ratio"] = round(v["rate"] / actual_baseline_rate, 3) if actual_baseline_rate > 0 else None
+            v["detector_rate_reference"] = round(max(actual_baseline_rate,
+                MIN_EXPECTED_FRAMES / (v["statistics_end"] - v["statistics_start"])), 6)
+            v["iat_available"] = v["window_count"] >= 2
+            v["jitter_eligible"] = v["window_count"] >= 8
+            if not v["iat_available"]:
+                for key in ("iat_mean_ms", "iat_std_ms", "iat_z", "jitter_ratio"):
+                    v[key] = None
+            gap = (f"mean gap {v['iat_mean_ms']} ms versus {v['baseline_iat_ms']} ms "
+                   f"({v['iat_z']} sigma); jitter ratio {v['jitter_ratio']} versus the quietest baseline window"
+                   if v["iat_available"] else "gap and jitter unavailable: fewer than two frames in the statistics window")
             add("id_stats",
-                f"{label} ({info.get('name', 'unknown function')}): {v['rate']} msg/s versus "
-                f"{v['baseline_rate']} baseline ({v['rate_ratio']}x); mean gap "
-                f"{v['iat_mean_ms']} ms versus {v['baseline_iat_ms']} ms ({v['iat_z']} sigma); "
-                f"entropy {v['entropy']} versus {v['baseline_entropy']}.",
+                scope + f"{label} ({info.get('name', 'unknown function')}): {v['rate']} msg/s versus "
+                f"{v['baseline_rate']} baseline (raw observed/baseline {v['rate_ratio']}x). "
+                f"Detector rate ratio {v['detector_rate_ratio']}x uses a guarded reference "
+                f"of {v['detector_rate_reference']} msg/s for sparse IDs. "
+                f"{gap}; entropy {v['entropy']} versus {v['baseline_entropy']}. "
+                f"Statistics use {v['window_count']} frames; jitter needs at least eight. "
+                f"Full alert count: {v['alert_count']} frames.",
                 {"can_id": label, "function": info.get("function"), **v})
         else:
+            # Absence from training is not a measured zero-valued payload or
+            # timing baseline. Keep observations, but make unavailable
+            # comparisons explicit so a model cannot infer fabricated deltas.
+            for key in ("baseline_entropy", "entropy_delta", "baseline_iat_ms",
+                        "iat_z", "jitter_ratio", "bitflip_delta", "rate_ratio"):
+                v[key] = None
+            v["baseline_available"] = False
+            v["iat_available"] = v["window_count"] >= 2
+            if not v["iat_available"]:
+                v["iat_mean_ms"] = v["iat_std_ms"] = None
+            v["count"] = v["alert_count"]
+            v["count_scope"] = "full_alert"
+            v["alert_entropy"] = round(byte_entropy(list(seg.loc[seg["can_id"] == cid, "data"])), 3)
             add("unknown_id",
                 f"{label} is not in the baseline ID set and sent {v['count']} frame(s) "
-                f"with payload entropy {abs(v['entropy']):.3f} bits.",
+                f"across the full alert ({v['alert_mean_rate']:.3f} msg/s), "
+                f"with full-alert payload entropy {v['alert_entropy']:.3f} bits.",
                 {"can_id": label, **v})
 
-    missing = list(rows.iloc[0]["missing_ids"]) if len(rows) else []
+    missing = sorted({int(cid) for ids in rows["missing_ids"] for cid in ids})
     for cid in missing[:3]:
         info = id_info.get(int(cid), {})
+        absent = rows[rows["missing_ids"].map(lambda ids: cid in ids)]
+        first = absent.iloc[0]
         add("missing_id",
-            f"0x{int(cid):03X} ({info.get('name', 'unknown')}) stopped transmitting during "
-            f"this window although the baseline expects it every "
-            f"{info.get('period_ms', '?')} ms.",
-            {"can_id": f"0x{int(cid):03X}", "function": info.get("function")})
+            f"0x{int(cid):03X} ({info.get('name', 'unknown')}) was absent in "
+            f"{len(absent)} of {len(rows)} scored windows, including "
+            f"[{first['start']:.2f}, {first['end']:.2f})s; baseline mean gap "
+            f"{baseline.iat_mean.get(cid, 0) * 1000:.3f} ms.",
+            {"can_id": f"0x{int(cid):03X}", "function": info.get("function"),
+             "missing_windows": len(absent), "scored_windows": len(rows),
+             "example_start": float(first["start"]), "example_end": float(first["end"])})
 
     # Sample frames, spread across the IDs that drew attention rather than
     # taking the first few frames of the window (which are usually one ID).
-    seg = df[(df["timestamp"] >= alert.start) & (df["timestamp"] < alert.end)]
     picks: list[pd.DataFrame] = []
     focus_ids = ranked[:3] if ranked else []
     per = max(1, max_frames // max(1, len(focus_ids) or 1))
@@ -120,7 +171,7 @@ def build_evidence(alert: Alert, df: pd.DataFrame, windows: pd.DataFrame,
         for r in sample.itertuples()
     ]
     if frames:
-        add("frames", f"{len(frames)} representative frame(s) from the window.",
+        add("frames", f"{len(frames)} sampled frame(s) from this alert only; no earlier reference sequence is supplied.",
             {"frames": frames})
 
     components = ", ".join(f"{k} {v:.3f}" for k, v in
@@ -136,6 +187,7 @@ def build_evidence(alert: Alert, df: pd.DataFrame, windows: pd.DataFrame,
     })
 
     return {
+        "schema_version": "evidence-v4",
         "alert_id": alert.alert_id,
         "window_start": alert.start,
         "window_end": alert.end,

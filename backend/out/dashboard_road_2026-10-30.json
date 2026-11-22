@@ -1,0 +1,62 @@
+{
+  "created_utc": "2026-10-30T16:37:10.605145+00:00",
+  "code_sha256": {
+    "app/main.py": "92540deaa3e023b1c52d510afd683111b97f2228fb705233250efdf07685be70",
+    "app/pipeline.py": "1878f369e50e9f7af1c8d7614794b619bd1c5cee6ce2e7030668479f5472d807",
+    "scripts/benchmark_dashboard.py": "80930809f4ccb1dfbfe77c7db5f3c86f2d5e96e21a1a88a2439a89a03cd4494b"
+  },
+  "scope": "in-process FastAPI TestClient; no network or browser rendering; no model calls",
+  "inputs": {
+    "data/raw/road/road/attacks/correlated_signal_attack_3.log": "ef8c97a6a4bd6eaaf14dfc6ff5908c38c02676d3a384e9bcf5b857fe71866110",
+    "data/raw/road/road/ambient/ambient_dyno_drive_basic_short.log": "c9f65e0050dfbbce10105a48d7da6aae9facb1d3d499b8968262c29cff9612bb",
+    "data/raw/road/road/attacks/capture_metadata.json": "5340b274dc54894950140d14b0d42ad475800454405e87198117246fe6220fe8"
+  },
+  "python": "3.12.14",
+  "frame_count": 41829,
+  "analyze_s": 6.346548459012411,
+  "ingest_frames_per_second": 6590.8265366824335,
+  "stage_timing_s": {
+    "baseline": 1.6586,
+    "features": 0.8905,
+    "detection": 0.0072,
+    "total": 6.2391,
+    "parse": 3.6827
+  },
+  "endpoints": {
+    "summary": {
+      "cold_ms": 3.7735829973826185,
+      "warm_median_ms": 3.118666500085965,
+      "warm_p95_ms": 3.5204999876441434,
+      "response_bytes": 825,
+      "warm_requests": 10
+    },
+    "timeline": {
+      "cold_ms": 1.9459580071270466,
+      "warm_median_ms": 1.5938749929773621,
+      "warm_p95_ms": 1.6627500008326024,
+      "response_bytes": 5512,
+      "warm_requests": 10
+    },
+    "alerts": {
+      "cold_ms": 6.742333003785461,
+      "warm_median_ms": 0.8805414981907234,
+      "warm_p95_ms": 0.9766669973032549,
+      "response_bytes": 468,
+      "warm_requests": 10
+    },
+    "metrics": {
+      "cold_ms": 1.877083006547764,
+      "warm_median_ms": 1.6704169975128025,
+      "warm_p95_ms": 1.7575840029167011,
+      "response_bytes": 488,
+      "warm_requests": 10
+    },
+    "ids": {
+      "cold_ms": 28.70845799043309,
+      "warm_median_ms": 0.9384580043843016,
+      "warm_p95_ms": 1.162166998255998,
+      "response_bytes": 17056,
+      "warm_requests": 10
+    }
+  }
+}

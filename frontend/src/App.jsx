@@ -1,5 +1,7 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { api, fmt } from './api'
+import { runExplanationQueue } from './explanationQueue'
+import { loadAnalysisViews } from './analysisLoad'
 import AlertList from './components/AlertList'
 import AsciiCar from './components/AsciiCar'
 import AskPanel from './components/AskPanel'
@@ -28,16 +30,26 @@ export default function App() {
   const [timeline, setTimeline] = useState(null)
   const [alerts, setAlerts] = useState([])
   const [ids, setIds] = useState([])
+  const [idsLoading, setIdsLoading] = useState(false)
+  const [idsError, setIdsError] = useState(null)
   const [report, setReport] = useState(null)
   const [selected, setSelected] = useState(null)
   const [detail, setDetail] = useState(null)
   const [explaining, setExplaining] = useState(false)
   const [scoring, setScoring] = useState(false)
+  const [progress, setProgress] = useState(null)
+  const generation = useRef(0)
+  const captureGeneration = useRef(0)
+  const started = useRef(false)
+  const stopScoring = useRef(false)
+  const activeView = useRef({})
+  activeView.current = { analysisId: summary?.analysis_id, selected, explainer: null }
   const [tab, setTab] = useState('analysis')
   // The offline control is the default: it is instant, so loading a capture
   // never waits on a model. LLM explanations are fetched one alert at a time.
   const [explainers, setExplainers] = useState([])
   const [explainer, setExplainer] = useState('mock')
+  activeView.current.explainer = explainer
   const explainerLabel = explainers.find((o) => o.kind === explainer)?.label ?? 'Offline control'
   const [appearance, setAppearance] = useState(
     () => document.documentElement.getAttribute('data-appearance') || 'pastel')
@@ -54,111 +66,160 @@ export default function App() {
       .catch(() => setExplainers([]))
   }, [])
 
-  const loadAll = useCallback(async (analysisId) => {
-    // Evaluation metrics always use the offline control here: scoring every
-    // alert with an LLM takes minutes, so that is a separate, explicit action.
-    const [tl, al, idRows, rep] = await Promise.all([
-      api.timeline(analysisId),
-      api.alerts(analysisId, explainer),
-      api.ids(analysisId),
-      api.metrics(analysisId, 'mock'),
-    ])
-    setTimeline(tl)
-    setAlerts(al)
-    setIds(idRows)
-    setReport(rep)
-    // Metrics generates the control's explanations, so refresh the alert list to pick them up.
-    setAlerts(await api.alerts(analysisId, explainer))
-    if (al.length) setSelected(al[0].alert_id)
-  }, [explainer])
+  const loadAll = useCallback(async (s, ticket, captureTicket, kind) => {
+    const { coreDone } = loadAnalysisViews({
+      loadCore: () => Promise.all([
+        api.timeline(s.analysis_id), api.alerts(s.analysis_id, kind), api.metrics(s.analysis_id, kind),
+      ]),
+      loadIds: () => api.ids(s.analysis_id),
+      isCurrent: () => generation.current === ticket,
+      isIdsCurrent: () => captureGeneration.current === captureTicket,
+      onCore: ([tl, al, rep]) => {
+        setSummary(s); setTimeline(tl); setAlerts(al); setReport(rep)
+        setSelected(al[0]?.alert_id ?? null)
+      },
+      onIds: (rows) => { setIds(rows); setIdsLoading(false) },
+      onIdsError: (e) => { setIdsError(e.message); setIdsLoading(false) },
+    })
+    await coreDone
+  }, [])
 
-  const run = useCallback(async () => {
+  const analyze = useCallback(async (request) => {
+    const ticket = ++generation.current
+    const captureTicket = ++captureGeneration.current
+    stopScoring.current = true
     setBusy(true); setError(null); setDetail(null); setSelected(null)
+    setSummary(null); setTimeline(null); setAlerts([]); setIds([]); setReport(null)
+    setIdsLoading(true); setIdsError(null)
+    setScoring(false); setProgress(null); setExplaining(false)
     try {
-      const s = await api.analyzeSynthetic(params)
-      setSummary(s)
-      await loadAll(s.analysis_id)
+      await loadAll(await request(), ticket, captureTicket, explainer)
     } catch (e) {
-      setError(e.message)
+      if (ticket === generation.current) { setError(e.message); setIdsLoading(false) }
     } finally {
-      setBusy(false)
+      if (ticket === generation.current) setBusy(false)
     }
-  }, [params, loadAll])
+  }, [loadAll, explainer])
 
-  const upload = useCallback(async (file) => {
-    setBusy(true); setError(null); setDetail(null); setSelected(null)
-    try {
-      const s = await api.uploadLog(file, params.detector)
-      setSummary(s)
-      await loadAll(s.analysis_id)
-    } catch (e) {
-      setError(e.message)
-    } finally {
-      setBusy(false)
-    }
-  }, [params.detector, loadAll])
-
-  useEffect(() => { run() }, []) // analyze once on load so the page is never empty
+  const run = useCallback(() => analyze(() => api.analyzeSynthetic(params)), [params, analyze])
+  const upload = useCallback((file, options) => analyze(() => api.uploadLog(file, params, options)), [params, analyze])
 
   useEffect(() => {
-    if (!summary || selected === null) { setDetail(null); return }
-    let live = true
+    if (!started.current) {
+      started.current = true
+      if (new URLSearchParams(window.location.search).get('dataset') === 'synthetic') run()
+      else analyze(() => api.analyzeRealExample())
+    }
+  }, []) // open installed real ROAD traffic; synthetic demos remain available in settings
+
+  useEffect(() => {
+    setDetail(null); setExplaining(false)
+    if (!summary || selected === null) return
+    const abort = new AbortController()
     const id = summary.analysis_id
     ;(async () => {
       try {
-        const d = await api.alert(id, selected, explainer)
-        if (!live) return
+        const d = await api.alert(id, selected, explainer, abort.signal)
+        if (abort.signal.aborted) return
         setDetail(d)
-        if (d.explanation) return
-        // Nothing cached for this explainer yet: ask for this one alert only.
+        // The local control is instant. Hosted requests require the Explain action.
+        if (d.explanation || explainer !== 'mock') return
         setExplaining(true)
         await api.explain(id, selected, { explainer })
-        if (!live) return
-        setDetail(await api.alert(id, selected, explainer))
-        setAlerts(await api.alerts(id, explainer))
+        if (abort.signal.aborted) return
+        const [next, al, rep] = await Promise.all([
+          api.alert(id, selected, explainer, abort.signal),
+          api.alerts(id, explainer, abort.signal), api.metrics(id, explainer),
+        ])
+        if (!abort.signal.aborted) { setDetail(next); setAlerts(al); setReport(rep) }
       } catch (e) {
-        if (live) setError(e.message)
+        if (!abort.signal.aborted) setError(e.message)
       } finally {
-        if (live) setExplaining(false)
+        if (!abort.signal.aborted) setExplaining(false)
       }
     })()
-    return () => { live = false }
+    return () => abort.abort()
   }, [summary, selected, explainer])
 
   const reExplain = async () => {
-    if (!summary || selected === null) return
-    setExplaining(true)
+    if (!summary || selected === null || scoring) return
+    const ticket = generation.current
+    const id = summary.analysis_id
+    const alertId = selected
+    setExplaining(true); setError(null)
     try {
-      await api.explain(summary.analysis_id, selected, { explainer, force: true })
-      setDetail(await api.alert(summary.analysis_id, selected, explainer))
-      setAlerts(await api.alerts(summary.analysis_id, explainer))
+      await api.explain(id, alertId, { explainer, force: !!detail?.explanation })
+      const [next, al, rep] = await Promise.all([
+        api.alert(id, alertId, explainer), api.alerts(id, explainer), api.metrics(id, explainer),
+      ])
+      if (ticket !== generation.current) return
+      setAlerts(al); setReport(rep)
+      if (activeView.current.selected === alertId) setDetail(next)
     } catch (e) {
-      setError(e.message)
+      if (ticket === generation.current) setError(e.message)
     } finally {
-      setExplaining(false)
+      if (ticket === generation.current && activeView.current.selected === alertId) setExplaining(false)
     }
   }
 
   const changeExplainer = async (next) => {
-    setExplainer(next)
-    if (summary) setAlerts(await api.alerts(summary.analysis_id, next).catch(() => alerts))
+    const ticket = ++generation.current
+    stopScoring.current = true
+    setExplainer(next); setDetail(null); setAlerts([]); setReport(null)
+    setScoring(false); setProgress(null); setExplaining(false); setError(null)
+    if (!summary) return
+    try {
+      const [al, rep] = await Promise.all([
+        api.alerts(summary.analysis_id, next), api.metrics(summary.analysis_id, next),
+      ])
+      if (ticket === generation.current) { setAlerts(al); setReport(rep) }
+    } catch (e) { if (ticket === generation.current) setError(e.message) }
   }
 
   const scoreAll = async () => {
-    if (!summary) return
+    if (!summary || scoring || explaining) return
+    const ticket = generation.current
+    const id = summary.analysis_id
+    const pending = alerts.filter((a) => !a.explanation)
+    const cached = alerts.length - pending.length
+    stopScoring.current = false
     setScoring(true); setError(null)
+    setProgress({ done: cached, total: alerts.length, stopping: false })
     try {
-      setReport(await api.metrics(summary.analysis_id, explainer))
-      setAlerts(await api.alerts(summary.analysis_id, explainer))
+      await runExplanationQueue({
+        items: pending,
+        isStopped: () => stopScoring.current,
+        isCurrent: () => ticket === generation.current,
+        explain: (alert) => api.explain(id, alert.alert_id, { explainer }),
+        onResult: async (_alert, i) => {
+          const [al, rep] = await Promise.all([api.alerts(id, explainer), api.metrics(id, explainer)])
+          if (ticket !== generation.current) return
+          setAlerts(al); setReport(rep)
+          setProgress({ done: cached + i + 1, total: alerts.length, stopping: stopScoring.current })
+          const active = activeView.current.selected
+          if (active !== null) {
+            const d = await api.alert(id, active, explainer)
+            if (ticket === generation.current && activeView.current.selected === active) setDetail(d)
+          }
+        },
+      })
     } catch (e) {
-      setError(e.message)
+      if (ticket === generation.current) setError(e.message)
     } finally {
-      setScoring(false)
+      if (ticket === generation.current) setScoring(false)
     }
+  }
+
+  const stopBatch = () => {
+    stopScoring.current = true
+    setProgress((p) => p ? { ...p, stopping: true } : p)
   }
 
   const m = report?.detection
   const outside = ids.filter((r) => !r.known).length
+  const outsideNote = summary?.unknown_ids_count != null ? `${summary.unknown_ids_count} outside baseline`
+    : idsLoading ? 'ID details loading…' : idsError ? 'ID details unavailable'
+      : `${outside} outside baseline${summary && ids.length < summary.unique_ids ? ` among ${ids.length} displayed IDs` : ''}`
 
   const toggleTheme = () => {
     const next = theme === 'dark' ? 'light' : 'dark'
@@ -213,19 +274,19 @@ export default function App() {
             <>
               <span className="cell">{isPastel ? 'Source ' : 'src '}<b>{summary.source}</b></span>
               <span className="cell">{isPastel ? 'Detector ' : 'det '}<b>{summary.detector}</b></span>
-              <span className="cell">baseline <b>{fmt.num(summary.baseline_end, 0)}s</b></span>
+              <span className="cell">baseline <b>{summary.baseline_source || `${fmt.num(summary.baseline_end, 0)}s`}</b></span>
             </>
           ) : null}
         </div>
         <div className="appearance-controls">
           <label htmlFor="explainer">Explainer</label>
-          <select id="explainer" aria-label="Explainer" value={explainer}
+          <select id="explainer" aria-label="Explainer" value={explainer} disabled={busy || scoring}
             onChange={(e) => changeExplainer(e.target.value)}>
             {(explainers.length ? explainers : [{ kind: 'mock', label: 'Offline control', available: true }])
               .map((o) => (
                 <option key={o.kind} value={o.kind} disabled={!o.available}
-                  title={o.available ? o.detail : 'No API key configured'}>
-                  {o.label}{o.available ? '' : ' (no key)'}
+                  title={o.detail}>
+                  {o.label}{o.available ? '' : ' (unavailable)'}
                 </option>
               ))}
           </select>
@@ -294,18 +355,18 @@ export default function App() {
                   <div className="note">msg/s mean</div></div>
                 <div className="kpi"><div className="label">Unique IDs</div>
                   <div className="value">{summary.unique_ids}</div>
-                  <div className="note">{timeline ? `${outside} outside baseline` : ''}</div></div>
+                  <div className="note">{timeline ? outsideNote : ''}</div></div>
                 <div className="kpi alert-kpi"><div className="label">Alerts</div>
                   <div className={`value ${summary.alert_count ? 'hot' : ''}`}>{summary.alert_count}</div>
-                  <div className="note">{summary.window_count} windows scored</div></div>
+                  <div className="note">{summary.window_count} windows scored{summary.timing_s?.total != null ? ` · ${fmt.num(summary.timing_s.total, 2)}s processing` : ''}</div></div>
                 {m?.labeled ? (
                   <>
                     <div className="kpi"><div className="label">Precision / recall</div>
                       <div className="value small">{fmt.pct(m.precision)} / {fmt.pct(m.recall)}</div>
                       <div className="note">F1 {fmt.num(m.f1, 3)}</div></div>
                     <div className="kpi"><div className="label">Ground truth</div>
-                      <div className="value small">{summary.attack_intervals.length} intervals</div>
-                      <div className="note">{[...new Set(summary.attack_intervals.map((i) => i.type))].join(', ')}</div></div>
+                      <div className="value small">{summary.metrics?.per_attack_type?.injected ? 'binary labels' : `${summary.attack_intervals.length} intervals`}</div>
+                      <div className="note">{summary.metrics?.per_attack_type?.injected ? 'attack type unavailable' : [...new Set(summary.attack_intervals.map((i) => i.type))].join(', ')}</div></div>
                   </>
                 ) : null}
               </div>
@@ -322,6 +383,11 @@ export default function App() {
                 ))}
             </div>
 
+            {scoring ? <div className="batch-status" role="status">
+              <span>{progress?.done} / {progress?.total} alerts explained with {explainerLabel}.
+                {progress?.stopping ? ' Stopping after the current request.' : ' You can continue reviewing this capture.'}</span>
+              <button className="secondary" onClick={stopBatch} disabled={progress?.stopping}>Stop after current</button>
+            </div> : null}
             {tab === 'analysis' ? (
               <div className="analysis-workspace">
                 <div className="traffic-context">
@@ -338,17 +404,18 @@ export default function App() {
                   </div>
                   <div className="explanation-column">
                     <div className="section-title">Explanation and evidence</div>
-                    <ExplanationPanel detail={detail} onReExplain={reExplain} busy={explaining} compact={isPastel}
+                    <ExplanationPanel detail={detail} onReExplain={reExplain} busy={explaining} batchBusy={scoring} compact={isPastel}
                       explainerLabel={explainerLabel} slow={explainer !== 'mock'} />
                   </div>
                 </div>
               </div>
             ) : null}
 
-            {tab === 'ids' ? <IdView analysisId={summary?.analysis_id} ids={ids} /> : null}
+            {tab === 'ids' ? <IdView analysisId={summary?.analysis_id} ids={ids}
+              loading={idsLoading} error={idsError} totalIds={summary?.unique_ids} /> : null}
             {tab === 'metrics' ? (
               <MetricsPanel report={report} explainer={explainer} explainerLabel={explainerLabel}
-                alertCount={alerts.length} onScore={scoreAll} scoring={scoring} />
+                alertCount={alerts.length} onScore={scoreAll} scoring={scoring} progress={progress} onStop={stopBatch} explaining={explaining} />
             ) : null}
             {tab === 'ask' ? <AskPanel analysisId={summary?.analysis_id} explainer={explainer} /> : null}
             {tab === 'benchmark' ? <BenchmarkPanel /> : null}
@@ -358,8 +425,7 @@ export default function App() {
 
       <footer className="foot">
         CANalyst, CPSC 8580 course project. Detection is statistical; classification and
-        explanation come from the configured explainer. Every claim links to the measurement
-        behind it, so nothing has to be taken on trust.
+        explanation come from the configured explainer. Citations link claims to measurements; their validity does not establish that a claim or attack label is correct.
       </footer>
     </div>
   )

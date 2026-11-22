@@ -1,0 +1,130 @@
+{
+  "comparisons": [
+    {
+      "dataset": "road",
+      "corpus_sha256": "2bcace3e64304d2b8f402b124af73c7549e4b459ca83549afe158e19f5fff0d6",
+      "control": "mock",
+      "model": "glm-5.3",
+      "matched_alerts": 31,
+      "matched_attack_alerts": 20,
+      "paired_attack_outcomes": {
+        "both_correct": 17,
+        "control_only_correct": 0,
+        "model_only_correct": 0,
+        "neither_correct": 3
+      },
+      "model_minus_control_accuracy": 0.0,
+      "observed_accuracy_at_least_control": true,
+      "control_summary": {
+        "attempts": 31,
+        "successful_responses": 31,
+        "fallbacks": 0,
+        "classification": {
+          "scored_alerts": 20,
+          "correct": 17,
+          "accuracy": 0.85,
+          "successful_only_accuracy": 0.85,
+          "confusion": {
+            "spoofing": {
+              "spoofing": 13
+            },
+            "masquerade": {
+              "spoofing": 3,
+              "masquerade": 1
+            },
+            "fuzzing": {
+              "fuzzing": 3
+            }
+          }
+        },
+        "false_alarms": 11,
+        "false_alarms_labeled_benign": 0,
+        "grounding": {
+          "rate": 1.0,
+          "meaning": "Citation validity only; semantic claim support needs review"
+        },
+        "latency_s_median": 2e-05,
+        "latency_s_p95": 4.8e-05,
+        "latency_s_max": 0.000134,
+        "attempt_latency_s_p95": 4.8e-05,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0.0
+      },
+      "model_summary": {
+        "attempts": 31,
+        "successful_responses": 31,
+        "fallbacks": 0,
+        "classification": {
+          "scored_alerts": 20,
+          "correct": 17,
+          "accuracy": 0.85,
+          "successful_only_accuracy": 0.85,
+          "confusion": {
+            "spoofing": {
+              "spoofing": 13
+            },
+            "masquerade": {
+              "spoofing": 3,
+              "masquerade": 1
+            },
+            "fuzzing": {
+              "fuzzing": 3
+            }
+          }
+        },
+        "false_alarms": 11,
+        "false_alarms_labeled_benign": 1,
+        "grounding": {
+          "rate": 1.0,
+          "meaning": "Citation validity only; semantic claim support needs review"
+        },
+        "latency_s_median": 6.599,
+        "latency_s_p95": 9.2495,
+        "latency_s_max": 10.692,
+        "attempt_latency_s_p95": 9.2495,
+        "input_tokens": 96537,
+        "output_tokens": 21612,
+        "estimated_cost_usd": null
+      },
+      "errors": [
+        {
+          "corpus_index": 2,
+          "capture": "correlated_signal_attack_2_masquerade",
+          "alert_id": 0,
+          "true_type": "masquerade",
+          "control_prediction": "spoofing",
+          "model_prediction": "spoofing",
+          "paired_outcome": "neither_correct"
+        },
+        {
+          "corpus_index": 3,
+          "capture": "correlated_signal_attack_2_masquerade",
+          "alert_id": 1,
+          "true_type": "masquerade",
+          "control_prediction": "spoofing",
+          "model_prediction": "spoofing",
+          "paired_outcome": "neither_correct"
+        },
+        {
+          "corpus_index": 11,
+          "capture": "max_speedometer_attack_1_masquerade",
+          "alert_id": 0,
+          "true_type": "masquerade",
+          "control_prediction": "spoofing",
+          "model_prediction": "spoofing",
+          "paired_outcome": "neither_correct"
+        }
+      ],
+      "interpretation": "Observed paired outcomes on this development corpus only, not statistical equivalence, held-out validation, or evidence of analyst benefit. Alerts may overlap and share captures.",
+      "source_sha256": {
+        "control": "b89315e106555fdd7dda46c5de685abdc380296581cce97469883fb3c6e7be99",
+        "model": "43545be49d3128b0bfc3f49c0b21c979fed9e34e72b0e622bbfdaabce453722c"
+      },
+      "source_paths": {
+        "control": "out/explanations_v4_2026-10-30_control_v5/road/explanations_mock.json",
+        "model": "out/explanations_v4_2026-10-30_glm_low/road/explanations_rcd.json"
+      }
+    }
+  ]
+}

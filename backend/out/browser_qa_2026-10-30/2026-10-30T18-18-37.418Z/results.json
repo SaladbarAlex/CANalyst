@@ -1,0 +1,454 @@
+{
+  "started": "2026-10-30T18:18:37.420Z",
+  "browser": "local Playwright with installed Google Chrome",
+  "script_sha256": "65473777023ac01aa1e8d8813f6f654f71977d80b6237ceec5def5f667c0ef69",
+  "baseURL": "http://127.0.0.1:5173",
+  "scope": "live local UI/API plus explicitly labeled route fixtures; no hosted-model calls",
+  "output": "/Users/nickdigennaro/Developer/compsci/8580/CANalyst/backend/out/browser_qa_2026-10-30/2026-10-30T18-18-37.418Z",
+  "checks": [
+    {
+      "name": "Initial synthetic analysis and control explanation",
+      "transport": "live API",
+      "passed": true,
+      "elapsed_ms": 2997,
+      "summary": {
+        "analysis_id": "055a8e7f9640",
+        "source": "synthetic",
+        "params": {
+          "duration_s": 150,
+          "seed": 1,
+          "attacks": [
+            "dos",
+            "fuzzing",
+            "spoofing",
+            "replay",
+            "masquerade"
+          ],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "baseline_s": 30,
+          "threshold": 0.55,
+          "calibration": null
+        },
+        "detector": "rule",
+        "duration_s": 150,
+        "frame_count": 85938,
+        "unique_ids": 1448,
+        "unknown_ids_count": 1436,
+        "mean_rate": 572.9,
+        "baseline_end": 30,
+        "window_count": 599,
+        "alert_count": 5,
+        "attack_intervals": [
+          {
+            "type": "dos",
+            "start": 33.374,
+            "end": 38.374
+          },
+          {
+            "type": "fuzzing",
+            "start": 60.121,
+            "end": 65.121
+          },
+          {
+            "type": "spoofing",
+            "start": 84.657,
+            "end": 89.657
+          },
+          {
+            "type": "replay",
+            "start": 103.829,
+            "end": 108.829
+          },
+          {
+            "type": "masquerade",
+            "start": 140.496,
+            "end": 145.496
+          }
+        ],
+        "labeled": true,
+        "metrics": {
+          "windows_evaluated": 479,
+          "true_positive": 100,
+          "false_positive": 0,
+          "false_negative": 10,
+          "true_negative": 369,
+          "precision": 1,
+          "recall": 0.9091,
+          "f1": 0.9524,
+          "false_positive_rate": 0,
+          "per_attack_type": {
+            "dos": {
+              "windows": 22,
+              "detected": 22,
+              "recall": 1
+            },
+            "fuzzing": {
+              "windows": 22,
+              "detected": 22,
+              "recall": 1
+            },
+            "masquerade": {
+              "windows": 22,
+              "detected": 19,
+              "recall": 0.8636
+            },
+            "replay": {
+              "windows": 22,
+              "detected": 19,
+              "recall": 0.8636
+            },
+            "spoofing": {
+              "windows": 22,
+              "detected": 18,
+              "recall": 0.8182
+            }
+          },
+          "labeled": true
+        },
+        "timing_s": {
+          "baseline": 0.0247,
+          "features": 1.7948,
+          "detection": 0.0284,
+          "total": 1.8479
+        },
+        "baseline_source": "clean prefix"
+      },
+      "selected_alert": 0
+    },
+    {
+      "name": "Complete timeline curves and early detector peaks render without reveal delay",
+      "transport": "live timeline API and rendered SVG",
+      "passed": true,
+      "elapsed_ms": 183,
+      "curves": [
+        {
+          "first_x": 52,
+          "last_x": 1250,
+          "svg_width": 1262,
+          "path_width": 1198,
+          "dash": null
+        },
+        {
+          "first_x": 52,
+          "last_x": 1250,
+          "svg_width": 1262,
+          "path_width": 1198,
+          "dash": null
+        }
+      ],
+      "early_peak_count": 41,
+      "last_time": 149.5
+    },
+    {
+      "name": "pastel light appearance",
+      "transport": "live rendered UI",
+      "passed": true,
+      "elapsed_ms": 86
+    },
+    {
+      "name": "pastel dark appearance",
+      "transport": "live rendered UI",
+      "passed": true,
+      "elapsed_ms": 283
+    },
+    {
+      "name": "original light appearance",
+      "transport": "live rendered UI",
+      "passed": true,
+      "elapsed_ms": 261
+    },
+    {
+      "name": "original dark appearance",
+      "transport": "live rendered UI",
+      "passed": true,
+      "elapsed_ms": 169
+    },
+    {
+      "name": "Citation opens and highlights its measured evidence",
+      "transport": "live UI and API evidence",
+      "passed": true,
+      "elapsed_ms": 139,
+      "citation": "E1"
+    },
+    {
+      "name": "Model selection makes no hosted calls and returns to cached control",
+      "transport": "live API; no hosted generation",
+      "passed": true,
+      "elapsed_ms": 492,
+      "new_explanation_requests": 0
+    },
+    {
+      "name": "Explicit local control re-explanation",
+      "transport": "live API, mock control only",
+      "passed": true,
+      "elapsed_ms": 75
+    },
+    {
+      "name": "Batch Stop finishes current control request and schedules no next request",
+      "transport": "route delay fixture; completed request uses live mock control",
+      "passed": true,
+      "elapsed_ms": 508,
+      "delayed_requests_completed": 1
+    },
+    {
+      "name": "Late hosted response cannot overwrite a new model selection",
+      "transport": "mocked hosted-response route fixture; zero upstream hosted calls",
+      "passed": true,
+      "elapsed_ms": 460
+    },
+    {
+      "name": "Saved detector comparisons and v4 identifier warning",
+      "transport": "live saved-result APIs; no model calls",
+      "passed": true,
+      "elapsed_ms": 1427,
+      "detector_rows": 12,
+      "detector_source_files": 7,
+      "warning_capture": "fuzzing_attack_1",
+      "warning_alert_id": 1,
+      "warning_run": "out/explanations_v4_2026-10-30_glm_low/road/explanations_rcd.json"
+    },
+    {
+      "name": "Invalid ROAD metadata is reported before analysis",
+      "transport": "live upload API, deliberately invalid metadata",
+      "passed": true,
+      "elapsed_ms": 410
+    },
+    {
+      "name": "Real ROAD capture with separate baseline and metadata",
+      "transport": "live upload and analysis API",
+      "passed": true,
+      "elapsed_ms": 8301,
+      "summary": {
+        "analysis_id": "fbef8872e654",
+        "source": "correlated_signal_attack_3.log",
+        "params": {
+          "uploaded": true,
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "baseline_s": 0,
+          "threshold": 0.55,
+          "calibration": null
+        },
+        "detector": "rule",
+        "duration_s": 16.964,
+        "frame_count": 41829,
+        "unique_ids": 105,
+        "unknown_ids_count": 0,
+        "mean_rate": 2465.8,
+        "baseline_end": 0,
+        "window_count": 67,
+        "alert_count": 1,
+        "attack_intervals": [
+          {
+            "start": 4.318482,
+            "end": 16.95706,
+            "type": "spoofing"
+          }
+        ],
+        "labeled": true,
+        "metrics": {
+          "windows_evaluated": 67,
+          "true_positive": 47,
+          "false_positive": 0,
+          "false_negative": 4,
+          "true_negative": 16,
+          "precision": 1,
+          "recall": 0.9216,
+          "f1": 0.9592,
+          "false_positive_rate": 0,
+          "per_attack_type": {
+            "spoofing": {
+              "windows": 51,
+              "detected": 47,
+              "recall": 0.9216
+            }
+          },
+          "labeled": true
+        },
+        "timing_s": {
+          "baseline": 2.0876,
+          "features": 0.8376,
+          "detection": 0.0079,
+          "total": 7.8716,
+          "parse": 4.9385
+        },
+        "baseline_source": "separate capture"
+      }
+    },
+    {
+      "name": "Binary-label upload shows no unsupported type-correctness badge",
+      "transport": "live upload API with generated binary-labeled CSV fixture",
+      "passed": true,
+      "elapsed_ms": 417,
+      "summary": {
+        "analysis_id": "f813246b6743",
+        "source": "binary-attack.csv",
+        "params": {
+          "uploaded": true,
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "baseline_s": 0,
+          "threshold": 0.55,
+          "calibration": null
+        },
+        "detector": "rule",
+        "duration_s": 4.999,
+        "frame_count": 5000,
+        "unique_ids": 1,
+        "unknown_ids_count": 0,
+        "mean_rate": 1000.2,
+        "baseline_end": 0,
+        "window_count": 19,
+        "alert_count": 1,
+        "attack_intervals": [],
+        "labeled": true,
+        "metrics": {
+          "windows_evaluated": 19,
+          "true_positive": 19,
+          "false_positive": 0,
+          "false_negative": 0,
+          "true_negative": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "false_positive_rate": 0,
+          "per_attack_type": {
+            "injected": {
+              "windows": 19,
+              "detected": 19,
+              "recall": 1
+            }
+          },
+          "labeled": true
+        },
+        "timing_s": {
+          "baseline": 0.0016,
+          "features": 0.02,
+          "detection": 0.0015,
+          "total": 0.0405,
+          "parse": 0.0174
+        },
+        "baseline_source": "separate capture"
+      },
+      "generated_fixture": {
+        "traffic_frames": 5000,
+        "baseline_frames": 500,
+        "label_scope": "binary only"
+      }
+    },
+    {
+      "name": "Core alerts render while IDs wait; model switch preserves pending IDs",
+      "transport": "delayed-ID route fixture with live core analysis and live ID results",
+      "passed": true,
+      "elapsed_ms": 3683
+    },
+    {
+      "name": "Obsolete delayed ID results cannot overwrite a new capture",
+      "transport": "stale-ID route fixture; both core analyses use live API",
+      "passed": true,
+      "elapsed_ms": 5050
+    }
+  ],
+  "pageErrors": [],
+  "consoleErrors": [
+    {
+      "phase": "Invalid ROAD metadata is reported before analysis",
+      "text": "Failed to load resource: the server responded with a status of 400 (Bad Request)",
+      "location": {
+        "url": "http://127.0.0.1:5173/api/analyze/upload?detector=rule&window_s=0.5&stride_s=0.25&threshold=0.55",
+        "lineNumber": 0,
+        "columnNumber": 0
+      }
+    }
+  ],
+  "httpErrors": [
+    {
+      "phase": "Invalid ROAD metadata is reported before analysis",
+      "url": "http://127.0.0.1:5173/api/analyze/upload?detector=rule&window_s=0.5&stride_s=0.25&threshold=0.55",
+      "status": 400
+    }
+  ],
+  "explanationRequests": [
+    {
+      "phase": "Initial synthetic analysis and control explanation",
+      "path": "/api/analysis/055a8e7f9640/alerts/0/explain",
+      "explainer": "mock"
+    },
+    {
+      "phase": "Explicit local control re-explanation",
+      "path": "/api/analysis/055a8e7f9640/alerts/0/explain",
+      "explainer": "mock",
+      "force": true
+    },
+    {
+      "phase": "Batch Stop finishes current control request and schedules no next request",
+      "path": "/api/analysis/055a8e7f9640/alerts/1/explain",
+      "explainer": "mock"
+    },
+    {
+      "phase": "Late hosted response cannot overwrite a new model selection",
+      "path": "/api/analysis/055a8e7f9640/alerts/0/explain",
+      "explainer": "rcd:glm-5.3",
+      "force": false
+    },
+    {
+      "phase": "Real ROAD capture with separate baseline and metadata",
+      "path": "/api/analysis/fbef8872e654/alerts/0/explain",
+      "explainer": "mock"
+    },
+    {
+      "phase": "Binary-label upload shows no unsupported type-correctness badge",
+      "path": "/api/analysis/f813246b6743/alerts/0/explain",
+      "explainer": "mock"
+    },
+    {
+      "phase": "Core alerts render while IDs wait; model switch preserves pending IDs",
+      "path": "/api/analysis/7f9ae38636dc/alerts/0/explain",
+      "explainer": "mock"
+    },
+    {
+      "phase": "Obsolete delayed ID results cannot overwrite a new capture",
+      "path": "/api/analysis/e09b12a1a629/alerts/0/explain",
+      "explainer": "mock"
+    },
+    {
+      "phase": "Obsolete delayed ID results cannot overwrite a new capture",
+      "path": "/api/analysis/cd99476fbf3e/alerts/0/explain",
+      "explainer": "mock"
+    }
+  ],
+  "browserVersion": "156.0.8078.74",
+  "explainerOptions": [
+    {
+      "value": "mock",
+      "label": "Offline control",
+      "disabled": false
+    },
+    {
+      "value": "rcd:glm-5.3",
+      "label": "glm-5.3 (Clemson RCD)",
+      "disabled": false
+    },
+    {
+      "value": "rcd:gemma-4-31b",
+      "label": "gemma-4-31b (Clemson RCD)",
+      "disabled": false
+    },
+    {
+      "value": "claude",
+      "label": "claude-sonnet-4-5 (unavailable)",
+      "disabled": true
+    },
+    {
+      "value": "openai",
+      "label": "gpt-4o-mini (unavailable)",
+      "disabled": true
+    }
+  ],
+  "unexpectedHttpErrors": [],
+  "unexpectedConsoleErrors": [],
+  "hostedUpstreamCalls": 0,
+  "passed": true,
+  "finished": "2026-10-30T18:19:04.054Z"
+}

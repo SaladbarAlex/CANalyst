@@ -1,0 +1,6112 @@
+{
+  "review_type": "AI-assisted independent numeric/schema consistency audit; not human review",
+  "created_at": "2026-10-30T16:47:33.584686+00:00",
+  "source_sha256": {
+    "out/frozen_2026-10-30_v3/hcrl.json": "37888657a4736e195b2d3df4d29c5ee57b18502adae24ae58ea9089e6d6eb63a",
+    "out/frozen_2026-10-30_v3/road.json": "91a749c6a088528e18d3be8cb45ea4e8ce0ef3a60e8292feb8fadf403ef75cc3"
+  },
+  "scope": "Read-only inspection of all frozen v3 evidence packets. No corpus or model code changed.",
+  "rounding_tolerances": {
+    "duration_s": 0.0006,
+    "window_rate": 0.0051,
+    "alert_rate_and_ratios": 0.00051,
+    "entropy_delta": 0.00151
+  },
+  "item_counts": {
+    "alerts": 100,
+    "alert_window": 100,
+    "bus_load": 100,
+    "unknown_id": 124,
+    "id_stats": 476,
+    "missing_id": 138,
+    "frames": 100
+  },
+  "checks_performed": {
+    "alert_duration": 100,
+    "peak_bus_rate_at_least_full_alert_mean": 100,
+    "window_rate_equals_count_over_duration": 600,
+    "alert_rate_equals_count_over_duration": 600,
+    "id_alert_count_within_total": 600,
+    "statistics_window_within_alert": 600,
+    "iat_mean_fits_statistics_window": 360,
+    "raw_rate_ratio": 476,
+    "guarded_rate_ratio": 476,
+    "entropy_delta": 476,
+    "known_single_frame_timing_null": 240
+  },
+  "arithmetic_or_bound_failures": [],
+  "schema_issue_counts": {
+    "unknown_id_baseline_fields_are_numbers": 124,
+    "single_frame_bitflip_is_numeric": 264,
+    "unknown_single_frame_timing_is_numeric": 24
+  },
+  "interpretation": "Arithmetic checks passed within declared rounding tolerances. Remaining issues encode absence of an estimable baseline, gap or pairwise bit-flip measurement as numerical values. These are not observed zero measurements.",
+  "recommended_fix": "In a new evidence version, preserve detector internals but emit null for unknown-ID baseline comparisons and fewer-than-two-frame gap/bitflip values in both known and unknown branches; keep count/rate scopes explicit. Add corpus-wide missingness invariants and repeat semantic review.",
+  "limitations": "This does not verify raw traffic labels or independently recompute features from source frames; no model performance conclusion follows.",
+  "schema_issues": [
+    {
+      "dataset": "hcrl",
+      "corpus_index": 0,
+      "capture": "DoS_dataset",
+      "alert_id": 0,
+      "item": "E2",
+      "can_id": "0x000",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 200.274
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 0,
+      "capture": "DoS_dataset",
+      "alert_id": 0,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 0,
+      "capture": "DoS_dataset",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 1,
+      "capture": "DoS_dataset",
+      "alert_id": 1,
+      "item": "E2",
+      "can_id": "0x000",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 181.319
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 1,
+      "capture": "DoS_dataset",
+      "alert_id": 1,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 1,
+      "capture": "DoS_dataset",
+      "alert_id": 1,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 2,
+      "capture": "DoS_dataset",
+      "alert_id": 2,
+      "item": "E2",
+      "can_id": "0x000",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 98.562
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 2,
+      "capture": "DoS_dataset",
+      "alert_id": 2,
+      "item": "E3",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 3,
+      "capture": "DoS_dataset",
+      "alert_id": 3,
+      "item": "E2",
+      "can_id": "0x000",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 6.092
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 3,
+      "capture": "DoS_dataset",
+      "alert_id": 3,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 3,
+      "capture": "DoS_dataset",
+      "alert_id": 3,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 4,
+      "capture": "DoS_dataset",
+      "alert_id": 4,
+      "item": "E2",
+      "can_id": "0x000",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 21.308
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 4,
+      "capture": "DoS_dataset",
+      "alert_id": 4,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 4,
+      "capture": "DoS_dataset",
+      "alert_id": 4,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 5,
+      "capture": "DoS_dataset",
+      "alert_id": 5,
+      "item": "E2",
+      "can_id": "0x000",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 5.754
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 5,
+      "capture": "DoS_dataset",
+      "alert_id": 5,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 5,
+      "capture": "DoS_dataset",
+      "alert_id": 5,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 6,
+      "capture": "DoS_dataset",
+      "alert_id": 6,
+      "item": "E2",
+      "can_id": "0x000",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 271.604
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 6,
+      "capture": "DoS_dataset",
+      "alert_id": 6,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 6,
+      "capture": "DoS_dataset",
+      "alert_id": 6,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 7,
+      "capture": "DoS_dataset",
+      "alert_id": 7,
+      "item": "E2",
+      "can_id": "0x000",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 195.396
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 8,
+      "capture": "DoS_dataset",
+      "alert_id": 8,
+      "item": "E2",
+      "can_id": "0x000",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 8.862
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 8,
+      "capture": "DoS_dataset",
+      "alert_id": 8,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 8,
+      "capture": "DoS_dataset",
+      "alert_id": 8,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 9,
+      "capture": "DoS_dataset",
+      "alert_id": 9,
+      "item": "E2",
+      "can_id": "0x000",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 184.243
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 10,
+      "capture": "DoS_dataset",
+      "alert_id": 10,
+      "item": "E2",
+      "can_id": "0x000",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 5.683
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 10,
+      "capture": "DoS_dataset",
+      "alert_id": 10,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 10,
+      "capture": "DoS_dataset",
+      "alert_id": 10,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 11,
+      "capture": "DoS_dataset",
+      "alert_id": 11,
+      "item": "E2",
+      "can_id": "0x000",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 6.776
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 11,
+      "capture": "DoS_dataset",
+      "alert_id": 11,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 11,
+      "capture": "DoS_dataset",
+      "alert_id": 11,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 12,
+      "capture": "DoS_dataset",
+      "alert_id": 12,
+      "item": "E2",
+      "can_id": "0x000",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 51.337
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 12,
+      "capture": "DoS_dataset",
+      "alert_id": 12,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 12,
+      "capture": "DoS_dataset",
+      "alert_id": 12,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 13,
+      "capture": "DoS_dataset",
+      "alert_id": 13,
+      "item": "E2",
+      "can_id": "0x000",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 5.924
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 13,
+      "capture": "DoS_dataset",
+      "alert_id": 13,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 13,
+      "capture": "DoS_dataset",
+      "alert_id": 13,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 14,
+      "capture": "DoS_dataset",
+      "alert_id": 14,
+      "item": "E2",
+      "can_id": "0x000",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 6.221
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 14,
+      "capture": "DoS_dataset",
+      "alert_id": 14,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 15,
+      "capture": "DoS_dataset",
+      "alert_id": 15,
+      "item": "E2",
+      "can_id": "0x000",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 5.413
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 15,
+      "capture": "DoS_dataset",
+      "alert_id": 15,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 15,
+      "capture": "DoS_dataset",
+      "alert_id": 15,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 16,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 0,
+      "item": "E2",
+      "can_id": "0x62C",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 16,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 0,
+      "item": "E3",
+      "can_id": "0x10D",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 16,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x473",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 3.875,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 16,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 0,
+      "item": "E5",
+      "can_id": "0x55B",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 3.875,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 16,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 0,
+      "item": "E6",
+      "can_id": "0x13F",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 3.875,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 16,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 0,
+      "item": "E7",
+      "can_id": "0x2FD",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 3.75,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 17,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 1,
+      "item": "E2",
+      "can_id": "0x4AB",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 17,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 1,
+      "item": "E3",
+      "can_id": "0x2BB",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 3.875,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 17,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 1,
+      "item": "E4",
+      "can_id": "0x47D",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 3.75,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 17,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 1,
+      "item": "E5",
+      "can_id": "0x025",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 3.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 17,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 1,
+      "item": "E5",
+      "can_id": "0x025",
+      "issue": "unknown_single_frame_timing_is_numeric",
+      "values": {
+        "window_count": 1,
+        "iat_mean_ms": 0.0,
+        "iat_std_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 17,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 1,
+      "item": "E5",
+      "can_id": "0x025",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 17,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 1,
+      "item": "E6",
+      "can_id": "0x037",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 3.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 17,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 1,
+      "item": "E6",
+      "can_id": "0x037",
+      "issue": "unknown_single_frame_timing_is_numeric",
+      "values": {
+        "window_count": 1,
+        "iat_mean_ms": 0.0,
+        "iat_std_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 17,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 1,
+      "item": "E6",
+      "can_id": "0x037",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 17,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 1,
+      "item": "E7",
+      "can_id": "0x053",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 3.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 17,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 1,
+      "item": "E7",
+      "can_id": "0x053",
+      "issue": "unknown_single_frame_timing_is_numeric",
+      "values": {
+        "window_count": 1,
+        "iat_mean_ms": 0.0,
+        "iat_std_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 17,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 1,
+      "item": "E7",
+      "can_id": "0x053",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 18,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 2,
+      "item": "E2",
+      "can_id": "0x13A",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 18,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 2,
+      "item": "E3",
+      "can_id": "0x2B2",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 18,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 2,
+      "item": "E4",
+      "can_id": "0x3C8",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 18,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 2,
+      "item": "E5",
+      "can_id": "0x4F5",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 18,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 2,
+      "item": "E6",
+      "can_id": "0x5B3",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 18,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 2,
+      "item": "E7",
+      "can_id": "0x28B",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 19,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 3,
+      "item": "E2",
+      "can_id": "0x12B",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.585,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1292.884
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 19,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 3,
+      "item": "E3",
+      "can_id": "0x383",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 19,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 3,
+      "item": "E4",
+      "can_id": "0x36A",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 19,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 3,
+      "item": "E5",
+      "can_id": "0x645",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 19,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 3,
+      "item": "E6",
+      "can_id": "0x1F3",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 19,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 3,
+      "item": "E7",
+      "can_id": "0x5F1",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 20,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 4,
+      "item": "E2",
+      "can_id": "0x025",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 20,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 4,
+      "item": "E3",
+      "can_id": "0x541",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 20,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 4,
+      "item": "E4",
+      "can_id": "0x25B",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 20,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 4,
+      "item": "E5",
+      "can_id": "0x320",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 20,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 4,
+      "item": "E6",
+      "can_id": "0x7F7",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 20,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 4,
+      "item": "E7",
+      "can_id": "0x765",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 3.875,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 21,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 5,
+      "item": "E2",
+      "can_id": "0x75B",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 21,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 5,
+      "item": "E3",
+      "can_id": "0x222",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 21,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 5,
+      "item": "E4",
+      "can_id": "0x42F",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 21,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 5,
+      "item": "E5",
+      "can_id": "0x193",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 21,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 5,
+      "item": "E6",
+      "can_id": "0x411",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 21,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 5,
+      "item": "E7",
+      "can_id": "0x639",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 22,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 6,
+      "item": "E2",
+      "can_id": "0x14E",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.585,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 2258.086
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 22,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 6,
+      "item": "E3",
+      "can_id": "0x2E5",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.418,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 3386.199
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 22,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 6,
+      "item": "E4",
+      "can_id": "0x035",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 22,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 6,
+      "item": "E5",
+      "can_id": "0x041",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 22,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 6,
+      "item": "E6",
+      "can_id": "0x4B0",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 22,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 6,
+      "item": "E7",
+      "can_id": "0x4C1",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 23,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 7,
+      "item": "E2",
+      "can_id": "0x3F4",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.418,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 4549.491
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 23,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 7,
+      "item": "E3",
+      "can_id": "0x7A3",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.335,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 3925.145
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 23,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 7,
+      "item": "E4",
+      "can_id": "0x0B1",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 23,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 7,
+      "item": "E5",
+      "can_id": "0x194",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 23,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 7,
+      "item": "E6",
+      "can_id": "0x4FC",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 23,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 7,
+      "item": "E7",
+      "can_id": "0x6E1",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 24,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 8,
+      "item": "E2",
+      "can_id": "0x2D8",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.585,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1168.561
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 24,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 8,
+      "item": "E3",
+      "can_id": "0x038",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 24,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 8,
+      "item": "E4",
+      "can_id": "0x166",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 24,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 8,
+      "item": "E5",
+      "can_id": "0x25E",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 24,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 8,
+      "item": "E6",
+      "can_id": "0x7DE",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 24,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 8,
+      "item": "E7",
+      "can_id": "0x69A",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 25,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 9,
+      "item": "E2",
+      "can_id": "0x069",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 25,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 9,
+      "item": "E3",
+      "can_id": "0x18D",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 25,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 9,
+      "item": "E4",
+      "can_id": "0x578",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 25,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 9,
+      "item": "E5",
+      "can_id": "0x45B",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 25,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 9,
+      "item": "E6",
+      "can_id": "0x0DA",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 25,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 9,
+      "item": "E7",
+      "can_id": "0x326",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 3.875,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 26,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 10,
+      "item": "E2",
+      "can_id": "0x097",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 26,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 10,
+      "item": "E3",
+      "can_id": "0x379",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 26,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 10,
+      "item": "E4",
+      "can_id": "0x2E9",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 26,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 10,
+      "item": "E5",
+      "can_id": "0x64D",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 26,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 10,
+      "item": "E6",
+      "can_id": "0x281",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 3.875,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 26,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 10,
+      "item": "E7",
+      "can_id": "0x0B1",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 3.875,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 27,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 11,
+      "item": "E2",
+      "can_id": "0x7C9",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 27,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 11,
+      "item": "E3",
+      "can_id": "0x032",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 27,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 11,
+      "item": "E4",
+      "can_id": "0x7F7",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 27,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 11,
+      "item": "E5",
+      "can_id": "0x684",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 27,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 11,
+      "item": "E6",
+      "can_id": "0x783",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 3.75,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 27,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 11,
+      "item": "E7",
+      "can_id": "0x000",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 3.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 27,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 11,
+      "item": "E7",
+      "can_id": "0x000",
+      "issue": "unknown_single_frame_timing_is_numeric",
+      "values": {
+        "window_count": 1,
+        "iat_mean_ms": 0.0,
+        "iat_std_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 27,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 11,
+      "item": "E7",
+      "can_id": "0x000",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 28,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 12,
+      "item": "E2",
+      "can_id": "0x0E8",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 28,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 12,
+      "item": "E3",
+      "can_id": "0x301",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 28,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 12,
+      "item": "E4",
+      "can_id": "0x3B9",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 28,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 12,
+      "item": "E5",
+      "can_id": "0x62C",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 28,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 12,
+      "item": "E6",
+      "can_id": "0x6D5",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 28,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 12,
+      "item": "E7",
+      "can_id": "0x348",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 3.875,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 29,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 13,
+      "item": "E2",
+      "can_id": "0x021",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.502,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 202.501
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 29,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 13,
+      "item": "E3",
+      "can_id": "0x1BF",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 29,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 13,
+      "item": "E4",
+      "can_id": "0x5CF",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 29,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 13,
+      "item": "E5",
+      "can_id": "0x7BA",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 29,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 13,
+      "item": "E6",
+      "can_id": "0x288",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 29,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 13,
+      "item": "E7",
+      "can_id": "0x737",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 30,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 14,
+      "item": "E2",
+      "can_id": "0x209",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 30,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 14,
+      "item": "E3",
+      "can_id": "0x309",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 30,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 14,
+      "item": "E4",
+      "can_id": "0x500",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 30,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 14,
+      "item": "E5",
+      "can_id": "0x1E9",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 4.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 30,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 14,
+      "item": "E6",
+      "can_id": "0x021",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 3.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 30,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 14,
+      "item": "E6",
+      "can_id": "0x021",
+      "issue": "unknown_single_frame_timing_is_numeric",
+      "values": {
+        "window_count": 1,
+        "iat_mean_ms": 0.0,
+        "iat_std_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 30,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 14,
+      "item": "E6",
+      "can_id": "0x021",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 30,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 14,
+      "item": "E7",
+      "can_id": "0x05A",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": 3.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 30,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 14,
+      "item": "E7",
+      "can_id": "0x05A",
+      "issue": "unknown_single_frame_timing_is_numeric",
+      "values": {
+        "window_count": 1,
+        "iat_mean_ms": 0.0,
+        "iat_std_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 30,
+      "capture": "Fuzzy_dataset",
+      "alert_id": 14,
+      "item": "E7",
+      "can_id": "0x05A",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 31,
+      "capture": "RPM_dataset",
+      "alert_id": 0,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 31,
+      "capture": "RPM_dataset",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 32,
+      "capture": "RPM_dataset",
+      "alert_id": 1,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 32,
+      "capture": "RPM_dataset",
+      "alert_id": 1,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 33,
+      "capture": "RPM_dataset",
+      "alert_id": 2,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 33,
+      "capture": "RPM_dataset",
+      "alert_id": 2,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 34,
+      "capture": "RPM_dataset",
+      "alert_id": 3,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 34,
+      "capture": "RPM_dataset",
+      "alert_id": 3,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 35,
+      "capture": "RPM_dataset",
+      "alert_id": 4,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 35,
+      "capture": "RPM_dataset",
+      "alert_id": 4,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 36,
+      "capture": "RPM_dataset",
+      "alert_id": 5,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 36,
+      "capture": "RPM_dataset",
+      "alert_id": 5,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 37,
+      "capture": "RPM_dataset",
+      "alert_id": 6,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 37,
+      "capture": "RPM_dataset",
+      "alert_id": 6,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 38,
+      "capture": "RPM_dataset",
+      "alert_id": 7,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 38,
+      "capture": "RPM_dataset",
+      "alert_id": 7,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 39,
+      "capture": "RPM_dataset",
+      "alert_id": 8,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 39,
+      "capture": "RPM_dataset",
+      "alert_id": 8,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 40,
+      "capture": "RPM_dataset",
+      "alert_id": 9,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 40,
+      "capture": "RPM_dataset",
+      "alert_id": 9,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 41,
+      "capture": "RPM_dataset",
+      "alert_id": 10,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 41,
+      "capture": "RPM_dataset",
+      "alert_id": 10,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 42,
+      "capture": "RPM_dataset",
+      "alert_id": 11,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 42,
+      "capture": "RPM_dataset",
+      "alert_id": 11,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 43,
+      "capture": "RPM_dataset",
+      "alert_id": 12,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 43,
+      "capture": "RPM_dataset",
+      "alert_id": 12,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 44,
+      "capture": "RPM_dataset",
+      "alert_id": 13,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 44,
+      "capture": "RPM_dataset",
+      "alert_id": 13,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 45,
+      "capture": "RPM_dataset",
+      "alert_id": 14,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 45,
+      "capture": "RPM_dataset",
+      "alert_id": 14,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 46,
+      "capture": "RPM_dataset",
+      "alert_id": 15,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 46,
+      "capture": "RPM_dataset",
+      "alert_id": 15,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 47,
+      "capture": "RPM_dataset",
+      "alert_id": 16,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 47,
+      "capture": "RPM_dataset",
+      "alert_id": 16,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 48,
+      "capture": "RPM_dataset",
+      "alert_id": 17,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 48,
+      "capture": "RPM_dataset",
+      "alert_id": 17,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 49,
+      "capture": "RPM_dataset",
+      "alert_id": 18,
+      "item": "E3",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 50,
+      "capture": "gear_dataset",
+      "alert_id": 0,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 50,
+      "capture": "gear_dataset",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 51,
+      "capture": "gear_dataset",
+      "alert_id": 1,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 51,
+      "capture": "gear_dataset",
+      "alert_id": 1,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 52,
+      "capture": "gear_dataset",
+      "alert_id": 2,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 52,
+      "capture": "gear_dataset",
+      "alert_id": 2,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 53,
+      "capture": "gear_dataset",
+      "alert_id": 3,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 53,
+      "capture": "gear_dataset",
+      "alert_id": 3,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 54,
+      "capture": "gear_dataset",
+      "alert_id": 4,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 54,
+      "capture": "gear_dataset",
+      "alert_id": 4,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 55,
+      "capture": "gear_dataset",
+      "alert_id": 5,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 55,
+      "capture": "gear_dataset",
+      "alert_id": 5,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 56,
+      "capture": "gear_dataset",
+      "alert_id": 6,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 56,
+      "capture": "gear_dataset",
+      "alert_id": 6,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 57,
+      "capture": "gear_dataset",
+      "alert_id": 7,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 57,
+      "capture": "gear_dataset",
+      "alert_id": 7,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 58,
+      "capture": "gear_dataset",
+      "alert_id": 8,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 58,
+      "capture": "gear_dataset",
+      "alert_id": 8,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 59,
+      "capture": "gear_dataset",
+      "alert_id": 9,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 59,
+      "capture": "gear_dataset",
+      "alert_id": 9,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 60,
+      "capture": "gear_dataset",
+      "alert_id": 10,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 60,
+      "capture": "gear_dataset",
+      "alert_id": 10,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 61,
+      "capture": "gear_dataset",
+      "alert_id": 11,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 61,
+      "capture": "gear_dataset",
+      "alert_id": 11,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 62,
+      "capture": "gear_dataset",
+      "alert_id": 12,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 62,
+      "capture": "gear_dataset",
+      "alert_id": 12,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 63,
+      "capture": "gear_dataset",
+      "alert_id": 13,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 63,
+      "capture": "gear_dataset",
+      "alert_id": 13,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 64,
+      "capture": "gear_dataset",
+      "alert_id": 14,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 64,
+      "capture": "gear_dataset",
+      "alert_id": 14,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 65,
+      "capture": "gear_dataset",
+      "alert_id": 15,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 65,
+      "capture": "gear_dataset",
+      "alert_id": 15,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 66,
+      "capture": "gear_dataset",
+      "alert_id": 16,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 66,
+      "capture": "gear_dataset",
+      "alert_id": 16,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 67,
+      "capture": "gear_dataset",
+      "alert_id": 17,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 67,
+      "capture": "gear_dataset",
+      "alert_id": 17,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 68,
+      "capture": "gear_dataset",
+      "alert_id": 18,
+      "item": "E3",
+      "can_id": "0x5A2",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0833
+      }
+    },
+    {
+      "dataset": "hcrl",
+      "corpus_index": 68,
+      "capture": "gear_dataset",
+      "alert_id": 18,
+      "item": "E4",
+      "can_id": "0x5A0",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 0,
+      "capture": "correlated_signal_attack_1",
+      "alert_id": 0,
+      "item": "E3",
+      "can_id": "0x69D",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0452
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 0,
+      "capture": "correlated_signal_attack_1",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x075",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0384
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 0,
+      "capture": "correlated_signal_attack_1",
+      "alert_id": 0,
+      "item": "E5",
+      "can_id": "0x3B9",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0438
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 0,
+      "capture": "correlated_signal_attack_1",
+      "alert_id": 0,
+      "item": "E6",
+      "can_id": "0x4EE",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0454
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 0,
+      "capture": "correlated_signal_attack_1",
+      "alert_id": 0,
+      "item": "E7",
+      "can_id": "0x6D7",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0313
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 1,
+      "capture": "correlated_signal_attack_2",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x69D",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0452
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 1,
+      "capture": "correlated_signal_attack_2",
+      "alert_id": 0,
+      "item": "E5",
+      "can_id": "0x075",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0384
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 1,
+      "capture": "correlated_signal_attack_2",
+      "alert_id": 0,
+      "item": "E6",
+      "can_id": "0x4EE",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0454
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 1,
+      "capture": "correlated_signal_attack_2",
+      "alert_id": 0,
+      "item": "E7",
+      "can_id": "0x6D7",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0313
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 2,
+      "capture": "correlated_signal_attack_2_masquerade",
+      "alert_id": 0,
+      "item": "E3",
+      "can_id": "0x69D",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0452
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 2,
+      "capture": "correlated_signal_attack_2_masquerade",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x075",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0384
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 2,
+      "capture": "correlated_signal_attack_2_masquerade",
+      "alert_id": 0,
+      "item": "E5",
+      "can_id": "0x4EE",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0454
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 2,
+      "capture": "correlated_signal_attack_2_masquerade",
+      "alert_id": 0,
+      "item": "E6",
+      "can_id": "0x3B9",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0438
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 2,
+      "capture": "correlated_signal_attack_2_masquerade",
+      "alert_id": 0,
+      "item": "E7",
+      "can_id": "0x0F1",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0008
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 3,
+      "capture": "correlated_signal_attack_2_masquerade",
+      "alert_id": 1,
+      "item": "E3",
+      "can_id": "0x69D",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0452
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 3,
+      "capture": "correlated_signal_attack_2_masquerade",
+      "alert_id": 1,
+      "item": "E4",
+      "can_id": "0x075",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0384
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 3,
+      "capture": "correlated_signal_attack_2_masquerade",
+      "alert_id": 1,
+      "item": "E5",
+      "can_id": "0x4EE",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0454
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 3,
+      "capture": "correlated_signal_attack_2_masquerade",
+      "alert_id": 1,
+      "item": "E6",
+      "can_id": "0x6D7",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0313
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 3,
+      "capture": "correlated_signal_attack_2_masquerade",
+      "alert_id": 1,
+      "item": "E7",
+      "can_id": "0x655",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0312
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 4,
+      "capture": "correlated_signal_attack_3",
+      "alert_id": 0,
+      "item": "E3",
+      "can_id": "0x69D",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0452
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 4,
+      "capture": "correlated_signal_attack_3",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x075",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0384
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 4,
+      "capture": "correlated_signal_attack_3",
+      "alert_id": 0,
+      "item": "E5",
+      "can_id": "0x4EE",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0454
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 4,
+      "capture": "correlated_signal_attack_3",
+      "alert_id": 0,
+      "item": "E6",
+      "can_id": "0x6D7",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0313
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 4,
+      "capture": "correlated_signal_attack_3",
+      "alert_id": 0,
+      "item": "E7",
+      "can_id": "0x655",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0312
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 5,
+      "capture": "fuzzing_attack_1",
+      "alert_id": 0,
+      "item": "E2",
+      "can_id": "0x070",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 5,
+      "capture": "fuzzing_attack_1",
+      "alert_id": 0,
+      "item": "E2",
+      "can_id": "0x070",
+      "issue": "unknown_single_frame_timing_is_numeric",
+      "values": {
+        "window_count": 1,
+        "iat_mean_ms": 0.0,
+        "iat_std_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 5,
+      "capture": "fuzzing_attack_1",
+      "alert_id": 0,
+      "item": "E2",
+      "can_id": "0x070",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 5,
+      "capture": "fuzzing_attack_1",
+      "alert_id": 0,
+      "item": "E3",
+      "can_id": "0x095",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 5,
+      "capture": "fuzzing_attack_1",
+      "alert_id": 0,
+      "item": "E3",
+      "can_id": "0x095",
+      "issue": "unknown_single_frame_timing_is_numeric",
+      "values": {
+        "window_count": 1,
+        "iat_mean_ms": 0.0,
+        "iat_std_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 5,
+      "capture": "fuzzing_attack_1",
+      "alert_id": 0,
+      "item": "E3",
+      "can_id": "0x095",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 5,
+      "capture": "fuzzing_attack_1",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x09F",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 5,
+      "capture": "fuzzing_attack_1",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x09F",
+      "issue": "unknown_single_frame_timing_is_numeric",
+      "values": {
+        "window_count": 1,
+        "iat_mean_ms": 0.0,
+        "iat_std_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 5,
+      "capture": "fuzzing_attack_1",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x09F",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 5,
+      "capture": "fuzzing_attack_1",
+      "alert_id": 0,
+      "item": "E5",
+      "can_id": "0x0B3",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 5,
+      "capture": "fuzzing_attack_1",
+      "alert_id": 0,
+      "item": "E5",
+      "can_id": "0x0B3",
+      "issue": "unknown_single_frame_timing_is_numeric",
+      "values": {
+        "window_count": 1,
+        "iat_mean_ms": 0.0,
+        "iat_std_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 5,
+      "capture": "fuzzing_attack_1",
+      "alert_id": 0,
+      "item": "E5",
+      "can_id": "0x0B3",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 5,
+      "capture": "fuzzing_attack_1",
+      "alert_id": 0,
+      "item": "E6",
+      "can_id": "0x0C4",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 5,
+      "capture": "fuzzing_attack_1",
+      "alert_id": 0,
+      "item": "E6",
+      "can_id": "0x0C4",
+      "issue": "unknown_single_frame_timing_is_numeric",
+      "values": {
+        "window_count": 1,
+        "iat_mean_ms": 0.0,
+        "iat_std_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 5,
+      "capture": "fuzzing_attack_1",
+      "alert_id": 0,
+      "item": "E6",
+      "can_id": "0x0C4",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 5,
+      "capture": "fuzzing_attack_1",
+      "alert_id": 0,
+      "item": "E7",
+      "can_id": "0x0CA",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 5,
+      "capture": "fuzzing_attack_1",
+      "alert_id": 0,
+      "item": "E7",
+      "can_id": "0x0CA",
+      "issue": "unknown_single_frame_timing_is_numeric",
+      "values": {
+        "window_count": 1,
+        "iat_mean_ms": 0.0,
+        "iat_std_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 5,
+      "capture": "fuzzing_attack_1",
+      "alert_id": 0,
+      "item": "E7",
+      "can_id": "0x0CA",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 6,
+      "capture": "fuzzing_attack_1",
+      "alert_id": 1,
+      "item": "E3",
+      "can_id": "0x69D",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0452
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 6,
+      "capture": "fuzzing_attack_1",
+      "alert_id": 1,
+      "item": "E4",
+      "can_id": "0x075",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0384
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 6,
+      "capture": "fuzzing_attack_1",
+      "alert_id": 1,
+      "item": "E5",
+      "can_id": "0x4EE",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0454
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 6,
+      "capture": "fuzzing_attack_1",
+      "alert_id": 1,
+      "item": "E6",
+      "can_id": "0x6D7",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0313
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 6,
+      "capture": "fuzzing_attack_1",
+      "alert_id": 1,
+      "item": "E7",
+      "can_id": "0x655",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0312
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 7,
+      "capture": "fuzzing_attack_2",
+      "alert_id": 0,
+      "item": "E2",
+      "can_id": "0x070",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 7,
+      "capture": "fuzzing_attack_2",
+      "alert_id": 0,
+      "item": "E2",
+      "can_id": "0x070",
+      "issue": "unknown_single_frame_timing_is_numeric",
+      "values": {
+        "window_count": 1,
+        "iat_mean_ms": 0.0,
+        "iat_std_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 7,
+      "capture": "fuzzing_attack_2",
+      "alert_id": 0,
+      "item": "E2",
+      "can_id": "0x070",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 7,
+      "capture": "fuzzing_attack_2",
+      "alert_id": 0,
+      "item": "E3",
+      "can_id": "0x095",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 7,
+      "capture": "fuzzing_attack_2",
+      "alert_id": 0,
+      "item": "E3",
+      "can_id": "0x095",
+      "issue": "unknown_single_frame_timing_is_numeric",
+      "values": {
+        "window_count": 1,
+        "iat_mean_ms": 0.0,
+        "iat_std_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 7,
+      "capture": "fuzzing_attack_2",
+      "alert_id": 0,
+      "item": "E3",
+      "can_id": "0x095",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 7,
+      "capture": "fuzzing_attack_2",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x09F",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 7,
+      "capture": "fuzzing_attack_2",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x09F",
+      "issue": "unknown_single_frame_timing_is_numeric",
+      "values": {
+        "window_count": 1,
+        "iat_mean_ms": 0.0,
+        "iat_std_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 7,
+      "capture": "fuzzing_attack_2",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x09F",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 7,
+      "capture": "fuzzing_attack_2",
+      "alert_id": 0,
+      "item": "E5",
+      "can_id": "0x0B3",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 7,
+      "capture": "fuzzing_attack_2",
+      "alert_id": 0,
+      "item": "E5",
+      "can_id": "0x0B3",
+      "issue": "unknown_single_frame_timing_is_numeric",
+      "values": {
+        "window_count": 1,
+        "iat_mean_ms": 0.0,
+        "iat_std_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 7,
+      "capture": "fuzzing_attack_2",
+      "alert_id": 0,
+      "item": "E5",
+      "can_id": "0x0B3",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 7,
+      "capture": "fuzzing_attack_2",
+      "alert_id": 0,
+      "item": "E6",
+      "can_id": "0x0C4",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 7,
+      "capture": "fuzzing_attack_2",
+      "alert_id": 0,
+      "item": "E6",
+      "can_id": "0x0C4",
+      "issue": "unknown_single_frame_timing_is_numeric",
+      "values": {
+        "window_count": 1,
+        "iat_mean_ms": 0.0,
+        "iat_std_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 7,
+      "capture": "fuzzing_attack_2",
+      "alert_id": 0,
+      "item": "E6",
+      "can_id": "0x0C4",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 7,
+      "capture": "fuzzing_attack_2",
+      "alert_id": 0,
+      "item": "E7",
+      "can_id": "0x0CA",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 7,
+      "capture": "fuzzing_attack_2",
+      "alert_id": 0,
+      "item": "E7",
+      "can_id": "0x0CA",
+      "issue": "unknown_single_frame_timing_is_numeric",
+      "values": {
+        "window_count": 1,
+        "iat_mean_ms": 0.0,
+        "iat_std_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 7,
+      "capture": "fuzzing_attack_2",
+      "alert_id": 0,
+      "item": "E7",
+      "can_id": "0x0CA",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 8,
+      "capture": "fuzzing_attack_3",
+      "alert_id": 0,
+      "item": "E2",
+      "can_id": "0x04A",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 8,
+      "capture": "fuzzing_attack_3",
+      "alert_id": 0,
+      "item": "E2",
+      "can_id": "0x04A",
+      "issue": "unknown_single_frame_timing_is_numeric",
+      "values": {
+        "window_count": 1,
+        "iat_mean_ms": 0.0,
+        "iat_std_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 8,
+      "capture": "fuzzing_attack_3",
+      "alert_id": 0,
+      "item": "E2",
+      "can_id": "0x04A",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 8,
+      "capture": "fuzzing_attack_3",
+      "alert_id": 0,
+      "item": "E3",
+      "can_id": "0x070",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 8,
+      "capture": "fuzzing_attack_3",
+      "alert_id": 0,
+      "item": "E3",
+      "can_id": "0x070",
+      "issue": "unknown_single_frame_timing_is_numeric",
+      "values": {
+        "window_count": 1,
+        "iat_mean_ms": 0.0,
+        "iat_std_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 8,
+      "capture": "fuzzing_attack_3",
+      "alert_id": 0,
+      "item": "E3",
+      "can_id": "0x070",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 8,
+      "capture": "fuzzing_attack_3",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x095",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 8,
+      "capture": "fuzzing_attack_3",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x095",
+      "issue": "unknown_single_frame_timing_is_numeric",
+      "values": {
+        "window_count": 1,
+        "iat_mean_ms": 0.0,
+        "iat_std_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 8,
+      "capture": "fuzzing_attack_3",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x095",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 8,
+      "capture": "fuzzing_attack_3",
+      "alert_id": 0,
+      "item": "E5",
+      "can_id": "0x09F",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 8,
+      "capture": "fuzzing_attack_3",
+      "alert_id": 0,
+      "item": "E5",
+      "can_id": "0x09F",
+      "issue": "unknown_single_frame_timing_is_numeric",
+      "values": {
+        "window_count": 1,
+        "iat_mean_ms": 0.0,
+        "iat_std_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 8,
+      "capture": "fuzzing_attack_3",
+      "alert_id": 0,
+      "item": "E5",
+      "can_id": "0x09F",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 8,
+      "capture": "fuzzing_attack_3",
+      "alert_id": 0,
+      "item": "E6",
+      "can_id": "0x0B3",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 8,
+      "capture": "fuzzing_attack_3",
+      "alert_id": 0,
+      "item": "E6",
+      "can_id": "0x0B3",
+      "issue": "unknown_single_frame_timing_is_numeric",
+      "values": {
+        "window_count": 1,
+        "iat_mean_ms": 0.0,
+        "iat_std_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 8,
+      "capture": "fuzzing_attack_3",
+      "alert_id": 0,
+      "item": "E6",
+      "can_id": "0x0B3",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 8,
+      "capture": "fuzzing_attack_3",
+      "alert_id": 0,
+      "item": "E7",
+      "can_id": "0x0C4",
+      "issue": "unknown_id_baseline_fields_are_numbers",
+      "values": {
+        "baseline_entropy": 0.0,
+        "entropy_delta": -0.0,
+        "baseline_iat_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 8,
+      "capture": "fuzzing_attack_3",
+      "alert_id": 0,
+      "item": "E7",
+      "can_id": "0x0C4",
+      "issue": "unknown_single_frame_timing_is_numeric",
+      "values": {
+        "window_count": 1,
+        "iat_mean_ms": 0.0,
+        "iat_std_ms": 0.0,
+        "iat_z": 0.0,
+        "jitter_ratio": 1.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 8,
+      "capture": "fuzzing_attack_3",
+      "alert_id": 0,
+      "item": "E7",
+      "can_id": "0x0C4",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": 0.0
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 9,
+      "capture": "max_engine_coolant_temp_attack",
+      "alert_id": 0,
+      "item": "E3",
+      "can_id": "0x69D",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0452
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 9,
+      "capture": "max_engine_coolant_temp_attack",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x075",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0384
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 9,
+      "capture": "max_engine_coolant_temp_attack",
+      "alert_id": 0,
+      "item": "E5",
+      "can_id": "0x4EE",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0454
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 9,
+      "capture": "max_engine_coolant_temp_attack",
+      "alert_id": 0,
+      "item": "E6",
+      "can_id": "0x3B9",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0438
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 9,
+      "capture": "max_engine_coolant_temp_attack",
+      "alert_id": 0,
+      "item": "E7",
+      "can_id": "0x0F1",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0008
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 10,
+      "capture": "max_speedometer_attack_1",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x69D",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0452
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 10,
+      "capture": "max_speedometer_attack_1",
+      "alert_id": 0,
+      "item": "E5",
+      "can_id": "0x075",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0384
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 10,
+      "capture": "max_speedometer_attack_1",
+      "alert_id": 0,
+      "item": "E6",
+      "can_id": "0x4EE",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0454
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 10,
+      "capture": "max_speedometer_attack_1",
+      "alert_id": 0,
+      "item": "E7",
+      "can_id": "0x6D7",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0313
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 11,
+      "capture": "max_speedometer_attack_1_masquerade",
+      "alert_id": 0,
+      "item": "E3",
+      "can_id": "0x69D",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0452
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 11,
+      "capture": "max_speedometer_attack_1_masquerade",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x075",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0384
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 11,
+      "capture": "max_speedometer_attack_1_masquerade",
+      "alert_id": 0,
+      "item": "E5",
+      "can_id": "0x4EE",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0454
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 11,
+      "capture": "max_speedometer_attack_1_masquerade",
+      "alert_id": 0,
+      "item": "E6",
+      "can_id": "0x6D7",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0313
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 11,
+      "capture": "max_speedometer_attack_1_masquerade",
+      "alert_id": 0,
+      "item": "E7",
+      "can_id": "0x3B9",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0438
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 12,
+      "capture": "max_speedometer_attack_2",
+      "alert_id": 0,
+      "item": "E3",
+      "can_id": "0x69D",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0452
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 12,
+      "capture": "max_speedometer_attack_2",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x075",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0384
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 12,
+      "capture": "max_speedometer_attack_2",
+      "alert_id": 0,
+      "item": "E5",
+      "can_id": "0x4EE",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0454
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 12,
+      "capture": "max_speedometer_attack_2",
+      "alert_id": 0,
+      "item": "E6",
+      "can_id": "0x6D7",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0313
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 12,
+      "capture": "max_speedometer_attack_2",
+      "alert_id": 0,
+      "item": "E7",
+      "can_id": "0x3B9",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0438
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 13,
+      "capture": "max_speedometer_attack_3",
+      "alert_id": 0,
+      "item": "E3",
+      "can_id": "0x69D",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0452
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 13,
+      "capture": "max_speedometer_attack_3",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x075",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0384
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 13,
+      "capture": "max_speedometer_attack_3",
+      "alert_id": 0,
+      "item": "E5",
+      "can_id": "0x4EE",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0454
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 13,
+      "capture": "max_speedometer_attack_3",
+      "alert_id": 0,
+      "item": "E6",
+      "can_id": "0x6D7",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0313
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 13,
+      "capture": "max_speedometer_attack_3",
+      "alert_id": 0,
+      "item": "E7",
+      "can_id": "0x3B9",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0438
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 14,
+      "capture": "reverse_light_off_attack_1",
+      "alert_id": 0,
+      "item": "E3",
+      "can_id": "0x69D",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0452
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 14,
+      "capture": "reverse_light_off_attack_1",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x075",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0384
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 14,
+      "capture": "reverse_light_off_attack_1",
+      "alert_id": 0,
+      "item": "E5",
+      "can_id": "0x3B9",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0438
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 14,
+      "capture": "reverse_light_off_attack_1",
+      "alert_id": 0,
+      "item": "E6",
+      "can_id": "0x4EE",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0454
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 14,
+      "capture": "reverse_light_off_attack_1",
+      "alert_id": 0,
+      "item": "E7",
+      "can_id": "0x6D7",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0313
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 15,
+      "capture": "reverse_light_off_attack_2",
+      "alert_id": 0,
+      "item": "E3",
+      "can_id": "0x69D",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0452
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 15,
+      "capture": "reverse_light_off_attack_2",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x075",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0384
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 15,
+      "capture": "reverse_light_off_attack_2",
+      "alert_id": 0,
+      "item": "E5",
+      "can_id": "0x3B9",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0438
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 15,
+      "capture": "reverse_light_off_attack_2",
+      "alert_id": 0,
+      "item": "E6",
+      "can_id": "0x4EE",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0454
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 15,
+      "capture": "reverse_light_off_attack_2",
+      "alert_id": 0,
+      "item": "E7",
+      "can_id": "0x6D7",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0313
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 16,
+      "capture": "reverse_light_off_attack_3",
+      "alert_id": 0,
+      "item": "E3",
+      "can_id": "0x69D",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0452
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 16,
+      "capture": "reverse_light_off_attack_3",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x075",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0384
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 16,
+      "capture": "reverse_light_off_attack_3",
+      "alert_id": 0,
+      "item": "E5",
+      "can_id": "0x3B9",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0438
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 16,
+      "capture": "reverse_light_off_attack_3",
+      "alert_id": 0,
+      "item": "E6",
+      "can_id": "0x4EE",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0454
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 16,
+      "capture": "reverse_light_off_attack_3",
+      "alert_id": 0,
+      "item": "E7",
+      "can_id": "0x6D7",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0313
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 17,
+      "capture": "reverse_light_on_attack_1",
+      "alert_id": 0,
+      "item": "E3",
+      "can_id": "0x69D",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0452
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 17,
+      "capture": "reverse_light_on_attack_1",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x075",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0384
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 17,
+      "capture": "reverse_light_on_attack_1",
+      "alert_id": 0,
+      "item": "E5",
+      "can_id": "0x3B9",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0438
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 17,
+      "capture": "reverse_light_on_attack_1",
+      "alert_id": 0,
+      "item": "E6",
+      "can_id": "0x4EE",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0454
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 17,
+      "capture": "reverse_light_on_attack_1",
+      "alert_id": 0,
+      "item": "E7",
+      "can_id": "0x6D7",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0313
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 18,
+      "capture": "reverse_light_on_attack_2",
+      "alert_id": 0,
+      "item": "E3",
+      "can_id": "0x69D",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0452
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 18,
+      "capture": "reverse_light_on_attack_2",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x075",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0384
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 18,
+      "capture": "reverse_light_on_attack_2",
+      "alert_id": 0,
+      "item": "E5",
+      "can_id": "0x4EE",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0454
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 18,
+      "capture": "reverse_light_on_attack_2",
+      "alert_id": 0,
+      "item": "E6",
+      "can_id": "0x6D7",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0313
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 18,
+      "capture": "reverse_light_on_attack_2",
+      "alert_id": 0,
+      "item": "E7",
+      "can_id": "0x3B9",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0438
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 19,
+      "capture": "reverse_light_on_attack_2",
+      "alert_id": 1,
+      "item": "E3",
+      "can_id": "0x075",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0384
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 19,
+      "capture": "reverse_light_on_attack_2",
+      "alert_id": 1,
+      "item": "E4",
+      "can_id": "0x3B9",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0438
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 19,
+      "capture": "reverse_light_on_attack_2",
+      "alert_id": 1,
+      "item": "E5",
+      "can_id": "0x0F1",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0008
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 19,
+      "capture": "reverse_light_on_attack_2",
+      "alert_id": 1,
+      "item": "E6",
+      "can_id": "0x025",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0098
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 19,
+      "capture": "reverse_light_on_attack_2",
+      "alert_id": 1,
+      "item": "E7",
+      "can_id": "0x03A",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0056
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 20,
+      "capture": "reverse_light_on_attack_2_masquerade",
+      "alert_id": 0,
+      "item": "E3",
+      "can_id": "0x075",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0384
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 20,
+      "capture": "reverse_light_on_attack_2_masquerade",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x3B9",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0438
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 20,
+      "capture": "reverse_light_on_attack_2_masquerade",
+      "alert_id": 0,
+      "item": "E5",
+      "can_id": "0x0F1",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0008
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 20,
+      "capture": "reverse_light_on_attack_2_masquerade",
+      "alert_id": 0,
+      "item": "E6",
+      "can_id": "0x025",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0098
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 20,
+      "capture": "reverse_light_on_attack_2_masquerade",
+      "alert_id": 0,
+      "item": "E7",
+      "can_id": "0x03A",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0056
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 21,
+      "capture": "reverse_light_on_attack_2_masquerade",
+      "alert_id": 1,
+      "item": "E3",
+      "can_id": "0x075",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0384
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 21,
+      "capture": "reverse_light_on_attack_2_masquerade",
+      "alert_id": 1,
+      "item": "E4",
+      "can_id": "0x3B9",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0438
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 21,
+      "capture": "reverse_light_on_attack_2_masquerade",
+      "alert_id": 1,
+      "item": "E5",
+      "can_id": "0x0F1",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0008
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 21,
+      "capture": "reverse_light_on_attack_2_masquerade",
+      "alert_id": 1,
+      "item": "E6",
+      "can_id": "0x025",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0098
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 21,
+      "capture": "reverse_light_on_attack_2_masquerade",
+      "alert_id": 1,
+      "item": "E7",
+      "can_id": "0x03A",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0056
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 22,
+      "capture": "reverse_light_on_attack_3",
+      "alert_id": 0,
+      "item": "E3",
+      "can_id": "0x69D",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0452
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 22,
+      "capture": "reverse_light_on_attack_3",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x075",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0384
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 22,
+      "capture": "reverse_light_on_attack_3",
+      "alert_id": 0,
+      "item": "E5",
+      "can_id": "0x4EE",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0454
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 22,
+      "capture": "reverse_light_on_attack_3",
+      "alert_id": 0,
+      "item": "E6",
+      "can_id": "0x6D7",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0313
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 22,
+      "capture": "reverse_light_on_attack_3",
+      "alert_id": 0,
+      "item": "E7",
+      "can_id": "0x3B9",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0438
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 23,
+      "capture": "ambient_dyno_drive_basic_long",
+      "alert_id": 0,
+      "item": "E3",
+      "can_id": "0x075",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0384
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 23,
+      "capture": "ambient_dyno_drive_basic_long",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x03A",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0056
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 23,
+      "capture": "ambient_dyno_drive_basic_long",
+      "alert_id": 0,
+      "item": "E5",
+      "can_id": "0x30A",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0157
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 23,
+      "capture": "ambient_dyno_drive_basic_long",
+      "alert_id": 0,
+      "item": "E6",
+      "can_id": "0x0F1",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0008
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 23,
+      "capture": "ambient_dyno_drive_basic_long",
+      "alert_id": 0,
+      "item": "E7",
+      "can_id": "0x655",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0312
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 24,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 0,
+      "item": "E3",
+      "can_id": "0x69D",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0452
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 24,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 0,
+      "item": "E4",
+      "can_id": "0x075",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0384
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 24,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 0,
+      "item": "E5",
+      "can_id": "0x4EE",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0454
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 24,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 0,
+      "item": "E6",
+      "can_id": "0x6D7",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0313
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 24,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 0,
+      "item": "E7",
+      "can_id": "0x655",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0312
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 25,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 1,
+      "item": "E3",
+      "can_id": "0x69D",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0452
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 25,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 1,
+      "item": "E4",
+      "can_id": "0x075",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0384
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 25,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 1,
+      "item": "E5",
+      "can_id": "0x4EE",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0454
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 25,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 1,
+      "item": "E6",
+      "can_id": "0x6D7",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0313
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 25,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 1,
+      "item": "E7",
+      "can_id": "0x655",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0312
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 26,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 2,
+      "item": "E3",
+      "can_id": "0x69D",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0452
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 26,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 2,
+      "item": "E4",
+      "can_id": "0x075",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0384
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 26,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 2,
+      "item": "E5",
+      "can_id": "0x4EE",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0454
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 26,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 2,
+      "item": "E6",
+      "can_id": "0x6D7",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0313
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 26,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 2,
+      "item": "E7",
+      "can_id": "0x655",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0312
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 27,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 3,
+      "item": "E2",
+      "can_id": "0x69D",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0452
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 27,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 3,
+      "item": "E3",
+      "can_id": "0x075",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0384
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 27,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 3,
+      "item": "E4",
+      "can_id": "0x4EE",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0454
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 27,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 3,
+      "item": "E5",
+      "can_id": "0x3B9",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0438
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 27,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 3,
+      "item": "E6",
+      "can_id": "0x6D7",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0313
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 27,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 3,
+      "item": "E7",
+      "can_id": "0x655",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0312
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 28,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 4,
+      "item": "E3",
+      "can_id": "0x69D",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0452
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 28,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 4,
+      "item": "E4",
+      "can_id": "0x075",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0384
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 28,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 4,
+      "item": "E5",
+      "can_id": "0x3B9",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0438
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 28,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 4,
+      "item": "E6",
+      "can_id": "0x4EE",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0454
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 28,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 4,
+      "item": "E7",
+      "can_id": "0x6D7",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0313
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 29,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 5,
+      "item": "E2",
+      "can_id": "0x69D",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0452
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 29,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 5,
+      "item": "E3",
+      "can_id": "0x075",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0384
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 29,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 5,
+      "item": "E4",
+      "can_id": "0x3B9",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0438
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 29,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 5,
+      "item": "E5",
+      "can_id": "0x4EE",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0454
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 29,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 5,
+      "item": "E6",
+      "can_id": "0x6D7",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0313
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 29,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 5,
+      "item": "E7",
+      "can_id": "0x655",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0312
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 30,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 6,
+      "item": "E4",
+      "can_id": "0x69D",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0452
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 30,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 6,
+      "item": "E5",
+      "can_id": "0x075",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0384
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 30,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 6,
+      "item": "E6",
+      "can_id": "0x3B9",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0438
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_index": 30,
+      "capture": "ambient_dyno_drive_extended_short",
+      "alert_id": 6,
+      "item": "E7",
+      "can_id": "0x4EE",
+      "issue": "single_frame_bitflip_is_numeric",
+      "values": {
+        "window_count": 1,
+        "bitflip_rate": 0.0,
+        "bitflip_delta": -0.0454
+      }
+    }
+  ]
+}

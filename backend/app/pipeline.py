@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import uuid
+import time
+import threading
 from dataclasses import dataclass, field
 
 import numpy as np
@@ -31,25 +33,39 @@ class Analysis:
     explanations: dict[str, dict[int, Explanation]] = field(default_factory=dict)
     evidence_cache: dict[int, dict] = field(default_factory=dict)
 
+    timing_s: dict[str, float] = field(default_factory=dict)
+    _summary_cache: dict | None = field(default=None, init=False, repr=False)
+    _timeline_default: dict | None = field(default=None, init=False, repr=False)
+    _alert_rows: dict[int, dict] = field(default_factory=dict, repr=False)
+    _id_rows: list[dict] | None = field(default=None, repr=False)
+    _locks: dict[tuple[str, int], threading.Lock] = field(default_factory=dict, repr=False)
+    _cache_lock: threading.Lock = field(default_factory=threading.Lock, repr=False)
+
     # --- derived views -------------------------------------------------
     def summary(self) -> dict:
-        m = metrics.detection_metrics(self.windows, skip_until=self.baseline_end)
-        return {
-            "analysis_id": self.analysis_id,
-            "source": self.source,
-            "params": self.params,
-            "detector": self.detector,
-            "duration_s": round(float(self.df["timestamp"].max()), 3),
-            "frame_count": int(len(self.df)),
-            "unique_ids": int(self.df["can_id"].nunique()),
-            "mean_rate": round(len(self.df) / max(float(self.df["timestamp"].max()), 1e-6), 1),
-            "baseline_end": self.baseline_end,
-            "window_count": int(len(self.windows)),
-            "alert_count": len(self.alerts),
-            "attack_intervals": self.df.attrs.get("attack_intervals", []),
-            "labeled": bool(self.df["label"].max() > 0),
-            "metrics": m,
-        }
+        if self._summary_cache is None:
+            m = metrics.detection_metrics(self.windows, skip_until=self.baseline_end)
+            observed_ids = set(int(v) for v in self.df["can_id"].unique())
+            self._summary_cache = {
+                "analysis_id": self.analysis_id,
+                "source": self.source,
+                "params": self.params,
+                "detector": self.detector,
+                "duration_s": round(float(self.df["timestamp"].max()), 3),
+                "frame_count": int(len(self.df)),
+                "unique_ids": len(observed_ids),
+                "unknown_ids_count": len(observed_ids - self.baseline.known_ids),
+                "mean_rate": round(len(self.df) / max(float(self.df["timestamp"].max()), 1e-6), 1),
+                "baseline_end": self.baseline_end,
+                "window_count": int(len(self.windows)),
+                "alert_count": len(self.alerts),
+                "attack_intervals": self.df.attrs.get("attack_intervals", []),
+                "labeled": bool(self.df.attrs.get("has_labels", (self.df["attack_type"] != "unknown").all())),
+                "metrics": m,
+                "timing_s": self.timing_s,
+                "baseline_source": "separate capture" if self.baseline_end == 0 else "clean prefix",
+            }
+        return {**self._summary_cache, "params": self.params, "timing_s": self.timing_s}
 
     def ask_context(self, explainer: Explainer | None = None) -> dict:
         """What the free-form question box may show a model.
@@ -61,7 +77,8 @@ class Analysis:
         """
         summary = {k: v for k, v in self.summary().items()
                    if k not in {"source", "attack_intervals", "labeled", "metrics"}}
-        summary["params"] = {k: v for k, v in self.params.items() if k != "attacks"}
+        summary["params"] = {k: v for k, v in self.params.items()
+                             if k in {"window_s", "stride_s", "baseline_s", "threshold"}}
         alerts = [{k: v for k, v in a.items() if k != "true_type"}
                   for a in self.alert_list(include_explanations=True, explainer=explainer)]
         for a in alerts:
@@ -70,9 +87,22 @@ class Analysis:
                                     if k != "raw_response"}
         return {"summary": summary, "alerts": alerts, "baseline": self.baseline.to_json()}
 
-    def timeline(self) -> dict:
+    def timeline(self, max_points: int = 2000) -> dict:
+        if max_points == 2000 and self._timeline_default is not None:
+            return self._timeline_default
         w = self.windows
-        return {
+        original_count = len(w)
+        if len(w) > max_points:
+            # Keep real measurements at each bucket's rate and score extrema.
+            # Uniform decimation can erase brief attacks entirely.
+            selected = {0, len(w) - 1}
+            for indices in np.array_split(np.arange(len(w)), max(1, (max_points - 2) // 4)):
+                chunk = w.iloc[indices]
+                for column in ("msg_rate", "score"):
+                    values = chunk[column].to_numpy()
+                    selected.update((int(indices[values.argmin()]), int(indices[values.argmax()])))
+            w = w.iloc[sorted(selected)]
+        result = {
             "points": [
                 {
                     "t": float(r.start),
@@ -83,14 +113,21 @@ class Analysis:
                 }
                 for r in w.itertuples()
             ],
+            "original_point_count": original_count,
+            "downsampled": original_count > len(w),
             "baseline_rate": round(self.baseline.total_rate, 2),
             "threshold": self.params.get("threshold", 0.55),
             "attack_intervals": self.df.attrs.get("attack_intervals", []),
             "alerts": [{"alert_id": a.alert_id, "start": a.start, "end": a.end, "score": a.score}
                        for a in self.alerts],
         }
+        if max_points == 2000:
+            self._timeline_default = result
+        return result
 
     def id_table(self, limit: int = 80) -> list[dict]:
+        if self._id_rows is not None:
+            return self._id_rows[:limit]
         rows = []
         # Synthetic signal names are not a vehicle-independent CAN database.
         id_info = ID_INFO if self.df.attrs.get("source") == "synthetic" else {}
@@ -119,6 +156,7 @@ class Analysis:
         # Fuzzing can introduce hundreds of one-off IDs, so the most
         # interesting rows come first and the tail is truncated.
         rows.sort(key=lambda r: (not r["in_alert"], r["known"], -r["count"]))
+        self._id_rows = rows
         return rows[:limit]
 
     def id_series(self, can_id: int, bucket_s: float = 0.5) -> dict:
@@ -137,7 +175,7 @@ class Analysis:
         seg = self.df[(self.df["timestamp"] >= alert.start) & (self.df["timestamp"] < alert.end)]
         atk = seg[seg["label"] == 1]
         if atk.empty:
-            return "normal"
+            return "unknown" if (seg["attack_type"] == "unknown").any() else "normal"
         return str(atk["attack_type"].mode().iat[0])
 
     def evidence_for(self, alert_id: int) -> dict:
@@ -148,38 +186,42 @@ class Analysis:
         return self.evidence_cache[alert_id]
 
     def explain(self, alert_id: int, explainer: Explainer, force: bool = False) -> Explanation:
-        cache = self.explanations.setdefault(explainer_key(explainer), {})
-        if force or alert_id not in cache:
-            cache[alert_id] = explainer.explain(self.evidence_for(alert_id))
-        return cache[alert_id]
+        key = explainer_key(explainer)
+        with self._cache_lock:
+            lock = self._locks.setdefault((key, alert_id), threading.Lock())
+        # Two tabs requesting the same alert share one hosted request.
+        with lock:
+            cache = self.explanations.setdefault(key, {})
+            if force or alert_id not in cache:
+                cache[alert_id] = explainer.explain(self.evidence_for(alert_id))
+            return cache[alert_id]
 
     def cached_explanation(self, alert_id: int, explainer: Explainer) -> Explanation | None:
         return self.explanations.get(explainer_key(explainer), {}).get(alert_id)
 
-    def alert_list(self, include_explanations: bool = False,
-                   explainer: Explainer | None = None) -> list[dict]:
-        """Alerts, with the given explainer's cached explanations (none are generated)."""
-        cache = self.explanations.get(explainer_key(explainer or get_explainer("mock")), {})
-        out = []
-        for a in self.alerts:
-            ev = self.evidence_for(a.alert_id)
-            item = {
-                "alert_id": a.alert_id,
-                "start": a.start,
-                "end": a.end,
-                "duration_s": round(a.end - a.start, 3),
-                "score": a.score,
-                "components": a.components,
-                "reasons": a.reasons,
-                "ids_involved": ev["ids_involved"],
-                "frame_count": ev["frame_count"],
+    def alert_item(self, alert_id: int, include_explanations: bool = False,
+                   explainer: Explainer | None = None) -> dict:
+        if alert_id not in self._alert_rows:
+            a = self.alerts[alert_id]
+            ev = self.evidence_for(alert_id)
+            self._alert_rows[alert_id] = {
+                "alert_id": a.alert_id, "start": a.start, "end": a.end,
+                "duration_s": round(a.end - a.start, 3), "score": a.score,
+                "components": a.components, "reasons": a.reasons,
+                "ids_involved": ev["ids_involved"], "frame_count": ev["frame_count"],
                 "true_type": self.true_type_for(a),
             }
-            exp = cache.get(a.alert_id)
-            if include_explanations and exp:
+        item = dict(self._alert_rows[alert_id])
+        if include_explanations:
+            exp = self.cached_explanation(alert_id, explainer or get_explainer("mock"))
+            if exp:
                 item["explanation"] = exp.to_json()
-            out.append(item)
-        return out
+        return item
+
+    def alert_list(self, include_explanations: bool = False,
+                   explainer: Explainer | None = None) -> list[dict]:
+        """Read immutable alert measurements once; attach the requested model cache."""
+        return [self.alert_item(a.alert_id, include_explanations, explainer) for a in self.alerts]
 
 
 class Store:
@@ -216,33 +258,65 @@ def run_analysis(df: pd.DataFrame, *, source: str, params: dict,
     Pass baseline_df (a separate attack-free capture of the same vehicle)
     when the log has no clean prefix; the whole log is then scored.
     """
+    started = time.perf_counter()
+    if df.empty:
+        raise ValueError("Capture contains no CAN frames")
+    if not (0.05 < window_s <= 5 and 0.01 < stride_s <= window_s):
+        raise ValueError("Require 0.05 < window_s <= 5 and 0.01 < stride_s <= window_s")
+    if detector not in {"rule", "forest"}:
+        raise ValueError("detector must be rule or forest")
+    if not 0.05 <= threshold <= 0.99:
+        raise ValueError("threshold must be between 0.05 and 0.99")
     t_max = float(df["timestamp"].max())
     if baseline_df is not None:
+        if baseline_df.empty or baseline_df["label"].any():
+            raise ValueError("Separate baseline must contain attack-free CAN frames")
+        columns = ["timestamp", "can_id", "dlc", "data"]
+        if df[columns].equals(baseline_df[columns]):
+            raise ValueError("Evaluation capture and baseline must be separate traffic")
         baseline = features.learn_baseline(baseline_df, float("inf"), window_s=window_s)
         baseline_s = 0.0
     else:
         if baseline_s is None:
             baseline_s = float(df.attrs.get("benign_prefix_s", min(30.0, t_max * 0.25)))
-        baseline_s = max(window_s * 4, min(baseline_s, t_max * 0.5))
+            baseline_s = max(window_s * 4, min(baseline_s, t_max * 0.5))
+        if not np.isfinite(baseline_s) or not window_s <= baseline_s < t_max:
+            raise ValueError("Baseline duration must span at least one window and end before the capture")
+        if df.loc[df.timestamp < baseline_s, "label"].any():
+            raise ValueError("Opening baseline contains labeled attacks. Supply a separate normal baseline capture.")
         baseline = features.learn_baseline(df, baseline_s, window_s=window_s)
+    baseline_done = time.perf_counter()
     windows = features.extract_windows(df, baseline, window_s=window_s, stride_s=stride_s)
+    windows.attrs["has_labels"] = bool(df.attrs.get("has_labels", (df["attack_type"] != "unknown").all()))
+    features_done = time.perf_counter()
     det = get_detector(detector, baseline, threshold=threshold)
     if detector == "forest":
-        windows, alerts = det.run(windows, fit_until=baseline_s)
+        if baseline_df is not None:
+            normal_windows = features.extract_windows(baseline_df, baseline, window_s=window_s, stride_s=stride_s)
+            det.fit(normal_windows)
+            windows, alerts = det.run(windows)
+        else:
+            windows, alerts = det.run(windows, fit_until=baseline_s)
     else:
         windows, alerts = det.run(windows)
 
+    windows.attrs["has_labels"] = bool(df.attrs.get("has_labels", (df["attack_type"] != "unknown").all()))
     analysis = Analysis(
         analysis_id=uuid.uuid4().hex[:12],
         source=source,
         params={**params, "window_s": window_s, "stride_s": stride_s,
-                "baseline_s": round(baseline_s, 2), "threshold": threshold},
+                "baseline_s": round(baseline_s, 2), "threshold": threshold,
+                "calibration": getattr(det, "calibration", None)},
         df=df,
         baseline=baseline,
         windows=windows,
         alerts=alerts,
         baseline_end=baseline_s,
         detector=detector,
+        timing_s={"baseline": round(baseline_done - started, 4),
+                  "features": round(features_done - baseline_done, 4),
+                  "detection": round(time.perf_counter() - features_done, 4),
+                  "total": round(time.perf_counter() - started, 4)},
     )
     STORE.put(analysis)
     return analysis
@@ -253,7 +327,7 @@ def run_synthetic(duration_s: float = 120.0, seed: int = 7,
     df = loader.load_synthetic(duration_s=duration_s, seed=seed, attacks=attacks)
     return run_analysis(df, source="synthetic",
                         params={"duration_s": duration_s, "seed": seed,
-                                "attacks": attacks or ["dos", "fuzzing", "spoofing", "masquerade"]},
+                                "attacks": attacks if attacks is not None else ["dos", "fuzzing", "spoofing", "masquerade"]},
                         **kwargs)
 
 
@@ -262,12 +336,15 @@ def explain_all(analysis: Analysis, explainer: Explainer) -> None:
         analysis.explain(a.alert_id, explainer)
 
 
-def evaluation_report(analysis: Analysis, explainer: Explainer) -> dict:
-    explain_all(analysis, explainer)
+def evaluation_report(analysis: Analysis, explainer: Explainer, *, generate: bool = True) -> dict:
+    if generate:
+        explain_all(analysis, explainer)
     alerts = analysis.alert_list(include_explanations=True, explainer=explainer)
     return {
         "detection": metrics.detection_metrics(analysis.windows, skip_until=analysis.baseline_end),
-        "classification": metrics.classification_accuracy(alerts),
+        "classification": metrics.classification_accuracy([a for a in alerts if a.get("explanation")]),
+        "explained_alerts": sum(bool(a.get("explanation")) for a in alerts),
+        "total_alerts": len(alerts),
         "grounding": metrics.grounding_rate(alerts),
         "explainer": explainer.name,
         "detector": analysis.detector,

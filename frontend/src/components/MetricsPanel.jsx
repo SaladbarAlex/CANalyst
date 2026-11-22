@@ -5,34 +5,39 @@ import { fmt } from '../api'
 
 const AXIS = { stroke: 'var(--axis)', tick: { fill: 'var(--text-muted)', fontSize: 10.5, fontFamily: 'IBM Plex Mono, monospace' } }
 
-export default function MetricsPanel({ report, explainer = 'mock', explainerLabel, alertCount = 0, onScore, scoring }) {
+export default function MetricsPanel({ report, explainer = 'mock', explainerLabel, alertCount = 0, onScore, scoring, progress, onStop, explaining }) {
   if (!report) return <p className="muted">Run an analysis to see evaluation metrics.</p>
   const d = report.detection
-  if (!d.labeled) {
-    return (
-      <p className="muted">
-        This log has no ground-truth labels, so detection metrics cannot be computed.
-        Load a labeled dataset (Car-Hacking, ROAD, or the synthetic generator) to evaluate.
-      </p>
-    )
-  }
-  const byType = Object.entries(d.per_attack_type).map(([k, v]) => ({
+  const byType = Object.entries(d.per_attack_type ?? {}).map(([k, v]) => ({
     type: k, recall: v.recall, detected: v.detected, windows: v.windows,
   }))
   const c = report.classification
   const g = report.grounding
 
-  const scoreWith = explainer !== 'mock' && report.explainer !== explainer ? (
-    <div className="row" style={{ marginBottom: 14, gap: 10, flexWrap: 'wrap', alignItems: 'center' }}>
-      <button className="secondary" onClick={onScore} disabled={scoring || !alertCount}>
-        {scoring ? `Scoring ${alertCount} alerts...` : `Score all ${alertCount} alerts with ${explainerLabel}`}
-      </button>
-      <span className="small muted">
-        Classification below uses the offline control. Scoring with the LLM makes one call per
-        alert, about {Math.max(1, Math.ceil((alertCount * 30) / 60))} min.
-      </span>
+  const done = report.explained_alerts ?? 0
+  const total = report.total_alerts ?? alertCount
+  const scoreWith = (
+    <div className="score-controls">
+      <div className="row" style={{ gap: 10, flexWrap: 'wrap', alignItems: 'center' }}>
+        <button className="secondary" onClick={onScore} disabled={scoring || explaining || !alertCount || done >= total}>
+          {scoring ? `Explained ${progress?.done ?? done} / ${total}` : `Explain remaining alerts with ${explainerLabel}`}
+        </button>
+        {scoring ? <button className="secondary" onClick={onStop} disabled={progress?.stopping}>Stop after current</button> : null}
+        <span className="small muted">{done} / {total} responses cached for {explainerLabel}.</span>
+      </div>
+      <p className="small muted">{done < total ? 'Classification is partial until all alerts have a response. ' : ''}
+        Detection metrics cover all scored windows. Explanation metrics cover cached responses only.
+        {explainer !== 'mock' ? ' Each uncached alert makes a model request; results appear as they finish.' : ''}</p>
     </div>
-  ) : null
+  )
+
+  if (!d.labeled) return <div>
+    {scoreWith}
+    <p className="muted">This capture has no ground-truth labels, so accuracy and detection metrics are unavailable.
+      Upload labeled traffic or ROAD metadata to evaluate accuracy.</p>
+    <p className="small muted">Valid citations: {fmt.pct(g.grounded_rate)} of cached explanations.
+      Citation validity does not establish factual support.</p>
+  </div>
 
   return (
     <div>
@@ -49,7 +54,7 @@ export default function MetricsPanel({ report, explainer = 'mock', explainerLabe
         <div className="kpi"><div className="label">Classification</div>
           <div className="value">{c.accuracy === null ? 'n/a' : fmt.pct(c.accuracy)}</div>
           <div className="note">{c.scored_alerts} labeled alerts</div></div>
-        <div className="kpi"><div className="label">Grounded explanations</div>
+        <div className="kpi"><div className="label">Valid citations</div>
           <div className="value">{g.grounded_rate === null ? 'n/a' : fmt.pct(g.grounded_rate)}</div>
           <div className="note">{g.uncited_claims ?? 0} of {g.total_claims ?? 0} claims uncited</div></div>
       </div>
@@ -92,7 +97,7 @@ export default function MetricsPanel({ report, explainer = 'mock', explainerLabe
       <p className="small muted" style={{ marginTop: 14 }}>
         Detector: {report.detector}. Explainer: {report.explainer}. The mock explainer reads the
         same features the detector scores, so its classification accuracy is a control condition,
-        not a measurement of LLM performance.
+        not a measurement of LLM performance. Citation validity does not measure factual support.
       </p>
     </div>
   )

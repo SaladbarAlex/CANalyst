@@ -57,6 +57,10 @@ export default function TimelineChart({ timeline, selectedAlert, onSelectAlert, 
         <span className="hint">click a shaded region to open its alert</span>
       </div>
 
+      {timeline?.downsampled ? <p className="small muted">
+        Displaying {points.length.toLocaleString()} representative measurements from {timeline.original_point_count.toLocaleString()} windows.
+        Rate and score peaks are preserved; evaluation uses all windows.
+      </p> : null}
       <div className="scope">
       {busy ? <div className="scope-scan" /> : null}
       <div className="chart-label">msg/s</div>
@@ -79,7 +83,7 @@ export default function TimelineChart({ timeline, selectedAlert, onSelectAlert, 
           {timeline?.baseline_rate ? (
             <ReferenceLine y={timeline.baseline_rate} stroke="var(--series-3)" strokeDasharray="4 4" />
           ) : null}
-          <Area type="monotone" dataKey="msg_rate" stroke="var(--series-1)" strokeWidth={2}
+          <Area type="monotone" dataKey="msg_rate" stroke="var(--series-1)" strokeWidth={2} isAnimationActive={false}
             fill="var(--series-1)" fillOpacity={0.12} dot={false} activeDot={{ r: 4 }} />
         </AreaChart>
       </ResponsiveContainer>
@@ -93,7 +97,7 @@ export default function TimelineChart({ timeline, selectedAlert, onSelectAlert, 
           <YAxis domain={[0, 1]} {...AXIS} width={52} />
           <Tooltip content={<RateTooltip />} />
           <ReferenceLine y={threshold} stroke="var(--critical)" strokeDasharray="4 4" />
-          <Line type="monotone" dataKey="score" stroke="var(--series-2)" strokeWidth={2} dot={false}
+          <Line type="monotone" dataKey="score" stroke="var(--series-2)" strokeWidth={2} dot={false} isAnimationActive={false}
             activeDot={{ r: 4 }} />
         </LineChart>
       </ResponsiveContainer>

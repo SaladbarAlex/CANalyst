@@ -1,0 +1,440 @@
+[
+  {
+    "capture": "correlated_signal_attack_1",
+    "benign_flagged": 5,
+    "component_counts": {
+      "bus_load": 0,
+      "unknown_ids": 0,
+      "rate_inflation": 0,
+      "missing_ids": 0,
+      "timing": 0,
+      "payload_entropy": 5
+    },
+    "samples": [
+      {
+        "start": 2.5,
+        "reasons": [
+          "Payload entropy up 1.39 bits over baseline"
+        ],
+        "worst_rate_ids": [
+          {
+            "count": 5,
+            "rate": 10.0,
+            "baseline_rate": 8.11,
+            "rate_ratio": 1.233,
+            "iat_mean_ms": 100.362,
+            "iat_std_ms": 0.395,
+            "baseline_iat_ms": 100.131,
+            "iat_z": 0.04,
+            "jitter_ratio": 0.069,
+            "entropy": 2.75,
+            "baseline_entropy": 3.093,
+            "entropy_delta": -0.343,
+            "bitflip_rate": 0.0,
+            "bitflip_delta": -0.0,
+            "known": true,
+            "can_id": "0xf4"
+          },
+          {
+            "count": 50,
+            "rate": 100.0,
+            "baseline_rate": 81.13,
+            "rate_ratio": 1.233,
+            "iat_mean_ms": 10.02,
+            "iat_std_ms": 0.714,
+            "baseline_iat_ms": 10.011,
+            "iat_z": 0.01,
+            "jitter_ratio": 21.942,
+            "entropy": 3.674,
+            "baseline_entropy": 4.779,
+            "entropy_delta": -1.105,
+            "bitflip_rate": 0.067,
+            "bitflip_delta": 0.0007,
+            "known": true,
+            "can_id": "0x125"
+          }
+        ]
+      },
+      {
+        "start": 3.5,
+        "reasons": [
+          "Payload entropy up 1.39 bits over baseline"
+        ],
+        "worst_rate_ids": [
+          {
+            "count": 4,
+            "rate": 8.0,
+            "baseline_rate": 5.77,
+            "rate_ratio": 1.333,
+            "iat_mean_ms": 149.687,
+            "iat_std_ms": 1.735,
+            "baseline_iat_ms": 150.1,
+            "iat_z": 0.1,
+            "jitter_ratio": 0.424,
+            "entropy": 2.406,
+            "baseline_entropy": 3.628,
+            "entropy_delta": -1.222,
+            "bitflip_rate": 0.0,
+            "bitflip_delta": -0.001,
+            "known": true,
+            "can_id": "0x55c"
+          },
+          {
+            "count": 5,
+            "rate": 10.0,
+            "baseline_rate": 7.73,
+            "rate_ratio": 1.294,
+            "iat_mean_ms": 104.969,
+            "iat_std_ms": 0.789,
+            "baseline_iat_ms": 105.079,
+            "iat_z": 0.02,
+            "jitter_ratio": 0.128,
+            "entropy": 4.132,
+            "baseline_entropy": 5.64,
+            "entropy_delta": -1.508,
+            "bitflip_rate": 0.168,
+            "bitflip_delta": -0.0128,
+            "known": true,
+            "can_id": "0x2c1"
+          }
+        ]
+      },
+      {
+        "start": 5.25,
+        "reasons": [
+          "Payload entropy up 1.46 bits over baseline"
+        ],
+        "worst_rate_ids": [
+          {
+            "count": 5,
+            "rate": 10.0,
+            "baseline_rate": 7.73,
+            "rate_ratio": 1.294,
+            "iat_mean_ms": 104.888,
+            "iat_std_ms": 0.972,
+            "baseline_iat_ms": 105.079,
+            "iat_z": 0.03,
+            "jitter_ratio": 0.157,
+            "entropy": 3.963,
+            "baseline_entropy": 5.64,
+            "entropy_delta": -1.677,
+            "bitflip_rate": 0.1641,
+            "bitflip_delta": -0.0167,
+            "known": true,
+            "can_id": "0x2c1"
+          },
+          {
+            "count": 5,
+            "rate": 10.0,
+            "baseline_rate": 8.11,
+            "rate_ratio": 1.233,
+            "iat_mean_ms": 100.133,
+            "iat_std_ms": 0.253,
+            "baseline_iat_ms": 100.131,
+            "iat_z": 0.0,
+            "jitter_ratio": 0.044,
+            "entropy": 2.75,
+            "baseline_entropy": 3.093,
+            "entropy_delta": -0.343,
+            "bitflip_rate": 0.0,
+            "bitflip_delta": -0.0,
+            "known": true,
+            "can_id": "0xf4"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "capture": "ambient_dyno_drive_basic_long",
+    "benign_flagged": 354,
+    "component_counts": {
+      "bus_load": 0,
+      "unknown_ids": 0,
+      "rate_inflation": 1,
+      "missing_ids": 0,
+      "timing": 0,
+      "payload_entropy": 354
+    },
+    "samples": [
+      {
+        "start": 8.25,
+        "reasons": [
+          "Payload entropy up 1.46 bits over baseline"
+        ],
+        "worst_rate_ids": [
+          {
+            "count": 4,
+            "rate": 8.0,
+            "baseline_rate": 5.77,
+            "rate_ratio": 1.333,
+            "iat_mean_ms": 149.516,
+            "iat_std_ms": 1.352,
+            "baseline_iat_ms": 150.1,
+            "iat_z": 0.14,
+            "jitter_ratio": 0.33,
+            "entropy": 2.75,
+            "baseline_entropy": 3.628,
+            "entropy_delta": -0.878,
+            "bitflip_rate": 0.0,
+            "bitflip_delta": -0.001,
+            "known": true,
+            "can_id": "0x55c"
+          },
+          {
+            "count": 5,
+            "rate": 10.0,
+            "baseline_rate": 7.73,
+            "rate_ratio": 1.294,
+            "iat_mean_ms": 104.973,
+            "iat_std_ms": 0.388,
+            "baseline_iat_ms": 105.079,
+            "iat_z": 0.02,
+            "jitter_ratio": 0.063,
+            "entropy": 4.1,
+            "baseline_entropy": 5.64,
+            "entropy_delta": -1.54,
+            "bitflip_rate": 0.1602,
+            "bitflip_delta": -0.0206,
+            "known": true,
+            "can_id": "0x2c1"
+          }
+        ]
+      },
+      {
+        "start": 9.5,
+        "reasons": [
+          "Payload entropy up 1.54 bits over baseline"
+        ],
+        "worst_rate_ids": [
+          {
+            "count": 5,
+            "rate": 10.0,
+            "baseline_rate": 7.73,
+            "rate_ratio": 1.294,
+            "iat_mean_ms": 105.151,
+            "iat_std_ms": 0.666,
+            "baseline_iat_ms": 105.079,
+            "iat_z": 0.01,
+            "jitter_ratio": 0.108,
+            "entropy": 4.104,
+            "baseline_entropy": 5.64,
+            "entropy_delta": -1.537,
+            "bitflip_rate": 0.168,
+            "bitflip_delta": -0.0128,
+            "known": true,
+            "can_id": "0x2c1"
+          },
+          {
+            "count": 5,
+            "rate": 10.0,
+            "baseline_rate": 8.11,
+            "rate_ratio": 1.233,
+            "iat_mean_ms": 100.006,
+            "iat_std_ms": 0.03,
+            "baseline_iat_ms": 100.131,
+            "iat_z": 0.02,
+            "jitter_ratio": 0.005,
+            "entropy": 2.75,
+            "baseline_entropy": 3.093,
+            "entropy_delta": -0.343,
+            "bitflip_rate": 0.0,
+            "bitflip_delta": -0.0,
+            "known": true,
+            "can_id": "0xf4"
+          }
+        ]
+      },
+      {
+        "start": 9.75,
+        "reasons": [
+          "Payload entropy up 1.39 bits over baseline"
+        ],
+        "worst_rate_ids": [
+          {
+            "count": 4,
+            "rate": 8.0,
+            "baseline_rate": 5.77,
+            "rate_ratio": 1.333,
+            "iat_mean_ms": 149.526,
+            "iat_std_ms": 1.095,
+            "baseline_iat_ms": 150.1,
+            "iat_z": 0.14,
+            "jitter_ratio": 0.267,
+            "entropy": 2.75,
+            "baseline_entropy": 3.628,
+            "entropy_delta": -0.878,
+            "bitflip_rate": 0.0,
+            "bitflip_delta": -0.001,
+            "known": true,
+            "can_id": "0x55c"
+          },
+          {
+            "count": 5,
+            "rate": 10.0,
+            "baseline_rate": 8.11,
+            "rate_ratio": 1.233,
+            "iat_mean_ms": 100.01,
+            "iat_std_ms": 0.028,
+            "baseline_iat_ms": 100.131,
+            "iat_z": 0.02,
+            "jitter_ratio": 0.005,
+            "entropy": 2.75,
+            "baseline_entropy": 3.093,
+            "entropy_delta": -0.343,
+            "bitflip_rate": 0.0,
+            "bitflip_delta": -0.0,
+            "known": true,
+            "can_id": "0xf4"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "capture": "ambient_dyno_drive_extended_short",
+    "benign_flagged": 290,
+    "component_counts": {
+      "bus_load": 0,
+      "unknown_ids": 0,
+      "rate_inflation": 28,
+      "missing_ids": 0,
+      "timing": 0,
+      "payload_entropy": 269
+    },
+    "samples": [
+      {
+        "start": 0.0,
+        "reasons": [
+          "Payload entropy up 1.83 bits over baseline"
+        ],
+        "worst_rate_ids": [
+          {
+            "count": 5,
+            "rate": 10.0,
+            "baseline_rate": 8.65,
+            "rate_ratio": 1.157,
+            "iat_mean_ms": 99.925,
+            "iat_std_ms": 0.155,
+            "baseline_iat_ms": 100.133,
+            "iat_z": 0.03,
+            "jitter_ratio": 0.023,
+            "entropy": 2.433,
+            "baseline_entropy": 2.194,
+            "entropy_delta": 0.239,
+            "bitflip_rate": 0.0469,
+            "bitflip_delta": 0.0088,
+            "known": true,
+            "can_id": "0x2d2"
+          },
+          {
+            "count": 50,
+            "rate": 100.0,
+            "baseline_rate": 86.5,
+            "rate_ratio": 1.156,
+            "iat_mean_ms": 9.999,
+            "iat_std_ms": 0.227,
+            "baseline_iat_ms": 10.01,
+            "iat_z": 0.01,
+            "jitter_ratio": 8.478,
+            "entropy": 2.967,
+            "baseline_entropy": 4.34,
+            "entropy_delta": -1.372,
+            "bitflip_rate": 0.0328,
+            "bitflip_delta": -0.0017,
+            "known": true,
+            "can_id": "0xe"
+          }
+        ]
+      },
+      {
+        "start": 0.25,
+        "reasons": [
+          "Payload entropy up 1.83 bits over baseline"
+        ],
+        "worst_rate_ids": [
+          {
+            "count": 4,
+            "rate": 8.0,
+            "baseline_rate": 5.77,
+            "rate_ratio": 1.333,
+            "iat_mean_ms": 150.268,
+            "iat_std_ms": 0.383,
+            "baseline_iat_ms": 150.1,
+            "iat_z": 0.04,
+            "jitter_ratio": 0.093,
+            "entropy": 2.75,
+            "baseline_entropy": 3.628,
+            "entropy_delta": -0.878,
+            "bitflip_rate": 0.0,
+            "bitflip_delta": -0.001,
+            "known": true,
+            "can_id": "0x55c"
+          },
+          {
+            "count": 5,
+            "rate": 10.0,
+            "baseline_rate": 8.65,
+            "rate_ratio": 1.157,
+            "iat_mean_ms": 99.908,
+            "iat_std_ms": 0.157,
+            "baseline_iat_ms": 100.133,
+            "iat_z": 0.03,
+            "jitter_ratio": 0.024,
+            "entropy": 2.575,
+            "baseline_entropy": 2.194,
+            "entropy_delta": 0.38,
+            "bitflip_rate": 0.0508,
+            "bitflip_delta": 0.0127,
+            "known": true,
+            "can_id": "0x2d2"
+          }
+        ]
+      },
+      {
+        "start": 0.5,
+        "reasons": [
+          "Payload entropy up 1.83 bits over baseline"
+        ],
+        "worst_rate_ids": [
+          {
+            "count": 50,
+            "rate": 100.0,
+            "baseline_rate": 86.5,
+            "rate_ratio": 1.156,
+            "iat_mean_ms": 10.003,
+            "iat_std_ms": 0.133,
+            "baseline_iat_ms": 10.01,
+            "iat_z": 0.01,
+            "jitter_ratio": 4.974,
+            "entropy": 2.911,
+            "baseline_entropy": 4.34,
+            "entropy_delta": -1.428,
+            "bitflip_rate": 0.022,
+            "bitflip_delta": -0.0126,
+            "known": true,
+            "can_id": "0xe"
+          },
+          {
+            "count": 5,
+            "rate": 10.0,
+            "baseline_rate": 8.65,
+            "rate_ratio": 1.156,
+            "iat_mean_ms": 100.038,
+            "iat_std_ms": 0.117,
+            "baseline_iat_ms": 100.107,
+            "iat_z": 0.02,
+            "jitter_ratio": 0.026,
+            "entropy": 1.061,
+            "baseline_entropy": 1.454,
+            "entropy_delta": -0.393,
+            "bitflip_rate": 0.0,
+            "bitflip_delta": -0.0001,
+            "known": true,
+            "can_id": "0x130"
+          }
+        ]
+      }
+    ]
+  }
+]

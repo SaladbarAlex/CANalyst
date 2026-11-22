@@ -161,10 +161,20 @@ def generate(
 ) -> pd.DataFrame:
     """Generate a labeled synthetic CAN log.
 
-    The first `benign_prefix_s` seconds are always attack free so the
-    detector has a clean stretch to learn a baseline from.
+    The opening baseline is attack free. Short demos cap that prefix at
+    half the requested duration so selected attacks still occur in the log.
     """
     attacks = attacks if attacks is not None else ["dos", "fuzzing", "spoofing", "masquerade"]
+    attacks = list(dict.fromkeys(attacks))
+    if not math.isfinite(duration_s) or duration_s <= 0:
+        raise ValueError("duration_s must be positive and finite")
+    if not math.isfinite(benign_prefix_s) or benign_prefix_s <= 0:
+        raise ValueError("benign_prefix_s must be positive and finite")
+    if any(kind not in ATTACK_TYPES for kind in attacks):
+        raise ValueError("Unknown synthetic attack type")
+    if attacks and duration_s < 20:
+        raise ValueError("Synthetic attack demos require at least 20 seconds")
+    benign_prefix_s = min(benign_prefix_s, duration_s / 2)
     rng = np.random.default_rng(seed)
     rows: list[tuple[float, int, int, list[int], int, str]] = []
 
@@ -219,8 +229,8 @@ def generate(
                 counter += 1
                 t += period
         elif kind == "replay":
-            window = [r for r in rows if t0 - 12.0 <= r[0] < t0 - 12.0 + (t1 - t0) and r[4] == 0]
-            base = t0 - 12.0
+            base = max(0.0, t0 - 12.0)
+            window = [r for r in rows if base <= r[0] < base + (t1 - t0) and r[4] == 0]
             for ts, cid, dlc, data, _, _ in window:
                 rows.append((ts - base + t0, cid, dlc, list(data), 1, "replay"))
         elif kind == "masquerade":

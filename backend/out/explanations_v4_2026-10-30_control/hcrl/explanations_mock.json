@@ -1,0 +1,3285 @@
+{
+  "dataset": "hcrl",
+  "corpus_sha256": "c9f8ee0c7a9b71537a74186cfc257c75fbf3f7a555fd0742e0844ded6efd65e7",
+  "manifest": {
+    "corpus_sha256": "c9f8ee0c7a9b71537a74186cfc257c75fbf3f7a555fd0742e0844ded6efd65e7",
+    "selector": "mock",
+    "request_key": "mock:control:0e27b14cdbed",
+    "prompt_sha256": "654c9d6a52d596d4aabdf77e938492cd050205701a34dafc5d46a9de7595e11b",
+    "llm_code_sha256": "a18ac41dea064b46084afb3a6779c32a13fe1cc293ddd24bfb6a18395a93ab74",
+    "runner_sha256": "6b22714b3e3abf2fb0cf9d3753ef3df7ebcce48e6934673a2d35f8203f20ffdb",
+    "limit": null,
+    "prices": null,
+    "workers": 1,
+    "timeout_s": null
+  },
+  "model": "mock",
+  "explainer": "mock",
+  "temperature": null,
+  "git": "5b8d6c6994a857569166540c1aa69f532ce59fef",
+  "reasoning_effort": null,
+  "max_tokens": null,
+  "prompt_version": "control-v4",
+  "status": "complete",
+  "expected_alerts": 69,
+  "alerts": [
+    {
+      "capture": "DoS_dataset",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 0.5,
+      "end": 5.75,
+      "true_type": "dos",
+      "detector_score": 0.6667,
+      "corpus_index": 0,
+      "evidence_sha256": "0555211ef1f8b53194db5ecbd4dea2e81b84806578f88dbd7e6ac197a46583b5",
+      "explanation": {
+        "attack_type": "dos",
+        "confidence": 0.9,
+        "severity": "high",
+        "affected_function": "Bus availability (starvation not measured)",
+        "summary": "DOS on Bus availability (starvation not measured). Window 0.50s to 5.75s, 8091 frames, IDs of interest 0x000, 0x5A2, 0x5A0. Detector score 0.67 (strongest component: missing_ids).",
+        "claims": [
+          {
+            "text": "Total bus load reached 1.07x baseline.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "0x000 is the highest priority ID on CAN and sent 3724 frames in this window, consistent with a high-priority flooding attempt; actual deadline misses are unmeasured.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Treat as a denial of service. Identify the physical node injecting 0x000 and check whether safety messages missed their deadlines.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 7.8e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "DoS_dataset",
+      "role": "attack_capture",
+      "alert_id": 1,
+      "start": 8.0,
+      "end": 13.5,
+      "true_type": "dos",
+      "detector_score": 1.0,
+      "corpus_index": 1,
+      "evidence_sha256": "e7a33bcc491758bd9ea3af87cf207cecce0337ae3d844b7c67c35dc50e408f67",
+      "explanation": {
+        "attack_type": "dos",
+        "confidence": 0.9,
+        "severity": "high",
+        "affected_function": "Bus availability (starvation not measured)",
+        "summary": "DOS on Bus availability (starvation not measured). Window 8.00s to 13.50s, 4999 frames, IDs of interest 0x000, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: missing_ids).",
+        "claims": [
+          {
+            "text": "Total bus load reached 0.97x baseline.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "0x000 is the highest priority ID on CAN and sent 1834 frames in this window, consistent with a high-priority flooding attempt; actual deadline misses are unmeasured.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Treat as a denial of service. Identify the physical node injecting 0x000 and check whether safety messages missed their deadlines.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 2.9e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "DoS_dataset",
+      "role": "attack_capture",
+      "alert_id": 2,
+      "start": 15.75,
+      "end": 21.0,
+      "true_type": "dos",
+      "detector_score": 1.0,
+      "corpus_index": 2,
+      "evidence_sha256": "007bfac62e274f67e8c8831cbbcedeee964fca10803e129dcf42eb28a0510434",
+      "explanation": {
+        "attack_type": "dos",
+        "confidence": 0.9,
+        "severity": "high",
+        "affected_function": "Bus availability (starvation not measured)",
+        "summary": "DOS on Bus availability (starvation not measured). Window 15.75s to 21.00s, 3947 frames, IDs of interest 0x000, 0x5A0, 0x545. Detector score 1.00 (strongest component: missing_ids).",
+        "claims": [
+          {
+            "text": "Total bus load reached 1.28x baseline.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "0x000 is the highest priority ID on CAN and sent 1646 frames in this window, consistent with a high-priority flooding attempt; actual deadline misses are unmeasured.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Treat as a denial of service. Identify the physical node injecting 0x000 and check whether safety messages missed their deadlines.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 2.4e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "DoS_dataset",
+      "role": "attack_capture",
+      "alert_id": 3,
+      "start": 23.25,
+      "end": 28.75,
+      "true_type": "dos",
+      "detector_score": 1.0,
+      "corpus_index": 3,
+      "evidence_sha256": "636f3c0009f5004e22efcdd958e896ca7f64456113855d4433942ed902e469d8",
+      "explanation": {
+        "attack_type": "dos",
+        "confidence": 0.9,
+        "severity": "high",
+        "affected_function": "Bus availability (starvation not measured)",
+        "summary": "DOS on Bus availability (starvation not measured). Window 23.25s to 28.75s, 3175 frames, IDs of interest 0x000, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: missing_ids).",
+        "claims": [
+          {
+            "text": "Total bus load reached 1.09x baseline.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "0x000 is the highest priority ID on CAN and sent 969 frames in this window, consistent with a high-priority flooding attempt; actual deadline misses are unmeasured.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Treat as a denial of service. Identify the physical node injecting 0x000 and check whether safety messages missed their deadlines.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.8e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "DoS_dataset",
+      "role": "attack_capture",
+      "alert_id": 4,
+      "start": 31.0,
+      "end": 36.25,
+      "true_type": "dos",
+      "detector_score": 1.0,
+      "corpus_index": 4,
+      "evidence_sha256": "39c9bdf7bc7924737682d9d9176c914803a516c75d17a5555a528e40def4334d",
+      "explanation": {
+        "attack_type": "dos",
+        "confidence": 0.9,
+        "severity": "high",
+        "affected_function": "Bus availability (starvation not measured)",
+        "summary": "DOS on Bus availability (starvation not measured). Window 31.00s to 36.25s, 6837 frames, IDs of interest 0x000, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: missing_ids).",
+        "claims": [
+          {
+            "text": "Total bus load reached 1.19x baseline.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "0x000 is the highest priority ID on CAN and sent 3028 frames in this window, consistent with a high-priority flooding attempt; actual deadline misses are unmeasured.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Treat as a denial of service. Identify the physical node injecting 0x000 and check whether safety messages missed their deadlines.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 2e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "DoS_dataset",
+      "role": "attack_capture",
+      "alert_id": 5,
+      "start": 38.5,
+      "end": 44.0,
+      "true_type": "dos",
+      "detector_score": 1.0,
+      "corpus_index": 5,
+      "evidence_sha256": "d02480f35fb46c2eab2af3d777bbc62e001ddfe34e3f517685afbf1ad0ed941e",
+      "explanation": {
+        "attack_type": "dos",
+        "confidence": 0.9,
+        "severity": "high",
+        "affected_function": "Bus availability (starvation not measured)",
+        "summary": "DOS on Bus availability (starvation not measured). Window 38.50s to 44.00s, 6642 frames, IDs of interest 0x000, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: missing_ids).",
+        "claims": [
+          {
+            "text": "Total bus load reached 1.41x baseline.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "0x000 is the highest priority ID on CAN and sent 2806 frames in this window, consistent with a high-priority flooding attempt; actual deadline misses are unmeasured.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Treat as a denial of service. Identify the physical node injecting 0x000 and check whether safety messages missed their deadlines.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.6e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "DoS_dataset",
+      "role": "attack_capture",
+      "alert_id": 6,
+      "start": 46.25,
+      "end": 51.5,
+      "true_type": "dos",
+      "detector_score": 1.0,
+      "corpus_index": 6,
+      "evidence_sha256": "c0e9a709344841fc4dc49f39b338e8efcac6857e148ffa0966305c4390d02141",
+      "explanation": {
+        "attack_type": "dos",
+        "confidence": 0.9,
+        "severity": "high",
+        "affected_function": "Bus availability (starvation not measured)",
+        "summary": "DOS on Bus availability (starvation not measured). Window 46.25s to 51.50s, 5052 frames, IDs of interest 0x000, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: missing_ids).",
+        "claims": [
+          {
+            "text": "Total bus load reached 0.89x baseline.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "0x000 is the highest priority ID on CAN and sent 2182 frames in this window, consistent with a high-priority flooding attempt; actual deadline misses are unmeasured.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Treat as a denial of service. Identify the physical node injecting 0x000 and check whether safety messages missed their deadlines.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.9e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "DoS_dataset",
+      "role": "attack_capture",
+      "alert_id": 7,
+      "start": 53.75,
+      "end": 59.0,
+      "true_type": "dos",
+      "detector_score": 1.0,
+      "corpus_index": 7,
+      "evidence_sha256": "55226b5160db521834ef8ec379172369253e7ecd93b197f74ceddedfeab227d8",
+      "explanation": {
+        "attack_type": "dos",
+        "confidence": 0.9,
+        "severity": "high",
+        "affected_function": "Bus availability (starvation not measured)",
+        "summary": "DOS on Bus availability (starvation not measured). Window 53.75s to 59.00s, 4788 frames, IDs of interest 0x000, 0x0A0, 0x0A1. Detector score 1.00 (strongest component: missing_ids).",
+        "claims": [
+          {
+            "text": "Total bus load reached 0.89x baseline.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "0x000 is the highest priority ID on CAN and sent 2001 frames in this window, consistent with a high-priority flooding attempt; actual deadline misses are unmeasured.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Treat as a denial of service. Identify the physical node injecting 0x000 and check whether safety messages missed their deadlines.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.5e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "DoS_dataset",
+      "role": "attack_capture",
+      "alert_id": 8,
+      "start": 61.25,
+      "end": 66.75,
+      "true_type": "dos",
+      "detector_score": 1.0,
+      "corpus_index": 8,
+      "evidence_sha256": "952da0a30b8772b19c94626ff27c116358d33a3648653b918624fd86f646ce8e",
+      "explanation": {
+        "attack_type": "dos",
+        "confidence": 0.9,
+        "severity": "high",
+        "affected_function": "Bus availability (starvation not measured)",
+        "summary": "DOS on Bus availability (starvation not measured). Window 61.25s to 66.75s, 5357 frames, IDs of interest 0x000, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: missing_ids).",
+        "claims": [
+          {
+            "text": "Total bus load reached 1.08x baseline.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "0x000 is the highest priority ID on CAN and sent 2086 frames in this window, consistent with a high-priority flooding attempt; actual deadline misses are unmeasured.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Treat as a denial of service. Identify the physical node injecting 0x000 and check whether safety messages missed their deadlines.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.6e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "DoS_dataset",
+      "role": "attack_capture",
+      "alert_id": 9,
+      "start": 69.0,
+      "end": 74.25,
+      "true_type": "dos",
+      "detector_score": 1.0,
+      "corpus_index": 9,
+      "evidence_sha256": "f26449e1029d088400bfea3f41f005c8e7519cfcdf878d4f8069c0dd13a27598",
+      "explanation": {
+        "attack_type": "dos",
+        "confidence": 0.9,
+        "severity": "high",
+        "affected_function": "Bus availability (starvation not measured)",
+        "summary": "DOS on Bus availability (starvation not measured). Window 69.00s to 74.25s, 4742 frames, IDs of interest 0x000, 0x18F, 0x4B1. Detector score 1.00 (strongest component: missing_ids).",
+        "claims": [
+          {
+            "text": "Total bus load reached 1.04x baseline.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "0x000 is the highest priority ID on CAN and sent 2002 frames in this window, consistent with a high-priority flooding attempt; actual deadline misses are unmeasured.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Treat as a denial of service. Identify the physical node injecting 0x000 and check whether safety messages missed their deadlines.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.4e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "DoS_dataset",
+      "role": "attack_capture",
+      "alert_id": 10,
+      "start": 76.5,
+      "end": 81.75,
+      "true_type": "dos",
+      "detector_score": 1.0,
+      "corpus_index": 10,
+      "evidence_sha256": "ab729a09ba8b7b8903266fa7172e84f22528eeed15449dd90108fe9ecebc729c",
+      "explanation": {
+        "attack_type": "dos",
+        "confidence": 0.9,
+        "severity": "high",
+        "affected_function": "Bus availability (starvation not measured)",
+        "summary": "DOS on Bus availability (starvation not measured). Window 76.50s to 81.75s, 3765 frames, IDs of interest 0x000, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: missing_ids).",
+        "claims": [
+          {
+            "text": "Total bus load reached 1.14x baseline.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "0x000 is the highest priority ID on CAN and sent 1395 frames in this window, consistent with a high-priority flooding attempt; actual deadline misses are unmeasured.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Treat as a denial of service. Identify the physical node injecting 0x000 and check whether safety messages missed their deadlines.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 2.1e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "DoS_dataset",
+      "role": "attack_capture",
+      "alert_id": 11,
+      "start": 84.0,
+      "end": 89.5,
+      "true_type": "dos",
+      "detector_score": 1.0,
+      "corpus_index": 11,
+      "evidence_sha256": "a2ead86103d657d4a479ce2ffc6746b1a67a4d7805c141c69d84c9e434bc414c",
+      "explanation": {
+        "attack_type": "dos",
+        "confidence": 0.9,
+        "severity": "high",
+        "affected_function": "Bus availability (starvation not measured)",
+        "summary": "DOS on Bus availability (starvation not measured). Window 84.00s to 89.50s, 6631 frames, IDs of interest 0x000, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: missing_ids).",
+        "claims": [
+          {
+            "text": "Total bus load reached 1.07x baseline.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "0x000 is the highest priority ID on CAN and sent 2743 frames in this window, consistent with a high-priority flooding attempt; actual deadline misses are unmeasured.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Treat as a denial of service. Identify the physical node injecting 0x000 and check whether safety messages missed their deadlines.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 3.3e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "DoS_dataset",
+      "role": "attack_capture",
+      "alert_id": 12,
+      "start": 91.75,
+      "end": 97.0,
+      "true_type": "dos",
+      "detector_score": 1.0,
+      "corpus_index": 12,
+      "evidence_sha256": "17460e00ead8e89297d1d863b4d45de40d9daaeb7bc3ac9be8369a41e014c17e",
+      "explanation": {
+        "attack_type": "dos",
+        "confidence": 0.9,
+        "severity": "high",
+        "affected_function": "Bus availability (starvation not measured)",
+        "summary": "DOS on Bus availability (starvation not measured). Window 91.75s to 97.00s, 8764 frames, IDs of interest 0x000, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: missing_ids).",
+        "claims": [
+          {
+            "text": "Total bus load reached 1.31x baseline.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "0x000 is the highest priority ID on CAN and sent 4018 frames in this window, consistent with a high-priority flooding attempt; actual deadline misses are unmeasured.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Treat as a denial of service. Identify the physical node injecting 0x000 and check whether safety messages missed their deadlines.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 3.2e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "DoS_dataset",
+      "role": "attack_capture",
+      "alert_id": 13,
+      "start": 99.25,
+      "end": 104.5,
+      "true_type": "dos",
+      "detector_score": 1.0,
+      "corpus_index": 13,
+      "evidence_sha256": "81f5ea19cf267868c981f344dc595df0f271dfd5f7cf4e433ab92c2f4d7e06aa",
+      "explanation": {
+        "attack_type": "dos",
+        "confidence": 0.9,
+        "severity": "high",
+        "affected_function": "Bus availability (starvation not measured)",
+        "summary": "DOS on Bus availability (starvation not measured). Window 99.25s to 104.50s, 8558 frames, IDs of interest 0x000, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: missing_ids).",
+        "claims": [
+          {
+            "text": "Total bus load reached 1.11x baseline.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "0x000 is the highest priority ID on CAN and sent 3869 frames in this window, consistent with a high-priority flooding attempt; actual deadline misses are unmeasured.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Treat as a denial of service. Identify the physical node injecting 0x000 and check whether safety messages missed their deadlines.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 2.6e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "DoS_dataset",
+      "role": "attack_capture",
+      "alert_id": 14,
+      "start": 106.75,
+      "end": 112.0,
+      "true_type": "dos",
+      "detector_score": 0.6667,
+      "corpus_index": 14,
+      "evidence_sha256": "e99654087be3aa16620d4e5c7ec3b9a8066ca58566b31e58e84904b5578c405b",
+      "explanation": {
+        "attack_type": "dos",
+        "confidence": 0.9,
+        "severity": "high",
+        "affected_function": "Bus availability (starvation not measured)",
+        "summary": "DOS on Bus availability (starvation not measured). Window 106.75s to 112.00s, 7973 frames, IDs of interest 0x000, 0x5A2, 0x1F1. Detector score 0.67 (strongest component: missing_ids).",
+        "claims": [
+          {
+            "text": "Total bus load reached 1.13x baseline.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "0x000 is the highest priority ID on CAN and sent 3535 frames in this window, consistent with a high-priority flooding attempt; actual deadline misses are unmeasured.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Treat as a denial of service. Identify the physical node injecting 0x000 and check whether safety messages missed their deadlines.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 2e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "DoS_dataset",
+      "role": "attack_capture",
+      "alert_id": 15,
+      "start": 114.25,
+      "end": 119.5,
+      "true_type": "dos",
+      "detector_score": 1.0,
+      "corpus_index": 15,
+      "evidence_sha256": "ca996534798651741a56b97f0b14c87dc1d945e42e01a653aede106f8a3e74d7",
+      "explanation": {
+        "attack_type": "dos",
+        "confidence": 0.9,
+        "severity": "high",
+        "affected_function": "Bus availability (starvation not measured)",
+        "summary": "DOS on Bus availability (starvation not measured). Window 114.25s to 119.50s, 8080 frames, IDs of interest 0x000, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: missing_ids).",
+        "claims": [
+          {
+            "text": "Total bus load reached 1.22x baseline.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "0x000 is the highest priority ID on CAN and sent 3600 frames in this window, consistent with a high-priority flooding attempt; actual deadline misses are unmeasured.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Treat as a denial of service. Identify the physical node injecting 0x000 and check whether safety messages missed their deadlines.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.8e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "Fuzzy_dataset",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 0.5,
+      "end": 6.5,
+      "true_type": "fuzzing",
+      "detector_score": 1.0,
+      "corpus_index": 16,
+      "evidence_sha256": "e563b74bff7a2ce97f237148bffd198f32cb8fc15e226b008c7aa9834e8dee0b",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.82,
+        "severity": "medium",
+        "affected_function": "Multiple, undirected",
+        "summary": "FUZZING on Multiple, undirected. Window 0.50s to 6.50s, 2714 frames, IDs of interest 0x62C, 0x10D, 0x473. Detector score 1.00 (strongest component: unknown_ids).",
+        "claims": [
+          {
+            "text": "6 arbitration IDs absent from the baseline appear in the retained evidence (0x62C, 0x10D, 0x473, 0x55B), consistent with undirected injection or incomplete normal calibration.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5"
+            ]
+          },
+          {
+            "text": "Bus load was 0.67x baseline.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Capture the full window and check whether any injected ID triggered an ECU response. Fuzzing often precedes a targeted attack.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 2.3e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "Fuzzy_dataset",
+      "role": "attack_capture",
+      "alert_id": 1,
+      "start": 8.75,
+      "end": 14.75,
+      "true_type": "fuzzing",
+      "detector_score": 1.0,
+      "corpus_index": 17,
+      "evidence_sha256": "8bff17edccab0063cc2b2911cc2ae6a7fc93011f2b18126ea738a0b795c84e69",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.82,
+        "severity": "medium",
+        "affected_function": "Multiple, undirected",
+        "summary": "FUZZING on Multiple, undirected. Window 8.75s to 14.75s, 2903 frames, IDs of interest 0x4AB, 0x2BB, 0x47D. Detector score 1.00 (strongest component: unknown_ids).",
+        "claims": [
+          {
+            "text": "6 arbitration IDs absent from the baseline appear in the retained evidence (0x4AB, 0x2BB, 0x47D, 0x025), consistent with undirected injection or incomplete normal calibration.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5"
+            ]
+          },
+          {
+            "text": "Bus load was 1.06x baseline.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Capture the full window and check whether any injected ID triggered an ECU response. Fuzzing often precedes a targeted attack.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 5.1e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "Fuzzy_dataset",
+      "role": "attack_capture",
+      "alert_id": 2,
+      "start": 17.0,
+      "end": 23.0,
+      "true_type": "fuzzing",
+      "detector_score": 1.0,
+      "corpus_index": 18,
+      "evidence_sha256": "41e29c205a36c3b8629217f0ea6e66fba0e0260432c9af9dc0a668857aee1b3b",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.82,
+        "severity": "medium",
+        "affected_function": "Multiple, undirected",
+        "summary": "FUZZING on Multiple, undirected. Window 17.00s to 23.00s, 2925 frames, IDs of interest 0x13A, 0x2B2, 0x3C8. Detector score 1.00 (strongest component: unknown_ids).",
+        "claims": [
+          {
+            "text": "6 arbitration IDs absent from the baseline appear in the retained evidence (0x13A, 0x2B2, 0x3C8, 0x4F5), consistent with undirected injection or incomplete normal calibration.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5"
+            ]
+          },
+          {
+            "text": "Bus load was 1.03x baseline.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Capture the full window and check whether any injected ID triggered an ECU response. Fuzzing often precedes a targeted attack.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.9e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "Fuzzy_dataset",
+      "role": "attack_capture",
+      "alert_id": 3,
+      "start": 25.25,
+      "end": 31.25,
+      "true_type": "fuzzing",
+      "detector_score": 1.0,
+      "corpus_index": 19,
+      "evidence_sha256": "3a1f70bb52f72201a46e120ec42f2489817a9aad579553afe6f3a83947188b15",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.82,
+        "severity": "medium",
+        "affected_function": "Multiple, undirected",
+        "summary": "FUZZING on Multiple, undirected. Window 25.25s to 31.25s, 4185 frames, IDs of interest 0x12B, 0x383, 0x36A. Detector score 1.00 (strongest component: unknown_ids).",
+        "claims": [
+          {
+            "text": "6 arbitration IDs absent from the baseline appear in the retained evidence (0x12B, 0x383, 0x36A, 0x645), consistent with undirected injection or incomplete normal calibration.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5"
+            ]
+          },
+          {
+            "text": "Bus load was 1.19x baseline.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Capture the full window and check whether any injected ID triggered an ECU response. Fuzzing often precedes a targeted attack.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.7e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "Fuzzy_dataset",
+      "role": "attack_capture",
+      "alert_id": 4,
+      "start": 33.5,
+      "end": 39.75,
+      "true_type": "fuzzing",
+      "detector_score": 1.0,
+      "corpus_index": 20,
+      "evidence_sha256": "8b4f9ad5e25e325c7611bfa7215cef4b10b97dec648bd2d77b4298240d1cc52e",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.82,
+        "severity": "medium",
+        "affected_function": "Multiple, undirected",
+        "summary": "FUZZING on Multiple, undirected. Window 33.50s to 39.75s, 3993 frames, IDs of interest 0x025, 0x541, 0x25B. Detector score 1.00 (strongest component: unknown_ids).",
+        "claims": [
+          {
+            "text": "6 arbitration IDs absent from the baseline appear in the retained evidence (0x025, 0x541, 0x25B, 0x320), consistent with undirected injection or incomplete normal calibration.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5"
+            ]
+          },
+          {
+            "text": "Bus load was 0.91x baseline.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Capture the full window and check whether any injected ID triggered an ECU response. Fuzzing often precedes a targeted attack.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.5e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "Fuzzy_dataset",
+      "role": "attack_capture",
+      "alert_id": 5,
+      "start": 42.0,
+      "end": 47.75,
+      "true_type": "fuzzing",
+      "detector_score": 1.0,
+      "corpus_index": 21,
+      "evidence_sha256": "1ad6a1d1577ba9736e0a90eb64c65c77c5081dc0bb724c487f07a2153666d203",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.82,
+        "severity": "medium",
+        "affected_function": "Multiple, undirected",
+        "summary": "FUZZING on Multiple, undirected. Window 42.00s to 47.75s, 3094 frames, IDs of interest 0x75B, 0x222, 0x42F. Detector score 1.00 (strongest component: unknown_ids).",
+        "claims": [
+          {
+            "text": "6 arbitration IDs absent from the baseline appear in the retained evidence (0x75B, 0x222, 0x42F, 0x193), consistent with undirected injection or incomplete normal calibration.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5"
+            ]
+          },
+          {
+            "text": "Bus load was 0.95x baseline.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Capture the full window and check whether any injected ID triggered an ECU response. Fuzzing often precedes a targeted attack.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.7e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "Fuzzy_dataset",
+      "role": "attack_capture",
+      "alert_id": 6,
+      "start": 50.0,
+      "end": 56.0,
+      "true_type": "fuzzing",
+      "detector_score": 1.0,
+      "corpus_index": 22,
+      "evidence_sha256": "a2c6a7c794da960d2b75331ff442b15a6e51fdbba0e6c1e352bfa0ca1bf5b986",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.82,
+        "severity": "medium",
+        "affected_function": "Multiple, undirected",
+        "summary": "FUZZING on Multiple, undirected. Window 50.00s to 56.00s, 7388 frames, IDs of interest 0x14E, 0x2E5, 0x035. Detector score 1.00 (strongest component: unknown_ids).",
+        "claims": [
+          {
+            "text": "6 arbitration IDs absent from the baseline appear in the retained evidence (0x14E, 0x2E5, 0x035, 0x041), consistent with undirected injection or incomplete normal calibration.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5"
+            ]
+          },
+          {
+            "text": "Bus load was 1.17x baseline.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Capture the full window and check whether any injected ID triggered an ECU response. Fuzzing often precedes a targeted attack.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.5e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "Fuzzy_dataset",
+      "role": "attack_capture",
+      "alert_id": 7,
+      "start": 58.25,
+      "end": 64.25,
+      "true_type": "fuzzing",
+      "detector_score": 1.0,
+      "corpus_index": 23,
+      "evidence_sha256": "207a21d938149d7ab70d34871329f217bdffd9500b39023f3905866b25234955",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.82,
+        "severity": "medium",
+        "affected_function": "Multiple, undirected",
+        "summary": "FUZZING on Multiple, undirected. Window 58.25s to 64.25s, 9001 frames, IDs of interest 0x3F4, 0x7A3, 0x0B1. Detector score 1.00 (strongest component: unknown_ids).",
+        "claims": [
+          {
+            "text": "6 arbitration IDs absent from the baseline appear in the retained evidence (0x3F4, 0x7A3, 0x0B1, 0x194), consistent with undirected injection or incomplete normal calibration.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5"
+            ]
+          },
+          {
+            "text": "Bus load was 1.20x baseline.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Capture the full window and check whether any injected ID triggered an ECU response. Fuzzing often precedes a targeted attack.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.5e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "Fuzzy_dataset",
+      "role": "attack_capture",
+      "alert_id": 8,
+      "start": 66.5,
+      "end": 72.25,
+      "true_type": "fuzzing",
+      "detector_score": 1.0,
+      "corpus_index": 24,
+      "evidence_sha256": "f95e082bb316ea60d9e108039c6d2025a4739cd5a84cb8632952223b417739e1",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.82,
+        "severity": "medium",
+        "affected_function": "Multiple, undirected",
+        "summary": "FUZZING on Multiple, undirected. Window 66.50s to 72.25s, 2735 frames, IDs of interest 0x2D8, 0x038, 0x166. Detector score 1.00 (strongest component: unknown_ids).",
+        "claims": [
+          {
+            "text": "6 arbitration IDs absent from the baseline appear in the retained evidence (0x2D8, 0x038, 0x166, 0x25E), consistent with undirected injection or incomplete normal calibration.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5"
+            ]
+          },
+          {
+            "text": "Bus load was 0.99x baseline.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Capture the full window and check whether any injected ID triggered an ECU response. Fuzzing often precedes a targeted attack.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.4e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "Fuzzy_dataset",
+      "role": "attack_capture",
+      "alert_id": 9,
+      "start": 74.5,
+      "end": 80.5,
+      "true_type": "fuzzing",
+      "detector_score": 1.0,
+      "corpus_index": 25,
+      "evidence_sha256": "c3c32ccc02b3ccf3a3e51e782192ef89775c06cf9358e835cb32de258ac3358a",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.82,
+        "severity": "medium",
+        "affected_function": "Multiple, undirected",
+        "summary": "FUZZING on Multiple, undirected. Window 74.50s to 80.50s, 2694 frames, IDs of interest 0x069, 0x18D, 0x578. Detector score 1.00 (strongest component: unknown_ids).",
+        "claims": [
+          {
+            "text": "6 arbitration IDs absent from the baseline appear in the retained evidence (0x069, 0x18D, 0x578, 0x45B), consistent with undirected injection or incomplete normal calibration.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5"
+            ]
+          },
+          {
+            "text": "Bus load was 1.07x baseline.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Capture the full window and check whether any injected ID triggered an ECU response. Fuzzing often precedes a targeted attack.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.4e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "Fuzzy_dataset",
+      "role": "attack_capture",
+      "alert_id": 10,
+      "start": 82.75,
+      "end": 88.75,
+      "true_type": "fuzzing",
+      "detector_score": 1.0,
+      "corpus_index": 26,
+      "evidence_sha256": "e628585c367841bf1028942ad372ac5a352a5d8c3e08a714ba7aa1f980a95f6b",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.82,
+        "severity": "medium",
+        "affected_function": "Multiple, undirected",
+        "summary": "FUZZING on Multiple, undirected. Window 82.75s to 88.75s, 3196 frames, IDs of interest 0x097, 0x379, 0x2E9. Detector score 1.00 (strongest component: unknown_ids).",
+        "claims": [
+          {
+            "text": "6 arbitration IDs absent from the baseline appear in the retained evidence (0x097, 0x379, 0x2E9, 0x64D), consistent with undirected injection or incomplete normal calibration.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5"
+            ]
+          },
+          {
+            "text": "Bus load was 1.06x baseline.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Capture the full window and check whether any injected ID triggered an ECU response. Fuzzing often precedes a targeted attack.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.6e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "Fuzzy_dataset",
+      "role": "attack_capture",
+      "alert_id": 11,
+      "start": 91.0,
+      "end": 97.0,
+      "true_type": "fuzzing",
+      "detector_score": 1.0,
+      "corpus_index": 27,
+      "evidence_sha256": "9c8d15d9fce0a78eda4736586266f4dc21f6ebfe9c3425f7cd7321922bbe2c9b",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.82,
+        "severity": "medium",
+        "affected_function": "Multiple, undirected",
+        "summary": "FUZZING on Multiple, undirected. Window 91.00s to 97.00s, 3045 frames, IDs of interest 0x7C9, 0x032, 0x7F7. Detector score 1.00 (strongest component: unknown_ids).",
+        "claims": [
+          {
+            "text": "6 arbitration IDs absent from the baseline appear in the retained evidence (0x7C9, 0x032, 0x7F7, 0x684), consistent with undirected injection or incomplete normal calibration.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5"
+            ]
+          },
+          {
+            "text": "Bus load was 1.08x baseline.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Capture the full window and check whether any injected ID triggered an ECU response. Fuzzing often precedes a targeted attack.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 2.6e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "Fuzzy_dataset",
+      "role": "attack_capture",
+      "alert_id": 12,
+      "start": 99.25,
+      "end": 105.25,
+      "true_type": "fuzzing",
+      "detector_score": 1.0,
+      "corpus_index": 28,
+      "evidence_sha256": "d16042f906c23cacf8226bfdf1b40d5c6aa4945a3bde3156f3f6308fe570bde5",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.82,
+        "severity": "medium",
+        "affected_function": "Multiple, undirected",
+        "summary": "FUZZING on Multiple, undirected. Window 99.25s to 105.25s, 3299 frames, IDs of interest 0x0E8, 0x301, 0x3B9. Detector score 1.00 (strongest component: unknown_ids).",
+        "claims": [
+          {
+            "text": "6 arbitration IDs absent from the baseline appear in the retained evidence (0x0E8, 0x301, 0x3B9, 0x62C), consistent with undirected injection or incomplete normal calibration.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5"
+            ]
+          },
+          {
+            "text": "Bus load was 1.12x baseline.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Capture the full window and check whether any injected ID triggered an ECU response. Fuzzing often precedes a targeted attack.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 2e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "Fuzzy_dataset",
+      "role": "attack_capture",
+      "alert_id": 13,
+      "start": 107.5,
+      "end": 113.5,
+      "true_type": "fuzzing",
+      "detector_score": 1.0,
+      "corpus_index": 29,
+      "evidence_sha256": "4f8bfd4c39b540cf6227156ea95106236d2bd7f88102f3d81b883b6c878f7aa2",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.82,
+        "severity": "medium",
+        "affected_function": "Multiple, undirected",
+        "summary": "FUZZING on Multiple, undirected. Window 107.50s to 113.50s, 3967 frames, IDs of interest 0x021, 0x1BF, 0x5CF. Detector score 1.00 (strongest component: unknown_ids).",
+        "claims": [
+          {
+            "text": "6 arbitration IDs absent from the baseline appear in the retained evidence (0x021, 0x1BF, 0x5CF, 0x7BA), consistent with undirected injection or incomplete normal calibration.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5"
+            ]
+          },
+          {
+            "text": "Bus load was 1.03x baseline.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Capture the full window and check whether any injected ID triggered an ECU response. Fuzzing often precedes a targeted attack.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.9e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "Fuzzy_dataset",
+      "role": "attack_capture",
+      "alert_id": 14,
+      "start": 115.75,
+      "end": 120.0,
+      "true_type": "fuzzing",
+      "detector_score": 1.0,
+      "corpus_index": 30,
+      "evidence_sha256": "6456086902429e7f87678389955e88175b16f5d64ffdc3a6cae6fc863ace0c46",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.82,
+        "severity": "medium",
+        "affected_function": "Multiple, undirected",
+        "summary": "FUZZING on Multiple, undirected. Window 115.75s to 120.00s, 1830 frames, IDs of interest 0x209, 0x309, 0x500. Detector score 1.00 (strongest component: unknown_ids).",
+        "claims": [
+          {
+            "text": "6 arbitration IDs absent from the baseline appear in the retained evidence (0x209, 0x309, 0x500, 0x1E9), consistent with undirected injection or incomplete normal calibration.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5"
+            ]
+          },
+          {
+            "text": "Bus load was 0.61x baseline.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Capture the full window and check whether any injected ID triggered an ECU response. Fuzzing often precedes a targeted attack.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.9e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "RPM_dataset",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 0.5,
+      "end": 4.75,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 31,
+      "evidence_sha256": "91139e19c99dbe571d60b1eb28f348e66c0075530b65883631736bbf15d56d92",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 0.50s to 4.75s, 8896 frames, IDs of interest 0x316, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x316 transmitted at 8.293x its baseline rate (830.0 versus 100.086944 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -3.54 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 2.6e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "RPM_dataset",
+      "role": "attack_capture",
+      "alert_id": 1,
+      "start": 7.0,
+      "end": 11.0,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 32,
+      "evidence_sha256": "fac89bbb0ea759a890b8b7112f12809f6d66260e79f308eb7167a31baa5cafbe",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 7.00s to 11.00s, 8278 frames, IDs of interest 0x316, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x316 transmitted at 8.732x its baseline rate (874.0 versus 100.086944 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -3.51 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 2.1e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "RPM_dataset",
+      "role": "attack_capture",
+      "alert_id": 2,
+      "start": 13.5,
+      "end": 17.5,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 33,
+      "evidence_sha256": "1260802bac7def8cee2fcc9d5b36e054e7f0a67345875a1968a0d604d9c3fa8c",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 13.50s to 17.50s, 8600 frames, IDs of interest 0x316, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x316 transmitted at 8.672x its baseline rate (868.0 versus 100.086944 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -3.50 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 2.4e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "RPM_dataset",
+      "role": "attack_capture",
+      "alert_id": 3,
+      "start": 20.0,
+      "end": 24.0,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 34,
+      "evidence_sha256": "5f6de3de4d263a8f6af7e8d356343ca2228a6aeac615be4d0ed38ce7c45bc103",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 20.00s to 24.00s, 8384 frames, IDs of interest 0x316, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x316 transmitted at 9.292x its baseline rate (930.0 versus 100.086944 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -3.47 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.8e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "RPM_dataset",
+      "role": "attack_capture",
+      "alert_id": 4,
+      "start": 26.5,
+      "end": 30.5,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 35,
+      "evidence_sha256": "5b0c0511ac000cf7830e46abdf75e7d77a65ea42501c41b44216e6d41cf9610e",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 26.50s to 30.50s, 8523 frames, IDs of interest 0x316, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x316 transmitted at 9.072x its baseline rate (908.0 versus 100.086944 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -3.47 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 2.1e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "RPM_dataset",
+      "role": "attack_capture",
+      "alert_id": 5,
+      "start": 33.0,
+      "end": 37.0,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 36,
+      "evidence_sha256": "e331e7f2bd6a755f35affebf6d3527001b638d653753e9a23d4b0468a37e4e23",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 33.00s to 37.00s, 9260 frames, IDs of interest 0x316, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x316 transmitted at 9.772x its baseline rate (978.0 versus 100.086944 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -3.50 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.9e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "RPM_dataset",
+      "role": "attack_capture",
+      "alert_id": 6,
+      "start": 39.25,
+      "end": 43.5,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 37,
+      "evidence_sha256": "7bc06f327b8bb5bdf287658d16413057b83b79a6a589c6099bbbe84b8b379c55",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 39.25s to 43.50s, 9625 frames, IDs of interest 0x316, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x316 transmitted at 9.512x its baseline rate (952.0 versus 100.086944 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -3.55 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.7e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "RPM_dataset",
+      "role": "attack_capture",
+      "alert_id": 7,
+      "start": 45.75,
+      "end": 50.0,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 38,
+      "evidence_sha256": "878762ae61424feaeaf5c7b2498c9a98d5eb94f28188c2ccdab4c8022be98d06",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 45.75s to 50.00s, 10544 frames, IDs of interest 0x316, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x316 transmitted at 9.632x its baseline rate (964.0 versus 100.086944 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -3.48 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.6e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "RPM_dataset",
+      "role": "attack_capture",
+      "alert_id": 8,
+      "start": 52.25,
+      "end": 56.25,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 39,
+      "evidence_sha256": "71aea932fcfa490c97eaee7cc9892686778b37b9d639a2758ac2c8fa008cfef9",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 52.25s to 56.25s, 9145 frames, IDs of interest 0x316, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x316 transmitted at 9.552x its baseline rate (956.0 versus 100.086944 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -3.52 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 2.1e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "RPM_dataset",
+      "role": "attack_capture",
+      "alert_id": 9,
+      "start": 58.75,
+      "end": 62.75,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 40,
+      "evidence_sha256": "bac7f0f4ad732d48e318d5b219d59494ba87d28b5b3a49da1d155426bcd3f8bf",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 58.75s to 62.75s, 7512 frames, IDs of interest 0x316, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x316 transmitted at 9.472x its baseline rate (948.0 versus 100.086944 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -3.49 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 2.2e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "RPM_dataset",
+      "role": "attack_capture",
+      "alert_id": 10,
+      "start": 65.25,
+      "end": 69.5,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 41,
+      "evidence_sha256": "4c02ca2b9239811b7016ca41a0b272e4fc265c122b003aa0faa6ba959a325584",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 65.25s to 69.50s, 8395 frames, IDs of interest 0x316, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x316 transmitted at 8.573x its baseline rate (858.0 versus 100.086944 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -3.56 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.7e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "RPM_dataset",
+      "role": "attack_capture",
+      "alert_id": 11,
+      "start": 71.75,
+      "end": 75.75,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 42,
+      "evidence_sha256": "4b0aad63fa3b9ede6713eefd64d7e132dfb6694685458de70711da0f9cedef31",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 71.75s to 75.75s, 9074 frames, IDs of interest 0x316, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x316 transmitted at 9.472x its baseline rate (948.0 versus 100.086944 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -3.49 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.7e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "RPM_dataset",
+      "role": "attack_capture",
+      "alert_id": 12,
+      "start": 78.25,
+      "end": 82.25,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 43,
+      "evidence_sha256": "bdb6ca474881b4c5376ee809ee53c2160c0ef25f7abacb65041151f82c070b83",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 78.25s to 82.25s, 7794 frames, IDs of interest 0x316, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x316 transmitted at 8.812x its baseline rate (882.0 versus 100.086944 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -3.53 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 2.3e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "RPM_dataset",
+      "role": "attack_capture",
+      "alert_id": 13,
+      "start": 84.75,
+      "end": 88.75,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 44,
+      "evidence_sha256": "0c27038721b3a57b6b029349f5c80d15263c91d6dbc3812e380b5c3cbd504fdf",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 84.75s to 88.75s, 9995 frames, IDs of interest 0x316, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x316 transmitted at 9.791x its baseline rate (980.0 versus 100.086944 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -3.51 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 2.7e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "RPM_dataset",
+      "role": "attack_capture",
+      "alert_id": 14,
+      "start": 91.0,
+      "end": 95.25,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 45,
+      "evidence_sha256": "940a2b63a77b7131c2a311430878090b24cf4fd3303959cb42c89b9c4b893b1e",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 91.00s to 95.25s, 9207 frames, IDs of interest 0x316, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x316 transmitted at 8.812x its baseline rate (882.0 versus 100.086944 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -3.51 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.8e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "RPM_dataset",
+      "role": "attack_capture",
+      "alert_id": 15,
+      "start": 97.5,
+      "end": 101.75,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 46,
+      "evidence_sha256": "275714fcbd79c68bcd1a498794cbea5000179f87389c69f718167aa871a162f6",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 97.50s to 101.75s, 9329 frames, IDs of interest 0x316, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x316 transmitted at 9.672x its baseline rate (968.0 versus 100.086944 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -3.49 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.8e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "RPM_dataset",
+      "role": "attack_capture",
+      "alert_id": 16,
+      "start": 104.0,
+      "end": 108.0,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 47,
+      "evidence_sha256": "a38d9a4accade254110d13e00c25b5498d7885a3d3b7cd82d82a7895de9b0389",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 104.00s to 108.00s, 7980 frames, IDs of interest 0x316, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x316 transmitted at 8.353x its baseline rate (836.0 versus 100.086944 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -3.51 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.6e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "RPM_dataset",
+      "role": "attack_capture",
+      "alert_id": 17,
+      "start": 110.5,
+      "end": 114.5,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 48,
+      "evidence_sha256": "0a8ac35431a367b16eb7d94bc9b59b6e4f4790efcc0f0cf747da4324e1c0f0e1",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 110.50s to 114.50s, 5505 frames, IDs of interest 0x316, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x316 transmitted at 6.554x its baseline rate (656.0 versus 100.086944 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -3.42 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.5e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "RPM_dataset",
+      "role": "attack_capture",
+      "alert_id": 18,
+      "start": 117.0,
+      "end": 120.0,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 49,
+      "evidence_sha256": "3a4f6ef58f4826891b6487ceafcc7a7396d5f661a5a9649c8b8660ff1e115c1d",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 117.00s to 120.00s, 4191 frames, IDs of interest 0x316, 0x5A0, 0x5F0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x316 transmitted at 6.674x its baseline rate (668.0 versus 100.086944 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -3.47 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.8e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "gear_dataset",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 1.0,
+      "end": 5.0,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 50,
+      "evidence_sha256": "fc7e3c3c6272df30cf9e7618e77e11892bdd73521fe47fcfee6a3cc6576a7628",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 1.00s to 5.00s, 7641 frames, IDs of interest 0x43F, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x43F transmitted at 7.66x its baseline rate (766.0 versus 99.995274 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -2.16 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.7e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "gear_dataset",
+      "role": "attack_capture",
+      "alert_id": 1,
+      "start": 7.25,
+      "end": 11.25,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 51,
+      "evidence_sha256": "ae5a4d406dcaeadc73d7e77d26daf201dbb6a6daf5c844388650b61c131f5a08",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 7.25s to 11.25s, 8082 frames, IDs of interest 0x43F, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x43F transmitted at 8.86x its baseline rate (886.0 versus 99.995274 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -2.15 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 2.1e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "gear_dataset",
+      "role": "attack_capture",
+      "alert_id": 2,
+      "start": 13.75,
+      "end": 17.75,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 52,
+      "evidence_sha256": "d55fbc658a5f975249e9829136900126c5c40944eac9640bdd0cf30c81718a61",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 13.75s to 17.75s, 8574 frames, IDs of interest 0x43F, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x43F transmitted at 8.6x its baseline rate (860.0 versus 99.995274 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -2.14 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.7e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "gear_dataset",
+      "role": "attack_capture",
+      "alert_id": 3,
+      "start": 20.0,
+      "end": 24.25,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 53,
+      "evidence_sha256": "a783cef6303b1a02dd1c40cebb83aaf02ccc4ad4ff0b4e0f959e4785e0478228",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 20.00s to 24.25s, 9037 frames, IDs of interest 0x43F, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x43F transmitted at 9.3x its baseline rate (930.0 versus 99.995274 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -2.15 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.8e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "gear_dataset",
+      "role": "attack_capture",
+      "alert_id": 4,
+      "start": 26.5,
+      "end": 30.5,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 54,
+      "evidence_sha256": "e50c32086de409e85fbe26003c90cc9a5e224069611749ff35e9b7fa4bdb0ca0",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 26.50s to 30.50s, 8657 frames, IDs of interest 0x43F, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x43F transmitted at 9.56x its baseline rate (956.0 versus 99.995274 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -2.14 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.7e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "gear_dataset",
+      "role": "attack_capture",
+      "alert_id": 5,
+      "start": 33.0,
+      "end": 37.0,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 55,
+      "evidence_sha256": "675f68034e363b6f4c3c2462841c3a36e0eb9a2cb7614f1e26720a5594b9c5e1",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 33.00s to 37.00s, 9386 frames, IDs of interest 0x43F, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x43F transmitted at 9.6x its baseline rate (960.0 versus 99.995274 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -2.14 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.5e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "gear_dataset",
+      "role": "attack_capture",
+      "alert_id": 6,
+      "start": 39.5,
+      "end": 43.5,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 56,
+      "evidence_sha256": "518e25b0e8a18a17b2e02c8192a7eca1d5d99f6ce312a3a717e9174eee90db6c",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 39.50s to 43.50s, 9303 frames, IDs of interest 0x43F, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x43F transmitted at 9.8x its baseline rate (980.0 versus 99.995274 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -2.15 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.5e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "gear_dataset",
+      "role": "attack_capture",
+      "alert_id": 7,
+      "start": 45.75,
+      "end": 49.75,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 57,
+      "evidence_sha256": "e7d23e6fae9fce7c6c00c83be8fd0d62900dcbb1f2969507b840ef04e08acd10",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 45.75s to 49.75s, 9284 frames, IDs of interest 0x43F, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x43F transmitted at 9.8x its baseline rate (980.0 versus 99.995274 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -2.15 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.8e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "gear_dataset",
+      "role": "attack_capture",
+      "alert_id": 8,
+      "start": 52.25,
+      "end": 56.25,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 58,
+      "evidence_sha256": "ec6041f02adc5ed4cc147fb1d8b88fa04f9daa5eba7d0533ea0a5040d5faa47c",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 52.25s to 56.25s, 8904 frames, IDs of interest 0x43F, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x43F transmitted at 8.7x its baseline rate (870.0 versus 99.995274 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -2.15 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 2.4e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "gear_dataset",
+      "role": "attack_capture",
+      "alert_id": 9,
+      "start": 58.75,
+      "end": 62.75,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 59,
+      "evidence_sha256": "36a9e0cac1891f8b66e04fb8922b52398952107dc7994304ef3e9275634a1257",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 58.75s to 62.75s, 8844 frames, IDs of interest 0x43F, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x43F transmitted at 9.78x its baseline rate (978.0 versus 99.995274 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -2.15 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.8e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "gear_dataset",
+      "role": "attack_capture",
+      "alert_id": 10,
+      "start": 65.0,
+      "end": 69.0,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 60,
+      "evidence_sha256": "0b126a370bb9efa738a3332f4bd41bf8b69172ee795b74a2c5fe931e3d10c3de",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 65.00s to 69.00s, 8544 frames, IDs of interest 0x43F, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x43F transmitted at 8.68x its baseline rate (868.0 versus 99.995274 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -2.18 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.7e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "gear_dataset",
+      "role": "attack_capture",
+      "alert_id": 11,
+      "start": 71.5,
+      "end": 75.5,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 61,
+      "evidence_sha256": "2cef40427074471a8f42d722e73896a676cc410d6f6ee941aa5891c4fcacb032",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 71.50s to 75.50s, 8758 frames, IDs of interest 0x43F, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x43F transmitted at 9.64x its baseline rate (964.0 versus 99.995274 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -2.17 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.9e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "gear_dataset",
+      "role": "attack_capture",
+      "alert_id": 12,
+      "start": 78.0,
+      "end": 82.0,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 62,
+      "evidence_sha256": "24dba54f961325bfce8d4006e2bebe94349fad8ef135c09a050489d8fe6b6aaa",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 78.00s to 82.00s, 9007 frames, IDs of interest 0x43F, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x43F transmitted at 9.82x its baseline rate (982.0 versus 99.995274 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -2.17 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.6e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "gear_dataset",
+      "role": "attack_capture",
+      "alert_id": 13,
+      "start": 84.25,
+      "end": 88.25,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 63,
+      "evidence_sha256": "3ea11d21877ead928b9a259b93f13dc6a1df417d1d336013af6ffcd179f05218",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 84.25s to 88.25s, 8948 frames, IDs of interest 0x43F, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x43F transmitted at 9.38x its baseline rate (938.0 versus 99.995274 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -2.17 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.5e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "gear_dataset",
+      "role": "attack_capture",
+      "alert_id": 14,
+      "start": 90.75,
+      "end": 94.75,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 64,
+      "evidence_sha256": "1c787a0214ea6ca21979baa2b83e7b1086e3b45c432368f81675706e0fa6056a",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 90.75s to 94.75s, 9061 frames, IDs of interest 0x43F, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x43F transmitted at 9.02x its baseline rate (902.0 versus 99.995274 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -2.15 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.9e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "gear_dataset",
+      "role": "attack_capture",
+      "alert_id": 15,
+      "start": 97.25,
+      "end": 101.25,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 65,
+      "evidence_sha256": "378a7238c87ea743690c58f971f0934b770a28afac7f19b8a69bfa7142110f78",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 97.25s to 101.25s, 9368 frames, IDs of interest 0x43F, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x43F transmitted at 9.78x its baseline rate (978.0 versus 99.995274 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -2.17 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.6e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "gear_dataset",
+      "role": "attack_capture",
+      "alert_id": 16,
+      "start": 103.5,
+      "end": 107.5,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 66,
+      "evidence_sha256": "653696d3db8879b65fb30d758f7ad986c510f1f87fba70e5643310b72e3cad3f",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 103.50s to 107.50s, 9164 frames, IDs of interest 0x43F, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x43F transmitted at 9.76x its baseline rate (976.0 versus 99.995274 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -2.15 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.5e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "gear_dataset",
+      "role": "attack_capture",
+      "alert_id": 17,
+      "start": 110.0,
+      "end": 114.0,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 67,
+      "evidence_sha256": "863cb37b1a1e3520c4a1adf6ba46485ad1d2d88f27fd48e187a2c54e2bc1f837",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 110.00s to 114.00s, 6363 frames, IDs of interest 0x43F, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x43F transmitted at 7.48x its baseline rate (748.0 versus 99.995274 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -2.17 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.6e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    },
+    {
+      "capture": "gear_dataset",
+      "role": "attack_capture",
+      "alert_id": 18,
+      "start": 116.5,
+      "end": 120.0,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 68,
+      "evidence_sha256": "b42a9dbb2b87aa685d7bec7a5c3f77d86297f8ffdc8951dd87d02751d59c7ea7",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.84,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "SPOOFING on unknown. Window 116.50s to 120.00s, 5655 frames, IDs of interest 0x43F, 0x5A2, 0x5A0. Detector score 1.00 (strongest component: rate_inflation).",
+        "claims": [
+          {
+            "text": "0x43F transmitted at 7.36x its baseline rate (736.0 versus 99.995274 msg/s), consistent with added frames but also requiring a check for benign operating-state changes.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for that ID moved -2.11 bits against baseline.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Check what unknown displays or actuates on this vehicle and whether the spoofed values were acted upon.",
+        "model": "mock",
+        "grounded": true,
+        "raw_response": "",
+        "latency_s": 1.5e-05,
+        "requested_model": null,
+        "fallback": false,
+        "error_type": null,
+        "usage": {},
+        "prompt_version": "control-v4",
+        "finish_reason": null,
+        "response_model": null,
+        "reasoning_effort": null
+      },
+      "estimated_cost_usd": 0.0
+    }
+  ],
+  "scoring": "Attack-label accuracy on frozen alerts; failures count as incorrect, never control predictions. Normal alerts scored separately. Development corpus, not an untouched test set.",
+  "summary": {
+    "attempts": 69,
+    "successful_responses": 69,
+    "fallbacks": 0,
+    "classification": {
+      "scored_alerts": 69,
+      "correct": 69,
+      "accuracy": 1.0,
+      "successful_only_accuracy": 1.0,
+      "confusion": {
+        "dos": {
+          "dos": 16
+        },
+        "fuzzing": {
+          "fuzzing": 15
+        },
+        "spoofing": {
+          "spoofing": 38
+        }
+      }
+    },
+    "false_alarms": 0,
+    "false_alarms_labeled_benign": 0,
+    "grounding": {
+      "rate": 1.0,
+      "meaning": "Citation validity only; semantic claim support needs review"
+    },
+    "latency_s_median": 1.8e-05,
+    "latency_s_p95": 3.1e-05,
+    "latency_s_max": 7.8e-05,
+    "attempt_latency_s_p95": 3.1e-05,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "estimated_cost_usd": 0.0,
+    "successful_alerts_per_second": 811.5355664283026
+  },
+  "wall_seconds": 0.085024,
+  "updated_at": "2026-10-30T16:49:41.800353+00:00"
+}

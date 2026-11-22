@@ -1,0 +1,4 @@
+-r requirements.txt
+# Older Starlette uses httpx; the verified Starlette 1.8 runtime prefers httpx2.
+httpx>=0.27,<1
+httpx2>=2.12,<3

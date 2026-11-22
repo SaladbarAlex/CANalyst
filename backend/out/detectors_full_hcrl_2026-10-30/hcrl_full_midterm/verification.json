@@ -1,0 +1,59 @@
+{
+  "verified_utc": "2026-10-30T17:13:15.950143+00:00",
+  "status": "passed",
+  "results_sha256": "c66172e119d214136be5960119da1e921d4b1e39f3d7ac721649d0f096991f5e",
+  "historical_results_sha256": "84570d33a27a1733be4692f84d3448e9bbdfda131771e186ff314b6bff97cc12",
+  "historical_results": "out/midterm_2026-10-20/hcrl_full/results.json",
+  "source_snapshot_hashes_verified": true,
+  "baseline_same_normal_interval_and_input": true,
+  "frame_count": 16803792,
+  "windows": 42975,
+  "captures": [
+    {
+      "capture": "DoS_dataset",
+      "frames": 3665771,
+      "windows": 11242,
+      "source_hashes_match": true,
+      "selection_hashes_match": true,
+      "window_truth_alignment_exact": true,
+      "both_detector_score_hashes_and_metrics_verified": true
+    },
+    {
+      "capture": "Fuzzy_dataset",
+      "frames": 3838860,
+      "windows": 11791,
+      "source_hashes_match": true,
+      "selection_hashes_match": true,
+      "window_truth_alignment_exact": true,
+      "both_detector_score_hashes_and_metrics_verified": true
+    },
+    {
+      "capture": "RPM_dataset",
+      "frames": 4621702,
+      "windows": 9738,
+      "source_hashes_match": true,
+      "selection_hashes_match": true,
+      "window_truth_alignment_exact": true,
+      "both_detector_score_hashes_and_metrics_verified": true
+    },
+    {
+      "capture": "gear_dataset",
+      "frames": 4443142,
+      "windows": 9725,
+      "source_hashes_match": true,
+      "selection_hashes_match": true,
+      "window_truth_alignment_exact": true,
+      "both_detector_score_hashes_and_metrics_verified": true
+    },
+    {
+      "capture": "normal_run_data",
+      "frames": 234317,
+      "windows": 479,
+      "source_hashes_match": true,
+      "selection_hashes_match": true,
+      "window_truth_alignment_exact": true,
+      "both_detector_score_hashes_and_metrics_verified": true
+    }
+  ],
+  "runtime_seconds": 230.3374374589912
+}

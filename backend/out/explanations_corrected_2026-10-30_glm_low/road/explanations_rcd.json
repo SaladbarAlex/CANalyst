@@ -1,0 +1,2755 @@
+{
+  "dataset": "road",
+  "corpus_sha256": "46e3d55089806e0cee6130727820f4be647fa92810cc31b4cb8bb81f782267a0",
+  "manifest": {
+    "corpus_sha256": "46e3d55089806e0cee6130727820f4be647fa92810cc31b4cb8bb81f782267a0",
+    "selector": "rcd:glm-5.3",
+    "request_key": "rcd:glm-5.3:72c564b44237",
+    "prompt_sha256": "7ecbc0cf3fe34478a45f2cc6420118b94f5648164b8a9d01546a72b1ad6e1f68",
+    "llm_code_sha256": "d23a7d1d630614a6ee8a183ca80d76e24928264552c9209c0a66b931a15cfff5",
+    "runner_sha256": "6b22714b3e3abf2fb0cf9d3753ef3df7ebcce48e6934673a2d35f8203f20ffdb",
+    "limit": null,
+    "prices": null,
+    "workers": 2,
+    "timeout_s": 90.0
+  },
+  "model": "glm-5.3",
+  "explainer": "rcd",
+  "temperature": 0.0,
+  "git": "5b8d6c6994a857569166540c1aa69f532ce59fef",
+  "reasoning_effort": "low",
+  "max_tokens": 1800,
+  "prompt_version": "can-evidence-v2",
+  "status": "complete",
+  "expected_alerts": 31,
+  "alerts": [
+    {
+      "capture": "correlated_signal_attack_1",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 9.25,
+      "end": 30.0,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 0,
+      "evidence_sha256": "3a4f84451dd1697bb7c12c7cd0ff7bea22f70ead879b5b3998af7067a7c35366",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.6,
+        "severity": "medium",
+        "affected_function": "unknown (0x6E0 function not identified in evidence)",
+        "summary": "Known ID 0x6E0 transmitted at roughly double its baseline rate (202 vs 100 msg/s in the peak window, ~200 msg/s over the full alert), consistent with injected/fabricated frames. Payload entropy dropped sharply and sample payloads show repetition, but no earlier sequence evidence exists to distinguish replay, so fabrication (spoofing) is the best-supported classification. Bus load only rose to 1.05x baseline, so this is not a DoS flood.",
+        "claims": [
+          {
+            "text": "0x6E0 is a known ID transmitting at 202 msg/s versus a 100 msg/s baseline (2.02x) in the peak window.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "0x6E0's full-alert mean rate was about 200 msg/s with 4151 frames, consistent with sustained added frames.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "0x6E0 payload entropy dropped to 3.746 from a 6.952 baseline, and sample payloads show repeated/structured bytes.",
+            "cites": [
+              "E2",
+              "E8"
+            ]
+          },
+          {
+            "text": "No unknown arbitration IDs appeared (unknown_ids component 0.0), arguing against fuzzing.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "Peak bus rate was only 2516 msg/s versus 2392 baseline (1.05x), inconsistent with a DoS flood.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "Other IDs (0x69D, 0x075, 0x3B9, 0x4EE, 0x6D7) show only single-frame windows with small full-alert counts, minor contributions.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "No evidence of an earlier payload sequence being repeated out of context, so replay cannot be confirmed; spoofing is used for added frames on a known ID.",
+            "cites": [
+              "E2",
+              "E8"
+            ]
+          },
+          {
+            "text": "The affected vehicle function is not identified in the evidence.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Correlate 0x6E0 with the vehicle's DBC/signal dictionary to identify its function, verify whether the duplicated payloads are plausible values, and check the source ECU (e.g., via frame timing or bus segmentation) to confirm whether an additional sender is injecting 0x6E0 frames; consider rate-limiting or blocking the ID at the gateway if confirmed.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"spoofing\", \"confidence\": 0.6, \"severity\": \"medium\",\n \"affected_function\": \"unknown (0x6E0 function not identified in evidence)\",\n \"summary\": \"Known ID 0x6E0 transmitted at roughly double its baseline rate (202 vs 100 msg/s in the peak window, ~200 msg/s over the full alert), consistent with injected/fabricated frames. Payload entropy dropped sharply and sample payloads show repetition, but no earlier sequence evidence exists to distinguish replay, so fabrication (spoofing) is the best-supported classification. Bus load only rose to 1.05x baseline, so this is not a DoS flood.\",\n \"claims\": [\n  {\"text\": \"0x6E0 is a known ID transmitting at 202 msg/s versus a 100 msg/s baseline (2.02x) in the peak window.\", \"cites\": [\"E2\"]},\n  {\"text\": \"0x6E0's full-alert mean rate was about 200 msg/s with 4151 frames, consistent with sustained added frames.\", \"cites\": [\"E2\"]},\n  {\"text\": \"0x6E0 payload entropy dropped to 3.746 from a 6.952 baseline, and sample payloads show repeated/structured bytes.\", \"cites\": [\"E2\", \"E8\"]},\n  {\"text\": \"No unknown arbitration IDs appeared (unknown_ids component 0.0), arguing against fuzzing.\", \"cites\": [\"E0\"]},\n  {\"text\": \"Peak bus rate was only 2516 msg/s versus 2392 baseline (1.05x), inconsistent with a DoS flood.\", \"cites\": [\"E1\"]},\n  {\"text\": \"Other IDs (0x69D, 0x075, 0x3B9, 0x4EE, 0x6D7) show only single-frame windows with small full-alert counts, minor contributions.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]},\n  {\"text\": \"No evidence of an earlier payload sequence being repeated out of context, so replay cannot be confirmed; spoofing is used for added frames on a known ID.\", \"cites\": [\"E2\", \"E8\"]},\n  {\"text\": \"The affected vehicle function is not identified in the evidence.\", \"cites\": [\"E2\"]}\n ],\n \"recommended_action\": \"Correlate 0x6E0 with the vehicle's DBC/signal dictionary to identify its function, verify whether the duplicated payloads are plausible values, and check the source ECU (e.g., via frame timing or bus segmentation) to confirm whether an additional sender is injecting 0x6E0 frames; consider rate-limiting or blocking the ID at the gateway if confirmed.\"}",
+        "latency_s": 4.428,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2847,
+          "output_tokens": 634,
+          "reasoning_tokens": 31
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "correlated_signal_attack_2",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 7.0,
+      "end": 28.0,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 1,
+      "evidence_sha256": "1f92c4b53739c10abdcbf25f9e69129706fb342416fb3dd6d9148815ce648a65",
+      "explanation": {
+        "attack_type": "replay",
+        "confidence": 0.6,
+        "severity": "medium",
+        "affected_function": "Unknown \u2014 the evidence does not identify the vehicle function for any affected CAN ID (E2, E3, E4).",
+        "summary": "Known IDs show roughly doubled transmission rates with normal-looking, repeated payloads. Frames for 0x025 and 0x69D repeat identical payloads at ~1s intervals (e.g., '00 00 02 88 40 40 12 01' at 7.19s and 8.20s; '80 8D CF B0 4F C1 FC B1' at 7.41s and 8.41s), consistent with an earlier sequence being retransmitted out of context. 0x6E0 shows a 2.02x rate increase with collapsed entropy (3.742 vs 6.952) and high bitflip rate, also consistent with repeated payload content. Bus load is only 1.06x baseline, so this is not a flooding DoS; no unknown IDs rule out fuzzing.",
+        "claims": [
+          {
+            "text": "0x6E0 transmitted at 202 msg/s versus 100 baseline (2.02x) with entropy dropping from 6.952 to 3.742.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "0x025 transmitted at 12 msg/s versus 1.28 baseline (2.0x) with a payload entropy decrease.",
+            "cites": [
+              "E3"
+            ]
+          },
+          {
+            "text": "0x025 frame with identical payload '00 00 02 88 40 40 12 01' appears at 7.191727s and again at 8.195693s.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "0x69D frame with identical payload '80 8D CF B0 4F C1 FC B1' appears at 7.411504s and again at 8.411898s.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "Peak bus rate was 2524 msg/s versus 2392 baseline (1.06x), so bus load is not significantly elevated.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "No unknown arbitration IDs were detected (unknown_ids component 0.0).",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "The affected vehicle functions are not identified in the evidence.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4"
+            ]
+          }
+        ],
+        "recommended_action": "Capture and preserve the full frame trace for the affected IDs (0x6E0, 0x025, 0x69D, 0x075, 0x4EE, 0x6D7) and compare payload sequences against pre-alert baseline traffic to confirm payload repetition. If confirmed, isolate the compromised ECU or source of injection and re-flash/rotate authentication keys per ID.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"replay\", \"confidence\": 0.6, \"severity\": \"medium\",\n \"affected_function\": \"Unknown \u2014 the evidence does not identify the vehicle function for any affected CAN ID (E2, E3, E4).\",\n \"summary\": \"Known IDs show roughly doubled transmission rates with normal-looking, repeated payloads. Frames for 0x025 and 0x69D repeat identical payloads at ~1s intervals (e.g., '00 00 02 88 40 40 12 01' at 7.19s and 8.20s; '80 8D CF B0 4F C1 FC B1' at 7.41s and 8.41s), consistent with an earlier sequence being retransmitted out of context. 0x6E0 shows a 2.02x rate increase with collapsed entropy (3.742 vs 6.952) and high bitflip rate, also consistent with repeated payload content. Bus load is only 1.06x baseline, so this is not a flooding DoS; no unknown IDs rule out fuzzing.\",\n \"claims\": [\n  {\"text\": \"0x6E0 transmitted at 202 msg/s versus 100 baseline (2.02x) with entropy dropping from 6.952 to 3.742.\", \"cites\": [\"E2\"]},\n  {\"text\": \"0x025 transmitted at 12 msg/s versus 1.28 baseline (2.0x) with a payload entropy decrease.\", \"cites\": [\"E3\"]},\n  {\"text\": \"0x025 frame with identical payload '00 00 02 88 40 40 12 01' appears at 7.191727s and again at 8.195693s.\", \"cites\": [\"E8\"]},\n  {\"text\": \"0x69D frame with identical payload '80 8D CF B0 4F C1 FC B1' appears at 7.411504s and again at 8.411898s.\", \"cites\": [\"E8\"]},\n  {\"text\": \"Peak bus rate was 2524 msg/s versus 2392 baseline (1.06x), so bus load is not significantly elevated.\", \"cites\": [\"E1\"]},\n  {\"text\": \"No unknown arbitration IDs were detected (unknown_ids component 0.0).\", \"cites\": [\"E0\"]},\n  {\"text\": \"The affected vehicle functions are not identified in the evidence.\", \"cites\": [\"E2\", \"E3\", \"E4\"]}\n ],\n \"recommended_action\": \"Capture and preserve the full frame trace for the affected IDs (0x6E0, 0x025, 0x69D, 0x075, 0x4EE, 0x6D7) and compare payload sequences against pre-alert baseline traffic to confirm payload repetition. If confirmed, isolate the compromised ECU or source of injection and re-flash/rotate authentication keys per ID.\"}",
+        "latency_s": 4.557,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2842,
+          "output_tokens": 754,
+          "reasoning_tokens": 96
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "correlated_signal_attack_2_masquerade",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 25.25,
+      "end": 25.75,
+      "true_type": "masquerade",
+      "detector_score": 0.5652,
+      "corpus_index": 2,
+      "evidence_sha256": "30debea565561481aa5f29fd3cf0b4e78556e3fe653e3a17b2b9c133b5358b5c",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.45,
+        "severity": "low",
+        "affected_function": "unknown",
+        "summary": "The window shows a known ID (0x025) transmitting at roughly twice its baseline rate (12 msg/s vs 1.28 baseline, 6 frames in 0.5 s), consistent with a small number of added frames on a known ID, i.e., possible spoofing/fabrication. However, the sample size is tiny (6 frames), bus load is essentially unchanged (1.01x baseline), no unknown IDs appeared, and no sequence evidence supports replay. The evidence is weak and could also reflect normal variation not captured in the baseline, so confidence is low.",
+        "claims": [
+          {
+            "text": "ID 0x025 transmitted at 12 msg/s versus a 1.28 msg/s baseline (2.0x rate ratio) with 6 frames in the window.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "All flagged IDs are known baseline IDs; no unknown arbitration IDs appeared.",
+            "cites": [
+              "E0",
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "Peak bus rate was 2418 msg/s versus 2392 msg/s baseline (1.01x), so there is no bus flooding.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "The detector's dominant component was rate_inflation (0.565) with low payload_entropy (0.167) and zero bus_load, unknown_ids, missing_ids, and timing components.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "Representative 0x025 payloads are similar but not identical, and no earlier repeated sequence is evidenced, so replay cannot be confirmed.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "The affected vehicle function is not identified in the evidence for any flagged ID.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Log and monitor ID 0x025 over subsequent windows to see whether the elevated rate persists or grows; capture extended payload sequences for 0x025 to check for repeated (replay) patterns. No immediate intervention required given unchanged bus load and very small frame counts.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"spoofing\", \"confidence\": 0.45, \"severity\": \"low\", \"affected_function\": \"unknown\", \"summary\": \"The window shows a known ID (0x025) transmitting at roughly twice its baseline rate (12 msg/s vs 1.28 baseline, 6 frames in 0.5 s), consistent with a small number of added frames on a known ID, i.e., possible spoofing/fabrication. However, the sample size is tiny (6 frames), bus load is essentially unchanged (1.01x baseline), no unknown IDs appeared, and no sequence evidence supports replay. The evidence is weak and could also reflect normal variation not captured in the baseline, so confidence is low.\", \"claims\": [{\"text\": \"ID 0x025 transmitted at 12 msg/s versus a 1.28 msg/s baseline (2.0x rate ratio) with 6 frames in the window.\", \"cites\": [\"E2\"]}, {\"text\": \"All flagged IDs are known baseline IDs; no unknown arbitration IDs appeared.\", \"cites\": [\"E0\", \"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"Peak bus rate was 2418 msg/s versus 2392 msg/s baseline (1.01x), so there is no bus flooding.\", \"cites\": [\"E1\"]}, {\"text\": \"The detector's dominant component was rate_inflation (0.565) with low payload_entropy (0.167) and zero bus_load, unknown_ids, missing_ids, and timing components.\", \"cites\": [\"E0\"]}, {\"text\": \"Representative 0x025 payloads are similar but not identical, and no earlier repeated sequence is evidenced, so replay cannot be confirmed.\", \"cites\": [\"E8\"]}, {\"text\": \"The affected vehicle function is not identified in the evidence for any flagged ID.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}], \"recommended_action\": \"Log and monitor ID 0x025 over subsequent windows to see whether the elevated rate persists or grows; capture extended payload sequences for 0x025 to check for repeated (replay) patterns. No immediate intervention required given unchanged bus load and very small frame counts.\"}",
+        "latency_s": 3.262,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2674,
+          "output_tokens": 536,
+          "reasoning_tokens": 30
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "correlated_signal_attack_2_masquerade",
+      "role": "attack_capture",
+      "alert_id": 1,
+      "start": 26.25,
+      "end": 27.5,
+      "true_type": "masquerade",
+      "detector_score": 0.5652,
+      "corpus_index": 3,
+      "evidence_sha256": "de99329161515b5dbfc1d66cc84acbce0cef18d19162d8266cc6005ee13e6c47",
+      "explanation": {
+        "attack_type": "unknown",
+        "confidence": 0.55,
+        "severity": "low",
+        "affected_function": "not identified; the affected CAN IDs (0x025, 0x69D, 0x075, 0x4EE, 0x6D7, 0x655) have unknown functions in the evidence",
+        "summary": "The alert is driven mainly by a moderate rate_inflation component (0.565) with no unknown IDs, no missing IDs, no timing anomaly, and essentially unchanged bus load (1.01x baseline). The only notable rate deviation is 0x025 at 2.0x its baseline rate, but this involves only 14 frames in the full alert window. Several other known IDs show single extra frames. Payloads look normal (entropy decreased, not increased) and bus load did not rise, so this is not consistent with flooding or fuzzing. The small added-frame counts on known IDs could reflect fabrication/spoofing, but without sequence evidence distinguishing replay, and with such small deviations, the window cannot be confidently classified.",
+        "claims": [
+          {
+            "text": "Detector score was 0.565, driven mainly by rate_inflation 0.565, with bus_load, unknown_ids, missing_ids and timing all 0.0 and payload_entropy 0.167.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "Peak bus rate was 2424 msg/s versus 2392 msg/s baseline (1.01x), so the bus was not flooded.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "0x025 transmitted at 12.0 msg/s versus 1.28 baseline (2.0x ratio), with only 14 frames in the full alert window.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "0x025's payload entropy decreased to 2.625 versus a 3.28 baseline, inconsistent with fuzzing.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "IDs 0x69D, 0x075, 0x4EE, 0x6D7 and 0x655 each show only 1-3 frames in the alert window with entropy below baseline.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "Sampled payloads for 0x025, 0x075 and 0x69D appear normal and repeat identically, with no evidence of an out-of-context earlier sequence.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "No evidence identifies the vehicle function of any affected CAN ID.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Log the alert for trend analysis and continue monitoring 0x025 and the other flagged IDs over subsequent windows. If rate inflation on 0x025 persists or grows, capture an extended trace with payload sequence history to determine whether frames are being fabricated or replayed, and attempt DBC/signal decoding to identify the affected function.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"unknown\", \"confidence\": 0.55, \"severity\": \"low\",\n \"affected_function\": \"not identified; the affected CAN IDs (0x025, 0x69D, 0x075, 0x4EE, 0x6D7, 0x655) have unknown functions in the evidence\",\n \"summary\": \"The alert is driven mainly by a moderate rate_inflation component (0.565) with no unknown IDs, no missing IDs, no timing anomaly, and essentially unchanged bus load (1.01x baseline). The only notable rate deviation is 0x025 at 2.0x its baseline rate, but this involves only 14 frames in the full alert window. Several other known IDs show single extra frames. Payloads look normal (entropy decreased, not increased) and bus load did not rise, so this is not consistent with flooding or fuzzing. The small added-frame counts on known IDs could reflect fabrication/spoofing, but without sequence evidence distinguishing replay, and with such small deviations, the window cannot be confidently classified.\",\n \"claims\": [\n  {\"text\": \"Detector score was 0.565, driven mainly by rate_inflation 0.565, with bus_load, unknown_ids, missing_ids and timing all 0.0 and payload_entropy 0.167.\", \"cites\": [\"E0\"]},\n  {\"text\": \"Peak bus rate was 2424 msg/s versus 2392 msg/s baseline (1.01x), so the bus was not flooded.\", \"cites\": [\"E1\"]},\n  {\"text\": \"0x025 transmitted at 12.0 msg/s versus 1.28 baseline (2.0x ratio), with only 14 frames in the full alert window.\", \"cites\": [\"E2\"]},\n  {\"text\": \"0x025's payload entropy decreased to 2.625 versus a 3.28 baseline, inconsistent with fuzzing.\", \"cites\": [\"E2\"]},\n  {\"text\": \"IDs 0x69D, 0x075, 0x4EE, 0x6D7 and 0x655 each show only 1-3 frames in the alert window with entropy below baseline.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]},\n  {\"text\": \"Sampled payloads for 0x025, 0x075 and 0x69D appear normal and repeat identically, with no evidence of an out-of-context earlier sequence.\", \"cites\": [\"E8\"]},\n  {\"text\": \"No evidence identifies the vehicle function of any affected CAN ID.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}\n ],\n \"recommended_action\": \"Log the alert for trend analysis and continue monitoring 0x025 and the other flagged IDs over subsequent windows. If rate inflation on 0x025 persists or grows, capture an extended trace with payload sequence history to determine whether frames are being fabricated or replayed, and attempt DBC/signal decoding to identify the affected function.\"}",
+        "latency_s": 4.872,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2838,
+          "output_tokens": 759,
+          "reasoning_tokens": 75
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "correlated_signal_attack_3",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 4.5,
+      "end": 16.75,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 4,
+      "evidence_sha256": "25a7e6bba5331defd2ecd1d334a1a23b1253004f0877780c0ad4fabd5b89ea40",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.6,
+        "severity": "medium",
+        "affected_function": "Unknown \u2014 the evidence does not identify the vehicle function of 0x6E0 or any other affected ID (E2, E3, E4, E5, E6, E7).",
+        "summary": "A known ID, 0x6E0, transmitted at roughly twice its baseline rate (202 vs 100 msg/s in the peak window; 2450 frames over the full alert at ~200 msg/s), with reduced payload entropy (3.931 vs 6.952) and repeated-looking payloads, consistent with an injected/fabricated sender. Bus load rose only slightly (1.05x), no unknown IDs appeared, and no IDs went missing, so this is not a DoS or fuzzing pattern. The low entropy and repeated payload bytes could also fit a replay, but no earlier sequence evidence is provided to confirm repetition, so fabrication (spoofing) is the best-supported classification.",
+        "claims": [
+          {
+            "text": "0x6E0 is a known ID that transmitted at 202 msg/s versus a 100 msg/s baseline (2.02x) in the peak window, with 2450 frames over the full alert.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "0x6E0's payload entropy dropped to 3.931 from a baseline of 6.952, and its bitflip rate was 0.4778.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Sampled 0x6E0 payloads show repeated byte patterns (e.g., '04 5C 04 59 04 46 04 40' and '59 59 45 45 00 00 FF FF'), consistent with low-entropy injected frames.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "Peak bus rate was 2522 msg/s versus a 2392 msg/s baseline (1.05x), so the bus was not flooded.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "No unknown arbitration IDs appeared and no IDs went missing (unknown_ids 0.0, missing_ids 0.0).",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "Other IDs (0x69D, 0x075, 0x4EE, 0x6D7, 0x655) show only single-frame windows with near-baseline full-alert rates, contributing little to the anomaly.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The evidence does not include sequence comparison to an earlier capture, so replay cannot be confirmed over fabrication.",
+            "cites": [
+              "E2",
+              "E8"
+            ]
+          }
+        ],
+        "recommended_action": "Correlate 0x6E0 frames against a baseline capture to check for exact payload repetition (replay) versus novel fabricated values; verify the legitimate source ECUs of 0x6E0 and inspect the physical segment for an unauthorized injecting node. Monitor 0x6E0 rate and payload entropy, and decode its signals if a DBC is available to assess operational impact.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"spoofing\", \"confidence\": 0.6, \"severity\": \"medium\",\n \"affected_function\": \"Unknown \u2014 the evidence does not identify the vehicle function of 0x6E0 or any other affected ID (E2, E3, E4, E5, E6, E7).\",\n \"summary\": \"A known ID, 0x6E0, transmitted at roughly twice its baseline rate (202 vs 100 msg/s in the peak window; 2450 frames over the full alert at ~200 msg/s), with reduced payload entropy (3.931 vs 6.952) and repeated-looking payloads, consistent with an injected/fabricated sender. Bus load rose only slightly (1.05x), no unknown IDs appeared, and no IDs went missing, so this is not a DoS or fuzzing pattern. The low entropy and repeated payload bytes could also fit a replay, but no earlier sequence evidence is provided to confirm repetition, so fabrication (spoofing) is the best-supported classification.\",\n \"claims\": [\n  {\"text\": \"0x6E0 is a known ID that transmitted at 202 msg/s versus a 100 msg/s baseline (2.02x) in the peak window, with 2450 frames over the full alert.\", \"cites\": [\"E2\"]},\n  {\"text\": \"0x6E0's payload entropy dropped to 3.931 from a baseline of 6.952, and its bitflip rate was 0.4778.\", \"cites\": [\"E2\"]},\n  {\"text\": \"Sampled 0x6E0 payloads show repeated byte patterns (e.g., '04 5C 04 59 04 46 04 40' and '59 59 45 45 00 00 FF FF'), consistent with low-entropy injected frames.\", \"cites\": [\"E8\"]},\n  {\"text\": \"Peak bus rate was 2522 msg/s versus a 2392 msg/s baseline (1.05x), so the bus was not flooded.\", \"cites\": [\"E1\"]},\n  {\"text\": \"No unknown arbitration IDs appeared and no IDs went missing (unknown_ids 0.0, missing_ids 0.0).\", \"cites\": [\"E0\"]},\n  {\"text\": \"Other IDs (0x69D, 0x075, 0x4EE, 0x6D7, 0x655) show only single-frame windows with near-baseline full-alert rates, contributing little to the anomaly.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]},\n  {\"text\": \"The evidence does not include sequence comparison to an earlier capture, so replay cannot be confirmed over fabrication.\", \"cites\": [\"E2\", \"E8\"]}\n ],\n \"recommended_action\": \"Correlate 0x6E0 frames against a baseline capture to check for exact payload repetition (replay) versus novel fabricated values; verify the legitimate source ECUs of 0x6E0 and inspect the physical segment for an unauthorized injecting node. Monitor 0x6E0 rate and payload entropy, and decode its signals if a DBC is available to assess operational impact.\"}",
+        "latency_s": 4.017,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2853,
+          "output_tokens": 740,
+          "reasoning_tokens": 40
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "fuzzing_attack_1",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 4.25,
+      "end": 8.25,
+      "true_type": "fuzzing",
+      "detector_score": 1.0,
+      "corpus_index": 5,
+      "evidence_sha256": "f891c353a2e6f48a338af8ebfe3b231a3d21c15954feb9ca345c3908d0a21c7b",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.7,
+        "severity": "low",
+        "affected_function": "unknown",
+        "summary": "Six arbitration IDs absent from the baseline (0x070, 0x095, 0x09F, 0x0B3, 0x0C4, 0x0CA) each appeared once during the alert window, with all-0xFF payloads in the sampled frames. This matches a fuzzing signature (unknown IDs with anomalous payloads), though the very low volume (6 frames total) and near-baseline bus load (1.09x) make it low severity. The evidence does not identify which vehicle function these IDs map to.",
+        "claims": [
+          {
+            "text": "Six IDs not in the baseline ID set appeared during the alert window: 0x070, 0x095, 0x09F, 0x0B3, 0x0C4, 0x0CA, each sending 1 frame across the full alert.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "Sampled frames from these unknown IDs carried all-0xFF 8-byte payloads.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "Peak bus rate was 2598 msg/s versus a 2392 msg/s baseline (1.09x), so there is no flooding or denial-of-service pattern.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "The detector flagged unknown_ids at 1.000 with rate_inflation 0.565 and payload_entropy 0.364.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "The evidence does not identify the vehicle function associated with the unknown IDs.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Log and monitor the unknown IDs (0x070, 0x095, 0x09F, 0x0B3, 0x0C4, 0x0CA) for recurrence or higher-volume activity; verify against the vehicle's DBC/ID catalog whether these are legitimate but unlogged ECU messages before escalating. Given the low volume, no immediate containment is required.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"fuzzing\", \"confidence\": 0.7, \"severity\": \"low\", \"affected_function\": \"unknown\", \"summary\": \"Six arbitration IDs absent from the baseline (0x070, 0x095, 0x09F, 0x0B3, 0x0C4, 0x0CA) each appeared once during the alert window, with all-0xFF payloads in the sampled frames. This matches a fuzzing signature (unknown IDs with anomalous payloads), though the very low volume (6 frames total) and near-baseline bus load (1.09x) make it low severity. The evidence does not identify which vehicle function these IDs map to.\", \"claims\": [{\"text\": \"Six IDs not in the baseline ID set appeared during the alert window: 0x070, 0x095, 0x09F, 0x0B3, 0x0C4, 0x0CA, each sending 1 frame across the full alert.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"Sampled frames from these unknown IDs carried all-0xFF 8-byte payloads.\", \"cites\": [\"E8\"]}, {\"text\": \"Peak bus rate was 2598 msg/s versus a 2392 msg/s baseline (1.09x), so there is no flooding or denial-of-service pattern.\", \"cites\": [\"E1\"]}, {\"text\": \"The detector flagged unknown_ids at 1.000 with rate_inflation 0.565 and payload_entropy 0.364.\", \"cites\": [\"E0\"]}, {\"text\": \"The evidence does not identify the vehicle function associated with the unknown IDs.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}], \"recommended_action\": \"Log and monitor the unknown IDs (0x070, 0x095, 0x09F, 0x0B3, 0x0C4, 0x0CA) for recurrence or higher-volume activity; verify against the vehicle's DBC/ID catalog whether these are legitimate but unlogged ECU messages before escalating. Given the low volume, no immediate containment is required.\"}",
+        "latency_s": 2.774,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2235,
+          "output_tokens": 531,
+          "reasoning_tokens": 21
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "fuzzing_attack_1",
+      "role": "attack_capture",
+      "alert_id": 1,
+      "start": 16.25,
+      "end": 20.0,
+      "true_type": "normal",
+      "detector_score": 0.5652,
+      "corpus_index": 6,
+      "evidence_sha256": "84a08a88a77164a694734da767610329e3508b79e545b7c294c131c845628498",
+      "explanation": {
+        "attack_type": "unknown",
+        "confidence": 0.45,
+        "severity": "low",
+        "affected_function": "Not identified; the flagged IDs (0x025, 0x075, 0x69D, 0x4EE, 0x6D7, 0x655) have no known function in the evidence (E2-E7).",
+        "summary": "The alert was driven mainly by rate inflation (0.565) and a modest entropy component (0.364), with no unknown IDs, no missing IDs, no timing anomaly, and essentially unchanged bus load (2428 vs 2392 msg/s, 1.02x) (E0, E1). The strongest per-ID signal is 0x025 at 2x its baseline rate (12 vs 1.28 msg/s) with normal-looking entropy (E2). Several low-rate IDs (0x075, 0x69D, 0x4EE, 0x6D7, 0x655) show single-frame windows with collapsed jitter and reduced entropy, and sample frames show identical payloads repeated for 0x075 and 0x69D (E8). However, there is no evidence of an earlier payload sequence being repeated out of context, no flooding of a high-priority ID, and no new IDs, so replay, spoofing, and fuzzing cannot be confirmed. The deviations are small in absolute terms (a few frames per ID over 3.75 s) and could plausibly reflect normal vehicle states absent from the baseline.",
+        "claims": [
+          {
+            "text": "Detector score 0.565 driven by rate_inflation 0.565 and payload_entropy 0.364, with bus_load, unknown_ids, missing_ids and timing all 0.0.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "Peak bus rate was 2428 msg/s versus 2392 baseline (1.02x), so the bus was not flooded.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "0x025 transmitted at 12 msg/s versus 1.28 baseline (2.0x) with entropy 3.156 versus 3.28 baseline.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "IDs 0x075, 0x69D, 0x4EE, 0x6D7 and 0x655 each show single-frame windows with zero jitter and entropy below baseline.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "Sample frames show identical payloads repeated for 0x075 and 0x69D, but no earlier sequence context is provided to establish replay.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "All flagged CAN IDs are marked known and their functions are not identified in the evidence.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Continue monitoring without intervention. If escalation is desired, capture a longer trace around 0x025 and the repeated-payload IDs (0x075, 0x69D) and compare against baseline payload sequences to test for replay, and confirm whether the observed rates fall within normal operating states not covered by the baseline.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"unknown\", \"confidence\": 0.45, \"severity\": \"low\",\n \"affected_function\": \"Not identified; the flagged IDs (0x025, 0x075, 0x69D, 0x4EE, 0x6D7, 0x655) have no known function in the evidence (E2-E7).\",\n \"summary\": \"The alert was driven mainly by rate inflation (0.565) and a modest entropy component (0.364), with no unknown IDs, no missing IDs, no timing anomaly, and essentially unchanged bus load (2428 vs 2392 msg/s, 1.02x) (E0, E1). The strongest per-ID signal is 0x025 at 2x its baseline rate (12 vs 1.28 msg/s) with normal-looking entropy (E2). Several low-rate IDs (0x075, 0x69D, 0x4EE, 0x6D7, 0x655) show single-frame windows with collapsed jitter and reduced entropy, and sample frames show identical payloads repeated for 0x075 and 0x69D (E8). However, there is no evidence of an earlier payload sequence being repeated out of context, no flooding of a high-priority ID, and no new IDs, so replay, spoofing, and fuzzing cannot be confirmed. The deviations are small in absolute terms (a few frames per ID over 3.75 s) and could plausibly reflect normal vehicle states absent from the baseline.\",\n \"claims\": [\n  {\"text\": \"Detector score 0.565 driven by rate_inflation 0.565 and payload_entropy 0.364, with bus_load, unknown_ids, missing_ids and timing all 0.0.\", \"cites\": [\"E0\"]},\n  {\"text\": \"Peak bus rate was 2428 msg/s versus 2392 baseline (1.02x), so the bus was not flooded.\", \"cites\": [\"E1\"]},\n  {\"text\": \"0x025 transmitted at 12 msg/s versus 1.28 baseline (2.0x) with entropy 3.156 versus 3.28 baseline.\", \"cites\": [\"E2\"]},\n  {\"text\": \"IDs 0x075, 0x69D, 0x4EE, 0x6D7 and 0x655 each show single-frame windows with zero jitter and entropy below baseline.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]},\n  {\"text\": \"Sample frames show identical payloads repeated for 0x075 and 0x69D, but no earlier sequence context is provided to establish replay.\", \"cites\": [\"E8\"]},\n  {\"text\": \"All flagged CAN IDs are marked known and their functions are not identified in the evidence.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}\n ],\n \"recommended_action\": \"Continue monitoring without intervention. If escalation is desired, capture a longer trace around 0x025 and the repeated-payload IDs (0x075, 0x69D) and compare against baseline payload sequences to test for replay, and confirm whether the observed rates fall within normal operating states not covered by the baseline.\"}",
+        "latency_s": 4.545,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2843,
+          "output_tokens": 814,
+          "reasoning_tokens": 80
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "fuzzing_attack_2",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 11.0,
+      "end": 13.5,
+      "true_type": "fuzzing",
+      "detector_score": 1.0,
+      "corpus_index": 7,
+      "evidence_sha256": "c05d46bd1ebc0f4fc9705fa977029edf1ed784ed3ed8cceec81c69813a856319",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.6,
+        "severity": "low",
+        "affected_function": "Unknown; the evidence does not identify which vehicle function the injected IDs (0x070, 0x095, 0x09F, 0x0B3, 0x0C4, 0x0CA) map to.",
+        "summary": "Six arbitration IDs absent from the baseline appeared during the alert window, each sending a single 8-byte frame with an all-0xFF payload (E2-E8). This matches a fuzzing signature (unknown IDs with non-baseline payloads), though the volume is very low: only 6 frames total, bus load rose only 1.09x (E1), and rate inflation, missing IDs, and bus load components were all zero (E0). The timing and entropy components are moderately elevated (E0). The overall impact appears minimal given the tiny injection volume.",
+        "claims": [
+          {
+            "text": "Six IDs (0x070, 0x095, 0x09F, 0x0B3, 0x0C4, 0x0CA) are not in the baseline ID set and each sent 1 frame across the full alert.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "Representative frames from the unknown IDs carry all-0xFF 8-byte payloads.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "Peak bus rate was 2606 msg/s versus a 2392 msg/s baseline (1.09x), indicating no flooding.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "Rate inflation, missing IDs, and bus load detector components were all 0.000; unknown_ids component was 1.000.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "The evidence does not identify the vehicle function associated with the injected IDs.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Log the event and verify whether the six unknown IDs correspond to legitimate but rarely-transmitted vehicle states (e.g., diagnostic or error frames) by consulting the DBC/ID catalog. If they are not legitimate, monitor for recurrence and capture extended traffic for source-node identification; the low volume suggests no immediate intervention is required.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"fuzzing\", \"confidence\": 0.6, \"severity\": \"low\", \"affected_function\": \"Unknown; the evidence does not identify which vehicle function the injected IDs (0x070, 0x095, 0x09F, 0x0B3, 0x0C4, 0x0CA) map to.\", \"summary\": \"Six arbitration IDs absent from the baseline appeared during the alert window, each sending a single 8-byte frame with an all-0xFF payload (E2-E8). This matches a fuzzing signature (unknown IDs with non-baseline payloads), though the volume is very low: only 6 frames total, bus load rose only 1.09x (E1), and rate inflation, missing IDs, and bus load components were all zero (E0). The timing and entropy components are moderately elevated (E0). The overall impact appears minimal given the tiny injection volume.\", \"claims\": [{\"text\": \"Six IDs (0x070, 0x095, 0x09F, 0x0B3, 0x0C4, 0x0CA) are not in the baseline ID set and each sent 1 frame across the full alert.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"Representative frames from the unknown IDs carry all-0xFF 8-byte payloads.\", \"cites\": [\"E8\"]}, {\"text\": \"Peak bus rate was 2606 msg/s versus a 2392 msg/s baseline (1.09x), indicating no flooding.\", \"cites\": [\"E1\"]}, {\"text\": \"Rate inflation, missing IDs, and bus load detector components were all 0.000; unknown_ids component was 1.000.\", \"cites\": [\"E0\"]}, {\"text\": \"The evidence does not identify the vehicle function associated with the injected IDs.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}], \"recommended_action\": \"Log the event and verify whether the six unknown IDs correspond to legitimate but rarely-transmitted vehicle states (e.g., diagnostic or error frames) by consulting the DBC/ID catalog. If they are not legitimate, monitor for recurrence and capture extended traffic for source-node identification; the low volume suggests no immediate intervention is required.\"}",
+        "latency_s": 3.199,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2230,
+          "output_tokens": 553,
+          "reasoning_tokens": 26
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "fuzzing_attack_3",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 4.5,
+      "end": 5.5,
+      "true_type": "fuzzing",
+      "detector_score": 1.0,
+      "corpus_index": 8,
+      "evidence_sha256": "663df7c02acd6349746d0b1a3465689605546a18ffa97e8183dac280016731c4",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.6,
+        "severity": "low",
+        "affected_function": "unknown",
+        "summary": "Six arbitration IDs absent from the baseline (0x04A, 0x070, 0x095, 0x09F, 0x0B3, 0x0C4) each appeared once in the window with all-0xFF payloads, matching a fuzzing signature. However, the injection volume is tiny (6 frames total), bus load is essentially unchanged (1.07x baseline), and no rate inflation or missing IDs were observed, so impact appears minimal. The evidence does not identify which vehicle function these IDs map to.",
+        "claims": [
+          {
+            "text": "Six IDs not in the baseline ID set appeared in the window: 0x04A, 0x070, 0x095, 0x09F, 0x0B3, 0x0C4, each sending 1 frame.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "Representative frames from the unknown IDs carry all-0xFF 8-byte payloads.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "Peak bus rate was 2556 msg/s versus 2392 msg/s baseline (1.07x), indicating no flooding.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "Detector components show no rate inflation, no missing IDs, and near-zero bus load deviation; the alert is driven by unknown_ids (1.0).",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "The evidence does not identify the vehicle function associated with the unknown IDs.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Log the six unknown IDs and their payloads for correlation with other windows; verify against an extended/complete DBC or a longer baseline to rule out rarely-transmitted normal messages before escalating. If the IDs recur or rates increase, treat as active fuzzing and investigate the injection source.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"fuzzing\", \"confidence\": 0.6, \"severity\": \"low\",\n \"affected_function\": \"unknown\",\n \"summary\": \"Six arbitration IDs absent from the baseline (0x04A, 0x070, 0x095, 0x09F, 0x0B3, 0x0C4) each appeared once in the window with all-0xFF payloads, matching a fuzzing signature. However, the injection volume is tiny (6 frames total), bus load is essentially unchanged (1.07x baseline), and no rate inflation or missing IDs were observed, so impact appears minimal. The evidence does not identify which vehicle function these IDs map to.\",\n \"claims\": [\n  {\"text\": \"Six IDs not in the baseline ID set appeared in the window: 0x04A, 0x070, 0x095, 0x09F, 0x0B3, 0x0C4, each sending 1 frame.\", \"cites\": [\"E2\",\"E3\",\"E4\",\"E5\",\"E6\",\"E7\"]},\n  {\"text\": \"Representative frames from the unknown IDs carry all-0xFF 8-byte payloads.\", \"cites\": [\"E8\"]},\n  {\"text\": \"Peak bus rate was 2556 msg/s versus 2392 msg/s baseline (1.07x), indicating no flooding.\", \"cites\": [\"E1\"]},\n  {\"text\": \"Detector components show no rate inflation, no missing IDs, and near-zero bus load deviation; the alert is driven by unknown_ids (1.0).\", \"cites\": [\"E0\"]},\n  {\"text\": \"The evidence does not identify the vehicle function associated with the unknown IDs.\", \"cites\": [\"E2\",\"E3\",\"E4\",\"E5\",\"E6\",\"E7\"]}\n ],\n \"recommended_action\": \"Log the six unknown IDs and their payloads for correlation with other windows; verify against an extended/complete DBC or a longer baseline to rule out rarely-transmitted normal messages before escalating. If the IDs recur or rates increase, treat as active fuzzing and investigate the injection source.\"}",
+        "latency_s": 2.777,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2232,
+          "output_tokens": 490,
+          "reasoning_tokens": 26
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "max_engine_coolant_temp_attack",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 20.25,
+      "end": 24.25,
+      "true_type": "spoofing",
+      "detector_score": 0.7391,
+      "corpus_index": 9,
+      "evidence_sha256": "e016bf1c86f4c103b3ecd10c24d68dc949196524615815cc0374fd997e7dd7bd",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.6,
+        "severity": "medium",
+        "affected_function": "Unknown \u2014 the evidence does not identify the vehicle function for any affected CAN ID (E2, E3, E4, E5, E6, E7).",
+        "summary": "The alert is driven primarily by rate inflation (0.739) with no unknown IDs, no missing IDs, and negligible bus load change (E0, E1). The dominant signal is known ID 0x4E7 transmitting at 2.2x its baseline rate (22 vs 10 msg/s) with a compressed inter-arrival time (47 ms vs 100 ms baseline, 157.98 sigma) and reduced entropy, consistent with injected/fabricated frames on a known ID (E2). Several other known IDs (0x075, 0x69D, 0x4EE, 0x3B9, 0x0F1) show repeated identical payloads within the window (E8), but their counts are very low (4-8 frames) and their per-window rates are below baseline, so they contribute little (E3-E7). No evidence of an earlier payload sequence being repeated out of context, so replay cannot be established; the added frames on 0x4E7 fit spoofing/fabrication best. The affected vehicle function is not identified in the evidence.",
+        "claims": [
+          {
+            "text": "Detector score 0.739 driven mainly by rate_inflation 0.739, with bus_load 0.0, unknown_ids 0.0, missing_ids 0.0.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "Peak bus rate was 2430 msg/s versus 2392 msg/s baseline (1.02x), so this is not a flooding/DoS pattern.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "Known ID 0x4E7 transmitted at 22 msg/s versus 10 msg/s baseline (2.2x) with mean gap 47.017 ms versus 100 ms baseline (157.98 sigma), consistent with added frames on a known ID.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "0x4E7's entropy decreased to 1.673 from 2.148 baseline, and it had 80 frames over the full alert.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Other flagged IDs (0x075, 0x69D, 0x4EE, 0x3B9, 0x0F1) each had only 1 frame in their scored sub-windows and 4-8 frames over the full alert, with rates at or below baseline.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "Representative frames show identical payloads repeated for 0x075 and 0x69D, but there is no evidence of an earlier out-of-context sequence, so replay is not established.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "No evidence identifies the vehicle function of any affected CAN ID.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Correlate 0x4E7 frames with an authoritative source (e.g., expected ECU schedule or a second capture point) to determine whether the extra frames originate from a legitimate sender or an injecting node; decode 0x4E7 payload signals to check for implausible values, and isolate the injecting node if fabrication is confirmed. Also verify whether the repeated identical payloads on 0x075 and 0x69D are normal periodic messages.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"spoofing\", \"confidence\": 0.6, \"severity\": \"medium\", \"affected_function\": \"Unknown \u2014 the evidence does not identify the vehicle function for any affected CAN ID (E2, E3, E4, E5, E6, E7).\", \"summary\": \"The alert is driven primarily by rate inflation (0.739) with no unknown IDs, no missing IDs, and negligible bus load change (E0, E1). The dominant signal is known ID 0x4E7 transmitting at 2.2x its baseline rate (22 vs 10 msg/s) with a compressed inter-arrival time (47 ms vs 100 ms baseline, 157.98 sigma) and reduced entropy, consistent with injected/fabricated frames on a known ID (E2). Several other known IDs (0x075, 0x69D, 0x4EE, 0x3B9, 0x0F1) show repeated identical payloads within the window (E8), but their counts are very low (4-8 frames) and their per-window rates are below baseline, so they contribute little (E3-E7). No evidence of an earlier payload sequence being repeated out of context, so replay cannot be established; the added frames on 0x4E7 fit spoofing/fabrication best. The affected vehicle function is not identified in the evidence.\", \"claims\": [{\"text\": \"Detector score 0.739 driven mainly by rate_inflation 0.739, with bus_load 0.0, unknown_ids 0.0, missing_ids 0.0.\", \"cites\": [\"E0\"]}, {\"text\": \"Peak bus rate was 2430 msg/s versus 2392 msg/s baseline (1.02x), so this is not a flooding/DoS pattern.\", \"cites\": [\"E1\"]}, {\"text\": \"Known ID 0x4E7 transmitted at 22 msg/s versus 10 msg/s baseline (2.2x) with mean gap 47.017 ms versus 100 ms baseline (157.98 sigma), consistent with added frames on a known ID.\", \"cites\": [\"E2\"]}, {\"text\": \"0x4E7's entropy decreased to 1.673 from 2.148 baseline, and it had 80 frames over the full alert.\", \"cites\": [\"E2\"]}, {\"text\": \"Other flagged IDs (0x075, 0x69D, 0x4EE, 0x3B9, 0x0F1) each had only 1 frame in their scored sub-windows and 4-8 frames over the full alert, with rates at or below baseline.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"Representative frames show identical payloads repeated for 0x075 and 0x69D, but there is no evidence of an earlier out-of-context sequence, so replay is not established.\", \"cites\": [\"E8\"]}, {\"text\": \"No evidence identifies the vehicle function of any affected CAN ID.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}], \"recommended_action\": \"Correlate 0x4E7 frames with an authoritative source (e.g., expected ECU schedule or a second capture point) to determine whether the extra frames originate from a legitimate sender or an injecting node; decode 0x4E7 payload signals to check for implausible values, and isolate the injecting node if fabrication is confirmed. Also verify whether the repeated identical payloads on 0x075 and 0x69D are normal periodic messages.\"}",
+        "latency_s": 4.509,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2853,
+          "output_tokens": 867,
+          "reasoning_tokens": 58
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "max_speedometer_attack_1",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 42.0,
+      "end": 66.75,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 10,
+      "evidence_sha256": "6d7256fcd97d40b1799c7f363d13412ba539d5b4b53e9a49220347fb2a411341",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.6,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "Known CAN IDs (notably 0x0D0 and 0x280) transmitted well above their baseline rates with no unknown IDs appearing, consistent with injected/fabricated frames on existing IDs. Bus load rose only slightly (1.06x), so this is not a flooding DoS. No sequence evidence supports replay, and no function mapping is available for the affected IDs.",
+        "claims": [
+          {
+            "text": "0x0D0 transmitted at 202 msg/s versus a 100 msg/s baseline (2.02x) with 4920 frames in the alert window.",
+            "cites": [
+              "E3"
+            ]
+          },
+          {
+            "text": "0x280 transmitted at 26 msg/s versus a 5.03 msg/s baseline (4.333x) with 594 frames in the alert window.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "No unknown arbitration IDs appeared (unknown_ids component 0.000), ruling against fuzzing.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "Peak bus rate was 2536 msg/s versus 2392 msg/s baseline (1.06x), so total bus load did not double, arguing against a flooding DoS.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "Rate inflation was the dominant detector component (1.000), consistent with added frames on known IDs.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "0x69D showed two identical payloads one second apart, but its rate stayed near baseline, so this alone does not establish replay.",
+            "cites": [
+              "E8",
+              "E4"
+            ]
+          },
+          {
+            "text": "The evidence does not identify the vehicle function for any affected CAN ID.",
+            "cites": [
+              "E2",
+              "E3"
+            ]
+          }
+        ],
+        "recommended_action": "Correlate 0x0D0 and 0x280 frames with in-vehicle source ECUs (e.g., via sender profiling or bus segmentation) to confirm whether an additional transmitter is injecting frames; capture a longer trace to check for repeated payload sequences (replay) and to decode signals for plausibility checks. If confirmed, isolate the compromised segment and block the injected IDs.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"spoofing\", \"confidence\": 0.6, \"severity\": \"medium\", \"affected_function\": \"unknown\", \"summary\": \"Known CAN IDs (notably 0x0D0 and 0x280) transmitted well above their baseline rates with no unknown IDs appearing, consistent with injected/fabricated frames on existing IDs. Bus load rose only slightly (1.06x), so this is not a flooding DoS. No sequence evidence supports replay, and no function mapping is available for the affected IDs.\", \"claims\": [{\"text\": \"0x0D0 transmitted at 202 msg/s versus a 100 msg/s baseline (2.02x) with 4920 frames in the alert window.\", \"cites\": [\"E3\"]}, {\"text\": \"0x280 transmitted at 26 msg/s versus a 5.03 msg/s baseline (4.333x) with 594 frames in the alert window.\", \"cites\": [\"E2\"]}, {\"text\": \"No unknown arbitration IDs appeared (unknown_ids component 0.000), ruling against fuzzing.\", \"cites\": [\"E0\"]}, {\"text\": \"Peak bus rate was 2536 msg/s versus 2392 msg/s baseline (1.06x), so total bus load did not double, arguing against a flooding DoS.\", \"cites\": [\"E1\"]}, {\"text\": \"Rate inflation was the dominant detector component (1.000), consistent with added frames on known IDs.\", \"cites\": [\"E0\"]}, {\"text\": \"0x69D showed two identical payloads one second apart, but its rate stayed near baseline, so this alone does not establish replay.\", \"cites\": [\"E8\", \"E4\"]}, {\"text\": \"The evidence does not identify the vehicle function for any affected CAN ID.\", \"cites\": [\"E2\", \"E3\"]}], \"recommended_action\": \"Correlate 0x0D0 and 0x280 frames with in-vehicle source ECUs (e.g., via sender profiling or bus segmentation) to confirm whether an additional transmitter is injecting frames; capture a longer trace to check for repeated payload sequences (replay) and to decode signals for plausibility checks. If confirmed, isolate the compromised segment and block the injected IDs.\"}\n",
+        "latency_s": 3.309,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2834,
+          "output_tokens": 578,
+          "reasoning_tokens": 88
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "max_speedometer_attack_1_masquerade",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 42.0,
+      "end": 66.75,
+      "true_type": "masquerade",
+      "detector_score": 1.0,
+      "corpus_index": 11,
+      "evidence_sha256": "02a00cb53b8ac718fa191776ff834c36edcd81fabcca0af6fbac2d9aa23d3737",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.7,
+        "severity": "medium",
+        "affected_function": "unknown (0x280 function not identified in evidence)",
+        "summary": "Known ID 0x280 shows a 4.33x rate inflation over baseline with a mean inter-arrival gap of 38.3 ms versus 198.8 ms baseline (11.97 sigma), consistent with injected/fabricated frames on a known ID. No unknown IDs appeared and bus load was essentially unchanged (1.02x), ruling out fuzzing and DoS. No sequence-repetition evidence exists to support replay, so spoofing is the best fit.",
+        "claims": [
+          {
+            "text": "0x280 transmitted at 26.0 msg/s in a peak window versus a 5.03 msg/s baseline (4.333x).",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "0x280 mean gap was 38.333 ms versus 198.754 ms baseline (11.97 sigma), with 594 frames in the full alert.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "No unknown arbitration IDs were detected (unknown_ids component 0.000).",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "Peak bus rate was 2436 msg/s versus 2392 msg/s baseline (1.02x), not consistent with DoS flooding.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "Payload entropy for 0x280 decreased (1.181 vs 1.518 baseline), not consistent with fuzzing.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The function of 0x280 is not identified in the evidence.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Other IDs (0x69D, 0x075, 0x4EE, 0x6D7, 0x3B9) show near-baseline alert rates, so the anomaly is concentrated on 0x280.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Isolate or capture traffic from the 0x280 source ECU, verify whether the extra frames originate from the legitimate sender or an injected node, and cross-check 0x280 payload values against expected signal ranges. Preserve logs for forensic sequence comparison to rule out replay.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"spoofing\", \"confidence\": 0.7, \"severity\": \"medium\",\n \"affected_function\": \"unknown (0x280 function not identified in evidence)\",\n \"summary\": \"Known ID 0x280 shows a 4.33x rate inflation over baseline with a mean inter-arrival gap of 38.3 ms versus 198.8 ms baseline (11.97 sigma), consistent with injected/fabricated frames on a known ID. No unknown IDs appeared and bus load was essentially unchanged (1.02x), ruling out fuzzing and DoS. No sequence-repetition evidence exists to support replay, so spoofing is the best fit.\",\n \"claims\": [\n  {\"text\": \"0x280 transmitted at 26.0 msg/s in a peak window versus a 5.03 msg/s baseline (4.333x).\", \"cites\": [\"E2\"]},\n  {\"text\": \"0x280 mean gap was 38.333 ms versus 198.754 ms baseline (11.97 sigma), with 594 frames in the full alert.\", \"cites\": [\"E2\"]},\n  {\"text\": \"No unknown arbitration IDs were detected (unknown_ids component 0.000).\", \"cites\": [\"E0\"]},\n  {\"text\": \"Peak bus rate was 2436 msg/s versus 2392 msg/s baseline (1.02x), not consistent with DoS flooding.\", \"cites\": [\"E1\"]},\n  {\"text\": \"Payload entropy for 0x280 decreased (1.181 vs 1.518 baseline), not consistent with fuzzing.\", \"cites\": [\"E2\"]},\n  {\"text\": \"The function of 0x280 is not identified in the evidence.\", \"cites\": [\"E2\"]},\n  {\"text\": \"Other IDs (0x69D, 0x075, 0x4EE, 0x6D7, 0x3B9) show near-baseline alert rates, so the anomaly is concentrated on 0x280.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}\n ],\n \"recommended_action\": \"Isolate or capture traffic from the 0x280 source ECU, verify whether the extra frames originate from the legitimate sender or an injected node, and cross-check 0x280 payload values against expected signal ranges. Preserve logs for forensic sequence comparison to rule out replay.\"}",
+        "latency_s": 3.048,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2829,
+          "output_tokens": 558,
+          "reasoning_tokens": 32
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "max_speedometer_attack_2",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 16.0,
+      "end": 47.25,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 12,
+      "evidence_sha256": "80057c639c24ecdc5425f8fbaf48922695941411eccdf49688acaf182267e59b",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.6,
+        "severity": "medium",
+        "affected_function": "unknown (0x0D0 function not identified in evidence)",
+        "summary": "Known ID 0x0D0 transmitted at roughly double its baseline rate (202 vs 100 msg/s in the peak window; ~200 msg/s over the full alert), consistent with injected/fabricated frames. Payloads look normal and entropy is lower than baseline, so this is not fuzzing; no unknown IDs appeared and bus load only rose 1.05x, so not a DoS. No evidence of an earlier payload sequence repeating, so replay cannot be confirmed; classification is spoofing with moderate confidence.",
+        "claims": [
+          {
+            "text": "0x0D0 is a known ID transmitting at 2.02x its baseline rate (202 vs 100 msg/s) in the peak window.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "0x0D0's full-alert mean rate was ~200 msg/s with 6249 frames, versus a 100 msg/s baseline.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "0x0D0's payload entropy decreased relative to baseline (4.776 vs 6.055), inconsistent with fuzzing.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "No unknown arbitration IDs appeared (unknown_ids component 0.0).",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "Peak bus rate was only 1.05x baseline (2506 vs 2392 msg/s), arguing against DoS flooding.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "Representative 0x0D0 frames show similar, normal-looking payloads with small differences, not random fuzzing patterns.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "The affected vehicle function is not identified in the evidence (function: null for 0x0D0).",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "No evidence of a repeated earlier payload sequence is provided, so replay is not confirmed.",
+            "cites": [
+              "E8"
+            ]
+          }
+        ],
+        "recommended_action": "Correlate 0x0D0 frames with in-vehicle sources (e.g., compare frame timing against the legitimate ECU's clock skew or voltage fingerprint) to determine whether an extra sender is injecting frames; if confirmed, isolate the compromised node and monitor 0x0D0 for signal-level anomalies.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"spoofing\", \"confidence\": 0.6, \"severity\": \"medium\", \"affected_function\": \"unknown (0x0D0 function not identified in evidence)\", \"summary\": \"Known ID 0x0D0 transmitted at roughly double its baseline rate (202 vs 100 msg/s in the peak window; ~200 msg/s over the full alert), consistent with injected/fabricated frames. Payloads look normal and entropy is lower than baseline, so this is not fuzzing; no unknown IDs appeared and bus load only rose 1.05x, so not a DoS. No evidence of an earlier payload sequence repeating, so replay cannot be confirmed; classification is spoofing with moderate confidence.\", \"claims\": [{\"text\": \"0x0D0 is a known ID transmitting at 2.02x its baseline rate (202 vs 100 msg/s) in the peak window.\", \"cites\": [\"E2\"]}, {\"text\": \"0x0D0's full-alert mean rate was ~200 msg/s with 6249 frames, versus a 100 msg/s baseline.\", \"cites\": [\"E2\"]}, {\"text\": \"0x0D0's payload entropy decreased relative to baseline (4.776 vs 6.055), inconsistent with fuzzing.\", \"cites\": [\"E2\"]}, {\"text\": \"No unknown arbitration IDs appeared (unknown_ids component 0.0).\", \"cites\": [\"E0\"]}, {\"text\": \"Peak bus rate was only 1.05x baseline (2506 vs 2392 msg/s), arguing against DoS flooding.\", \"cites\": [\"E1\"]}, {\"text\": \"Representative 0x0D0 frames show similar, normal-looking payloads with small differences, not random fuzzing patterns.\", \"cites\": [\"E8\"]}, {\"text\": \"The affected vehicle function is not identified in the evidence (function: null for 0x0D0).\", \"cites\": [\"E2\"]}, {\"text\": \"No evidence of a repeated earlier payload sequence is provided, so replay is not confirmed.\", \"cites\": [\"E8\"]}], \"recommended_action\": \"Correlate 0x0D0 frames with in-vehicle sources (e.g., compare frame timing against the legitimate ECU's clock skew or voltage fingerprint) to determine whether an extra sender is injecting frames; if confirmed, isolate the compromised node and monitor 0x0D0 for signal-level anomalies.\"}",
+        "latency_s": 3.225,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2840,
+          "output_tokens": 564,
+          "reasoning_tokens": 35
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "max_speedometer_attack_3",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 10.0,
+      "end": 70.5,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 13,
+      "evidence_sha256": "707613bbbd1032ace6846a10be67e64a57b41ef2c76868dc766a96a6b72fe4b0",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.6,
+        "severity": "medium",
+        "affected_function": "unknown (0x0D0 function not identified in evidence)",
+        "summary": "Known ID 0x0D0 transmitted at roughly double its baseline rate (202 vs 100 msg/s, 2.02x) with halved inter-arrival gaps, consistent with injected frames alongside the legitimate sender. Other IDs show only single-frame samples with repeated payloads, which is insufficient to distinguish replay from normal low-rate traffic. No unknown IDs, no missing IDs, and bus load only rose to 1.05x baseline, so flooding/DOS is not supported.",
+        "claims": [
+          {
+            "text": "0x0D0 is a known ID transmitting at 202 msg/s versus a 100 msg/s baseline (2.02x rate ratio).",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "0x0D0 mean inter-arrival gap was 4.99 ms versus 10.0 ms baseline (3.9 sigma), consistent with added frames rather than a replacement sender.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "0x0D0 alert-window count was 12100 frames at a mean rate of 200 msg/s.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "No unknown IDs and no missing IDs were detected; bus load component was 0.0.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "Peak bus rate was 2510 msg/s versus 2392 msg/s baseline (1.05x), arguing against a flooding/DOS attack.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "0x075 and 0x69D each show two identical payloads in the samples, but with only one frame per scored window this cannot establish replay versus normal low-rate traffic.",
+            "cites": [
+              "E4",
+              "E3",
+              "E8"
+            ]
+          },
+          {
+            "text": "The affected vehicle function for 0x0D0 is not identified in the evidence.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Correlate 0x0D0 frames with in-vehicle source (e.g., via bus segment or DBC signal decoding) to confirm injection; check whether the doubled-rate frames carry implausible signal values, and monitor for escalation to higher rates or additional IDs.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"spoofing\", \"confidence\": 0.6, \"severity\": \"medium\",\n \"affected_function\": \"unknown (0x0D0 function not identified in evidence)\",\n \"summary\": \"Known ID 0x0D0 transmitted at roughly double its baseline rate (202 vs 100 msg/s, 2.02x) with halved inter-arrival gaps, consistent with injected frames alongside the legitimate sender. Other IDs show only single-frame samples with repeated payloads, which is insufficient to distinguish replay from normal low-rate traffic. No unknown IDs, no missing IDs, and bus load only rose to 1.05x baseline, so flooding/DOS is not supported.\",\n \"claims\": [\n  {\"text\": \"0x0D0 is a known ID transmitting at 202 msg/s versus a 100 msg/s baseline (2.02x rate ratio).\", \"cites\": [\"E2\"]},\n  {\"text\": \"0x0D0 mean inter-arrival gap was 4.99 ms versus 10.0 ms baseline (3.9 sigma), consistent with added frames rather than a replacement sender.\", \"cites\": [\"E2\"]},\n  {\"text\": \"0x0D0 alert-window count was 12100 frames at a mean rate of 200 msg/s.\", \"cites\": [\"E2\"]},\n  {\"text\": \"No unknown IDs and no missing IDs were detected; bus load component was 0.0.\", \"cites\": [\"E0\"]},\n  {\"text\": \"Peak bus rate was 2510 msg/s versus 2392 msg/s baseline (1.05x), arguing against a flooding/DOS attack.\", \"cites\": [\"E1\"]},\n  {\"text\": \"0x075 and 0x69D each show two identical payloads in the samples, but with only one frame per scored window this cannot establish replay versus normal low-rate traffic.\", \"cites\": [\"E4\", \"E3\", \"E8\"]},\n  {\"text\": \"The affected vehicle function for 0x0D0 is not identified in the evidence.\", \"cites\": [\"E2\"]}\n ],\n \"recommended_action\": \"Correlate 0x0D0 frames with in-vehicle source (e.g., via bus segment or DBC signal decoding) to confirm injection; check whether the doubled-rate frames carry implausible signal values, and monitor for escalation to higher rates or additional IDs.\"}",
+        "latency_s": 3.426,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2842,
+          "output_tokens": 573,
+          "reasoning_tokens": 58
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_off_attack_1",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 16.75,
+      "end": 23.25,
+      "true_type": "spoofing",
+      "detector_score": 0.5652,
+      "corpus_index": 14,
+      "evidence_sha256": "7e3787af15ead96bd8470472f2663d14abe5101994344136a8b1bc172d6a6a9c",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.6,
+        "severity": "medium",
+        "affected_function": "unknown (0x0D0 function not identified in evidence)",
+        "summary": "Known ID 0x0D0 transmitted at 2x its baseline rate (200 vs 100 msg/s) with reduced payload entropy and near-identical payloads, consistent with injected/fabricated frames. Several other known IDs (0x075, 0x69D) show repeated identical payloads, but no earlier sequence evidence exists to distinguish replay from fabrication, so spoofing is the best-supported classification. Bus load was only 1.05x baseline, so DoS is not supported.",
+        "claims": [
+          {
+            "text": "Known ID 0x0D0 transmitted at 200 msg/s versus a 100 msg/s baseline (2.0x rate ratio).",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "0x0D0's payload entropy dropped to 4.386 from a 6.055 baseline, with mean inter-arrival gap of 4.97 ms versus 10.0 ms baseline.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Representative 0x0D0 frames show near-identical payloads differing in a single byte.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "Bus load was only 1.05x baseline (2520 vs 2392 msg/s), arguing against a flooding/DoS attack.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "No unknown arbitration IDs appeared (unknown_ids component 0.0), arguing against fuzzing.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "IDs 0x075 and 0x69D show repeated identical payloads at ~0.5s intervals, but no earlier payload sequence is provided to establish replay.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "The affected vehicle function is not identified in the evidence (function is null for 0x0D0).",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Correlate 0x0D0 frames with a second trusted source or capture on another segment to identify the injecting node; verify whether the repeated 0x075/0x69D payloads match an earlier recorded sequence to rule replay in or out; monitor 0x0D0 for continued rate inflation and implausible signal values.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"spoofing\", \"confidence\": 0.6, \"severity\": \"medium\",\n \"affected_function\": \"unknown (0x0D0 function not identified in evidence)\",\n \"summary\": \"Known ID 0x0D0 transmitted at 2x its baseline rate (200 vs 100 msg/s) with reduced payload entropy and near-identical payloads, consistent with injected/fabricated frames. Several other known IDs (0x075, 0x69D) show repeated identical payloads, but no earlier sequence evidence exists to distinguish replay from fabrication, so spoofing is the best-supported classification. Bus load was only 1.05x baseline, so DoS is not supported.\",\n \"claims\": [\n  {\"text\": \"Known ID 0x0D0 transmitted at 200 msg/s versus a 100 msg/s baseline (2.0x rate ratio).\", \"cites\": [\"E2\"]},\n  {\"text\": \"0x0D0's payload entropy dropped to 4.386 from a 6.055 baseline, with mean inter-arrival gap of 4.97 ms versus 10.0 ms baseline.\", \"cites\": [\"E2\"]},\n  {\"text\": \"Representative 0x0D0 frames show near-identical payloads differing in a single byte.\", \"cites\": [\"E8\"]},\n  {\"text\": \"Bus load was only 1.05x baseline (2520 vs 2392 msg/s), arguing against a flooding/DoS attack.\", \"cites\": [\"E1\"]},\n  {\"text\": \"No unknown arbitration IDs appeared (unknown_ids component 0.0), arguing against fuzzing.\", \"cites\": [\"E0\"]},\n  {\"text\": \"IDs 0x075 and 0x69D show repeated identical payloads at ~0.5s intervals, but no earlier payload sequence is provided to establish replay.\", \"cites\": [\"E8\"]},\n  {\"text\": \"The affected vehicle function is not identified in the evidence (function is null for 0x0D0).\", \"cites\": [\"E2\"]}\n ],\n \"recommended_action\": \"Correlate 0x0D0 frames with a second trusted source or capture on another segment to identify the injecting node; verify whether the repeated 0x075/0x69D payloads match an earlier recorded sequence to rule replay in or out; monitor 0x0D0 for continued rate inflation and implausible signal values.\"}",
+        "latency_s": 3.088,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2854,
+          "output_tokens": 591,
+          "reasoning_tokens": 60
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_off_attack_2",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 13.25,
+      "end": 36.75,
+      "true_type": "spoofing",
+      "detector_score": 0.5652,
+      "corpus_index": 15,
+      "evidence_sha256": "44ccec9542cbbe4570af5412588ed92975395aa0e1662a3fbd307498e4993645",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.6,
+        "severity": "medium",
+        "affected_function": "Unknown \u2014 the evidence does not identify the vehicle function for any affected CAN ID (E2, E3, E4, E5, E6, E7).",
+        "summary": "The alert window shows a known ID (0x0D0) transmitting at 2x its baseline rate (200 vs 100 msg/s) with reduced payload entropy and near-regular inter-arrival gaps, consistent with injected/fabricated frames on a known ID (E2). Several other known IDs (0x075, 0x69D, 0x3B9, 0x4EE, 0x6D7) show identical payloads repeated at ~1s intervals with collapsed timing jitter (E3-E7, E8), which could indicate replay, but no earlier baseline sequence is provided to confirm repetition out of context, so the added-frames interpretation (spoofing) is used. Bus load only rose to 1.05x baseline (E1), so this is not a flooding/DoS pattern, and no unknown IDs appeared (E0).",
+        "claims": [
+          {
+            "text": "0x0D0 transmitted at 200 msg/s versus a 100 msg/s baseline (2.0x rate ratio) with mean gap 4.985 ms versus 10.0 ms baseline.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "0x0D0's payload entropy dropped to 4.533 from a 6.055 baseline, and its full alert count was 4700 frames.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "IDs 0x075, 0x69D, 0x3B9, 0x4EE, and 0x6D7 each show repeated identical payloads with collapsed jitter (jitter ratio 0.0) and reduced entropy.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7",
+              "E8"
+            ]
+          },
+          {
+            "text": "Representative frames show identical payloads repeated for 0x075 and 0x69D at roughly 1-second intervals.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "Peak bus rate was 2520 msg/s versus a 2392 msg/s baseline (1.05x), inconsistent with DoS flooding.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "No unknown arbitration IDs and no missing IDs were detected; rate_inflation was the dominant detector component (0.565).",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "The evidence does not identify the vehicle function associated with any affected CAN ID.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Correlate 0x0D0 (and the low-rate repeated-payload IDs) with baseline capture sequences to determine whether payloads are exact replays; if an earlier matching sequence exists, reclassify as replay. Inspect the source ECU for 0x0D0 and verify whether the doubled rate and reduced entropy indicate an injected sender. Continue monitoring for escalation of the injection rate.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"spoofing\", \"confidence\": 0.6, \"severity\": \"medium\",\n \"affected_function\": \"Unknown \u2014 the evidence does not identify the vehicle function for any affected CAN ID (E2, E3, E4, E5, E6, E7).\",\n \"summary\": \"The alert window shows a known ID (0x0D0) transmitting at 2x its baseline rate (200 vs 100 msg/s) with reduced payload entropy and near-regular inter-arrival gaps, consistent with injected/fabricated frames on a known ID (E2). Several other known IDs (0x075, 0x69D, 0x3B9, 0x4EE, 0x6D7) show identical payloads repeated at ~1s intervals with collapsed timing jitter (E3-E7, E8), which could indicate replay, but no earlier baseline sequence is provided to confirm repetition out of context, so the added-frames interpretation (spoofing) is used. Bus load only rose to 1.05x baseline (E1), so this is not a flooding/DoS pattern, and no unknown IDs appeared (E0).\",\n \"claims\": [\n  {\"text\": \"0x0D0 transmitted at 200 msg/s versus a 100 msg/s baseline (2.0x rate ratio) with mean gap 4.985 ms versus 10.0 ms baseline.\", \"cites\": [\"E2\"]},\n  {\"text\": \"0x0D0's payload entropy dropped to 4.533 from a 6.055 baseline, and its full alert count was 4700 frames.\", \"cites\": [\"E2\"]},\n  {\"text\": \"IDs 0x075, 0x69D, 0x3B9, 0x4EE, and 0x6D7 each show repeated identical payloads with collapsed jitter (jitter ratio 0.0) and reduced entropy.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\", \"E8\"]},\n  {\"text\": \"Representative frames show identical payloads repeated for 0x075 and 0x69D at roughly 1-second intervals.\", \"cites\": [\"E8\"]},\n  {\"text\": \"Peak bus rate was 2520 msg/s versus a 2392 msg/s baseline (1.05x), inconsistent with DoS flooding.\", \"cites\": [\"E1\"]},\n  {\"text\": \"No unknown arbitration IDs and no missing IDs were detected; rate_inflation was the dominant detector component (0.565).\", \"cites\": [\"E0\"]},\n  {\"text\": \"The evidence does not identify the vehicle function associated with any affected CAN ID.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}\n ],\n \"recommended_action\": \"Correlate 0x0D0 (and the low-rate repeated-payload IDs) with baseline capture sequences to determine whether payloads are exact replays; if an earlier matching sequence exists, reclassify as replay. Inspect the source ECU for 0x0D0 and verify whether the doubled rate and reduced entropy indicate an injected sender. Continue monitoring for escalation of the injection rate.\"}",
+        "latency_s": 4.047,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2852,
+          "output_tokens": 761,
+          "reasoning_tokens": 49
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_off_attack_3",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 16.75,
+      "end": 40.75,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 16,
+      "evidence_sha256": "a4be7ce3da251c21f3942b55ff231b6d0dbb650611e367da078dc9b6a3d03920",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.6,
+        "severity": "medium",
+        "affected_function": "unknown (0x0D0's function is not identified in the evidence)",
+        "summary": "Known ID 0x0D0 transmitted at roughly double its baseline rate (202 vs 100 msg/s in the peak window, 200 msg/s over the full alert), consistent with injected/fabricated frames. Bus load only rose 1.05x and no unknown IDs appeared, so this is not flooding or fuzzing. Payloads look normal and entropy is lower than baseline, but there is no evidence of an earlier payload sequence being repeated, so replay cannot be confirmed; spoofing is the best fit. The affected vehicle function is not identified in the evidence.",
+        "claims": [
+          {
+            "text": "Known ID 0x0D0 transmitted at 202 msg/s versus a 100 msg/s baseline (2.02x) in the peak scored window.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "0x0D0's full-alert count was 4800 frames at a mean rate of 200 msg/s, consistent with sustained added frames.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "0x0D0's mean inter-arrival gap dropped to 4.989 ms versus a 10.0 ms baseline (3.9 sigma).",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "0x0D0's payload entropy decreased to 4.27 versus a 6.055 baseline, so payloads are not random/fuzzed.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Peak bus rate was 2518 msg/s versus a 2392 msg/s baseline (1.05x), arguing against a flooding DoS.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "No unknown arbitration IDs appeared (unknown_ids component 0.0), arguing against fuzzing.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "Representative 0x0D0 frames show structured, similar payloads rather than random data.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "Other IDs (0x69D, 0x075, 0x3B9, 0x4EE, 0x6D7) show only single-frame windows with no meaningful rate inflation.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The evidence does not identify the vehicle function of 0x0D0.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Correlate 0x0D0 frames with in-vehicle source expectations (e.g., ECU authentication or frame timing fingerprints) to determine whether an additional sender is injecting 0x0D0; capture a longer trace to check for repeated payload sequences that would distinguish replay from fabrication, and inspect the 0x0D0 signal decoding to assess whether the injected values could affect a safety-relevant function.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"spoofing\", \"confidence\": 0.6, \"severity\": \"medium\", \"affected_function\": \"unknown (0x0D0's function is not identified in the evidence)\", \"summary\": \"Known ID 0x0D0 transmitted at roughly double its baseline rate (202 vs 100 msg/s in the peak window, 200 msg/s over the full alert), consistent with injected/fabricated frames. Bus load only rose 1.05x and no unknown IDs appeared, so this is not flooding or fuzzing. Payloads look normal and entropy is lower than baseline, but there is no evidence of an earlier payload sequence being repeated, so replay cannot be confirmed; spoofing is the best fit. The affected vehicle function is not identified in the evidence.\", \"claims\": [{\"text\": \"Known ID 0x0D0 transmitted at 202 msg/s versus a 100 msg/s baseline (2.02x) in the peak scored window.\", \"cites\": [\"E2\"]}, {\"text\": \"0x0D0's full-alert count was 4800 frames at a mean rate of 200 msg/s, consistent with sustained added frames.\", \"cites\": [\"E2\"]}, {\"text\": \"0x0D0's mean inter-arrival gap dropped to 4.989 ms versus a 10.0 ms baseline (3.9 sigma).\", \"cites\": [\"E2\"]}, {\"text\": \"0x0D0's payload entropy decreased to 4.27 versus a 6.055 baseline, so payloads are not random/fuzzed.\", \"cites\": [\"E2\"]}, {\"text\": \"Peak bus rate was 2518 msg/s versus a 2392 msg/s baseline (1.05x), arguing against a flooding DoS.\", \"cites\": [\"E1\"]}, {\"text\": \"No unknown arbitration IDs appeared (unknown_ids component 0.0), arguing against fuzzing.\", \"cites\": [\"E0\"]}, {\"text\": \"Representative 0x0D0 frames show structured, similar payloads rather than random data.\", \"cites\": [\"E8\"]}, {\"text\": \"Other IDs (0x69D, 0x075, 0x3B9, 0x4EE, 0x6D7) show only single-frame windows with no meaningful rate inflation.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"The evidence does not identify the vehicle function of 0x0D0.\", \"cites\": [\"E2\"]}], \"recommended_action\": \"Correlate 0x0D0 frames with in-vehicle source expectations (e.g., ECU authentication or frame timing fingerprints) to determine whether an additional sender is injecting 0x0D0; capture a longer trace to check for repeated payload sequences that would distinguish replay from fabrication, and inspect the 0x0D0 signal decoding to assess whether the injected values could affect a safety-relevant function.\"}",
+        "latency_s": 3.463,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2862,
+          "output_tokens": 689,
+          "reasoning_tokens": 36
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_on_attack_1",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 19.0,
+      "end": 38.75,
+      "true_type": "spoofing",
+      "detector_score": 0.5652,
+      "corpus_index": 17,
+      "evidence_sha256": "5a1ca1df389f0d29ccfe88a173f5d73f55479e3d503a120ee1d350d1fff91b49",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.6,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "Known ID 0x0D0 transmitted at 2x its baseline rate (200 vs 100 msg/s) with halved inter-arrival gaps, consistent with injected/fabricated frames on a known ID. No unknown IDs appeared, bus load was only 1.05x baseline, and no sequence evidence supports replay, so fabrication (spoofing) is the best-supported classification, though confidence is moderate.",
+        "claims": [
+          {
+            "text": "0x0D0 is a known ID transmitting at 200 msg/s versus a 100 msg/s baseline (2.0x rate ratio).",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "0x0D0 mean inter-arrival gap dropped to 4.982 ms versus 10.0 ms baseline (3.9 sigma).",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "0x0D0 payload entropy decreased to 4.543 from a 6.055 baseline, suggesting repeated/low-variability payloads rather than fuzzing.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "No unknown arbitration IDs appeared and no IDs went missing.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "Peak bus rate was only 1.05x baseline (2518 vs 2392 msg/s), arguing against a flooding DoS.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "Representative 0x0D0 frames show similar payloads differing in one byte, consistent with added normal-looking frames rather than random fuzzing.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "The affected vehicle function is not identified in the evidence; 0x0D0's function is listed as unknown.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "No evidence of a repeated earlier payload sequence was provided, so replay cannot be confirmed.",
+            "cites": [
+              "E8"
+            ]
+          }
+        ],
+        "recommended_action": "Correlate 0x0D0 frames with in-vehicle source (e.g., via voltage fingerprinting or a security gateway) to identify the injecting node, and capture a longer payload sequence to check for replay versus fabrication. Monitor 0x0D0 for continued rate inflation and signal-decode its payload to determine the affected function.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"spoofing\", \"confidence\": 0.6, \"severity\": \"medium\",\n \"affected_function\": \"unknown\",\n \"summary\": \"Known ID 0x0D0 transmitted at 2x its baseline rate (200 vs 100 msg/s) with halved inter-arrival gaps, consistent with injected/fabricated frames on a known ID. No unknown IDs appeared, bus load was only 1.05x baseline, and no sequence evidence supports replay, so fabrication (spoofing) is the best-supported classification, though confidence is moderate.\",\n \"claims\": [\n  {\"text\": \"0x0D0 is a known ID transmitting at 200 msg/s versus a 100 msg/s baseline (2.0x rate ratio).\", \"cites\": [\"E2\"]},\n  {\"text\": \"0x0D0 mean inter-arrival gap dropped to 4.982 ms versus 10.0 ms baseline (3.9 sigma).\", \"cites\": [\"E2\"]},\n  {\"text\": \"0x0D0 payload entropy decreased to 4.543 from a 6.055 baseline, suggesting repeated/low-variability payloads rather than fuzzing.\", \"cites\": [\"E2\"]},\n  {\"text\": \"No unknown arbitration IDs appeared and no IDs went missing.\", \"cites\": [\"E0\"]},\n  {\"text\": \"Peak bus rate was only 1.05x baseline (2518 vs 2392 msg/s), arguing against a flooding DoS.\", \"cites\": [\"E1\"]},\n  {\"text\": \"Representative 0x0D0 frames show similar payloads differing in one byte, consistent with added normal-looking frames rather than random fuzzing.\", \"cites\": [\"E8\"]},\n  {\"text\": \"The affected vehicle function is not identified in the evidence; 0x0D0's function is listed as unknown.\", \"cites\": [\"E2\"]},\n  {\"text\": \"No evidence of a repeated earlier payload sequence was provided, so replay cannot be confirmed.\", \"cites\": [\"E8\"]}\n ],\n \"recommended_action\": \"Correlate 0x0D0 frames with in-vehicle source (e.g., via voltage fingerprinting or a security gateway) to identify the injecting node, and capture a longer payload sequence to check for replay versus fabrication. Monitor 0x0D0 for continued rate inflation and signal-decode its payload to determine the affected function.\"}",
+        "latency_s": 3.115,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2851,
+          "output_tokens": 566,
+          "reasoning_tokens": 43
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_on_attack_2",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 20.5,
+      "end": 57.25,
+      "true_type": "spoofing",
+      "detector_score": 0.6,
+      "corpus_index": 18,
+      "evidence_sha256": "d2ccd41df5b62b96251e914949817e3fe10bfcde7ca7401f7ca52bc719f49d7a",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.6,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "Known ID 0x0D0 transmitted at 2x its baseline rate (200 vs 100 msg/s) with reduced payload entropy and near-identical payloads, consistent with injected/fabricated frames. No unknown IDs appeared and bus load rose only 1.05x, so this is not flooding/DOS. No evidence of an earlier repeated sequence, so replay cannot be confirmed; classified as spoofing (added frames on a known ID). The affected vehicle function is not identified in the evidence.",
+        "claims": [
+          {
+            "text": "0x0D0 transmitted at 200 msg/s versus a 100 msg/s baseline (2.0x rate ratio), a known ID transmitting well above baseline.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "0x0D0 payload entropy dropped to 4.612 from a 6.055 baseline, with mean inter-arrival gap of 4.98 ms versus 10.0 ms baseline.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Sampled 0x0D0 frames show near-identical payloads differing in a single byte (04 vs 0C), consistent with low-variation injected frames.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "No unknown arbitration IDs appeared (unknown_ids component 0.0), arguing against fuzzing.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "Peak bus rate was 2520 msg/s versus 2392 baseline (1.05x), arguing against a flooding/DOS attack.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "Other IDs (0x69D, 0x075, 0x4EE, 0x6D7, 0x3B9) show roughly baseline rates over the full alert window, so the anomaly is concentrated on 0x0D0.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The evidence does not identify the vehicle function for 0x0D0 or any other ID.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Correlate 0x0D0 frames with a trusted baseline sequence to determine whether payloads are replayed or fabricated; if an intrusion is confirmed, isolate the compromised ECU or filter 0x0D0 at the gateway, and decode the 0x0D0 signal to assess operational impact.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"spoofing\", \"confidence\": 0.6, \"severity\": \"medium\", \"affected_function\": \"unknown\", \"summary\": \"Known ID 0x0D0 transmitted at 2x its baseline rate (200 vs 100 msg/s) with reduced payload entropy and near-identical payloads, consistent with injected/fabricated frames. No unknown IDs appeared and bus load rose only 1.05x, so this is not flooding/DOS. No evidence of an earlier repeated sequence, so replay cannot be confirmed; classified as spoofing (added frames on a known ID). The affected vehicle function is not identified in the evidence.\", \"claims\": [{\"text\": \"0x0D0 transmitted at 200 msg/s versus a 100 msg/s baseline (2.0x rate ratio), a known ID transmitting well above baseline.\", \"cites\": [\"E2\"]}, {\"text\": \"0x0D0 payload entropy dropped to 4.612 from a 6.055 baseline, with mean inter-arrival gap of 4.98 ms versus 10.0 ms baseline.\", \"cites\": [\"E2\"]}, {\"text\": \"Sampled 0x0D0 frames show near-identical payloads differing in a single byte (04 vs 0C), consistent with low-variation injected frames.\", \"cites\": [\"E8\"]}, {\"text\": \"No unknown arbitration IDs appeared (unknown_ids component 0.0), arguing against fuzzing.\", \"cites\": [\"E0\"]}, {\"text\": \"Peak bus rate was 2520 msg/s versus 2392 baseline (1.05x), arguing against a flooding/DOS attack.\", \"cites\": [\"E1\"]}, {\"text\": \"Other IDs (0x69D, 0x075, 0x4EE, 0x6D7, 0x3B9) show roughly baseline rates over the full alert window, so the anomaly is concentrated on 0x0D0.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"The evidence does not identify the vehicle function for 0x0D0 or any other ID.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}], \"recommended_action\": \"Correlate 0x0D0 frames with a trusted baseline sequence to determine whether payloads are replayed or fabricated; if an intrusion is confirmed, isolate the compromised ECU or filter 0x0D0 at the gateway, and decode the 0x0D0 signal to assess operational impact.\"}",
+        "latency_s": 3.509,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2853,
+          "output_tokens": 613,
+          "reasoning_tokens": 37
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_on_attack_2",
+      "role": "attack_capture",
+      "alert_id": 1,
+      "start": 71.25,
+      "end": 71.75,
+      "true_type": "normal",
+      "detector_score": 0.6,
+      "corpus_index": 19,
+      "evidence_sha256": "1ccb5ff70b771957ee9fc3fc9ad8272301bd495638013b69cc6697fa77479029",
+      "explanation": {
+        "attack_type": "masquerade",
+        "confidence": 0.45,
+        "severity": "medium",
+        "affected_function": "unknown (0x230's function is not identified in the evidence)",
+        "summary": "The window shows a timing anomaly with no rate inflation, no unknown IDs, and no bus load increase. The dominant signal is ID 0x230 transmitting at exactly its baseline rate (50 msg/s) but with collapsed timing jitter (jitter ratio 0.081, IAT std 0.041 ms vs 20 ms mean gap) and reduced payload entropy (3.132 vs 4.122 baseline), consistent with a possible replacement sender. However, collapsed jitter alone does not prove physical sender replacement or suppression, and the evidence does not identify the affected function.",
+        "claims": [
+          {
+            "text": "Bus load was 1.00x baseline (2392 vs 2392 msg/s), with no rate inflation, unknown IDs, or missing IDs.",
+            "cites": [
+              "E0",
+              "E1"
+            ]
+          },
+          {
+            "text": "ID 0x230 transmitted at its baseline rate of 50 msg/s with mean gap 19.997 ms but jitter ratio of only 0.081 and IAT std of 0.041 ms, indicating collapsed timing jitter.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "ID 0x230's payload entropy dropped to 3.132 from a 4.122 baseline.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The detector's timing component was 0.600, the dominant contributor to the 0.600 score.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "Other IDs (0x075, 0x3B9, 0x0F1, 0x025, 0x03A) each had only 1 frame in the window with zero jitter ratio, but these are low-count statistics.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The evidence does not identify the vehicle function of any observed CAN ID.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Correlate 0x230 timing across adjacent windows to confirm whether the collapsed jitter persists (suggesting a replacement/added sender) or is a transient. If signal decoding is available, verify 0x230 payload plausibility and check for a second source of the ID on the bus. Monitor but do not block, since rate and payload content remain near baseline.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"masquerade\", \"confidence\": 0.45, \"severity\": \"medium\", \"affected_function\": \"unknown (0x230's function is not identified in the evidence)\", \"summary\": \"The window shows a timing anomaly with no rate inflation, no unknown IDs, and no bus load increase. The dominant signal is ID 0x230 transmitting at exactly its baseline rate (50 msg/s) but with collapsed timing jitter (jitter ratio 0.081, IAT std 0.041 ms vs 20 ms mean gap) and reduced payload entropy (3.132 vs 4.122 baseline), consistent with a possible replacement sender. However, collapsed jitter alone does not prove physical sender replacement or suppression, and the evidence does not identify the affected function.\", \"claims\": [{\"text\": \"Bus load was 1.00x baseline (2392 vs 2392 msg/s), with no rate inflation, unknown IDs, or missing IDs.\", \"cites\": [\"E0\", \"E1\"]}, {\"text\": \"ID 0x230 transmitted at its baseline rate of 50 msg/s with mean gap 19.997 ms but jitter ratio of only 0.081 and IAT std of 0.041 ms, indicating collapsed timing jitter.\", \"cites\": [\"E2\"]}, {\"text\": \"ID 0x230's payload entropy dropped to 3.132 from a 4.122 baseline.\", \"cites\": [\"E2\"]}, {\"text\": \"The detector's timing component was 0.600, the dominant contributor to the 0.600 score.\", \"cites\": [\"E0\"]}, {\"text\": \"Other IDs (0x075, 0x3B9, 0x0F1, 0x025, 0x03A) each had only 1 frame in the window with zero jitter ratio, but these are low-count statistics.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"The evidence does not identify the vehicle function of any observed CAN ID.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}], \"recommended_action\": \"Correlate 0x230 timing across adjacent windows to confirm whether the collapsed jitter persists (suggesting a replacement/added sender) or is a transient. If signal decoding is available, verify 0x230 payload plausibility and check for a second source of the ID on the bus. Monitor but do not block, since rate and payload content remain near baseline.\"}",
+        "latency_s": 3.417,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2654,
+          "output_tokens": 612,
+          "reasoning_tokens": 47
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_on_attack_2_masquerade",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 45.25,
+      "end": 45.75,
+      "true_type": "masquerade",
+      "detector_score": 0.6,
+      "corpus_index": 20,
+      "evidence_sha256": "75ecd834e4f0f263257b40b0bffb0f9ef525e7365de3ab44d9df4c893aaf64d7",
+      "explanation": {
+        "attack_type": "masquerade",
+        "confidence": 0.45,
+        "severity": "low",
+        "affected_function": "unknown (0x230's function is not identified in the evidence)",
+        "summary": "The window shows no rate inflation, no unknown IDs, and no bus load increase, ruling out DoS, fuzzing, and simple spoofing. The dominant anomaly is timing: ID 0x230 transmits at exactly its baseline rate (50 msg/s) but with a mean inter-arrival gap of 20.006 ms versus a 20.0 ms baseline and a collapsed jitter ratio of 0.081, with payload entropy dropping from 4.122 to 2.859. This pattern of normal rate with collapsed timing jitter is consistent with a replacement sender (masquerade), though the evidence does not prove physical identity or suppression, and the affected function is not identified.",
+        "claims": [
+          {
+            "text": "Bus load was essentially unchanged at 2396 msg/s versus 2392 msg/s baseline (1.00x).",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "Detector components show zero unknown IDs, zero rate inflation, zero missing IDs, and zero bus load contribution; the anomaly is driven by timing (0.600) with elevated payload entropy component (0.193).",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "ID 0x230 transmitted at its baseline rate of 50.0 msg/s (1.0x ratio) with 25 frames in the window.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "ID 0x230's mean inter-arrival gap was 20.006 ms versus a 20.0 ms baseline with a jitter ratio of 0.081, indicating collapsed timing jitter.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "ID 0x230's payload entropy dropped from a baseline of 4.122 to 2.859.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Other IDs in the window (0x075, 0x3B9, 0x0F1, 0x025, 0x03A) each appeared only once, at or below their baseline rates, with jitter ratio 0.0.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The evidence does not identify the vehicle function of 0x230 or any other ID.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Log and monitor. Capture a longer trace of 0x230 to confirm whether the collapsed jitter and reduced entropy persist across multiple windows, and attempt signal decoding of 0x230 payloads to check for implausible values. If the pattern persists, investigate the physical source of 0x230 frames for a replacement ECU or gateway.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"masquerade\", \"confidence\": 0.45, \"severity\": \"low\",\n \"affected_function\": \"unknown (0x230's function is not identified in the evidence)\",\n \"summary\": \"The window shows no rate inflation, no unknown IDs, and no bus load increase, ruling out DoS, fuzzing, and simple spoofing. The dominant anomaly is timing: ID 0x230 transmits at exactly its baseline rate (50 msg/s) but with a mean inter-arrival gap of 20.006 ms versus a 20.0 ms baseline and a collapsed jitter ratio of 0.081, with payload entropy dropping from 4.122 to 2.859. This pattern of normal rate with collapsed timing jitter is consistent with a replacement sender (masquerade), though the evidence does not prove physical identity or suppression, and the affected function is not identified.\",\n \"claims\": [\n  {\"text\": \"Bus load was essentially unchanged at 2396 msg/s versus 2392 msg/s baseline (1.00x).\", \"cites\": [\"E1\"]},\n  {\"text\": \"Detector components show zero unknown IDs, zero rate inflation, zero missing IDs, and zero bus load contribution; the anomaly is driven by timing (0.600) with elevated payload entropy component (0.193).\", \"cites\": [\"E0\"]},\n  {\"text\": \"ID 0x230 transmitted at its baseline rate of 50.0 msg/s (1.0x ratio) with 25 frames in the window.\", \"cites\": [\"E2\"]},\n  {\"text\": \"ID 0x230's mean inter-arrival gap was 20.006 ms versus a 20.0 ms baseline with a jitter ratio of 0.081, indicating collapsed timing jitter.\", \"cites\": [\"E2\"]},\n  {\"text\": \"ID 0x230's payload entropy dropped from a baseline of 4.122 to 2.859.\", \"cites\": [\"E2\"]},\n  {\"text\": \"Other IDs in the window (0x075, 0x3B9, 0x0F1, 0x025, 0x03A) each appeared only once, at or below their baseline rates, with jitter ratio 0.0.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]},\n  {\"text\": \"The evidence does not identify the vehicle function of 0x230 or any other ID.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}\n ],\n \"recommended_action\": \"Log and monitor. Capture a longer trace of 0x230 to confirm whether the collapsed jitter and reduced entropy persist across multiple windows, and attempt signal decoding of 0x230 payloads to check for implausible values. If the pattern persists, investigate the physical source of 0x230 frames for a replacement ECU or gateway.\"}",
+        "latency_s": 3.642,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2658,
+          "output_tokens": 740,
+          "reasoning_tokens": 94
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_on_attack_2_masquerade",
+      "role": "attack_capture",
+      "alert_id": 1,
+      "start": 71.25,
+      "end": 71.75,
+      "true_type": "normal",
+      "detector_score": 0.6,
+      "corpus_index": 21,
+      "evidence_sha256": "1ccb5ff70b771957ee9fc3fc9ad8272301bd495638013b69cc6697fa77479029",
+      "explanation": {
+        "attack_type": "masquerade",
+        "confidence": 0.55,
+        "severity": "medium",
+        "affected_function": "Unknown - the evidence does not identify the vehicle function for any CAN ID, including 0x230 (E2)",
+        "summary": "The window shows no rate inflation, no unknown IDs, and no bus load increase (E0, E1). The dominant anomaly is the timing component (0.600, E0), driven mainly by ID 0x230, which transmits at exactly its baseline rate of 50 msg/s but with a mean inter-arrival gap of 19.997 ms versus a 20.0 ms baseline and a very small gap standard deviation (0.041 ms), yielding a jitter ratio of 0.081 versus the quietest baseline window (E2). This pattern - normal rate with collapsed timing jitter - is consistent with a replacement sender (masquerade). However, collapsed jitter alone does not prove physical identity or suppression of the original sender, and the other flagged IDs (0x075, 0x3B9, 0x0F1, 0x025, 0x03A) each sent only a single frame in the window, so their zero jitter is not meaningful (E3-E7). Payload entropy decreased rather than increased (E2-E7), which is not typical of fuzzing.",
+        "claims": [
+          {
+            "text": "Detector score was 0.600 with timing 0.600, payload_entropy 0.261, and all other components (bus_load, unknown_ids, rate_inflation, missing_ids) at 0.000.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "Peak window bus rate was 2392 msg/s versus a 2392 msg/s baseline (1.00x), so there is no flooding or load increase.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "ID 0x230 transmitted at 50.0 msg/s, exactly matching its 50.0 msg/s baseline rate.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "ID 0x230's mean inter-arrival gap was 19.997 ms versus a 20.0 ms baseline with a standard deviation of 0.041 ms, and a jitter ratio of 0.081 versus the quietest baseline window, indicating collapsed timing jitter.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "ID 0x230's payload entropy decreased to 3.132 from a 4.122 baseline, which is inconsistent with fuzzing.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "IDs 0x075, 0x3B9, 0x0F1, 0x025, and 0x03A each sent only 1 frame in the window, so their zero jitter ratios are not diagnostic.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "No arbitration IDs absent from the baseline appeared in the window.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "The evidence does not identify the vehicle function for any of the observed CAN IDs.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Correlate 0x230 timing across adjacent windows to confirm the jitter collapse persists, and if available compare source/acknowledgment behavior or use frame-level sender attribution (e.g., bit-level signal characteristics) to determine whether the original 0x230 sender was replaced. Continue monitoring; no immediate containment is warranted given normal rates and bus load.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"masquerade\", \"confidence\": 0.55, \"severity\": \"medium\",\n \"affected_function\": \"Unknown - the evidence does not identify the vehicle function for any CAN ID, including 0x230 (E2)\",\n \"summary\": \"The window shows no rate inflation, no unknown IDs, and no bus load increase (E0, E1). The dominant anomaly is the timing component (0.600, E0), driven mainly by ID 0x230, which transmits at exactly its baseline rate of 50 msg/s but with a mean inter-arrival gap of 19.997 ms versus a 20.0 ms baseline and a very small gap standard deviation (0.041 ms), yielding a jitter ratio of 0.081 versus the quietest baseline window (E2). This pattern - normal rate with collapsed timing jitter - is consistent with a replacement sender (masquerade). However, collapsed jitter alone does not prove physical identity or suppression of the original sender, and the other flagged IDs (0x075, 0x3B9, 0x0F1, 0x025, 0x03A) each sent only a single frame in the window, so their zero jitter is not meaningful (E3-E7). Payload entropy decreased rather than increased (E2-E7), which is not typical of fuzzing.\",\n \"claims\": [\n  {\"text\": \"Detector score was 0.600 with timing 0.600, payload_entropy 0.261, and all other components (bus_load, unknown_ids, rate_inflation, missing_ids) at 0.000.\", \"cites\": [\"E0\"]},\n  {\"text\": \"Peak window bus rate was 2392 msg/s versus a 2392 msg/s baseline (1.00x), so there is no flooding or load increase.\", \"cites\": [\"E1\"]},\n  {\"text\": \"ID 0x230 transmitted at 50.0 msg/s, exactly matching its 50.0 msg/s baseline rate.\", \"cites\": [\"E2\"]},\n  {\"text\": \"ID 0x230's mean inter-arrival gap was 19.997 ms versus a 20.0 ms baseline with a standard deviation of 0.041 ms, and a jitter ratio of 0.081 versus the quietest baseline window, indicating collapsed timing jitter.\", \"cites\": [\"E2\"]},\n  {\"text\": \"ID 0x230's payload entropy decreased to 3.132 from a 4.122 baseline, which is inconsistent with fuzzing.\", \"cites\": [\"E2\"]},\n  {\"text\": \"IDs 0x075, 0x3B9, 0x0F1, 0x025, and 0x03A each sent only 1 frame in the window, so their zero jitter ratios are not diagnostic.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]},\n  {\"text\": \"No arbitration IDs absent from the baseline appeared in the window.\", \"cites\": [\"E0\"]},\n  {\"text\": \"The evidence does not identify the vehicle function for any of the observed CAN IDs.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}\n ],\n \"recommended_action\": \"Correlate 0x230 timing across adjacent windows to confirm the jitter collapse persists, and if available compare source/acknowledgment behavior or use frame-level sender attribution (e.g., bit-level signal characteristics) to determine whether the original 0x230 sender was replaced. Continue monitoring; no immediate containment is warranted given normal rates and bus load.\"}",
+        "latency_s": 4.682,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2654,
+          "output_tokens": 891,
+          "reasoning_tokens": 93
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_on_attack_3",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 23.25,
+      "end": 46.5,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 22,
+      "evidence_sha256": "5e07de8a545a685a91292d9356414e490d8604fa0e06164d107c9f5bc3ed174a",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.6,
+        "severity": "medium",
+        "affected_function": "unknown (0x0D0 function not identified in evidence)",
+        "summary": "Known ID 0x0D0 transmitted at roughly double its baseline rate (202 msg/s vs 100 baseline, 4650 frames over the alert) with a halved inter-arrival time, consistent with injected/fabricated frames on a known ID. Bus load rose only slightly (1.06x), so this is not a flooding DoS. No unknown IDs appeared. Low-rate IDs 0x075 and 0x69D show identical repeated payloads, which could hint at replay, but the evidence lacks sequence context to distinguish replay from fabrication, so spoofing is the best-supported classification.",
+        "claims": [
+          {
+            "text": "0x0D0 transmitted at 202 msg/s versus a 100 msg/s baseline (2.02x) with mean gap 4.99 ms vs 10.0 ms baseline.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "0x0D0 accounted for 4650 frames over the full alert at a mean rate of 200 msg/s.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "No unknown arbitration IDs were detected (unknown_ids component 0.0).",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "Peak bus rate was 2524 msg/s versus 2392 baseline (1.06x), arguing against a flooding DoS.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "0x075 and 0x69D frames show identical payloads repeated at ~0.5s and ~1.0s intervals respectively.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "The affected vehicle function for 0x0D0 is not identified in the evidence.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Correlate 0x0D0 frames with a known-good baseline payload sequence to determine whether the added frames are fabricated or replayed; verify the legitimate ECU for 0x0D0 and inspect for a rogue transmitter on the segment.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"spoofing\", \"confidence\": 0.6, \"severity\": \"medium\", \"affected_function\": \"unknown (0x0D0 function not identified in evidence)\", \"summary\": \"Known ID 0x0D0 transmitted at roughly double its baseline rate (202 msg/s vs 100 baseline, 4650 frames over the alert) with a halved inter-arrival time, consistent with injected/fabricated frames on a known ID. Bus load rose only slightly (1.06x), so this is not a flooding DoS. No unknown IDs appeared. Low-rate IDs 0x075 and 0x69D show identical repeated payloads, which could hint at replay, but the evidence lacks sequence context to distinguish replay from fabrication, so spoofing is the best-supported classification.\", \"claims\": [{\"text\": \"0x0D0 transmitted at 202 msg/s versus a 100 msg/s baseline (2.02x) with mean gap 4.99 ms vs 10.0 ms baseline.\", \"cites\": [\"E2\"]}, {\"text\": \"0x0D0 accounted for 4650 frames over the full alert at a mean rate of 200 msg/s.\", \"cites\": [\"E2\"]}, {\"text\": \"No unknown arbitration IDs were detected (unknown_ids component 0.0).\", \"cites\": [\"E0\"]}, {\"text\": \"Peak bus rate was 2524 msg/s versus 2392 baseline (1.06x), arguing against a flooding DoS.\", \"cites\": [\"E1\"]}, {\"text\": \"0x075 and 0x69D frames show identical payloads repeated at ~0.5s and ~1.0s intervals respectively.\", \"cites\": [\"E8\"]}, {\"text\": \"The affected vehicle function for 0x0D0 is not identified in the evidence.\", \"cites\": [\"E2\"]}], \"recommended_action\": \"Correlate 0x0D0 frames with a known-good baseline payload sequence to determine whether the added frames are fabricated or replayed; verify the legitimate ECU for 0x0D0 and inspect for a rogue transmitter on the segment.\"}",
+        "latency_s": 2.775,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2862,
+          "output_tokens": 529,
+          "reasoning_tokens": 60
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_basic_long",
+      "role": "held_out_normal",
+      "alert_id": 0,
+      "start": 67.25,
+      "end": 67.75,
+      "true_type": "normal",
+      "detector_score": 0.5652,
+      "corpus_index": 23,
+      "evidence_sha256": "d20938e2ae9f8a440cb76d2b6ab5d13ff80d2113ac3a1ab45d147a9ed90ea23c",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.55,
+        "severity": "low",
+        "affected_function": "unknown (0x025 function not identified in evidence)",
+        "summary": "Known ID 0x025 transmitted at 2x its baseline rate (12 msg/s vs 1.28) with 6 frames in the window, consistent with added frames on a known ID (E2). Bus load was essentially unchanged (2382 vs 2392 msg/s baseline), so this is not flooding (E1). No unknown IDs appeared (E0). Other IDs (0x075, 0x03A, 0x30A, 0x0F1, 0x655) each sent only 1 frame at or near baseline rates (E3-E7). The 0x025 payloads are nearly identical to each other with a small change in one byte (E8), but without baseline payload sequence comparison, replay cannot be distinguished from fabrication; per guidance, added frames on a known ID are classified as spoofing. The affected vehicle function is not identified in the evidence.",
+        "claims": [
+          {
+            "text": "ID 0x025 transmitted at 12 msg/s versus 1.28 baseline (2x rate ratio) with 6 frames in the window.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "0x025 inter-arrival mean was 80 ms versus 781.8 ms baseline with low jitter ratio 0.074.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Peak bus rate was 2382 msg/s versus 2392 baseline (1.00x), so no flooding occurred.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "No unknown arbitration IDs and no missing IDs were detected; detector components unknown_ids and missing_ids were 0.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "Other flagged IDs (0x075, 0x03A, 0x30A, 0x0F1, 0x655) each sent only 1 frame at or near baseline rates.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The two 0x025 sample payloads differ only in one byte (8C vs 8A), but no baseline payload sequence is available to establish replay.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "The vehicle function of 0x025 is not identified in the evidence.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Monitor ID 0x025 over subsequent windows to confirm whether the elevated rate persists; capture baseline payload sequences for 0x025 to enable replay-vs-fabrication discrimination; verify the source ECU for 0x025 if the rate inflation continues.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"spoofing\", \"confidence\": 0.55, \"severity\": \"low\", \"affected_function\": \"unknown (0x025 function not identified in evidence)\", \"summary\": \"Known ID 0x025 transmitted at 2x its baseline rate (12 msg/s vs 1.28) with 6 frames in the window, consistent with added frames on a known ID (E2). Bus load was essentially unchanged (2382 vs 2392 msg/s baseline), so this is not flooding (E1). No unknown IDs appeared (E0). Other IDs (0x075, 0x03A, 0x30A, 0x0F1, 0x655) each sent only 1 frame at or near baseline rates (E3-E7). The 0x025 payloads are nearly identical to each other with a small change in one byte (E8), but without baseline payload sequence comparison, replay cannot be distinguished from fabrication; per guidance, added frames on a known ID are classified as spoofing. The affected vehicle function is not identified in the evidence.\", \"claims\": [{\"text\": \"ID 0x025 transmitted at 12 msg/s versus 1.28 baseline (2x rate ratio) with 6 frames in the window.\", \"cites\": [\"E2\"]}, {\"text\": \"0x025 inter-arrival mean was 80 ms versus 781.8 ms baseline with low jitter ratio 0.074.\", \"cites\": [\"E2\"]}, {\"text\": \"Peak bus rate was 2382 msg/s versus 2392 baseline (1.00x), so no flooding occurred.\", \"cites\": [\"E1\"]}, {\"text\": \"No unknown arbitration IDs and no missing IDs were detected; detector components unknown_ids and missing_ids were 0.\", \"cites\": [\"E0\"]}, {\"text\": \"Other flagged IDs (0x075, 0x03A, 0x30A, 0x0F1, 0x655) each sent only 1 frame at or near baseline rates.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"The two 0x025 sample payloads differ only in one byte (8C vs 8A), but no baseline payload sequence is available to establish replay.\", \"cites\": [\"E8\"]}, {\"text\": \"The vehicle function of 0x025 is not identified in the evidence.\", \"cites\": [\"E2\"]}], \"recommended_action\": \"Monitor ID 0x025 over subsequent windows to confirm whether the elevated rate persists; capture baseline payload sequences for 0x025 to enable replay-vs-fabrication discrimination; verify the source ECU for 0x025 if the rate inflation continues.\"}",
+        "latency_s": 4.176,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2675,
+          "output_tokens": 653,
+          "reasoning_tokens": 37
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 0,
+      "start": 0.0,
+      "end": 23.0,
+      "true_type": "normal",
+      "detector_score": 1.0,
+      "corpus_index": 24,
+      "evidence_sha256": "008a874ac879f5e96877eeba7ed77edb5e6d4bdd1aad1646a344e15955f8951c",
+      "explanation": {
+        "attack_type": "unknown",
+        "confidence": 0.55,
+        "severity": "medium",
+        "affected_function": "unidentified (functions of 0x00E, 0x033, 0x03D and other affected IDs are unknown)",
+        "summary": "The window is dominated by missing traffic rather than injected traffic: several baseline IDs (0x00E, 0x033, 0x03D) were absent from most scored windows, and the peak bus rate was below baseline (0.94x), with no unknown arbitration IDs appearing. A modest rate increase and entropy rise on 0x297 exists, but it is small in absolute terms. The evidence shows message suppression or loss, but nothing identifies the mechanism (attack vs. node failure vs. unmodeled vehicle state), so the attack type cannot be determined.",
+        "claims": [
+          {
+            "text": "The detector's largest component was missing_ids at 1.000, with payload_entropy 0.882, rate_inflation 0.565, timing 0.450, bus_load 0.000 and unknown_ids 0.000.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "Peak bus rate was 2250 msg/s versus a 2392 msg/s baseline (0.94x), i.e. no flooding of the bus.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "0x00E was absent in 73 of 91 scored windows despite a 10 ms baseline mean gap.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "0x033 was absent in 80 of 91 scored windows despite a 10 ms baseline mean gap.",
+            "cites": [
+              "E9"
+            ]
+          },
+          {
+            "text": "0x03D was absent in 75 of 91 scored windows despite a 100 ms baseline mean gap.",
+            "cites": [
+              "E10"
+            ]
+          },
+          {
+            "text": "0x297 showed a 2x rate increase in its peak sub-window (12 msg/s vs 2 baseline) with entropy rising from 2.0 to 3.01, but only 57 frames in the full alert.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "No arbitration IDs absent from the baseline appeared (unknown_ids component 0.000), arguing against fuzzing.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "The evidence does not identify the vehicle function of any affected CAN ID.",
+            "cites": [
+              "E2",
+              "E8",
+              "E9",
+              "E10"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate why 0x00E, 0x033 and 0x03D stopped transmitting: check for ECU/node failure, bus-off conditions, or a suppression attack on the segment. Correlate with DTCs and physical diagnostics before concluding an intrusion; also verify whether the baseline captured all normal vehicle states for these IDs.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"unknown\", \"confidence\": 0.55, \"severity\": \"medium\",\n \"affected_function\": \"unidentified (functions of 0x00E, 0x033, 0x03D and other affected IDs are unknown)\",\n \"summary\": \"The window is dominated by missing traffic rather than injected traffic: several baseline IDs (0x00E, 0x033, 0x03D) were absent from most scored windows, and the peak bus rate was below baseline (0.94x), with no unknown arbitration IDs appearing. A modest rate increase and entropy rise on 0x297 exists, but it is small in absolute terms. The evidence shows message suppression or loss, but nothing identifies the mechanism (attack vs. node failure vs. unmodeled vehicle state), so the attack type cannot be determined.\",\n \"claims\": [\n  {\"text\": \"The detector's largest component was missing_ids at 1.000, with payload_entropy 0.882, rate_inflation 0.565, timing 0.450, bus_load 0.000 and unknown_ids 0.000.\", \"cites\": [\"E0\"]},\n  {\"text\": \"Peak bus rate was 2250 msg/s versus a 2392 msg/s baseline (0.94x), i.e. no flooding of the bus.\", \"cites\": [\"E1\"]},\n  {\"text\": \"0x00E was absent in 73 of 91 scored windows despite a 10 ms baseline mean gap.\", \"cites\": [\"E8\"]},\n  {\"text\": \"0x033 was absent in 80 of 91 scored windows despite a 10 ms baseline mean gap.\", \"cites\": [\"E9\"]},\n  {\"text\": \"0x03D was absent in 75 of 91 scored windows despite a 100 ms baseline mean gap.\", \"cites\": [\"E10\"]},\n  {\"text\": \"0x297 showed a 2x rate increase in its peak sub-window (12 msg/s vs 2 baseline) with entropy rising from 2.0 to 3.01, but only 57 frames in the full alert.\", \"cites\": [\"E2\"]},\n  {\"text\": \"No arbitration IDs absent from the baseline appeared (unknown_ids component 0.000), arguing against fuzzing.\", \"cites\": [\"E0\"]},\n  {\"text\": \"The evidence does not identify the vehicle function of any affected CAN ID.\", \"cites\": [\"E2\", \"E8\", \"E9\", \"E10\"]}\n ],\n \"recommended_action\": \"Investigate why 0x00E, 0x033 and 0x03D stopped transmitting: check for ECU/node failure, bus-off conditions, or a suppression attack on the segment. Correlate with DTCs and physical diagnostics before concluding an intrusion; also verify whether the baseline captured all normal vehicle states for these IDs.\"}",
+        "latency_s": 5.312,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3113,
+          "output_tokens": 811,
+          "reasoning_tokens": 187
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 1,
+      "start": 24.0,
+      "end": 25.25,
+      "true_type": "normal",
+      "detector_score": 0.8548,
+      "corpus_index": 25,
+      "evidence_sha256": "2f36f69482a77e3848dc63428c9c232260dcedf8046cd78b19bd097adf445ebd",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.6,
+        "severity": "medium",
+        "affected_function": "unknown (0x21D has no identified function in the evidence)",
+        "summary": "Known ID 0x21D transmitted well above its baseline rate (14 msg/s vs 1 msg/s baseline, 2.33x) with collapsed inter-arrival gaps and elevated entropy, consistent with injected/fabricated frames on a known ID. No unknown IDs appeared and bus load barely changed, so this is not flooding or fuzzing. No sequence evidence supports replay, and no masquerade-style jitter collapse at normal rate is present.",
+        "claims": [
+          {
+            "text": "0x21D transmitted at 14 msg/s versus a 1 msg/s baseline (2.333x rate ratio) in the peak sub-window.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "0x21D's mean inter-arrival gap collapsed to 66.015 ms from a 999.673 ms baseline (1029.21 sigma).",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "0x21D's payload entropy rose to 1.328 from a 0.544 baseline.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "0x21D is a known ID; no unknown arbitration IDs appeared (unknown_ids component 0.0).",
+            "cites": [
+              "E2",
+              "E0"
+            ]
+          },
+          {
+            "text": "Bus load was essentially unchanged (2432 msg/s vs 2392 msg/s baseline, 1.02x), arguing against a flooding/DoS attack.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "Other IDs (0x69D, 0x075, 0x4EE, 0x6D7, 0x655) showed at- or below-baseline rates, not inflation.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The evidence does not identify the vehicle function of 0x21D.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "No evidence of repeated earlier payload sequences was provided, so replay cannot be established.",
+            "cites": [
+              "E8"
+            ]
+          }
+        ],
+        "recommended_action": "Correlate 0x21D frames with the legitimate ECU's expected schedule and signal decoding; if the injected values are implausible, isolate or filter the spoofing source and inspect the compromised ECU or attached injection device.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"spoofing\", \"confidence\": 0.6, \"severity\": \"medium\",\n \"affected_function\": \"unknown (0x21D has no identified function in the evidence)\",\n \"summary\": \"Known ID 0x21D transmitted well above its baseline rate (14 msg/s vs 1 msg/s baseline, 2.33x) with collapsed inter-arrival gaps and elevated entropy, consistent with injected/fabricated frames on a known ID. No unknown IDs appeared and bus load barely changed, so this is not flooding or fuzzing. No sequence evidence supports replay, and no masquerade-style jitter collapse at normal rate is present.\",\n \"claims\": [\n  {\"text\": \"0x21D transmitted at 14 msg/s versus a 1 msg/s baseline (2.333x rate ratio) in the peak sub-window.\", \"cites\": [\"E2\"]},\n  {\"text\": \"0x21D's mean inter-arrival gap collapsed to 66.015 ms from a 999.673 ms baseline (1029.21 sigma).\", \"cites\": [\"E2\"]},\n  {\"text\": \"0x21D's payload entropy rose to 1.328 from a 0.544 baseline.\", \"cites\": [\"E2\"]},\n  {\"text\": \"0x21D is a known ID; no unknown arbitration IDs appeared (unknown_ids component 0.0).\", \"cites\": [\"E2\", \"E0\"]},\n  {\"text\": \"Bus load was essentially unchanged (2432 msg/s vs 2392 msg/s baseline, 1.02x), arguing against a flooding/DoS attack.\", \"cites\": [\"E1\"]},\n  {\"text\": \"Other IDs (0x69D, 0x075, 0x4EE, 0x6D7, 0x655) showed at- or below-baseline rates, not inflation.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]},\n  {\"text\": \"The evidence does not identify the vehicle function of 0x21D.\", \"cites\": [\"E2\"]},\n  {\"text\": \"No evidence of repeated earlier payload sequences was provided, so replay cannot be established.\", \"cites\": [\"E8\"]}\n ],\n \"recommended_action\": \"Correlate 0x21D frames with the legitimate ECU's expected schedule and signal decoding; if the injected values are implausible, isolate or filter the spoofing source and inspect the compromised ECU or attached injection device.\"}",
+        "latency_s": 3.601,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2843,
+          "output_tokens": 576,
+          "reasoning_tokens": 24
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 2,
+      "start": 26.0,
+      "end": 27.25,
+      "true_type": "normal",
+      "detector_score": 0.8548,
+      "corpus_index": 26,
+      "evidence_sha256": "7ecb928d2fb3dfc29776f5dd2dff00967c26736af4e837f329bc5287f73cd181",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.55,
+        "severity": "medium",
+        "affected_function": "Unknown \u2014 the evidence does not identify the vehicle function for any affected ID (0x21D, 0x69D, 0x075, 0x4EE, 0x6D7, 0x655) (E2, E3, E4, E5, E6, E7).",
+        "summary": "The alert is driven mainly by rate inflation on the known ID 0x21D, which transmitted at 14 msg/s versus a 1 msg/s baseline (2.333x) with a mean inter-arrival gap of 75 ms versus ~1000 ms baseline, indicating added frames on a known ID, consistent with spoofing/fabrication. Bus load was essentially unchanged (1.02x baseline), no unknown IDs appeared, and no IDs went missing, so flooding (DoS) and fuzzing are not supported. Several other known IDs (0x075, 0x69D) show repeated identical payloads at roughly baseline rates; without sequence evidence of an earlier capture being retransmitted, replay cannot be confirmed, so the added-frames interpretation (spoofing) is used with moderate confidence.",
+        "claims": [
+          {
+            "text": "The detector score was 0.855, dominated by rate_inflation 0.855, with timing 0.450 and payload_entropy 0.388; bus_load, unknown_ids and missing_ids were all 0.0.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "Known ID 0x21D transmitted at 14 msg/s versus a 1 msg/s baseline (2.333x rate ratio) with mean gap 75.079 ms versus 999.673 ms baseline.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "0x21D's payload entropy rose to 1.514 from a 0.544 baseline, and its full alert count was 15 frames.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Peak bus rate was 2440 msg/s versus a 2392 msg/s baseline (1.02x), so the bus was not flooded.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "No unknown arbitration IDs appeared and no baseline IDs went missing.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "IDs 0x69D, 0x075, 0x4EE, 0x6D7 and 0x655 are known IDs whose rates stayed at or near baseline.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "Frames for 0x075 and 0x69D show identical payloads repeated within the window, but there is no evidence of an earlier captured sequence, so replay is not established.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "The evidence does not identify the vehicle function affected by any of these IDs.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Correlate 0x21D frames with the legitimate ECU's expected schedule and signal values (e.g., via DBC decoding) to confirm fabrication; capture a longer trace to check whether the repeated 0x075/0x69D payloads match an earlier sequence (replay) and to identify the affected functions before isolating the injecting node.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"spoofing\", \"confidence\": 0.55, \"severity\": \"medium\",\n \"affected_function\": \"Unknown \u2014 the evidence does not identify the vehicle function for any affected ID (0x21D, 0x69D, 0x075, 0x4EE, 0x6D7, 0x655) (E2, E3, E4, E5, E6, E7).\",\n \"summary\": \"The alert is driven mainly by rate inflation on the known ID 0x21D, which transmitted at 14 msg/s versus a 1 msg/s baseline (2.333x) with a mean inter-arrival gap of 75 ms versus ~1000 ms baseline, indicating added frames on a known ID, consistent with spoofing/fabrication. Bus load was essentially unchanged (1.02x baseline), no unknown IDs appeared, and no IDs went missing, so flooding (DoS) and fuzzing are not supported. Several other known IDs (0x075, 0x69D) show repeated identical payloads at roughly baseline rates; without sequence evidence of an earlier capture being retransmitted, replay cannot be confirmed, so the added-frames interpretation (spoofing) is used with moderate confidence.\",\n \"claims\": [\n  {\"text\": \"The detector score was 0.855, dominated by rate_inflation 0.855, with timing 0.450 and payload_entropy 0.388; bus_load, unknown_ids and missing_ids were all 0.0.\", \"cites\": [\"E0\"]},\n  {\"text\": \"Known ID 0x21D transmitted at 14 msg/s versus a 1 msg/s baseline (2.333x rate ratio) with mean gap 75.079 ms versus 999.673 ms baseline.\", \"cites\": [\"E2\"]},\n  {\"text\": \"0x21D's payload entropy rose to 1.514 from a 0.544 baseline, and its full alert count was 15 frames.\", \"cites\": [\"E2\"]},\n  {\"text\": \"Peak bus rate was 2440 msg/s versus a 2392 msg/s baseline (1.02x), so the bus was not flooded.\", \"cites\": [\"E1\"]},\n  {\"text\": \"No unknown arbitration IDs appeared and no baseline IDs went missing.\", \"cites\": [\"E0\"]},\n  {\"text\": \"IDs 0x69D, 0x075, 0x4EE, 0x6D7 and 0x655 are known IDs whose rates stayed at or near baseline.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]},\n  {\"text\": \"Frames for 0x075 and 0x69D show identical payloads repeated within the window, but there is no evidence of an earlier captured sequence, so replay is not established.\", \"cites\": [\"E8\"]},\n  {\"text\": \"The evidence does not identify the vehicle function affected by any of these IDs.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}\n ],\n \"recommended_action\": \"Correlate 0x21D frames with the legitimate ECU's expected schedule and signal values (e.g., via DBC decoding) to confirm fabrication; capture a longer trace to check whether the repeated 0x075/0x69D payloads match an earlier sequence (replay) and to identify the affected functions before isolating the injecting node.\"}",
+        "latency_s": 5.306,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2839,
+          "output_tokens": 836,
+          "reasoning_tokens": 63
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 3,
+      "start": 44.25,
+      "end": 45.25,
+      "true_type": "normal",
+      "detector_score": 0.6196,
+      "corpus_index": 27,
+      "evidence_sha256": "5450dfa0d8015b75406795b19ec386018a8730f7d675206b80434b0fa8bb628b",
+      "explanation": {
+        "attack_type": "unknown",
+        "confidence": 0.45,
+        "severity": "low",
+        "affected_function": "not identified - all flagged IDs (0x075, 0x69D, 0x4EE, 0x3B9, 0x6D7, 0x655) have unknown function",
+        "summary": "The alert is driven almost entirely by a payload_entropy component of 0.62 (E0). Bus load, unknown IDs, rate inflation, missing IDs and timing components are all 0.0 (E0). Peak bus rate was 2396 msg/s versus 2392 baseline, a 1.00x ratio (E1). The flagged IDs are all known IDs with rates at or below baseline (rate_ratio 0.333) and only 1-2 frames each in the window (E2-E7). The two 0x075 frames carry identical payloads (E8), but with only two frames there is insufficient sequence evidence to distinguish replay from normal repetition. The entropy drops on flagged IDs (e.g., 0x69D entropy 3.0 vs 5.621 baseline, E2) reflect low frame counts, not clearly anomalous content. No rate inflation, flooding, or unknown IDs are present, so no attack signature from the reference matches; the deviation is unexplained by the evidence.",
+        "claims": [
+          {
+            "text": "Detector score 0.620 with payload_entropy 0.620 as the only non-zero component; bus_load, unknown_ids, rate_inflation, missing_ids and timing were all 0.0.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "Peak scored-window bus rate was 2396 msg/s versus 2392 msg/s baseline (1.00x), showing no flooding.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "All flagged IDs (0x69D, 0x075, 0x4EE, 0x3B9, 0x6D7, 0x655) are known IDs with unknown functions.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "Flagged IDs showed rates at or below baseline (rate_ratio 0.333) with only 1-2 frames each in the window.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The two 0x075 frames in the window carry identical payloads, but only two frames exist, providing insufficient sequence evidence for replay.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "Entropy on flagged IDs dropped relative to baseline (e.g., 0x69D 3.0 vs 5.621), consistent with very low frame counts rather than injected content.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Log the alert for trend analysis but do not escalate as an attack. If concern persists, capture a longer trace around these IDs to obtain enough frames for payload sequence and signal-decoding analysis, and confirm whether the baseline covers the vehicle states present in this window.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"unknown\", \"confidence\": 0.45, \"severity\": \"low\", \"affected_function\": \"not identified - all flagged IDs (0x075, 0x69D, 0x4EE, 0x3B9, 0x6D7, 0x655) have unknown function\", \"summary\": \"The alert is driven almost entirely by a payload_entropy component of 0.62 (E0). Bus load, unknown IDs, rate inflation, missing IDs and timing components are all 0.0 (E0). Peak bus rate was 2396 msg/s versus 2392 baseline, a 1.00x ratio (E1). The flagged IDs are all known IDs with rates at or below baseline (rate_ratio 0.333) and only 1-2 frames each in the window (E2-E7). The two 0x075 frames carry identical payloads (E8), but with only two frames there is insufficient sequence evidence to distinguish replay from normal repetition. The entropy drops on flagged IDs (e.g., 0x69D entropy 3.0 vs 5.621 baseline, E2) reflect low frame counts, not clearly anomalous content. No rate inflation, flooding, or unknown IDs are present, so no attack signature from the reference matches; the deviation is unexplained by the evidence.\", \"claims\": [{\"text\": \"Detector score 0.620 with payload_entropy 0.620 as the only non-zero component; bus_load, unknown_ids, rate_inflation, missing_ids and timing were all 0.0.\", \"cites\": [\"E0\"]}, {\"text\": \"Peak scored-window bus rate was 2396 msg/s versus 2392 msg/s baseline (1.00x), showing no flooding.\", \"cites\": [\"E1\"]}, {\"text\": \"All flagged IDs (0x69D, 0x075, 0x4EE, 0x3B9, 0x6D7, 0x655) are known IDs with unknown functions.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"Flagged IDs showed rates at or below baseline (rate_ratio 0.333) with only 1-2 frames each in the window.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"The two 0x075 frames in the window carry identical payloads, but only two frames exist, providing insufficient sequence evidence for replay.\", \"cites\": [\"E8\"]}, {\"text\": \"Entropy on flagged IDs dropped relative to baseline (e.g., 0x69D 3.0 vs 5.621), consistent with very low frame counts rather than injected content.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}], \"recommended_action\": \"Log the alert for trend analysis but do not escalate as an attack. If concern persists, capture a longer trace around these IDs to obtain enough frames for payload sequence and signal-decoding analysis, and confirm whether the baseline covers the vehicle states present in this window.\"}",
+        "latency_s": 4.701,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2676,
+          "output_tokens": 710,
+          "reasoning_tokens": 0
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 4,
+      "start": 45.75,
+      "end": 72.0,
+      "true_type": "normal",
+      "detector_score": 0.7316,
+      "corpus_index": 28,
+      "evidence_sha256": "447800b092b0041f236cce36d778e0ae59a48d3c2ad738daac3c31311a97f6bc",
+      "explanation": {
+        "attack_type": "replay",
+        "confidence": 0.6,
+        "severity": "medium",
+        "affected_function": "Unknown - the evidence does not identify the vehicle function for any of the involved CAN IDs (0x025, 0x075, 0x69D, 0x3B9, 0x4EE, 0x6D7) (E2, E3, E4, E5, E6, E7)",
+        "summary": "The window shows repeated identical payloads on known IDs (0x075 and 0x69D each transmit the exact same payload at two different times), consistent with a replay of previously captured frames rather than fresh sensor data (E8). 0x025 shows a doubled rate with highly similar payloads differing in only one byte, and multiple IDs show collapsed timing jitter (jitter ratio 0.0) with reduced entropy, consistent with injected/replayed frames replacing organic transmission (E2, E3, E4, E5, E6, E7). Bus load is essentially unchanged (1.02x baseline), ruling out flooding/DoS, and no unknown IDs appeared, ruling out fuzzing (E0, E1). The rate inflation is modest and payloads look normal, so replay is favored over fabrication, though sequence evidence is limited to the small sample of frames.",
+        "claims": [
+          {
+            "text": "0x075 transmitted the identical payload '0D 94 00 0D 38 19 F0 00' at timestamps 46.157095 and 46.661163",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "0x69D transmitted the identical payload 'E4 5F CF B0 C6 AD 6A B1' at timestamps 46.184801 and 47.184915",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "0x025 rate rose to 12.0 msg/s versus a 1.28 msg/s baseline (2.0x ratio) with mean gap 80.348 ms versus 781.8 ms baseline",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "0x025's two sampled payloads differ only in a single byte (0D A8 vs 0D E8), consistent with repeated near-identical content",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "Multiple IDs (0x69D, 0x075, 0x3B9, 0x4EE, 0x6D7) show jitter ratio 0.0 and entropy well below baseline, consistent with deterministic repeated timing/content",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "Bus load was 2434 msg/s versus 2392 msg/s baseline (1.02x), so flooding/DoS is not indicated",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "No unknown arbitration IDs appeared (unknown_ids component 0.0), so fuzzing is not indicated",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "The evidence does not identify the vehicle function associated with any of the affected CAN IDs",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Capture and preserve the full frame log for the alert window and baseline. Perform sequence alignment between the window's payloads per ID and earlier baseline traffic to confirm payload repetition (replay) versus fabrication. Decode signals for 0x025, 0x075, and 0x69D to determine affected vehicle functions and check for implausible values. If replay is confirmed, identify the injection point and isolate the compromised ECU.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"replay\", \"confidence\": 0.6, \"severity\": \"medium\", \"affected_function\": \"Unknown - the evidence does not identify the vehicle function for any of the involved CAN IDs (0x025, 0x075, 0x69D, 0x3B9, 0x4EE, 0x6D7) (E2, E3, E4, E5, E6, E7)\", \"summary\": \"The window shows repeated identical payloads on known IDs (0x075 and 0x69D each transmit the exact same payload at two different times), consistent with a replay of previously captured frames rather than fresh sensor data (E8). 0x025 shows a doubled rate with highly similar payloads differing in only one byte, and multiple IDs show collapsed timing jitter (jitter ratio 0.0) with reduced entropy, consistent with injected/replayed frames replacing organic transmission (E2, E3, E4, E5, E6, E7). Bus load is essentially unchanged (1.02x baseline), ruling out flooding/DoS, and no unknown IDs appeared, ruling out fuzzing (E0, E1). The rate inflation is modest and payloads look normal, so replay is favored over fabrication, though sequence evidence is limited to the small sample of frames.\", \"claims\": [{\"text\": \"0x075 transmitted the identical payload '0D 94 00 0D 38 19 F0 00' at timestamps 46.157095 and 46.661163\", \"cites\": [\"E8\"]}, {\"text\": \"0x69D transmitted the identical payload 'E4 5F CF B0 C6 AD 6A B1' at timestamps 46.184801 and 47.184915\", \"cites\": [\"E8\"]}, {\"text\": \"0x025 rate rose to 12.0 msg/s versus a 1.28 msg/s baseline (2.0x ratio) with mean gap 80.348 ms versus 781.8 ms baseline\", \"cites\": [\"E2\"]}, {\"text\": \"0x025's two sampled payloads differ only in a single byte (0D A8 vs 0D E8), consistent with repeated near-identical content\", \"cites\": [\"E8\"]}, {\"text\": \"Multiple IDs (0x69D, 0x075, 0x3B9, 0x4EE, 0x6D7) show jitter ratio 0.0 and entropy well below baseline, consistent with deterministic repeated timing/content\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"Bus load was 2434 msg/s versus 2392 msg/s baseline (1.02x), so flooding/DoS is not indicated\", \"cites\": [\"E1\"]}, {\"text\": \"No unknown arbitration IDs appeared (unknown_ids component 0.0), so fuzzing is not indicated\", \"cites\": [\"E0\"]}, {\"text\": \"The evidence does not identify the vehicle function associated with any of the affected CAN IDs\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}], \"recommended_action\": \"Capture and preserve the full frame log for the alert window and baseline. Perform sequence alignment between the window's payloads per ID and earlier baseline traffic to confirm payload repetition (replay) versus fabrication. Decode signals for 0x025, 0x075, and 0x69D to determine affected vehicle functions and check for implausible values. If replay is confirmed, identify the injection point and isolate the compromised ECU.\"}",
+        "latency_s": 5.472,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2848,
+          "output_tokens": 867,
+          "reasoning_tokens": 52
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 5,
+      "start": 72.75,
+      "end": 73.75,
+      "true_type": "normal",
+      "detector_score": 0.592,
+      "corpus_index": 29,
+      "evidence_sha256": "85830c2058ac5fe33f87e125f4e55fbdb88f6cc2bc83e71be7b17d53f3fb69a4",
+      "explanation": {
+        "attack_type": "unknown",
+        "confidence": 0.55,
+        "severity": "low",
+        "affected_function": "not identified \u2014 all flagged IDs (0x69D, 0x075, 0x3B9, 0x4EE, 0x6D7, 0x655) have unknown function (E2-E7)",
+        "summary": "The alert is driven solely by a payload_entropy component of 0.592 with all other detector components at zero (E0). Bus load is essentially unchanged at 2400 msg/s versus a 2392 msg/s baseline (E1). The per-ID statistics show only single frames of known IDs at or below baseline rates with reduced entropy, which is expected for tiny sample sizes and does not match dos, fuzzing, or spoofing signatures. One notable observation: 0x075 appears twice with an identical payload (0D 94 00 0D 38 19 F0 00) at 73.157s and 73.657s (E8), but two identical frames roughly 0.5s apart at a 2 Hz baseline rate is consistent with normal periodic transmission and is not sufficient sequence evidence for replay. No attack signature is clearly present; the anomaly is unexplained.",
+        "claims": [
+          {
+            "text": "Detector score 0.592 is driven entirely by payload_entropy; bus_load, unknown_ids, rate_inflation, missing_ids, and timing components are all 0.000.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "Peak bus rate was 2400 msg/s versus a 2392 msg/s baseline (1.00x), so there is no flooding or rate inflation.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "All flagged IDs are known IDs with unknown functions, each appearing only 1-2 times in the window at or below baseline rates.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "Reported entropy drops for flagged IDs (e.g., 0x69D entropy 3.0 vs 5.621 baseline) are computed from single frames, making them statistically unreliable.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "Two 0x075 frames carry an identical payload 0D 94 00 0D 38 19 F0 00 approximately 0.5s apart, consistent with its 2 msg/s baseline periodic behavior and insufficient to establish replay.",
+            "cites": [
+              "E3",
+              "E8"
+            ]
+          },
+          {
+            "text": "No evidence identifies the vehicle function affected by the flagged CAN IDs.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Log the alert for trend analysis but do not treat as an attack. Collect a longer observation window to obtain statistically meaningful entropy and timing baselines for the low-rate IDs involved; if payload entropy anomalies persist across multiple windows with larger sample counts, escalate for manual payload review.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"unknown\", \"confidence\": 0.55, \"severity\": \"low\", \"affected_function\": \"not identified \u2014 all flagged IDs (0x69D, 0x075, 0x3B9, 0x4EE, 0x6D7, 0x655) have unknown function (E2-E7)\", \"summary\": \"The alert is driven solely by a payload_entropy component of 0.592 with all other detector components at zero (E0). Bus load is essentially unchanged at 2400 msg/s versus a 2392 msg/s baseline (E1). The per-ID statistics show only single frames of known IDs at or below baseline rates with reduced entropy, which is expected for tiny sample sizes and does not match dos, fuzzing, or spoofing signatures. One notable observation: 0x075 appears twice with an identical payload (0D 94 00 0D 38 19 F0 00) at 73.157s and 73.657s (E8), but two identical frames roughly 0.5s apart at a 2 Hz baseline rate is consistent with normal periodic transmission and is not sufficient sequence evidence for replay. No attack signature is clearly present; the anomaly is unexplained.\", \"claims\": [{\"text\": \"Detector score 0.592 is driven entirely by payload_entropy; bus_load, unknown_ids, rate_inflation, missing_ids, and timing components are all 0.000.\", \"cites\": [\"E0\"]}, {\"text\": \"Peak bus rate was 2400 msg/s versus a 2392 msg/s baseline (1.00x), so there is no flooding or rate inflation.\", \"cites\": [\"E1\"]}, {\"text\": \"All flagged IDs are known IDs with unknown functions, each appearing only 1-2 times in the window at or below baseline rates.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"Reported entropy drops for flagged IDs (e.g., 0x69D entropy 3.0 vs 5.621 baseline) are computed from single frames, making them statistically unreliable.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"Two 0x075 frames carry an identical payload 0D 94 00 0D 38 19 F0 00 approximately 0.5s apart, consistent with its 2 msg/s baseline periodic behavior and insufficient to establish replay.\", \"cites\": [\"E3\", \"E8\"]}, {\"text\": \"No evidence identifies the vehicle function affected by the flagged CAN IDs.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}], \"recommended_action\": \"Log the alert for trend analysis but do not treat as an attack. Collect a longer observation window to obtain statistically meaningful entropy and timing baselines for the low-rate IDs involved; if payload entropy anomalies persist across multiple windows with larger sample counts, escalate for manual payload review.\"}",
+        "latency_s": 4.169,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2680,
+          "output_tokens": 682,
+          "reasoning_tokens": 0
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 6,
+      "start": 75.5,
+      "end": 120.0,
+      "true_type": "normal",
+      "detector_score": 0.668,
+      "corpus_index": 30,
+      "evidence_sha256": "cca5a5736b7d961c15298e24bdc33b38058da359b58c371fc2521dc1eb112e55",
+      "explanation": {
+        "attack_type": "unknown",
+        "confidence": 0.45,
+        "severity": "low",
+        "affected_function": "not identified \u2014 the evidence lists no function for any CAN ID (E2, E3, E4, E5, E6, E7)",
+        "summary": "The detector flagged this 44.5 s window primarily on payload entropy (0.668) and timing (0.450) components, with no unknown IDs, no missing IDs, and no bus-load increase (peak rate 2436 msg/s vs 2392 baseline, 1.02x). Several known IDs (0x4C9, 0x280) show elevated rates and shortened inter-arrival times in isolated 0.5 s peak sub-windows, which could suggest added frames (spoofing). However, their full-alert mean rates are essentially at baseline (0x4C9: 10.202 msg/s vs 10.0 baseline; 0x280: 5.146 vs 5.03), so the inflation is confined to short sub-windows and does not establish sustained fabrication. No sequence-repetition evidence exists for replay, no unknown IDs for fuzzing, no flooding for DoS, and no collapsed-jitter-with-normal-rate pattern for masquerade. The evidence is insufficient to distinguish an attack from normal peak activity, so the window is classified as unknown.",
+        "claims": [
+          {
+            "text": "The alert was driven mainly by payload_entropy (0.668) and timing (0.450) components, with bus_load, unknown_ids, and missing_ids all at 0.0.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "Peak bus rate was 2436 msg/s versus a 2392 msg/s baseline (1.02x), so there is no bus flooding.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "0x4C9 showed 18 msg/s versus 10 baseline (1.8x) with mean gap 56.242 ms versus 99.978 ms and entropy 4.073 versus 3.388 in one 0.5 s sub-window.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "0x280 showed 10 msg/s versus 5.03 baseline (1.667x) with mean gap 99.755 ms versus 198.754 ms in one 0.5 s sub-window.",
+            "cites": [
+              "E3"
+            ]
+          },
+          {
+            "text": "Over the full alert, 0x4C9 averaged 10.202 msg/s (baseline 10.0) and 0x280 averaged 5.146 msg/s (baseline 5.03), so the rate inflation is not sustained across the alert.",
+            "cites": [
+              "E2",
+              "E3"
+            ]
+          },
+          {
+            "text": "All flagged IDs (0x4C9, 0x280, 0x69D, 0x075, 0x3B9, 0x4EE) are known IDs with no function identified in the evidence.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "Representative frames show normal-looking payloads on known IDs with no evidence of repeated out-of-context sequences.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "No evidence identifies the affected vehicle function.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Continue monitoring and collect a longer capture covering these IDs with signal decoding (DBC) to determine whether the short-lived rate and entropy spikes on 0x4C9 and 0x280 correspond to legitimate state changes or injected frames. If sequence-level payload repetition or sustained rate inflation appears, re-evaluate as spoofing or replay.",
+        "model": "glm-5.3",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"unknown\", \"confidence\": 0.45, \"severity\": \"low\", \"affected_function\": \"not identified \u2014 the evidence lists no function for any CAN ID (E2, E3, E4, E5, E6, E7)\", \"summary\": \"The detector flagged this 44.5 s window primarily on payload entropy (0.668) and timing (0.450) components, with no unknown IDs, no missing IDs, and no bus-load increase (peak rate 2436 msg/s vs 2392 baseline, 1.02x). Several known IDs (0x4C9, 0x280) show elevated rates and shortened inter-arrival times in isolated 0.5 s peak sub-windows, which could suggest added frames (spoofing). However, their full-alert mean rates are essentially at baseline (0x4C9: 10.202 msg/s vs 10.0 baseline; 0x280: 5.146 vs 5.03), so the inflation is confined to short sub-windows and does not establish sustained fabrication. No sequence-repetition evidence exists for replay, no unknown IDs for fuzzing, no flooding for DoS, and no collapsed-jitter-with-normal-rate pattern for masquerade. The evidence is insufficient to distinguish an attack from normal peak activity, so the window is classified as unknown.\", \"claims\": [{\"text\": \"The alert was driven mainly by payload_entropy (0.668) and timing (0.450) components, with bus_load, unknown_ids, and missing_ids all at 0.0.\", \"cites\": [\"E0\"]}, {\"text\": \"Peak bus rate was 2436 msg/s versus a 2392 msg/s baseline (1.02x), so there is no bus flooding.\", \"cites\": [\"E1\"]}, {\"text\": \"0x4C9 showed 18 msg/s versus 10 baseline (1.8x) with mean gap 56.242 ms versus 99.978 ms and entropy 4.073 versus 3.388 in one 0.5 s sub-window.\", \"cites\": [\"E2\"]}, {\"text\": \"0x280 showed 10 msg/s versus 5.03 baseline (1.667x) with mean gap 99.755 ms versus 198.754 ms in one 0.5 s sub-window.\", \"cites\": [\"E3\"]}, {\"text\": \"Over the full alert, 0x4C9 averaged 10.202 msg/s (baseline 10.0) and 0x280 averaged 5.146 msg/s (baseline 5.03), so the rate inflation is not sustained across the alert.\", \"cites\": [\"E2\", \"E3\"]}, {\"text\": \"All flagged IDs (0x4C9, 0x280, 0x69D, 0x075, 0x3B9, 0x4EE) are known IDs with no function identified in the evidence.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"Representative frames show normal-looking payloads on known IDs with no evidence of repeated out-of-context sequences.\", \"cites\": [\"E8\"]}, {\"text\": \"No evidence identifies the affected vehicle function.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}], \"recommended_action\": \"Continue monitoring and collect a longer capture covering these IDs with signal decoding (DBC) to determine whether the short-lived rate and entropy spikes on 0x4C9 and 0x280 correspond to legitimate state changes or injected frames. If sequence-level payload repetition or sustained rate inflation appears, re-evaluate as spoofing or replay.\"}",
+        "latency_s": 5.197,
+        "requested_model": "glm-5.3",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2867,
+          "output_tokens": 980,
+          "reasoning_tokens": 153
+        },
+        "prompt_version": "can-evidence-v2",
+        "finish_reason": "stop",
+        "response_model": "zai-org/GLM-5.3",
+        "reasoning_effort": "low"
+      },
+      "estimated_cost_usd": null
+    }
+  ],
+  "scoring": "Attack-label accuracy on frozen alerts; failures count as incorrect, never control predictions. Normal alerts scored separately. Development corpus, not an untouched test set.",
+  "summary": {
+    "attempts": 31,
+    "successful_responses": 31,
+    "fallbacks": 0,
+    "classification": {
+      "scored_alerts": 20,
+      "correct": 16,
+      "accuracy": 0.8,
+      "successful_only_accuracy": 0.8,
+      "confusion": {
+        "spoofing": {
+          "spoofing": 12,
+          "replay": 1
+        },
+        "masquerade": {
+          "spoofing": 2,
+          "unknown": 1,
+          "masquerade": 1
+        },
+        "fuzzing": {
+          "fuzzing": 3
+        }
+      }
+    },
+    "false_alarms": 11,
+    "false_alarms_labeled_benign": 0,
+    "grounding": {
+      "rate": 1.0,
+      "meaning": "Citation validity only; semantic claim support needs review"
+    },
+    "latency_s_median": 3.642,
+    "latency_s_p95": 5.309,
+    "latency_s_max": 5.472,
+    "attempt_latency_s_p95": 5.309,
+    "input_tokens": 85433,
+    "output_tokens": 21058,
+    "estimated_cost_usd": null,
+    "successful_alerts_per_second": 0.4915696050588665
+  },
+  "wall_seconds": 63.063297,
+  "updated_at": "2026-10-30T16:37:36.725553+00:00"
+}

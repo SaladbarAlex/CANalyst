@@ -11,10 +11,10 @@ import pandas as pd
 def detection_metrics(windows: pd.DataFrame, skip_until: float = 0.0) -> dict:
     """Precision, recall and F1 over windows.
 
-    Windows ending before skip_until are excluded, because that stretch
-    trained the baseline and scoring it would leak.
+    Windows starting before skip_until are excluded, including windows that
+    cross the boundary: they contain frames used to learn the baseline.
     """
-    ev = windows[windows["end"] > skip_until]
+    ev = windows[windows["start"] >= skip_until]
     tp = int(((ev["flagged"]) & (ev["label"] == 1)).sum())
     fp = int(((ev["flagged"]) & (ev["label"] == 0)).sum())
     fn = int(((~ev["flagged"]) & (ev["label"] == 1)).sum())
@@ -40,7 +40,7 @@ def detection_metrics(windows: pd.DataFrame, skip_until: float = 0.0) -> dict:
         "f1": round(f1, 4),
         "false_positive_rate": round(fp / (fp + tn), 4) if fp + tn else 0.0,
         "per_attack_type": per_type,
-        "labeled": bool(ev["label"].max() > 0),
+        "labeled": bool(windows.attrs.get("has_labels", (ev["attack_type"] != "unknown").all())),
     }
 
 
@@ -50,13 +50,15 @@ def classification_accuracy(alerts: list[dict]) -> dict:
     Only alerts that overlap a labeled attack interval count. The
     confusion counts are per predicted/true pair.
     """
-    scored = [a for a in alerts if a.get("true_type") and a["true_type"] != "normal"]
+    scored = [a for a in alerts if a.get("true_type") and a["true_type"] not in {"normal", "unknown", "injected"}]
     if not scored:
         return {"scored_alerts": 0, "accuracy": None, "confusion": {}}
     correct = 0
     confusion: dict[str, dict[str, int]] = {}
     for a in scored:
-        true_t, pred = a["true_type"], (a.get("explanation") or {}).get("attack_type", "unknown")
+        explanation = a.get("explanation") or {}
+        failed = explanation.get("fallback", False) or explanation.get("model", "").startswith("mock (fallback")
+        true_t, pred = a["true_type"], "request_failed" if failed else explanation.get("attack_type", "unknown")
         confusion.setdefault(true_t, {}).setdefault(pred, 0)
         confusion[true_t][pred] += 1
         if true_t == pred:
@@ -70,15 +72,19 @@ def classification_accuracy(alerts: list[dict]) -> dict:
 
 def grounding_rate(alerts: list[dict]) -> dict:
     """Fraction of explanations whose every claim cites real evidence."""
-    with_exp = [a for a in alerts if a.get("explanation")]
+    attempted = [a for a in alerts if a.get("explanation")]
+    with_exp = [a for a in attempted if not a["explanation"].get("fallback", False)
+                and not a["explanation"].get("model", "").startswith("mock (fallback")]
+    failures = len(attempted) - len(with_exp)
     if not with_exp:
-        return {"explained": 0, "grounded_rate": None}
+        return {"explained": 0, "failed_responses": failures, "grounded_rate": None}
     grounded = sum(1 for a in with_exp if a["explanation"].get("grounded"))
     claims = sum(len(a["explanation"].get("claims", [])) for a in with_exp)
     uncited = sum(1 for a in with_exp for c in a["explanation"].get("claims", [])
                   if not c.get("cites"))
     return {
         "explained": len(with_exp),
+        "failed_responses": failures,
         "grounded_rate": round(grounded / len(with_exp), 4),
         "total_claims": claims,
         "uncited_claims": uncited,

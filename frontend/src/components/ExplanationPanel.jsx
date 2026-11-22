@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { fmt } from '../api'
+import ValidationWarnings from './ValidationWarnings'
 
 /* The explanation and its evidence live side by side: clicking a citation
    chip scrolls to and highlights the evidence row it refers to, so no claim
@@ -16,10 +17,18 @@ function DetailSection({ title, compact, children, open, onToggle }) {
 }
 
 export default function ExplanationPanel({ detail, onReExplain, busy, compact = false,
-  explainerLabel = 'the explainer', slow = false }) {
+  explainerLabel = 'the explainer', slow = false, batchBusy = false }) {
   const [activeCite, setActiveCite] = useState(null)
   const [evidenceOpen, setEvidenceOpen] = useState(false)
   const rowRefs = useRef({})
+  const [elapsed, setElapsed] = useState(0)
+  useEffect(() => {
+    setElapsed(0)
+    if (!busy) return
+    const start = Date.now()
+    const timer = setInterval(() => setElapsed(Math.floor((Date.now() - start) / 1000)), 1000)
+    return () => clearInterval(timer)
+  }, [busy])
 
   useEffect(() => {
     setActiveCite(null)
@@ -51,8 +60,8 @@ export default function ExplanationPanel({ detail, onReExplain, busy, compact = 
           <span className="mono">{fmt.sec(alert.start)} to {fmt.sec(alert.end)}</span>
         </h3>
         <div className="spacer" />
-        <button className="secondary" onClick={onReExplain} disabled={busy}>
-          {busy ? 'Explaining...' : 'Re-explain'}
+        <button className="secondary" onClick={onReExplain} disabled={busy || batchBusy}>
+          {busy ? `Explaining · ${elapsed}s` : exp ? 'Re-explain' : `Explain with ${explainerLabel}`}
         </button>
       </div>
 
@@ -63,7 +72,7 @@ export default function ExplanationPanel({ detail, onReExplain, busy, compact = 
             <span className="badge">severity {exp.severity}</span>
             <span className="badge">confidence {fmt.pct(exp.confidence)}</span>
             <span className={`badge ${exp.grounded ? 'ok' : 'mismatch'}`}>
-              <span className="dot" />{exp.grounded ? 'all claims cited' : 'uncited claims'}
+              <span className="dot" />{exp.grounded ? 'valid citations' : 'citation issues'}
             </span>
             <span className="badge">model: {exp.model}</span>
             {exp.latency_s !== null && exp.latency_s !== undefined ? (
@@ -71,12 +80,17 @@ export default function ExplanationPanel({ detail, onReExplain, busy, compact = 
             ) : null}
           </div>
 
+          {exp.fallback || exp.model?.includes('fallback') ? <p className="error" role="status">
+            Model request failed; this response uses the offline control. {exp.error || exp.fallback_reason || ''}
+          </p> : null}
+          <p className="small muted">Citation validity checks references, not whether they support the claim.</p>
+          <ValidationWarnings warnings={exp.validation_warnings} />
           <p className="summary-line">{exp.summary}</p>
           <div className="small muted">Affected function: {exp.affected_function}</div>
 
           <h3>Reasoning</h3>
           <ul className="claims">
-            {exp.claims.map((c, i) => (
+            {(exp.claims ?? []).map((c, i) => (
               <li key={i}>
                 {c.text}
                 {(c.cites ?? []).map((id) => (
@@ -99,8 +113,8 @@ export default function ExplanationPanel({ detail, onReExplain, busy, compact = 
       ) : (
         <p className="muted" role="status">
           {busy
-            ? `Asking ${explainerLabel} about this alert${slow ? '. LLM replies usually take about 30 seconds.' : '...'}`
-            : 'No explanation generated for this alert yet.'}
+            ? `Asking ${explainerLabel} · ${elapsed}s elapsed.${slow ? ' Evidence remains available while the model responds.' : ''}`
+            : `Evidence is ready. Select Explain with ${explainerLabel} to generate a response.`}
         </p>
       )}
 

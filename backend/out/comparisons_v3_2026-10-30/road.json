@@ -1,0 +1,265 @@
+{
+  "comparisons": [
+    {
+      "dataset": "road",
+      "corpus_sha256": "4c66a83de308731590af438c6c4b2d9c5953c2c5669a1cd541919fd21b359114",
+      "control": "mock",
+      "model": "glm-5.3",
+      "matched_alerts": 31,
+      "matched_attack_alerts": 20,
+      "paired_attack_outcomes": {
+        "both_correct": 17,
+        "control_only_correct": 0,
+        "model_only_correct": 0,
+        "neither_correct": 3
+      },
+      "model_minus_control_accuracy": 0.0,
+      "observed_accuracy_at_least_control": true,
+      "control_summary": {
+        "attempts": 31,
+        "successful_responses": 31,
+        "fallbacks": 0,
+        "classification": {
+          "scored_alerts": 20,
+          "correct": 17,
+          "accuracy": 0.85,
+          "successful_only_accuracy": 0.85,
+          "confusion": {
+            "spoofing": {
+              "spoofing": 13
+            },
+            "masquerade": {
+              "spoofing": 3,
+              "masquerade": 1
+            },
+            "fuzzing": {
+              "fuzzing": 3
+            }
+          }
+        },
+        "false_alarms": 11,
+        "false_alarms_labeled_benign": 0,
+        "grounding": {
+          "rate": 1.0,
+          "meaning": "Citation validity only; semantic claim support needs review"
+        },
+        "latency_s_median": 2e-05,
+        "latency_s_p95": 6.8e-05,
+        "latency_s_max": 0.000115,
+        "attempt_latency_s_p95": 6.8e-05,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0.0
+      },
+      "model_summary": {
+        "attempts": 31,
+        "successful_responses": 31,
+        "fallbacks": 0,
+        "classification": {
+          "scored_alerts": 20,
+          "correct": 17,
+          "accuracy": 0.85,
+          "successful_only_accuracy": 0.85,
+          "confusion": {
+            "spoofing": {
+              "spoofing": 13
+            },
+            "masquerade": {
+              "spoofing": 3,
+              "masquerade": 1
+            },
+            "fuzzing": {
+              "fuzzing": 3
+            }
+          }
+        },
+        "false_alarms": 11,
+        "false_alarms_labeled_benign": 0,
+        "grounding": {
+          "rate": 1.0,
+          "meaning": "Citation validity only; semantic claim support needs review"
+        },
+        "latency_s_median": 4.323,
+        "latency_s_p95": 6.162,
+        "latency_s_max": 6.452,
+        "attempt_latency_s_p95": 6.162,
+        "input_tokens": 97509,
+        "output_tokens": 21242,
+        "estimated_cost_usd": null
+      },
+      "errors": [
+        {
+          "corpus_index": 2,
+          "capture": "correlated_signal_attack_2_masquerade",
+          "alert_id": 0,
+          "true_type": "masquerade",
+          "control_prediction": "spoofing",
+          "model_prediction": "spoofing",
+          "paired_outcome": "neither_correct"
+        },
+        {
+          "corpus_index": 3,
+          "capture": "correlated_signal_attack_2_masquerade",
+          "alert_id": 1,
+          "true_type": "masquerade",
+          "control_prediction": "spoofing",
+          "model_prediction": "spoofing",
+          "paired_outcome": "neither_correct"
+        },
+        {
+          "corpus_index": 11,
+          "capture": "max_speedometer_attack_1_masquerade",
+          "alert_id": 0,
+          "true_type": "masquerade",
+          "control_prediction": "spoofing",
+          "model_prediction": "spoofing",
+          "paired_outcome": "neither_correct"
+        }
+      ],
+      "interpretation": "Observed paired outcomes on this development corpus only, not statistical equivalence, held-out validation, or evidence of analyst benefit. Alerts may overlap and share captures.",
+      "source_sha256": {
+        "control": "a3d77da9531b2957acbbb1dfd4e43cb573a700bcab08255152f4335f626c6bfc",
+        "model": "5a2a5244803891e55b9841ed98d69081c24b696f70b745f5f517af463e4366bc"
+      },
+      "source_paths": {
+        "control": "out/explanations_v3_2026-10-30_control/road/explanations_mock.json",
+        "model": "out/explanations_v3_2026-10-30_glm_low/road/explanations_rcd.json"
+      }
+    },
+    {
+      "dataset": "road",
+      "corpus_sha256": "4c66a83de308731590af438c6c4b2d9c5953c2c5669a1cd541919fd21b359114",
+      "control": "mock",
+      "model": "gemma-4-31b",
+      "matched_alerts": 31,
+      "matched_attack_alerts": 20,
+      "paired_attack_outcomes": {
+        "both_correct": 16,
+        "control_only_correct": 1,
+        "model_only_correct": 0,
+        "neither_correct": 3
+      },
+      "model_minus_control_accuracy": -0.05,
+      "observed_accuracy_at_least_control": false,
+      "control_summary": {
+        "attempts": 31,
+        "successful_responses": 31,
+        "fallbacks": 0,
+        "classification": {
+          "scored_alerts": 20,
+          "correct": 17,
+          "accuracy": 0.85,
+          "successful_only_accuracy": 0.85,
+          "confusion": {
+            "spoofing": {
+              "spoofing": 13
+            },
+            "masquerade": {
+              "spoofing": 3,
+              "masquerade": 1
+            },
+            "fuzzing": {
+              "fuzzing": 3
+            }
+          }
+        },
+        "false_alarms": 11,
+        "false_alarms_labeled_benign": 0,
+        "grounding": {
+          "rate": 1.0,
+          "meaning": "Citation validity only; semantic claim support needs review"
+        },
+        "latency_s_median": 2e-05,
+        "latency_s_p95": 6.8e-05,
+        "latency_s_max": 0.000115,
+        "attempt_latency_s_p95": 6.8e-05,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0.0
+      },
+      "model_summary": {
+        "attempts": 31,
+        "successful_responses": 31,
+        "fallbacks": 0,
+        "classification": {
+          "scored_alerts": 20,
+          "correct": 16,
+          "accuracy": 0.8,
+          "successful_only_accuracy": 0.8,
+          "confusion": {
+            "spoofing": {
+              "spoofing": 13
+            },
+            "masquerade": {
+              "spoofing": 3,
+              "unknown": 1
+            },
+            "fuzzing": {
+              "fuzzing": 3
+            }
+          }
+        },
+        "false_alarms": 11,
+        "false_alarms_labeled_benign": 1,
+        "grounding": {
+          "rate": 1.0,
+          "meaning": "Citation validity only; semantic claim support needs review"
+        },
+        "latency_s_median": 17.502,
+        "latency_s_p95": 20.189,
+        "latency_s_max": 21.516,
+        "attempt_latency_s_p95": 20.189,
+        "input_tokens": 115481,
+        "output_tokens": 17939,
+        "estimated_cost_usd": null
+      },
+      "errors": [
+        {
+          "corpus_index": 2,
+          "capture": "correlated_signal_attack_2_masquerade",
+          "alert_id": 0,
+          "true_type": "masquerade",
+          "control_prediction": "spoofing",
+          "model_prediction": "spoofing",
+          "paired_outcome": "neither_correct"
+        },
+        {
+          "corpus_index": 3,
+          "capture": "correlated_signal_attack_2_masquerade",
+          "alert_id": 1,
+          "true_type": "masquerade",
+          "control_prediction": "spoofing",
+          "model_prediction": "spoofing",
+          "paired_outcome": "neither_correct"
+        },
+        {
+          "corpus_index": 11,
+          "capture": "max_speedometer_attack_1_masquerade",
+          "alert_id": 0,
+          "true_type": "masquerade",
+          "control_prediction": "spoofing",
+          "model_prediction": "spoofing",
+          "paired_outcome": "neither_correct"
+        },
+        {
+          "corpus_index": 20,
+          "capture": "reverse_light_on_attack_2_masquerade",
+          "alert_id": 0,
+          "true_type": "masquerade",
+          "control_prediction": "masquerade",
+          "model_prediction": "unknown",
+          "paired_outcome": "control_only_correct"
+        }
+      ],
+      "interpretation": "Observed paired outcomes on this development corpus only, not statistical equivalence, held-out validation, or evidence of analyst benefit. Alerts may overlap and share captures.",
+      "source_sha256": {
+        "control": "a3d77da9531b2957acbbb1dfd4e43cb573a700bcab08255152f4335f626c6bfc",
+        "model": "20d1113985f1db980604c644a34c3a74c4a517b32dfd6febb7977eab68e2eae8"
+      },
+      "source_paths": {
+        "control": "out/explanations_v3_2026-10-30_control/road/explanations_mock.json",
+        "model": "out/explanations_v3_2026-10-30_gemma/road/explanations_rcd.json"
+      }
+    }
+  ]
+}

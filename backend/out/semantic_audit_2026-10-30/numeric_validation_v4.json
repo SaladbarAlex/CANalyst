@@ -1,0 +1,52 @@
+{
+  "review_type": "Automated numerical/schema audit authored by AI; not human semantic review",
+  "created_at": "2026-10-30T16:52:19.239876+00:00",
+  "auditor_source_sha256": "ebe62cfb815f61d21751376036282212f1509750aac67765c4a669969876867c",
+  "source_sha256": {
+    "out/frozen_2026-10-30_v4/hcrl.json": "4a9da326cd167eabe55e1fd95b92a839a6db857cc2e928edb657c5ad5ab72c71",
+    "out/frozen_2026-10-30_v4/road.json": "868c68afb19cfa7fac84324392d8af17cfd8e6172bc03c6eed98058bbaea9af9"
+  },
+  "scope": "Read-only arithmetic, count/duration, bounds and missingness checks on frozen evidence",
+  "rounding_tolerances": {
+    "duration_s": 0.0006,
+    "window_rate": 0.0051,
+    "alert_rate_and_ratios": 0.00051,
+    "entropy_delta": 0.00151
+  },
+  "item_counts": {
+    "alerts": 100,
+    "alert_window": 100,
+    "bus_load": 100,
+    "unknown_id": 124,
+    "id_stats": 476,
+    "missing_id": 138,
+    "frames": 100
+  },
+  "checks_performed": {
+    "positive_alert_duration": 100,
+    "alert_duration": 100,
+    "peak_bus_rate_at_least_full_alert_mean": 100,
+    "positive_statistics_duration": 600,
+    "window_rate_equals_count_over_duration": 600,
+    "alert_rate_equals_count_over_duration": 600,
+    "id_alert_count_within_total": 600,
+    "statistics_window_within_alert": 600,
+    "unknown_id_baseline_comparisons_null": 124,
+    "unknown_id_baseline_unavailable": 124,
+    "iat_mean_fits_statistics_window": 336,
+    "positive_known_baseline_rate": 476,
+    "raw_rate_ratio": 476,
+    "guarded_reference_present_positive": 476,
+    "guarded_rate_ratio": 476,
+    "entropy_delta": 476,
+    "single_frame_timing_null": 264,
+    "single_frame_bitflip_null": 264,
+    "single_frame_iat_unavailable": 264
+  },
+  "total_checks": 7056,
+  "arithmetic_or_bound_failures": [],
+  "schema_issues": [],
+  "schema_issue_counts": {},
+  "passed": true,
+  "limitations": "No independent raw-frame feature or label recomputation. Passing does not validate causal claims, model labels, or analyst usefulness."
+}

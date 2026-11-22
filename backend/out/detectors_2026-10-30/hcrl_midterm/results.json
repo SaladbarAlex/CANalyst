@@ -1,0 +1,725 @@
+{
+  "dataset": "hcrl",
+  "baseline_profile": "midterm",
+  "status": "complete",
+  "created_utc": "2026-10-30T16:24:41.249100+00:00",
+  "methodology": {
+    "stage": "development benchmark; no untouched final-test claim",
+    "window_s": 0.5,
+    "stride_s": 0.25,
+    "threshold": 0.55,
+    "forest": "200 trees; random_state=0; 1% normal calibration quantile; fixed sigmoid scores; early 80% normal time fit and later 20% calibration, with crossing windows discarded",
+    "comparison": "Both detectors score identical extracted evaluation features; forest includes jitter-collapse count",
+    "baseline_profile": "midterm",
+    "normal_scope": "HCRL: [0,120) baseline and [121,241) holdout from same recording. ROAD: baseline recordings wholly excluded from normal evaluation. Broad profile uses 120 s of each of five varied normal recordings, evaluates remaining seven ambient prefixes.",
+    "labels": "HCRL supplied frame labels; ROAD interval/ID-derived labels, whole-interval fuzzing",
+    "limitations": "Overlapping windows, HCRL shared normal source, related ROAD fabrication/masquerade pairs, prior development on these datasets, and one partially observed tail window per capture. False-positive improvements do not establish transfer to unseen vehicles.",
+    "llm_calls": 0
+  },
+  "environment": {
+    "python": "3.12.14",
+    "pandas": "3.0.6",
+    "git": {
+      "commit": "5b8d6c6994a857569166540c1aa69f532ce59fef",
+      "dirty": true
+    }
+  },
+  "code_sha256": {
+    "app/loader.py": "62208af2139ff93ed9934e5658d2f9fb4c3dbb91c653b84cf7fc69c38109f576",
+    "app/features.py": "14d15d0b8629f9a58748af4470e16d7f5567ea6d26e9f3c02ea0490ccc242874",
+    "app/detector.py": "d145b8d9803d2bae79523de3d312827f2ebcce6b0cc5cba9682eb962ca80ef3d",
+    "app/metrics.py": "50048b16eb8b9ee97e3367d2fad1ae18cdc5f660cf583836ffc7dcd7bd060736",
+    "scripts/evaluate_midterm.py": "916c721b4bdb62b267183952fc9816a835a6923392c683a2de0272f7ec25015e",
+    "scripts/evaluate_detectors.py": "a0a5a281868c831efd625ba3f402dc73ab539a408b27b100e4b5991bb4eab9b8"
+  },
+  "excluded_unlabeled_attacks": [],
+  "baseline_inputs": [
+    {
+      "source": "data/raw/hcrl-car-hacking/normal_run_data/normal_run_data.txt",
+      "source_sha256": "efbbafbf8e965c0d2f75eb97f1d118d0ae1c4b9f3077a6c4c000a26eb5be97ea",
+      "selected_input": "data/evaluation_inputs/detectors_2026-10-30/hcrl_midterm/normal_run_data_0_120/normal_run_data.txt",
+      "selected_input_sha256": "55bed4ea14a31146cc04cf3ed01a9ee91e710763d86218430fe5e2bc0af53031",
+      "source_relative_start_s": 0.0,
+      "source_relative_stop_s_exclusive": 120.0,
+      "frame_count": 234315,
+      "selected_nonempty_lines": 234315,
+      "skipped_selected_lines": 0,
+      "duration_s": 119.99567103385925,
+      "unique_ids": 27,
+      "attack_labeled_frames": 0
+    }
+  ],
+  "captures": [
+    {
+      "capture": "DoS_dataset",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/hcrl-car-hacking/DoS_dataset.csv",
+        "source_sha256": "09bf3136647b1d846d13c374f26208f06ffeba18369093fc57c8076fc56b795e",
+        "selected_input": "data/evaluation_inputs/detectors_2026-10-30/hcrl_midterm/DoS_dataset_0_120/DoS_dataset.csv",
+        "selected_input_sha256": "e7a57fe9b31456b1c11a266d84729d0e790987323e97ac1f02ef657838a0dbf2",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": 120.0,
+        "frame_count": 161482,
+        "selected_nonempty_lines": 161482,
+        "skipped_selected_lines": 0,
+        "duration_s": 119.99923706054688,
+        "unique_ids": 27,
+        "attack_labeled_frames": 41438
+      },
+      "ingest_s": 0.600988749996759,
+      "feature_s": 1.3977300410042517,
+      "detectors": {
+        "rule": {
+          "detection": {
+            "windows_evaluated": 479,
+            "true_positive": 325,
+            "false_positive": 0,
+            "false_negative": 0,
+            "true_negative": 154,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "false_positive_rate": 0.0,
+            "per_attack_type": {
+              "dos": {
+                "windows": 325,
+                "detected": 325,
+                "recall": 1.0
+              }
+            },
+            "labeled": true
+          },
+          "alerts": 16,
+          "score_s": 0.02411062500323169,
+          "score_windows_per_s": 19866.759983857606,
+          "ingest_features_score_frames_per_s": 79829.76652523692,
+          "scores": "DoS_dataset__attack_capture__rule_windows.csv.gz",
+          "scores_sha256": "a5801a7fa3b2fa3c07be30a80771329d57cdd56555b920819de759dcd7139deb"
+        },
+        "forest": {
+          "detection": {
+            "windows_evaluated": 479,
+            "true_positive": 325,
+            "false_positive": 154,
+            "false_negative": 0,
+            "true_negative": 0,
+            "precision": 0.6785,
+            "recall": 1.0,
+            "f1": 0.8085,
+            "false_positive_rate": 1.0,
+            "per_attack_type": {
+              "dos": {
+                "windows": 325,
+                "detected": 325,
+                "recall": 1.0
+              }
+            },
+            "labeled": true
+          },
+          "alerts": 1,
+          "score_s": 0.01854062500933651,
+          "score_windows_per_s": 25835.159265601338,
+          "ingest_features_score_frames_per_s": 80050.19023253463,
+          "scores": "DoS_dataset__attack_capture__forest_windows.csv.gz",
+          "scores_sha256": "db0014fd923a34449816f892faa219325c09b985d04142397e839872a5730591"
+        }
+      }
+    },
+    {
+      "capture": "Fuzzy_dataset",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/hcrl-car-hacking/Fuzzy_dataset.csv",
+        "source_sha256": "a0e78dff6365a1ad3d314973f1ac5879b57f9b80c40eb07b1e3bbe4aeddaecfe",
+        "selected_input": "data/evaluation_inputs/detectors_2026-10-30/hcrl_midterm/Fuzzy_dataset_0_120/Fuzzy_dataset.csv",
+        "selected_input_sha256": "5825ab2db52f81374effa1283169430eb1d2bf41f1826844007805ad1e4242dd",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": 120.0,
+        "frame_count": 117479,
+        "selected_nonempty_lines": 117479,
+        "skipped_selected_lines": 0,
+        "duration_s": 119.99505305290222,
+        "unique_ids": 2048,
+        "attack_labeled_frames": 14242
+      },
+      "ingest_s": 0.4960217080079019,
+      "feature_s": 2.509096291993046,
+      "detectors": {
+        "rule": {
+          "detection": {
+            "windows_evaluated": 479,
+            "true_positive": 337,
+            "false_positive": 0,
+            "false_negative": 0,
+            "true_negative": 142,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "false_positive_rate": 0.0,
+            "per_attack_type": {
+              "fuzzing": {
+                "windows": 337,
+                "detected": 337,
+                "recall": 1.0
+              }
+            },
+            "labeled": true
+          },
+          "alerts": 15,
+          "score_s": 0.030099790994427167,
+          "score_windows_per_s": 15913.73176274495,
+          "ingest_features_score_frames_per_s": 38705.29500338548,
+          "scores": "Fuzzy_dataset__attack_capture__rule_windows.csv.gz",
+          "scores_sha256": "169b6dec36bcc251a9f5d61df7e2c7f3acb66d2ea67343289a695309f2ceb18c"
+        },
+        "forest": {
+          "detection": {
+            "windows_evaluated": 479,
+            "true_positive": 337,
+            "false_positive": 142,
+            "false_negative": 0,
+            "true_negative": 0,
+            "precision": 0.7035,
+            "recall": 1.0,
+            "f1": 0.826,
+            "false_positive_rate": 1.0,
+            "per_attack_type": {
+              "fuzzing": {
+                "windows": 337,
+                "detected": 337,
+                "recall": 1.0
+              }
+            },
+            "labeled": true
+          },
+          "alerts": 1,
+          "score_s": 0.020744832989294082,
+          "score_windows_per_s": 23090.087071185415,
+          "ingest_features_score_frames_per_s": 38824.95885773645,
+          "scores": "Fuzzy_dataset__attack_capture__forest_windows.csv.gz",
+          "scores_sha256": "502813d4c9b93dc83a84f92d64813bb0c778828efa7116b4284c283af058fb16"
+        }
+      }
+    },
+    {
+      "capture": "RPM_dataset",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/hcrl-car-hacking/RPM_dataset.csv",
+        "source_sha256": "6718c6cb0a5fe6bdf0e966a680f1d6d7d79c063d603254d6118c16aaeb74974d",
+        "selected_input": "data/evaluation_inputs/detectors_2026-10-30/hcrl_midterm/RPM_dataset_0_120/RPM_dataset.csv",
+        "selected_input_sha256": "902d34a623f5921da1e287763a01aad81875aa7034ede290faf3ebe0887e6fdc",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": 120.0,
+        "frame_count": 240544,
+        "selected_nonempty_lines": 240544,
+        "skipped_selected_lines": 0,
+        "duration_s": 119.99977087974548,
+        "unique_ids": 26,
+        "attack_labeled_frames": 44279
+      },
+      "ingest_s": 0.8732383330061566,
+      "feature_s": 1.4934850840072613,
+      "detectors": {
+        "rule": {
+          "detection": {
+            "windows_evaluated": 479,
+            "true_positive": 287,
+            "false_positive": 0,
+            "false_negative": 10,
+            "true_negative": 182,
+            "precision": 1.0,
+            "recall": 0.9663,
+            "f1": 0.9829,
+            "false_positive_rate": 0.0,
+            "per_attack_type": {
+              "spoofing": {
+                "windows": 297,
+                "detected": 287,
+                "recall": 0.9663
+              }
+            },
+            "labeled": true
+          },
+          "alerts": 19,
+          "score_s": 0.021857583007658832,
+          "score_windows_per_s": 21914.591372347062,
+          "ingest_features_score_frames_per_s": 100705.81654876994,
+          "scores": "RPM_dataset__attack_capture__rule_windows.csv.gz",
+          "scores_sha256": "c890292539756db2fc328d3115ef443631cc7206b5eca686a721609dcfa7e846"
+        },
+        "forest": {
+          "detection": {
+            "windows_evaluated": 479,
+            "true_positive": 297,
+            "false_positive": 182,
+            "false_negative": 0,
+            "true_negative": 0,
+            "precision": 0.62,
+            "recall": 1.0,
+            "f1": 0.7655,
+            "false_positive_rate": 1.0,
+            "per_attack_type": {
+              "spoofing": {
+                "windows": 297,
+                "detected": 297,
+                "recall": 1.0
+              }
+            },
+            "labeled": true
+          },
+          "alerts": 1,
+          "score_s": 0.016924249997828156,
+          "score_windows_per_s": 28302.583574543558,
+          "ingest_features_score_frames_per_s": 100914.2430439847,
+          "scores": "RPM_dataset__attack_capture__forest_windows.csv.gz",
+          "scores_sha256": "62eeddf361799a44edf6c9417a9374c91a056a37863e6bd4c619a48d3483acca"
+        }
+      }
+    },
+    {
+      "capture": "gear_dataset",
+      "role": "attack_capture",
+      "input": {
+        "source": "data/raw/hcrl-car-hacking/gear_dataset.csv",
+        "source_sha256": "b4eba43605fff337117ff30e13c33f63b56eec3b00927c8bccb31192df3bee23",
+        "selected_input": "data/evaluation_inputs/detectors_2026-10-30/hcrl_midterm/gear_dataset_0_120/gear_dataset.csv",
+        "selected_input_sha256": "be51772fd71047c7fa965c8e12c306657413fdf166333b0df63006916999969e",
+        "source_relative_start_s": 0.0,
+        "source_relative_stop_s_exclusive": 120.0,
+        "frame_count": 244501,
+        "selected_nonempty_lines": 244501,
+        "skipped_selected_lines": 0,
+        "duration_s": 119.9997808933258,
+        "unique_ids": 26,
+        "attack_labeled_frames": 45467
+      },
+      "ingest_s": 0.896775000001071,
+      "feature_s": 1.800599708003574,
+      "detectors": {
+        "rule": {
+          "detection": {
+            "windows_evaluated": 479,
+            "true_positive": 284,
+            "false_positive": 0,
+            "false_negative": 12,
+            "true_negative": 183,
+            "precision": 1.0,
+            "recall": 0.9595,
+            "f1": 0.9793,
+            "false_positive_rate": 0.0,
+            "per_attack_type": {
+              "spoofing": {
+                "windows": 296,
+                "detected": 284,
+                "recall": 0.9595
+              }
+            },
+            "labeled": true
+          },
+          "alerts": 19,
+          "score_s": 0.023527208002633415,
+          "score_windows_per_s": 20359.40685976786,
+          "ingest_features_score_frames_per_s": 89860.27705062852,
+          "scores": "gear_dataset__attack_capture__rule_windows.csv.gz",
+          "scores_sha256": "e632125202a5e25dbed8baf410525f036001b2ae213415a722cc67d4c05faf0b"
+        },
+        "forest": {
+          "detection": {
+            "windows_evaluated": 479,
+            "true_positive": 296,
+            "false_positive": 183,
+            "false_negative": 0,
+            "true_negative": 0,
+            "precision": 0.618,
+            "recall": 1.0,
+            "f1": 0.7639,
+            "false_positive_rate": 1.0,
+            "per_attack_type": {
+              "spoofing": {
+                "windows": 296,
+                "detected": 296,
+                "recall": 1.0
+              }
+            },
+            "labeled": true
+          },
+          "alerts": 1,
+          "score_s": 0.01852987500024028,
+          "score_windows_per_s": 25850.14739677352,
+          "ingest_features_score_frames_per_s": 90025.62222914449,
+          "scores": "gear_dataset__attack_capture__forest_windows.csv.gz",
+          "scores_sha256": "0373e2cba2f30c1adf0573b8b2e7f8b10ea5817a68f99ad5d25bee0398b2d965"
+        }
+      }
+    },
+    {
+      "capture": "normal_run_data",
+      "role": "held_out_normal",
+      "input": {
+        "source": "data/raw/hcrl-car-hacking/normal_run_data/normal_run_data.txt",
+        "source_sha256": "efbbafbf8e965c0d2f75eb97f1d118d0ae1c4b9f3077a6c4c000a26eb5be97ea",
+        "selected_input": "data/evaluation_inputs/detectors_2026-10-30/hcrl_midterm/normal_run_data_121_241/normal_run_data.txt",
+        "selected_input_sha256": "917ce103a83dde105324b9713dec6117386bb9dcabc63ad93abf1717a3b0570c",
+        "source_relative_start_s": 121.0,
+        "source_relative_stop_s_exclusive": 241.0,
+        "frame_count": 234317,
+        "selected_nonempty_lines": 234317,
+        "skipped_selected_lines": 0,
+        "duration_s": 119.99975395202637,
+        "unique_ids": 27,
+        "attack_labeled_frames": 0
+      },
+      "ingest_s": 1.267191749997437,
+      "feature_s": 1.8000464999931864,
+      "detectors": {
+        "rule": {
+          "detection": {
+            "windows_evaluated": 479,
+            "true_positive": 0,
+            "false_positive": 0,
+            "false_negative": 0,
+            "true_negative": 479,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "false_positive_rate": 0.0,
+            "per_attack_type": {},
+            "labeled": false
+          },
+          "alerts": 0,
+          "score_s": 0.01577904100122396,
+          "score_windows_per_s": 30356.72446524758,
+          "ingest_features_score_frames_per_s": 76002.49297486656,
+          "scores": "normal_run_data__held_out_normal__rule_windows.csv.gz",
+          "scores_sha256": "20771c43f6691dc4e6a63af8f44452b945ba0bf56cae05482414cc35dcf13bd1"
+        },
+        "forest": {
+          "detection": {
+            "windows_evaluated": 479,
+            "true_positive": 0,
+            "false_positive": 7,
+            "false_negative": 0,
+            "true_negative": 472,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "false_positive_rate": 0.0146,
+            "per_attack_type": {},
+            "labeled": false
+          },
+          "alerts": 6,
+          "score_s": 0.013435291999485344,
+          "score_windows_per_s": 35652.36989403347,
+          "ingest_features_score_frames_per_s": 76060.31499482795,
+          "scores": "normal_run_data__held_out_normal__forest_windows.csv.gz",
+          "scores_sha256": "ae5f37260e364ed09ada87d90aab42ddb4a93cd520b365096caf7ab6529e2ed1"
+        }
+      }
+    }
+  ],
+  "forest_calibration": {
+    "method": "normal_temporal_holdout_sigmoid_v1",
+    "training_windows": 382,
+    "calibration_windows": 96,
+    "training_end": 95.75,
+    "calibration_start": 95.75,
+    "normal_quantile": 0.99,
+    "raw_cutoff": 0.597275825415159,
+    "scale": 0.08878981859979651,
+    "threshold": 0.55,
+    "features": [
+      "rate_ratio_total",
+      "n_unknown_ids",
+      "n_missing_ids",
+      "max_rate_ratio",
+      "max_iat_z",
+      "max_entropy_delta",
+      "max_bitflip_delta",
+      "n_jitter_collapses"
+    ]
+  },
+  "baseline": {
+    "known_ids": [
+      "0x002",
+      "0x0A0",
+      "0x0A1",
+      "0x130",
+      "0x131",
+      "0x140",
+      "0x153",
+      "0x18F",
+      "0x1F1",
+      "0x260",
+      "0x2A0",
+      "0x2B0",
+      "0x2C0",
+      "0x316",
+      "0x329",
+      "0x350",
+      "0x370",
+      "0x430",
+      "0x43F",
+      "0x440",
+      "0x4B1",
+      "0x4F0",
+      "0x545",
+      "0x5A0",
+      "0x5A2",
+      "0x5F0",
+      "0x690"
+    ],
+    "total_rate": 1952.7,
+    "per_id": {
+      "0x002": {
+        "rate": 100.01,
+        "iat_mean_ms": 9.999,
+        "iat_std_ms": 1.168,
+        "entropy": 2.946
+      },
+      "0x0A0": {
+        "rate": 10.01,
+        "iat_mean_ms": 99.918,
+        "iat_std_ms": 0.774,
+        "entropy": 5.885
+      },
+      "0x0A1": {
+        "rate": 10.01,
+        "iat_mean_ms": 99.918,
+        "iat_std_ms": 0.776,
+        "entropy": 2.852
+      },
+      "0x130": {
+        "rate": 100.01,
+        "iat_mean_ms": 9.999,
+        "iat_std_ms": 1.16,
+        "entropy": 6.194
+      },
+      "0x131": {
+        "rate": 100.01,
+        "iat_mean_ms": 9.999,
+        "iat_std_ms": 1.155,
+        "entropy": 5.713
+      },
+      "0x140": {
+        "rate": 100.01,
+        "iat_mean_ms": 9.999,
+        "iat_std_ms": 1.155,
+        "entropy": 4.006
+      },
+      "0x153": {
+        "rate": 100.01,
+        "iat_mean_ms": 9.999,
+        "iat_std_ms": 0.719,
+        "entropy": 0.811
+      },
+      "0x18F": {
+        "rate": 100.09,
+        "iat_mean_ms": 9.992,
+        "iat_std_ms": 0.476,
+        "entropy": 2.609
+      },
+      "0x1F1": {
+        "rate": 50.01,
+        "iat_mean_ms": 19.999,
+        "iat_std_ms": 0.219,
+        "entropy": 6.209
+      },
+      "0x260": {
+        "rate": 100.09,
+        "iat_mean_ms": 9.992,
+        "iat_std_ms": 0.517,
+        "entropy": 6.621
+      },
+      "0x2A0": {
+        "rate": 100.09,
+        "iat_mean_ms": 9.992,
+        "iat_std_ms": 0.559,
+        "entropy": 2.935
+      },
+      "0x2B0": {
+        "rate": 99.93,
+        "iat_mean_ms": 10.008,
+        "iat_std_ms": 0.269,
+        "entropy": 6.025
+      },
+      "0x2C0": {
+        "rate": 100.1,
+        "iat_mean_ms": 9.991,
+        "iat_std_ms": 0.24,
+        "entropy": 0.544
+      },
+      "0x316": {
+        "rate": 100.09,
+        "iat_mean_ms": 9.991,
+        "iat_std_ms": 0.763,
+        "entropy": 6.257
+      },
+      "0x329": {
+        "rate": 100.09,
+        "iat_mean_ms": 9.992,
+        "iat_std_ms": 0.619,
+        "entropy": 4.159
+      },
+      "0x350": {
+        "rate": 100.04,
+        "iat_mean_ms": 9.997,
+        "iat_std_ms": 0.344,
+        "entropy": 4.157
+      },
+      "0x370": {
+        "rate": 100.0,
+        "iat_mean_ms": 10.001,
+        "iat_std_ms": 0.374,
+        "entropy": 1.18
+      },
+      "0x430": {
+        "rate": 50.01,
+        "iat_mean_ms": 19.999,
+        "iat_std_ms": 0.175,
+        "entropy": -0.0
+      },
+      "0x43F": {
+        "rate": 100.0,
+        "iat_mean_ms": 10.001,
+        "iat_std_ms": 0.435,
+        "entropy": 4.966
+      },
+      "0x440": {
+        "rate": 100.0,
+        "iat_mean_ms": 10.001,
+        "iat_std_ms": 0.49,
+        "entropy": 5.273
+      },
+      "0x4B1": {
+        "rate": 50.01,
+        "iat_mean_ms": 19.999,
+        "iat_std_ms": 0.227,
+        "entropy": 5.803
+      },
+      "0x4F0": {
+        "rate": 50.0,
+        "iat_mean_ms": 20.0,
+        "iat_std_ms": 0.484,
+        "entropy": 3.321
+      },
+      "0x545": {
+        "rate": 100.09,
+        "iat_mean_ms": 9.992,
+        "iat_std_ms": 0.6,
+        "entropy": 1.966
+      },
+      "0x5A0": {
+        "rate": 1.01,
+        "iat_mean_ms": 999.114,
+        "iat_std_ms": 0.529,
+        "entropy": -0.0
+      },
+      "0x5A2": {
+        "rate": 1.01,
+        "iat_mean_ms": 999.12,
+        "iat_std_ms": 0.717,
+        "entropy": 2.182
+      },
+      "0x5F0": {
+        "rate": 20.0,
+        "iat_mean_ms": 50.0,
+        "iat_std_ms": 0.668,
+        "entropy": 1.0
+      },
+      "0x690": {
+        "rate": 10.0,
+        "iat_mean_ms": 99.999,
+        "iat_std_ms": 0.443,
+        "entropy": 1.107
+      }
+    }
+  },
+  "baseline_seconds": 3.887195208008052,
+  "pooled": {
+    "rule": {
+      "all": {
+        "true_positive": 1233,
+        "false_positive": 0,
+        "false_negative": 22,
+        "true_negative": 1140,
+        "windows_evaluated": 2395,
+        "precision": 1.0,
+        "recall": 0.9824701195219123,
+        "f1": 0.9911575562700965,
+        "false_positive_rate": 0.0,
+        "captures": 5,
+        "frame_count": 998323
+      },
+      "attack_capture": {
+        "true_positive": 1233,
+        "false_positive": 0,
+        "false_negative": 22,
+        "true_negative": 661,
+        "windows_evaluated": 1916,
+        "precision": 1.0,
+        "recall": 0.9824701195219123,
+        "f1": 0.9911575562700965,
+        "false_positive_rate": 0.0,
+        "captures": 4,
+        "frame_count": 764006
+      },
+      "held_out_normal": {
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "true_negative": 479,
+        "windows_evaluated": 479,
+        "precision": 0.0,
+        "recall": null,
+        "f1": null,
+        "false_positive_rate": 0.0,
+        "captures": 1,
+        "frame_count": 234317
+      }
+    },
+    "forest": {
+      "all": {
+        "true_positive": 1255,
+        "false_positive": 668,
+        "false_negative": 0,
+        "true_negative": 472,
+        "windows_evaluated": 2395,
+        "precision": 0.6526261050442018,
+        "recall": 1.0,
+        "f1": 0.78980490874764,
+        "false_positive_rate": 0.5859649122807018,
+        "captures": 5,
+        "frame_count": 998323
+      },
+      "attack_capture": {
+        "true_positive": 1255,
+        "false_positive": 661,
+        "false_negative": 0,
+        "true_negative": 0,
+        "windows_evaluated": 1916,
+        "precision": 0.6550104384133612,
+        "recall": 1.0,
+        "f1": 0.7915484074424471,
+        "false_positive_rate": 1.0,
+        "captures": 4,
+        "frame_count": 764006
+      },
+      "held_out_normal": {
+        "true_positive": 0,
+        "false_positive": 7,
+        "false_negative": 0,
+        "true_negative": 472,
+        "windows_evaluated": 479,
+        "precision": 0.0,
+        "recall": null,
+        "f1": 0.0,
+        "false_positive_rate": 0.014613778705636743,
+        "captures": 1,
+        "frame_count": 234317
+      }
+    }
+  },
+  "elapsed_s": 17.418961791001493
+}

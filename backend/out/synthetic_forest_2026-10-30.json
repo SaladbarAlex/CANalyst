@@ -1,0 +1,305 @@
+[
+  {
+    "run": "seed=1",
+    "detection": {
+      "windows_evaluated": 479,
+      "true_positive": 30,
+      "false_positive": 6,
+      "false_negative": 58,
+      "true_negative": 385,
+      "precision": 0.8333,
+      "recall": 0.3409,
+      "f1": 0.4839,
+      "false_positive_rate": 0.0153,
+      "per_attack_type": {
+        "dos": {
+          "windows": 22,
+          "detected": 0,
+          "recall": 0.0
+        },
+        "fuzzing": {
+          "windows": 22,
+          "detected": 8,
+          "recall": 0.3636
+        },
+        "masquerade": {
+          "windows": 22,
+          "detected": 0,
+          "recall": 0.0
+        },
+        "spoofing": {
+          "windows": 22,
+          "detected": 22,
+          "recall": 1.0
+        }
+      },
+      "labeled": true
+    },
+    "classification": {
+      "scored_alerts": 2,
+      "accuracy": 1.0,
+      "confusion": {
+        "fuzzing": {
+          "fuzzing": 1
+        },
+        "spoofing": {
+          "spoofing": 1
+        }
+      }
+    },
+    "explained_alerts": 9,
+    "total_alerts": 9,
+    "grounding": {
+      "explained": 9,
+      "failed_responses": 0,
+      "grounded_rate": 1.0,
+      "total_claims": 11,
+      "uncited_claims": 0
+    },
+    "explainer": "mock",
+    "detector": "forest"
+  },
+  {
+    "run": "seed=2",
+    "detection": {
+      "windows_evaluated": 479,
+      "true_positive": 29,
+      "false_positive": 6,
+      "false_negative": 59,
+      "true_negative": 385,
+      "precision": 0.8286,
+      "recall": 0.3295,
+      "f1": 0.4715,
+      "false_positive_rate": 0.0153,
+      "per_attack_type": {
+        "dos": {
+          "windows": 22,
+          "detected": 0,
+          "recall": 0.0
+        },
+        "fuzzing": {
+          "windows": 22,
+          "detected": 7,
+          "recall": 0.3182
+        },
+        "masquerade": {
+          "windows": 22,
+          "detected": 0,
+          "recall": 0.0
+        },
+        "spoofing": {
+          "windows": 22,
+          "detected": 22,
+          "recall": 1.0
+        }
+      },
+      "labeled": true
+    },
+    "classification": {
+      "scored_alerts": 3,
+      "accuracy": 1.0,
+      "confusion": {
+        "fuzzing": {
+          "fuzzing": 2
+        },
+        "spoofing": {
+          "spoofing": 1
+        }
+      }
+    },
+    "explained_alerts": 9,
+    "total_alerts": 9,
+    "grounding": {
+      "explained": 9,
+      "failed_responses": 0,
+      "grounded_rate": 1.0,
+      "total_claims": 12,
+      "uncited_claims": 0
+    },
+    "explainer": "mock",
+    "detector": "forest"
+  },
+  {
+    "run": "seed=3",
+    "detection": {
+      "windows_evaluated": 479,
+      "true_positive": 35,
+      "false_positive": 5,
+      "false_negative": 53,
+      "true_negative": 386,
+      "precision": 0.875,
+      "recall": 0.3977,
+      "f1": 0.5469,
+      "false_positive_rate": 0.0128,
+      "per_attack_type": {
+        "dos": {
+          "windows": 22,
+          "detected": 0,
+          "recall": 0.0
+        },
+        "fuzzing": {
+          "windows": 22,
+          "detected": 13,
+          "recall": 0.5909
+        },
+        "masquerade": {
+          "windows": 22,
+          "detected": 1,
+          "recall": 0.0455
+        },
+        "spoofing": {
+          "windows": 22,
+          "detected": 21,
+          "recall": 0.9545
+        }
+      },
+      "labeled": true
+    },
+    "classification": {
+      "scored_alerts": 4,
+      "accuracy": 1.0,
+      "confusion": {
+        "fuzzing": {
+          "fuzzing": 2
+        },
+        "spoofing": {
+          "spoofing": 1
+        },
+        "masquerade": {
+          "masquerade": 1
+        }
+      }
+    },
+    "explained_alerts": 9,
+    "total_alerts": 9,
+    "grounding": {
+      "explained": 9,
+      "failed_responses": 0,
+      "grounded_rate": 1.0,
+      "total_claims": 12,
+      "uncited_claims": 0
+    },
+    "explainer": "mock",
+    "detector": "forest"
+  },
+  {
+    "run": "seed=4",
+    "detection": {
+      "windows_evaluated": 479,
+      "true_positive": 30,
+      "false_positive": 1,
+      "false_negative": 58,
+      "true_negative": 390,
+      "precision": 0.9677,
+      "recall": 0.3409,
+      "f1": 0.5042,
+      "false_positive_rate": 0.0026,
+      "per_attack_type": {
+        "dos": {
+          "windows": 22,
+          "detected": 0,
+          "recall": 0.0
+        },
+        "fuzzing": {
+          "windows": 22,
+          "detected": 8,
+          "recall": 0.3636
+        },
+        "masquerade": {
+          "windows": 22,
+          "detected": 0,
+          "recall": 0.0
+        },
+        "spoofing": {
+          "windows": 22,
+          "detected": 22,
+          "recall": 1.0
+        }
+      },
+      "labeled": true
+    },
+    "classification": {
+      "scored_alerts": 3,
+      "accuracy": 1.0,
+      "confusion": {
+        "fuzzing": {
+          "fuzzing": 2
+        },
+        "spoofing": {
+          "spoofing": 1
+        }
+      }
+    },
+    "explained_alerts": 6,
+    "total_alerts": 6,
+    "grounding": {
+      "explained": 6,
+      "failed_responses": 0,
+      "grounded_rate": 1.0,
+      "total_claims": 9,
+      "uncited_claims": 0
+    },
+    "explainer": "mock",
+    "detector": "forest"
+  },
+  {
+    "run": "seed=5",
+    "detection": {
+      "windows_evaluated": 479,
+      "true_positive": 27,
+      "false_positive": 2,
+      "false_negative": 61,
+      "true_negative": 389,
+      "precision": 0.931,
+      "recall": 0.3068,
+      "f1": 0.4615,
+      "false_positive_rate": 0.0051,
+      "per_attack_type": {
+        "dos": {
+          "windows": 22,
+          "detected": 0,
+          "recall": 0.0
+        },
+        "fuzzing": {
+          "windows": 22,
+          "detected": 6,
+          "recall": 0.2727
+        },
+        "masquerade": {
+          "windows": 22,
+          "detected": 0,
+          "recall": 0.0
+        },
+        "spoofing": {
+          "windows": 22,
+          "detected": 21,
+          "recall": 0.9545
+        }
+      },
+      "labeled": true
+    },
+    "classification": {
+      "scored_alerts": 3,
+      "accuracy": 1.0,
+      "confusion": {
+        "fuzzing": {
+          "fuzzing": 2
+        },
+        "spoofing": {
+          "spoofing": 1
+        }
+      }
+    },
+    "explained_alerts": 4,
+    "total_alerts": 4,
+    "grounding": {
+      "explained": 4,
+      "failed_responses": 0,
+      "grounded_rate": 1.0,
+      "total_claims": 7,
+      "uncited_claims": 0
+    },
+    "explainer": "mock",
+    "detector": "forest"
+  }
+]

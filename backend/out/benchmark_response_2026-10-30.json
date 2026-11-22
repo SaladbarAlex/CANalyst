@@ -1,0 +1,8 @@
+{
+  "scope": "in-process FastAPI, saved model runs, Accept-Encoding gzip",
+  "elapsed_ms": 64.85270799021237,
+  "uncompressed_bytes": 3034650,
+  "transfer_bytes": 308711,
+  "content_encoding": "gzip",
+  "dataset_groups": 8
+}

@@ -1,0 +1,46 @@
+{
+  "started": "2026-10-30T17:42:54.349Z",
+  "browser": "local Playwright with installed Google Chrome",
+  "scope": "live local UI",
+  "output": "/Users/nickdigennaro/Developer/compsci/8580/CANalyst/backend/out/browser_qa_2026-10-30/2026-10-30T17-42-54.347Z",
+  "checks": [
+    {
+      "name": "Initial synthetic capture and local explanation visible",
+      "passed": true,
+      "transport": "live API"
+    }
+  ],
+  "pageErrors": [],
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ],
+  "browserVersion": "156.0.8078.74",
+  "explainerOptions": [
+    {
+      "value": "mock",
+      "label": "Offline control",
+      "disabled": false
+    },
+    {
+      "value": "rcd:glm-5.3",
+      "label": "glm-5.3 (Clemson RCD)",
+      "disabled": false
+    },
+    {
+      "value": "rcd:gemma-4-31b",
+      "label": "gemma-4-31b (Clemson RCD)",
+      "disabled": false
+    },
+    {
+      "value": "claude",
+      "label": "claude-sonnet-4-5 (unavailable)",
+      "disabled": true
+    },
+    {
+      "value": "openai",
+      "label": "gpt-4o-mini (unavailable)",
+      "disabled": true
+    }
+  ],
+  "finished": "2026-10-30T17:43:04.150Z"
+}
