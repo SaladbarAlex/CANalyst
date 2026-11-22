@@ -18,8 +18,10 @@ comparisons. Hosted explanations require an explicit action.
 Read the [changes and remaining-work PDF](output/pdf/CANalyst_Changes_and_Remaining_Work_2026-10-30.pdf)
 for the full controls audit, results, limitations, and research priorities.
 
-Read the [November integration and agent handoff](docs/INTEGRATION_HANDOFF_2026-11-22.md)
-for the combined branch status, experiment coverage, and remaining tasks.
+The class package includes the [15-minute final presentation](output/presentation/CANalyst_Final_Presentation_15min.pptx),
+[rehearsal and demo guide](docs/FINAL_PRESENTATION_GUIDE.md), and
+[verified final results](docs/FINAL_RESULTS_2026-11-22.md).
+See the [integration handoff](docs/INTEGRATION_HANDOFF_2026-11-22.md) for verification and remaining work.
 
 ## Quick start
 

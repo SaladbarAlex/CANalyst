@@ -1,0 +1,139 @@
+{
+  "dataset": "road",
+  "corpus_sha256": "2bcace3e64304d2b8f402b124af73c7549e4b459ca83549afe158e19f5fff0d6",
+  "manifest": {
+    "corpus_sha256": "2bcace3e64304d2b8f402b124af73c7549e4b459ca83549afe158e19f5fff0d6",
+    "selector": "rcd:gemma-4-12b",
+    "request_key": "rcd:gemma-4-12b:8b72ed5f036f",
+    "prompt_sha256": "654c9d6a52d596d4aabdf77e938492cd050205701a34dafc5d46a9de7595e11b",
+    "llm_code_sha256": "7b3dabd1dee8611d6c92391078d6a64e50629cf83a8f8704d2d79489fc047514",
+    "runner_sha256": "24ecc55d78c6836a7f663a0dce16e6ec0d5cb187e319b60768965ad5b6db4a60",
+    "limit": 1,
+    "prices": null,
+    "workers": 2,
+    "timeout_s": 90.0
+  },
+  "model": "gemma-4-12b",
+  "explainer": "rcd",
+  "temperature": 0.0,
+  "git": "5b8d6c6994a857569166540c1aa69f532ce59fef",
+  "reasoning_effort": null,
+  "max_tokens": 1800,
+  "prompt_version": "can-evidence-v3",
+  "status": "complete",
+  "expected_alerts": 1,
+  "alerts": [
+    {
+      "capture": "correlated_signal_attack_1",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 9.25,
+      "end": 30.0,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 0,
+      "evidence_sha256": "d30a6d2f9f156bad2ae4fb365ee47f00ddc6549080b0c3f991985448cf8471e2",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.85,
+        "severity": "medium",
+        "affected_function": "unknown",
+        "summary": "The alert window is characterized by significant rate inflation and payload entropy drops for several CAN IDs, most notably 0x6E0, which shows a 2.02x rate increase and a significant jitter collapse.",
+        "claims": [
+          {
+            "text": "The alert window contains 51710 frames over a duration of 20.75 seconds (9.25s to 30.00s) with a detector score of 0.583 (E0).",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "CAN ID 0x6E0 (unknown function) exhibits a raw rate of 202.0 msg/s, which is 2.02x its baseline of 99.999863 msg/s (E2).",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "CAN ID 0x6E0 shows a significant jitter collapse with a jitter ratio of 4.209 and a mean gap of 4.975 ms compared to a 10.0 ms baseline (E2).",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "CAN ID 0x6E0 shows a decrease in payload entropy from 6.952 to 3.746 (E2).",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Several other IDs (0x69D, 0x4EE, 0x6D7, 0x3B9) show raw rate increases of approximately 2.0x compared to their baselines (E3, E6, E7, E5).",
+            "cites": [
+              "E3",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The peak bus rate of 2516 msg/s is only 1.05x the baseline, suggesting the activity is concentrated on specific IDs rather than a general bus flood (E1).",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the 0x6E0 and 0x69D transmissions, as they show the most significant rate inflation and timing irregularities. Verify if the observed payloads for these IDs correspond to legitimate vehicle states.",
+        "model": "gemma-4-12b",
+        "grounded": true,
+        "raw_response": "```json\n{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.85,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The alert window is characterized by significant rate inflation and payload entropy drops for several CAN IDs, most notably 0x6E0, which shows a 2.02x rate increase and a significant jitter collapse.\",\n  \"claims\": [\n    {\n      \"text\": \"The alert window contains 51710 frames over a duration of 20.75 seconds (9.25s to 30.00s) with a detector score of 0.583 (E0).\",\n      \"cites\": [\"E0\"]\n    },\n    {\n      \"text\": \"CAN ID 0x6E0 (unknown function) exhibits a raw rate of 202.0 msg/s, which is 2.02x its baseline of 99.999863 msg/s (E2).\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"CAN ID 0x6E0 shows a significant jitter collapse with a jitter ratio of 4.209 and a mean gap of 4.975 ms compared to a 10.0 ms baseline (E2).\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"CAN ID 0x6E0 shows a decrease in payload entropy from 6.952 to 3.746 (E2).\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"Several other IDs (0x69D, 0x4EE, 0x6D7, 0x3B9) show raw rate increases of approximately 2.0x compared to their baselines (E3, E6, E7, E5).\",\n      \"cites\": [\"E3\", \"E5\", \"E6\", \"E7\"]\n    },\n    {\n      \"text\": \"The peak bus rate of 2516 msg/s is only 1.05x the baseline, suggesting the activity is concentrated on specific IDs rather than a general bus flood (E1).\",\n      \"cites\": [\"E1\"]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the 0x6E0 and 0x69D transmissions, as they show the most significant rate inflation and timing irregularities. Verify if the observed payloads for these IDs correspond to legitimate vehicle states.\"\n}\n```",
+        "latency_s": 5.33,
+        "requested_model": "gemma-4-12b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3807,
+          "output_tokens": 604,
+          "reasoning_tokens": 0
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "google/gemma-4-12B-it",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    }
+  ],
+  "scoring": "Attack-label accuracy on frozen alerts; failures count as incorrect, never control predictions. Normal alerts scored separately. Development corpus, not an untouched test set.",
+  "summary": {
+    "attempts": 1,
+    "successful_responses": 1,
+    "fallbacks": 0,
+    "classification": {
+      "scored_alerts": 1,
+      "correct": 1,
+      "accuracy": 1.0,
+      "successful_only_accuracy": 1.0,
+      "confusion": {
+        "spoofing": {
+          "spoofing": 1
+        }
+      }
+    },
+    "false_alarms": 0,
+    "false_alarms_labeled_benign": 0,
+    "grounding": {
+      "rate": 1.0,
+      "meaning": "Citation validity only; semantic claim support needs review"
+    },
+    "latency_s_median": 5.33,
+    "latency_s_p95": 5.33,
+    "latency_s_max": 5.33,
+    "attempt_latency_s_p95": 5.33,
+    "input_tokens": 3807,
+    "output_tokens": 604,
+    "estimated_cost_usd": null,
+    "successful_alerts_per_second": 0.18748278673664276
+  },
+  "wall_seconds": 5.333823,
+  "updated_at": "2026-10-31T01:10:37.852595+00:00"
+}

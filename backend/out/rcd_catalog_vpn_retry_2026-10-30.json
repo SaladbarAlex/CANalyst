@@ -1,0 +1,1865 @@
+{
+  "retrieved_at": "2026-10-31T01:10:10.826535+00:00",
+  "endpoint": "https://llm.rcd.clemson.edu/v1/models?full=true",
+  "status": "complete",
+  "models": [
+    {
+      "id": "cub",
+      "owned_by": "rcd",
+      "lifecycle": "active",
+      "instances_running": 1,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "anthropic_messages",
+        "chat_completions",
+        "completions",
+        "responses"
+      ],
+      "features": [
+        "images",
+        "tools"
+      ],
+      "license": "Apache-2.0"
+    },
+    {
+      "id": "tiger",
+      "owned_by": "rcd",
+      "lifecycle": "active",
+      "instances_running": 1,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "anthropic_messages",
+        "chat_completions",
+        "completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ],
+      "license": "GLM-5.3 License"
+    },
+    {
+      "id": "gemma-4-12b",
+      "owned_by": "rcd",
+      "lifecycle": "active",
+      "instances_running": 1,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "anthropic_messages",
+        "chat_completions",
+        "completions",
+        "responses"
+      ],
+      "features": [
+        "audio",
+        "images",
+        "tools",
+        "video"
+      ],
+      "license": "Apache-2.0"
+    },
+    {
+      "id": "gemma-4-31b",
+      "owned_by": "rcd",
+      "lifecycle": "active",
+      "instances_running": 1,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "anthropic_messages",
+        "chat_completions",
+        "completions",
+        "responses"
+      ],
+      "features": [
+        "images",
+        "tools",
+        "video"
+      ],
+      "license": "Apache-2.0"
+    },
+    {
+      "id": "glm-5.3",
+      "owned_by": "rcd",
+      "lifecycle": "active",
+      "instances_running": 1,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "anthropic_messages",
+        "chat_completions",
+        "completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ],
+      "license": "GLM-5.3 License"
+    },
+    {
+      "id": "gptoss-120b",
+      "owned_by": "rcd",
+      "lifecycle": "active",
+      "instances_running": 1,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "anthropic_messages",
+        "chat_completions",
+        "completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ],
+      "license": "Apache-2.0"
+    },
+    {
+      "id": "qwen3-30b-a3b-instruct-fp8",
+      "owned_by": "rcd",
+      "lifecycle": "active",
+      "instances_running": 1,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "anthropic_messages",
+        "chat_completions",
+        "completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ],
+      "license": "Apache-2.0"
+    },
+    {
+      "id": "qwen3-embedding-4b",
+      "owned_by": "rcd",
+      "lifecycle": "active",
+      "instances_running": 1,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "embedding"
+      ],
+      "license": "Apache-2.0"
+    },
+    {
+      "id": "qwen3-omni-30b-a3b",
+      "owned_by": "rcd",
+      "lifecycle": "active",
+      "instances_running": 1,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "anthropic_messages",
+        "chat_completions",
+        "completions",
+        "responses"
+      ],
+      "features": [
+        "audio",
+        "images",
+        "tools",
+        "video"
+      ],
+      "license": "Apache-2.0"
+    },
+    {
+      "id": "qwen3-rerank-4b",
+      "owned_by": "rcd",
+      "lifecycle": "active",
+      "instances_running": 1,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "rerank"
+      ],
+      "license": "Apache-2.0"
+    },
+    {
+      "id": "qwen3.5-9b",
+      "owned_by": "rcd",
+      "lifecycle": "active",
+      "instances_running": 1,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "anthropic_messages",
+        "chat_completions",
+        "completions",
+        "responses"
+      ],
+      "features": [
+        "images",
+        "tools"
+      ],
+      "license": "Apache-2.0"
+    },
+    {
+      "id": "qwen3.8-27b-fp8",
+      "owned_by": "rcd",
+      "lifecycle": "active",
+      "instances_running": 1,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "anthropic_messages",
+        "chat_completions",
+        "completions",
+        "responses"
+      ],
+      "features": [
+        "images",
+        "tools"
+      ],
+      "license": "Apache-2.0"
+    },
+    {
+      "id": "gptoss-20b",
+      "owned_by": "rcd",
+      "lifecycle": "active",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "anthropic_messages",
+        "chat_completions",
+        "completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ],
+      "license": "Apache-2.0"
+    },
+    {
+      "id": "deepseek-v4.1-flash-1017",
+      "owned_by": "rcd",
+      "lifecycle": "experimental",
+      "instances_running": 1,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "anthropic_messages",
+        "chat_completions",
+        "completions",
+        "responses"
+      ],
+      "features": [
+        "images",
+        "tools"
+      ],
+      "license": "MIT"
+    },
+    {
+      "id": "leanstral-2603",
+      "owned_by": "rcd",
+      "lifecycle": "experimental",
+      "instances_running": 1,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "anthropic_messages",
+        "chat_completions",
+        "completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ],
+      "license": "Apache-2.0"
+    },
+    {
+      "id": "qwen3.6-27b-fp8",
+      "owned_by": "rcd",
+      "lifecycle": "experimental",
+      "instances_running": 1,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "anthropic_messages",
+        "chat_completions",
+        "completions",
+        "responses"
+      ],
+      "features": [
+        "images",
+        "tools"
+      ],
+      "license": "Apache-2.0"
+    },
+    {
+      "id": "Qwen3.6-27B-LoRA-fermipy",
+      "owned_by": "rcd",
+      "lifecycle": "experimental",
+      "features": [
+        "images",
+        "tools"
+      ]
+    },
+    {
+      "id": "qwen3.6-35b-a3b-fp8",
+      "owned_by": "rcd",
+      "lifecycle": "experimental",
+      "instances_running": 1,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "anthropic_messages",
+        "chat_completions",
+        "completions",
+        "responses"
+      ],
+      "features": [
+        "images",
+        "tools"
+      ],
+      "license": "Apache-2.0"
+    },
+    {
+      "id": "deepseek-v4-pro",
+      "owned_by": "rcd",
+      "lifecycle": "experimental",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "features": [
+        "tools"
+      ],
+      "license": "MIT"
+    },
+    {
+      "id": "qwen-agentworld-35b-a3b",
+      "owned_by": "rcd",
+      "lifecycle": "experimental",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "anthropic_messages",
+        "chat_completions",
+        "completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ],
+      "license": "Apache-2.0"
+    },
+    {
+      "id": "glm-5.1-fp8",
+      "owned_by": "rcd",
+      "lifecycle": "deprecated",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "features": [
+        "tools"
+      ],
+      "license": "MIT"
+    },
+    {
+      "id": "glm-5.2-fp8",
+      "owned_by": "rcd",
+      "lifecycle": "deprecated",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "features": [
+        "tools"
+      ],
+      "license": "MIT"
+    },
+    {
+      "id": "gpt-6.1-sol",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-6.1-terra",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-6-astra",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-6-luna",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-6-sol",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-5.6-luna",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-5.6-sol",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-5.6-terra",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-5.5",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-5.4",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-5.4-mini",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-5.4-nano",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-5.2",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-5.1",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-5",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-5-2025-08-07",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-5-latest",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-5-mini",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-5-mini-2025-08-07",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-5-nano",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-5-nano-2025-08-07",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4.5-preview",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4.5-preview-2025-02-27",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4.1",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4.1-2025-04-14",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4.1-mini",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4.1-mini-2025-04-14",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4.1-nano",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4.1-nano-2025-04-14",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4-0125-preview",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4-0314",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4-0613",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4-1106-preview",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4-1106-vision-preview",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4-32k",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4-turbo",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4-turbo-2024-04-09",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-3.5-0301",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-3.5-turbo",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-3.5-turbo-0125",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-3.5-turbo-0613",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-3.5-turbo-1106",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-3.5-turbo-16k-0613",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-3.5-turbo-instruct",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "0.5",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "moderations"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "1",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "moderations"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "1.5",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "moderations"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "10",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "moderations"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "30",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "moderations"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "60",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "moderations"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "babbage-002",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "chatgpt-4o-latest",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "codex-mini-latest",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "computer-use-preview",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "computer-use-preview-2025-03-11",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "davinci-002",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4o",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4o-2024-05-13",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4o-2024-08-06",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4o-2024-11-20",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4o-audio-preview",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4o-audio-preview-2024-10-01",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4o-audio-preview-2024-12-17",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4o-audio-preview-2025-06-03",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4o-mini",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4o-mini-2024-07-18",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4o-mini-audio-preview",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4o-mini-audio-preview-2024-12-17",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4o-mini-realtime-preview",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4o-mini-realtime-preview-2024-12-17",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4o-mini-search-preview",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4o-mini-search-preview-2025-03-11",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4o-realtime-preview",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4o-realtime-preview-2024-10-01",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4o-realtime-preview-2024-12-17",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4o-realtime-preview-2025-06-03",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4o-search-preview",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-4o-search-preview-2025-03-11",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "gpt-image-1",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "o1",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "o1-2024-12-17",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "o1-mini",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "o1-mini-2024-09-12",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "o1-preview-2024-09-12",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "o1-pro",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "o1-pro-2025-03-19",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "o3",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "o3-2025-04-16",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "o3-deep-research",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "o3-deep-research-2025-06-26",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "o3-mini",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "o3-mini-2025-01-31",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "o3-pro",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "o3-pro-2025-06-10",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "o4-mini",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "o4-mini-2025-04-16",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "o4-mini-deep-research",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "o4-mini-deep-research-2025-06-26",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "chat_completions",
+        "responses"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "omni-moderation-2024-09-26",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "moderations"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "omni-moderation-latest",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "moderations"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "text-embedding-3-large",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "embeddings"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "text-embedding-3-small",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "embeddings"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "text-embedding-ada-002",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "embeddings"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "text-moderation-007",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "moderations"
+      ],
+      "features": [
+        "tools"
+      ]
+    },
+    {
+      "id": "text-moderation-latest",
+      "owned_by": "rcd",
+      "instances_running": 0,
+      "instances_pending": 0,
+      "instances_starting": 0,
+      "endpoints": [
+        "moderations"
+      ],
+      "features": [
+        "tools"
+      ]
+    }
+  ],
+  "eligible_chat_models": [
+    "cub",
+    "tiger",
+    "gemma-4-12b",
+    "gemma-4-31b",
+    "glm-5.3",
+    "gptoss-120b",
+    "qwen3-30b-a3b-instruct-fp8",
+    "qwen3-omni-30b-a3b",
+    "qwen3.5-9b",
+    "qwen3.8-27b-fp8",
+    "deepseek-v4.1-flash-1017",
+    "leanstral-2603",
+    "qwen3.6-27b-fp8",
+    "qwen3.6-35b-a3b-fp8"
+  ]
+}

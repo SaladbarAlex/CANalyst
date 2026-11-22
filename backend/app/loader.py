@@ -128,15 +128,26 @@ _CH_TXT = re.compile(
     r"^Timestamp:\s*([\d.]+)\s+ID:\s*([0-9A-Fa-f]+)\s+\S+\s+DLC:\s*(\d+)\s*([0-9A-Fa-f ]*)$")
 
 
-def load_carhacking_txt(path: str) -> pd.DataFrame:
+def load_carhacking_txt(path: str, *, allow_truncated_tail: bool = False) -> pd.DataFrame:
     """Load the Car-Hacking attack-free capture (normal_run_data.txt).
 
     Lines look like:
         Timestamp: 1479121434.850202  ID: 0350  000  DLC: 8  05 28 84 66 6d 00 00 a2
+
+    The benchmark may exclude one unterminated timestamp-only final line
+    from the published normal capture. Record its line number in the result.
     """
     with open(path, "r", errors="replace") as fh:
-        lines = pd.Series(fh.read().splitlines())
-    m = _extract_lines(lines, _CH_TXT, "Car-Hacking")
+        text = fh.read()
+    terminated = text.endswith("\n")
+    lines = text.splitlines()
+    del text
+    truncated_tail_line = None
+    if (allow_truncated_tail and lines and not terminated
+            and re.fullmatch(r"Timestamp:[ \t]+[0-9]+(?:\.[0-9]+)?[ \t]*", lines[-1])):
+        truncated_tail_line = len(lines)
+        lines.pop()
+    m = _extract_lines(pd.Series(lines, dtype=str), _CH_TXT, "Car-Hacking")
     ts = m[0].astype(float)
     df = pd.DataFrame({
         "timestamp": (ts - ts.min()).to_numpy(),
@@ -147,6 +158,8 @@ def load_carhacking_txt(path: str) -> pd.DataFrame:
         "attack_type": "normal",
     })
     df.attrs["source"] = "car-hacking"
+    if truncated_tail_line is not None:
+        df.attrs["truncated_tail_line"] = truncated_tail_line
     return _validate_payloads(df).sort_values("timestamp", kind="stable").reset_index(drop=True)
 
 

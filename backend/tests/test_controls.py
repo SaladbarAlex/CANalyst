@@ -139,6 +139,24 @@ def test_loader_rejects_silently_dropped_candump_frames(tmp_path):
     assert loader.load_candump(str(path)).iloc[0].dlc == 0
 
 
+def test_benchmark_can_exclude_only_an_unterminated_carhacking_timestamp(tmp_path):
+    path = tmp_path / "normal_run_data.txt"
+    frame = "Timestamp: 1.0 ID: 0100 000 DLC: 1 AB\n"
+    partial = "Timestamp: 1.1   "
+    path.write_text(frame + partial)
+    with pytest.raises(ValueError, match="line 2"):
+        loader.load_auto(str(path))
+    accepted = loader.load_carhacking_txt(str(path), allow_truncated_tail=True)
+    assert accepted.timestamp.tolist() == [0.0]
+    assert accepted.attrs["truncated_tail_line"] == 2
+
+    for malformed in (frame + partial + "\n", frame + partial + "\n" + frame,
+                      frame + "Timestamp: 1.1 ID:"):
+        path.write_text(malformed)
+        with pytest.raises(ValueError, match="line 2"):
+            loader.load_carhacking_txt(str(path), allow_truncated_tail=True)
+
+
 def test_sweep_reuses_only_matching_baseline_and_input(tmp_path, monkeypatch):
     from scripts import sweep
     from types import SimpleNamespace

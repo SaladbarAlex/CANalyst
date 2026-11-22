@@ -1,0 +1,166 @@
+{
+  "dataset": "road",
+  "corpus_sha256": "2bcace3e64304d2b8f402b124af73c7549e4b459ca83549afe158e19f5fff0d6",
+  "manifest": {
+    "corpus_sha256": "2bcace3e64304d2b8f402b124af73c7549e4b459ca83549afe158e19f5fff0d6",
+    "selector": "rcd:gptoss-120b",
+    "request_key": "rcd:gptoss-120b:14e3eb8b1707",
+    "prompt_sha256": "654c9d6a52d596d4aabdf77e938492cd050205701a34dafc5d46a9de7595e11b",
+    "llm_code_sha256": "7b3dabd1dee8611d6c92391078d6a64e50629cf83a8f8704d2d79489fc047514",
+    "runner_sha256": "24ecc55d78c6836a7f663a0dce16e6ec0d5cb187e319b60768965ad5b6db4a60",
+    "limit": 1,
+    "prices": null,
+    "workers": 2,
+    "timeout_s": 90.0
+  },
+  "model": "gptoss-120b",
+  "explainer": "rcd",
+  "temperature": 0.0,
+  "git": "5b8d6c6994a857569166540c1aa69f532ce59fef",
+  "reasoning_effort": null,
+  "max_tokens": 1800,
+  "prompt_version": "can-evidence-v3",
+  "status": "complete",
+  "expected_alerts": 1,
+  "alerts": [
+    {
+      "capture": "correlated_signal_attack_1",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 9.25,
+      "end": 30.0,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 0,
+      "evidence_sha256": "d30a6d2f9f156bad2ae4fb365ee47f00ddc6549080b0c3f991985448cf8471e2",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.78,
+        "severity": "medium",
+        "affected_function": "unknown (ID 0x6E0)",
+        "summary": "A sudden ~2\u00d7 increase in traffic for ID 0x6E0 together with a sharp drop in payload entropy and faster inter\u2011arrival times suggests an attacker injecting fabricated frames on this ID.",
+        "claims": [
+          {
+            "text": "The detector highlighted strong rate inflation (0.583) and reduced payload entropy (0.49) for the window.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "ID 0x6E0 transmitted at 202\u202fmsg/s versus a baseline of ~100\u202fmsg/s, a 2.02\u00d7 increase.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The payload entropy for 0x6E0 fell from 6.952 to 3.746, indicating far less variability in the injected data.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Mean inter\u2011arrival time for 0x6E0 halved (4.975\u202fms vs 10\u202fms baseline), showing a faster transmission rate.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "No new unknown CAN IDs appear; other IDs show only sparse activity and do not drive the alert.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "Sampled frames for 0x6E0 contain low\u2011entropy payload patterns (e.g., repeated 0xFF bytes, repetitive 0x03 values).",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "The combination of elevated rate, reduced entropy, and unchanged ID set matches the signature of a spoofing (fabrication) attack.",
+            "cites": [
+              "E0",
+              "E2",
+              "E8"
+            ]
+          }
+        ],
+        "recommended_action": "Log the event and isolate the source node transmitting ID 0x6E0. Deploy a CAN\u2011IDS rule to filter or rate\u2011limit this ID, and perform a physical inspection of the bus for unauthorized transceivers. Correlate with vehicle logs to determine any functional impact.",
+        "model": "gptoss-120b",
+        "grounded": true,
+        "raw_response": "{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.78,\n  \"severity\": \"medium\",\n  \"affected_function\": \"unknown (ID 0x6E0)\",\n  \"summary\": \"A sudden ~2\u00d7 increase in traffic for ID 0x6E0 together with a sharp drop in payload entropy and faster inter\u2011arrival times suggests an attacker injecting fabricated frames on this ID.\",\n  \"claims\": [\n    {\n      \"text\": \"The detector highlighted strong rate inflation (0.583) and reduced payload entropy (0.49) for the window.\",\n      \"cites\": [\"E0\"]\n    },\n    {\n      \"text\": \"ID 0x6E0 transmitted at 202\u202fmsg/s versus a baseline of ~100\u202fmsg/s, a 2.02\u00d7 increase.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"The payload entropy for 0x6E0 fell from 6.952 to 3.746, indicating far less variability in the injected data.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"Mean inter\u2011arrival time for 0x6E0 halved (4.975\u202fms vs 10\u202fms baseline), showing a faster transmission rate.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"No new unknown CAN IDs appear; other IDs show only sparse activity and do not drive the alert.\",\n      \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]\n    },\n    {\n      \"text\": \"Sampled frames for 0x6E0 contain low\u2011entropy payload patterns (e.g., repeated 0xFF bytes, repetitive 0x03 values).\",\n      \"cites\": [\"E8\"]\n    },\n    {\n      \"text\": \"The combination of elevated rate, reduced entropy, and unchanged ID set matches the signature of a spoofing (fabrication) attack.\",\n      \"cites\": [\"E0\", \"E2\", \"E8\"]\n    }\n  ],\n  \"recommended_action\": \"Log the event and isolate the source node transmitting ID 0x6E0. Deploy a CAN\u2011IDS rule to filter or rate\u2011limit this ID, and perform a physical inspection of the bus for unauthorized transceivers. Correlate with vehicle logs to determine any functional impact.\"\n}",
+        "latency_s": 10.702,
+        "requested_model": "gptoss-120b",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3233,
+          "output_tokens": 1030
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "openai/gpt-oss-120b",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": [
+          {
+            "code": "ambiguous_hex_reference",
+            "field": "claims[5].text",
+            "token": "0xFF",
+            "canonical_id": "0x0FF",
+            "start": 78,
+            "end": 82,
+            "message": "This hexadecimal reference is absent from the supplied CAN IDs. It may be a payload value, mask, or general example; review its meaning."
+          },
+          {
+            "code": "ambiguous_hex_reference",
+            "field": "claims[5].text",
+            "token": "0x03",
+            "canonical_id": "0x003",
+            "start": 101,
+            "end": 105,
+            "message": "This hexadecimal reference is absent from the supplied CAN IDs. It may be a payload value, mask, or general example; review its meaning."
+          }
+        ]
+      },
+      "estimated_cost_usd": null
+    }
+  ],
+  "scoring": "Attack-label accuracy on frozen alerts; failures count as incorrect, never control predictions. Normal alerts scored separately. Development corpus, not an untouched test set.",
+  "summary": {
+    "attempts": 1,
+    "successful_responses": 1,
+    "fallbacks": 0,
+    "classification": {
+      "scored_alerts": 1,
+      "correct": 1,
+      "accuracy": 1.0,
+      "successful_only_accuracy": 1.0,
+      "confusion": {
+        "spoofing": {
+          "spoofing": 1
+        }
+      }
+    },
+    "false_alarms": 0,
+    "false_alarms_labeled_benign": 0,
+    "grounding": {
+      "rate": 1.0,
+      "meaning": "Citation validity only; semantic claim support needs review"
+    },
+    "latency_s_median": 10.702,
+    "latency_s_p95": 10.702,
+    "latency_s_max": 10.702,
+    "attempt_latency_s_p95": 10.702,
+    "input_tokens": 3233,
+    "output_tokens": 1030,
+    "estimated_cost_usd": null,
+    "successful_alerts_per_second": 0.09341547044264453
+  },
+  "wall_seconds": 10.704865,
+  "updated_at": "2026-10-31T01:10:39.345798+00:00"
+}

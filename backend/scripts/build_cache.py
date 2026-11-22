@@ -43,7 +43,10 @@ def build_one(dataset: str, name: str, force: bool = False) -> dict:
     if out.exists() and not force:
         return {"capture": name, "status": "cached"}
     t0 = time.perf_counter()
-    df = loader.load_auto(str(cap.path))
+    if dataset == "hcrl" and cap.kind == "ambient":
+        df = loader.load_carhacking_txt(str(cap.path), allow_truncated_tail=True)
+    else:
+        df = loader.load_auto(str(cap.path))
     info = {
         "name": name, "dataset": dataset, "kind": cap.kind, "role": cap.role,
         "attack_type": cap.attack_type, "family": cap.family,
@@ -57,6 +60,8 @@ def build_one(dataset: str, name: str, force: bool = False) -> dict:
         "attack_intervals": df.attrs.get("attack_intervals", []),
         "window_s": WINDOW_S, "stride_s": STRIDE_S,
     }
+    if "truncated_tail_line" in df.attrs:
+        info["truncated_tail_line"] = df.attrs["truncated_tail_line"]
     reference: dict[str, ws.BaselineStats] = {}
     if cap.kind == "ambient":
         assert int(df["label"].sum()) == 0, f"{name}: ambient capture has attack labels"

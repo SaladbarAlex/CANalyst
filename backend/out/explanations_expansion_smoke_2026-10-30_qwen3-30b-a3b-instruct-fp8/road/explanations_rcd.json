@@ -1,0 +1,140 @@
+{
+  "dataset": "road",
+  "corpus_sha256": "2bcace3e64304d2b8f402b124af73c7549e4b459ca83549afe158e19f5fff0d6",
+  "manifest": {
+    "corpus_sha256": "2bcace3e64304d2b8f402b124af73c7549e4b459ca83549afe158e19f5fff0d6",
+    "selector": "rcd:qwen3-30b-a3b-instruct-fp8",
+    "request_key": "rcd:qwen3-30b-a3b-instruct-fp8:188d75956878",
+    "prompt_sha256": "654c9d6a52d596d4aabdf77e938492cd050205701a34dafc5d46a9de7595e11b",
+    "llm_code_sha256": "7b3dabd1dee8611d6c92391078d6a64e50629cf83a8f8704d2d79489fc047514",
+    "runner_sha256": "24ecc55d78c6836a7f663a0dce16e6ec0d5cb187e319b60768965ad5b6db4a60",
+    "limit": 1,
+    "prices": null,
+    "workers": 2,
+    "timeout_s": 90.0
+  },
+  "model": "qwen3-30b-a3b-instruct-fp8",
+  "explainer": "rcd",
+  "temperature": 0.0,
+  "git": "5b8d6c6994a857569166540c1aa69f532ce59fef",
+  "reasoning_effort": null,
+  "max_tokens": 1800,
+  "prompt_version": "can-evidence-v3",
+  "status": "complete",
+  "expected_alerts": 1,
+  "alerts": [
+    {
+      "capture": "correlated_signal_attack_1",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 9.25,
+      "end": 30.0,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 0,
+      "evidence_sha256": "d30a6d2f9f156bad2ae4fb365ee47f00ddc6549080b0c3f991985448cf8471e2",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.95,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "A high-rate injection of known CAN IDs with significantly elevated rates and reduced payload entropy suggests spoofing. The ID 0x6E0 shows a 2.02x rate increase with collapsed timing jitter and entropy drop, while other IDs (0x075, 0x69D, 0x3B9, 0x4EE, 0x6D7) exhibit similar rate inflation and entropy reduction despite low frame counts in their statistics windows. No replay evidence is present, and the anomaly is not due to bus load or unknown IDs.",
+        "claims": [
+          {
+            "text": "The ID 0x6E0 experienced a 2.02x rate increase above baseline, with a mean inter-arrival time of 4.975 ms versus a baseline of 10.0 ms, indicating reduced timing jitter.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The payload entropy for 0x6E0 dropped from 6.952 to 3.746, indicating reduced randomness consistent with spoofing.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Other IDs (0x075, 0x69D, 0x3B9, 0x4EE, 0x6D7) showed rate inflation and entropy reduction, though with low frame counts in their statistics windows.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The detector rate ratio for 0x6E0 is 2.02x, using a guarded reference to suppress false alarms for sparse IDs.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "No evidence of replay is present, as no earlier reference sequence is supplied and the sampled frames are not a repeated sequence.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "The anomaly is not due to bus load, as peak bus load was only 1.05x baseline, and unknown IDs and missing IDs components are zero.",
+            "cites": [
+              "E0",
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Isolate and investigate the source of the elevated CAN traffic on ID 0x6E0 and other affected IDs. Validate the legitimacy of these messages using vehicle-specific signal decoding. Consider implementing message rate and entropy thresholds to detect similar spoofing attempts in the future.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"spoofing\", \"confidence\": 0.95, \"severity\": \"high\", \"affected_function\": \"unknown\", \"summary\": \"A high-rate injection of known CAN IDs with significantly elevated rates and reduced payload entropy suggests spoofing. The ID 0x6E0 shows a 2.02x rate increase with collapsed timing jitter and entropy drop, while other IDs (0x075, 0x69D, 0x3B9, 0x4EE, 0x6D7) exhibit similar rate inflation and entropy reduction despite low frame counts in their statistics windows. No replay evidence is present, and the anomaly is not due to bus load or unknown IDs.\", \"claims\": [{\"text\": \"The ID 0x6E0 experienced a 2.02x rate increase above baseline, with a mean inter-arrival time of 4.975 ms versus a baseline of 10.0 ms, indicating reduced timing jitter.\", \"cites\": [\"E2\"]}, {\"text\": \"The payload entropy for 0x6E0 dropped from 6.952 to 3.746, indicating reduced randomness consistent with spoofing.\", \"cites\": [\"E2\"]}, {\"text\": \"Other IDs (0x075, 0x69D, 0x3B9, 0x4EE, 0x6D7) showed rate inflation and entropy reduction, though with low frame counts in their statistics windows.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"The detector rate ratio for 0x6E0 is 2.02x, using a guarded reference to suppress false alarms for sparse IDs.\", \"cites\": [\"E2\"]}, {\"text\": \"No evidence of replay is present, as no earlier reference sequence is supplied and the sampled frames are not a repeated sequence.\", \"cites\": [\"E8\"]}, {\"text\": \"The anomaly is not due to bus load, as peak bus load was only 1.05x baseline, and unknown IDs and missing IDs components are zero.\", \"cites\": [\"E0\", \"E1\"]}], \"recommended_action\": \"Isolate and investigate the source of the elevated CAN traffic on ID 0x6E0 and other affected IDs. Validate the legitimacy of these messages using vehicle-specific signal decoding. Consider implementing message rate and entropy thresholds to detect similar spoofing attempts in the future.\"}",
+        "latency_s": 3.656,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3567,
+          "output_tokens": 541
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    }
+  ],
+  "scoring": "Attack-label accuracy on frozen alerts; failures count as incorrect, never control predictions. Normal alerts scored separately. Development corpus, not an untouched test set.",
+  "summary": {
+    "attempts": 1,
+    "successful_responses": 1,
+    "fallbacks": 0,
+    "classification": {
+      "scored_alerts": 1,
+      "correct": 1,
+      "accuracy": 1.0,
+      "successful_only_accuracy": 1.0,
+      "confusion": {
+        "spoofing": {
+          "spoofing": 1
+        }
+      }
+    },
+    "false_alarms": 0,
+    "false_alarms_labeled_benign": 0,
+    "grounding": {
+      "rate": 1.0,
+      "meaning": "Citation validity only; semantic claim support needs review"
+    },
+    "latency_s_median": 3.656,
+    "latency_s_p95": 3.656,
+    "latency_s_max": 3.656,
+    "attempt_latency_s_p95": 3.656,
+    "input_tokens": 3567,
+    "output_tokens": 541,
+    "estimated_cost_usd": null,
+    "successful_alerts_per_second": 0.27328810961695393
+  },
+  "wall_seconds": 3.659142,
+  "updated_at": "2026-10-31T01:10:27.870815+00:00"
+}

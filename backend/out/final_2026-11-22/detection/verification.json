@@ -1,0 +1,1926 @@
+{
+  "base_revision": "c7cebc8eb34e5c84adcf4d6b92161a32f9aeb95d",
+  "environment": {
+    "system": "Darwin",
+    "machine": "arm64",
+    "python": "3.12.14",
+    "packages": {
+      "numpy": "2.5.4",
+      "pandas": "3.0.6",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1"
+    }
+  },
+  "default_profile": "v1",
+  "cache_normalization": {
+    "dataset": "hcrl",
+    "capture": "normal_run_data",
+    "excluded_unterminated_timestamp_line": 988872,
+    "complete_frames": 988871
+  },
+  "hcrl_v1_threshold_ablation": {
+    "same_raw_measurements_reference_and_evaluation_windows": true,
+    "frozen_feature_frozen_score": [
+      8450,
+      32,
+      166,
+      13426
+    ],
+    "frozen_feature_merged_score": [
+      8450,
+      32,
+      166,
+      13426
+    ],
+    "merged_feature_frozen_score": [
+      8450,
+      1,
+      166,
+      13457
+    ],
+    "merged_feature_merged_score": [
+      8450,
+      1,
+      166,
+      13457
+    ],
+    "count_order": [
+      "tp",
+      "fp",
+      "fn",
+      "tn"
+    ],
+    "frozen_source": "17aaa82:backend/app/windowstats.py"
+  },
+  "data_metadata": {
+    "data/raw/road/road/attacks/capture_metadata.json": "5340b274dc54894950140d14b0d42ad475800454405e87198117246fe6220fe8"
+  },
+  "code_sha256": {
+    "app/windowstats.py": "9d1c6d60c12d68d2301f5d8c2ef071a58a26b57f45622615d74be3bbc450b8ba",
+    "app/datasets.py": "0c26e715650a02e913b3e9a9e01fbfaf086df981d55bc9ed805d3e938c90a3be",
+    "app/stats.py": "ce69b98c012ca0cd83d024747abedf6ed6ae6c9b9b283af92861518eb17f5402",
+    "app/features.py": "14d15d0b8629f9a58748af4470e16d7f5567ea6d26e9f3c02ea0490ccc242874",
+    "app/detector.py": "7a686b3893bbfdce87952ed53ece18ba1b1eeb4494cdf2ddc30f54d43bae182e",
+    "scripts/benchmark.py": "b562ab1295fcd45b417b1e73e403d718399e82c3d9a12dc929f7831ad3b73e01",
+    "app/cache.py": "52cca5a01c11fffc3c85363625e5a1fd2f3e27e52091e14bff471122e6dd743d",
+    "app/loader.py": "c53041a772245b536fec13d74004a51e541edfa09ce02982386a94e56cd99ee2",
+    "scripts/build_cache.py": "273fb6c86b28f4ec3c395c0547527e3e440d0b2527f3396fc6f8b6563e0baf9a",
+    "app/pipeline.py": "9d41eb81802163abb354e7cab09c69e961e518e035c2782fc1ca76ff131ef6c2"
+  },
+  "result_sha256": {
+    "out/final_2026-11-22/detection/results.json": "08a9bc75d73672fadfd9e5b28e23e94f4d1ee2180e13e9c2e9345695dde6abeb",
+    "out/final_2026-11-22/detection/results.md": "34a8d54977b526124ad918681382dccc695748c05a2014908e35536303749c10",
+    "out/benchmark/results.json": "30373bb1d829aaef17165312a2f36b847cdb0b16e304622fdaecd8da52a72c9a",
+    "out/benchmark/results.md": "bc4594089b945b521f9c055483550d6aee8db0ba1b05e617b5a0adeb0f75058f",
+    "out/detectors_2026-10-30/road_midterm/results.json": "86a856f461f1a037706fc03f5f42345b75f4da7266d079bcd3986f20ad2895ec",
+    "out/detectors_full_hcrl_2026-10-30/hcrl_full_midterm/results.json": "c66172e119d214136be5960119da1e921d4b1e39f3d7ac721649d0f096991f5e"
+  },
+  "datasets": [
+    {
+      "dataset": "road",
+      "metrics": {
+        "single": {
+          "rule@0.55": {
+            "fresh": {
+              "windows": 11552,
+              "tp": 911,
+              "fp": 1461,
+              "fn": 1043,
+              "tn": 8137,
+              "precision": 0.38406408094435074,
+              "recall": 0.4662231320368475,
+              "fpr": 0.15221921233590333,
+              "recall_by_type": {
+                "fuzzing": [
+                  12,
+                  12
+                ],
+                "masquerade": [
+                  4,
+                  971
+                ],
+                "spoofing": [
+                  895,
+                  971
+                ]
+              },
+              "ambient_fpr": {
+                "k": 1459,
+                "n": 7868,
+                "value": 0.18543467208947637
+              }
+            },
+            "frozen": {
+              "windows": 11552,
+              "tp": 911,
+              "fp": 1461,
+              "fn": 1043,
+              "tn": 8137,
+              "precision": 0.38406408094435074,
+              "recall": 0.4662231320368475,
+              "fpr": 0.15221921233590333,
+              "recall_by_type": {
+                "fuzzing": [
+                  12,
+                  12
+                ],
+                "masquerade": [
+                  4,
+                  971
+                ],
+                "spoofing": [
+                  895,
+                  971
+                ]
+              },
+              "ambient_fpr": {
+                "k": 1459,
+                "n": 7868,
+                "value": 0.18543467208947637
+              }
+            }
+          },
+          "rule_v2@0.55": {
+            "fresh": {
+              "windows": 11552,
+              "tp": 910,
+              "fp": 50,
+              "fn": 1044,
+              "tn": 9548,
+              "precision": 0.9479166666666666,
+              "recall": 0.4657113613101331,
+              "fpr": 0.005209418628881017,
+              "recall_by_type": {
+                "fuzzing": [
+                  12,
+                  12
+                ],
+                "masquerade": [
+                  3,
+                  971
+                ],
+                "spoofing": [
+                  895,
+                  971
+                ]
+              },
+              "ambient_fpr": {
+                "k": 50,
+                "n": 7868,
+                "value": 0.006354855109303508
+              }
+            },
+            "frozen": {
+              "windows": 11552,
+              "tp": 910,
+              "fp": 50,
+              "fn": 1044,
+              "tn": 9548,
+              "precision": 0.9479166666666666,
+              "recall": 0.4657113613101331,
+              "fpr": 0.005209418628881017,
+              "recall_by_type": {
+                "fuzzing": [
+                  12,
+                  12
+                ],
+                "masquerade": [
+                  3,
+                  971
+                ],
+                "spoofing": [
+                  895,
+                  971
+                ]
+              },
+              "ambient_fpr": {
+                "k": 50,
+                "n": 7868,
+                "value": 0.006354855109303508
+              }
+            }
+          }
+        },
+        "pooled": {
+          "rule@0.55": {
+            "fresh": {
+              "windows": 11552,
+              "tp": 954,
+              "fp": 453,
+              "fn": 1000,
+              "tn": 9145,
+              "precision": 0.6780383795309168,
+              "recall": 0.4882292732855681,
+              "fpr": 0.04719733277766201,
+              "recall_by_type": {
+                "fuzzing": [
+                  12,
+                  12
+                ],
+                "masquerade": [
+                  3,
+                  971
+                ],
+                "spoofing": [
+                  939,
+                  971
+                ]
+              },
+              "ambient_fpr": {
+                "k": 453,
+                "n": 7868,
+                "value": 0.05757498729028978
+              }
+            },
+            "frozen": {
+              "windows": 11552,
+              "tp": 954,
+              "fp": 453,
+              "fn": 1000,
+              "tn": 9145,
+              "precision": 0.6780383795309168,
+              "recall": 0.4882292732855681,
+              "fpr": 0.04719733277766201,
+              "recall_by_type": {
+                "fuzzing": [
+                  12,
+                  12
+                ],
+                "masquerade": [
+                  3,
+                  971
+                ],
+                "spoofing": [
+                  939,
+                  971
+                ]
+              },
+              "ambient_fpr": {
+                "k": 453,
+                "n": 7868,
+                "value": 0.05757498729028978
+              }
+            }
+          },
+          "rule_v2@0.55": {
+            "fresh": {
+              "windows": 11552,
+              "tp": 954,
+              "fp": 50,
+              "fn": 1000,
+              "tn": 9548,
+              "precision": 0.950199203187251,
+              "recall": 0.4882292732855681,
+              "fpr": 0.005209418628881017,
+              "recall_by_type": {
+                "fuzzing": [
+                  12,
+                  12
+                ],
+                "masquerade": [
+                  3,
+                  971
+                ],
+                "spoofing": [
+                  939,
+                  971
+                ]
+              },
+              "ambient_fpr": {
+                "k": 50,
+                "n": 7868,
+                "value": 0.006354855109303508
+              }
+            },
+            "frozen": {
+              "windows": 11552,
+              "tp": 954,
+              "fp": 50,
+              "fn": 1000,
+              "tn": 9548,
+              "precision": 0.950199203187251,
+              "recall": 0.4882292732855681,
+              "fpr": 0.005209418628881017,
+              "recall_by_type": {
+                "fuzzing": [
+                  12,
+                  12
+                ],
+                "masquerade": [
+                  3,
+                  971
+                ],
+                "spoofing": [
+                  939,
+                  971
+                ]
+              },
+              "ambient_fpr": {
+                "k": 50,
+                "n": 7868,
+                "value": 0.006354855109303508
+              }
+            }
+          }
+        }
+      },
+      "capture_inputs": [
+        {
+          "name": "accelerator_attack_drive_1",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "excluded",
+          "attack_type": "spoofing",
+          "family": "accelerator",
+          "source": "data/raw/road/road/attacks/accelerator_attack_drive_1.log",
+          "source_sha256": "f25657c7b5b792299d5ff0718fd74192b43ce970daa1e6b12dba0286c27a63c4",
+          "frame_count": 204760,
+          "duration_s": 86.46290993690491,
+          "unique_ids": 106,
+          "attack_labeled_frames": 0,
+          "attack_intervals": [],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 345,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "accelerator_attack_drive_2",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "excluded",
+          "attack_type": "spoofing",
+          "family": "accelerator",
+          "source": "data/raw/road/road/attacks/accelerator_attack_drive_2.log",
+          "source_sha256": "b17381d3915b7fe2518866f7b7d293abe280d503ba2fa46e8517e8a365385985",
+          "frame_count": 171936,
+          "duration_s": 72.86827492713928,
+          "unique_ids": 106,
+          "attack_labeled_frames": 0,
+          "attack_intervals": [],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 291,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "accelerator_attack_reverse_1",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "excluded",
+          "attack_type": "spoofing",
+          "family": "accelerator",
+          "source": "data/raw/road/road/attacks/accelerator_attack_reverse_1.log",
+          "source_sha256": "ad7fdd209587bfb5530d43ac12b9b7fcaa67322244755811aa9bb2be9387afe7",
+          "frame_count": 202447,
+          "duration_s": 86.13449001312256,
+          "unique_ids": 106,
+          "attack_labeled_frames": 0,
+          "attack_intervals": [],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 344,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "accelerator_attack_reverse_2",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "excluded",
+          "attack_type": "spoofing",
+          "family": "accelerator",
+          "source": "data/raw/road/road/attacks/accelerator_attack_reverse_2.log",
+          "source_sha256": "584a5c102e3cb23a306978f76aef91ea3a7bd5fd5c8ba3493d211c43914b287b",
+          "frame_count": 249413,
+          "duration_s": 105.43837189674377,
+          "unique_ids": 106,
+          "attack_labeled_frames": 0,
+          "attack_intervals": [],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 421,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "correlated_signal_attack_1",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "tuning",
+          "attack_type": "spoofing",
+          "family": "correlated_signal",
+          "source": "data/raw/road/road/attacks/correlated_signal_attack_1.log",
+          "source_sha256": "46f1c4ecd3392515f8e9b4d6ef8d7ebc5890f6695258dc45ece896ad99cd06f1",
+          "frame_count": 81262,
+          "duration_s": 33.10185205936432,
+          "unique_ids": 106,
+          "attack_labeled_frames": 4172,
+          "attack_intervals": [
+            {
+              "start": 9.191851,
+              "end": 30.050109,
+              "type": "spoofing"
+            }
+          ],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 132,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "correlated_signal_attack_1_masquerade",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "tuning",
+          "attack_type": "masquerade",
+          "family": "correlated_signal",
+          "source": "data/raw/road/road/attacks/correlated_signal_attack_1_masquerade.log",
+          "source_sha256": "6b6a32c590f766fe338d29840679b5e6aac44c9b193430cdceda06d80e2d4c7e",
+          "frame_count": 79176,
+          "duration_s": 33.10185205936432,
+          "unique_ids": 106,
+          "attack_labeled_frames": 2086,
+          "attack_intervals": [
+            {
+              "start": 9.191851,
+              "end": 30.050109,
+              "type": "masquerade"
+            }
+          ],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 132,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "correlated_signal_attack_2",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "evaluation",
+          "attack_type": "spoofing",
+          "family": "correlated_signal",
+          "source": "data/raw/road/road/attacks/correlated_signal_attack_2.log",
+          "source_sha256": "d0f659b172554110e9b67f9951ac478d67ce37481efd6a2dd9ef53b8e305e421",
+          "frame_count": 69657,
+          "duration_s": 28.226892948150635,
+          "unique_ids": 106,
+          "attack_labeled_frames": 4279,
+          "attack_intervals": [
+            {
+              "start": 6.830477,
+              "end": 28.225908,
+              "type": "spoofing"
+            }
+          ],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 112,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "correlated_signal_attack_2_masquerade",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "evaluation",
+          "attack_type": "masquerade",
+          "family": "correlated_signal",
+          "source": "data/raw/road/road/attacks/correlated_signal_attack_2_masquerade.log",
+          "source_sha256": "53cb0ba23ee6a36ae63b731d924a10402a5b28974f746af4aaa801322f3f70eb",
+          "frame_count": 67517,
+          "duration_s": 28.226892948150635,
+          "unique_ids": 106,
+          "attack_labeled_frames": 2139,
+          "attack_intervals": [
+            {
+              "start": 6.830477,
+              "end": 28.225908,
+              "type": "masquerade"
+            }
+          ],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 112,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "correlated_signal_attack_3",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "evaluation",
+          "attack_type": "spoofing",
+          "family": "correlated_signal",
+          "source": "data/raw/road/road/attacks/correlated_signal_attack_3.log",
+          "source_sha256": "ef8c97a6a4bd6eaaf14dfc6ff5908c38c02676d3a384e9bcf5b857fe71866110",
+          "frame_count": 41829,
+          "duration_s": 16.963904976844788,
+          "unique_ids": 105,
+          "attack_labeled_frames": 2529,
+          "attack_intervals": [
+            {
+              "start": 4.318482,
+              "end": 16.95706,
+              "type": "spoofing"
+            }
+          ],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 67,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "correlated_signal_attack_3_masquerade",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "evaluation",
+          "attack_type": "masquerade",
+          "family": "correlated_signal",
+          "source": "data/raw/road/road/attacks/correlated_signal_attack_3_masquerade.log",
+          "source_sha256": "e7053700495a18a67882c7666a0344bb0d43e0743744d42e3f502c7a0962e490",
+          "frame_count": 40565,
+          "duration_s": 16.963905096054077,
+          "unique_ids": 105,
+          "attack_labeled_frames": 1263,
+          "attack_intervals": [
+            {
+              "start": 4.318482,
+              "end": 16.95706,
+              "type": "masquerade"
+            }
+          ],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 67,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "fuzzing_attack_1",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "tuning",
+          "attack_type": "fuzzing",
+          "family": "fuzzing",
+          "source": "data/raw/road/road/attacks/fuzzing_attack_1.log",
+          "source_sha256": "04173a8403e8fc9996d3228889685b93f8327240fcbb84965e64ed853b3d39bc",
+          "frame_count": 49342,
+          "duration_s": 20.338948965072632,
+          "unique_ids": 662,
+          "attack_labeled_frames": 8569,
+          "attack_intervals": [
+            {
+              "start": 4.622975,
+              "end": 7.958234,
+              "type": "fuzzing"
+            }
+          ],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 81,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "fuzzing_attack_2",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "evaluation",
+          "attack_type": "fuzzing",
+          "family": "fuzzing",
+          "source": "data/raw/road/road/attacks/fuzzing_attack_2.log",
+          "source_sha256": "99f9ca4c9ebb0fbdebb1bedd3c0ff51869c9efeb8aba6dd8e8006083b7bd9e4f",
+          "frame_count": 32351,
+          "duration_s": 13.365329027175903,
+          "unique_ids": 443,
+          "attack_labeled_frames": 5097,
+          "attack_intervals": [
+            {
+              "start": 11.367798,
+              "end": 13.346811,
+              "type": "fuzzing"
+            }
+          ],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 53,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "fuzzing_attack_3",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "evaluation",
+          "attack_type": "fuzzing",
+          "family": "fuzzing",
+          "source": "data/raw/road/road/attacks/fuzzing_attack_3.log",
+          "source_sha256": "53a67622b04e0ff0c63ca10b567a8ee31f17effbb96af8d369b8bbaadc0040aa",
+          "frame_count": 13238,
+          "duration_s": 5.482836961746216,
+          "unique_ids": 217,
+          "attack_labeled_frames": 1663,
+          "attack_intervals": [
+            {
+              "start": 4.824447,
+              "end": 5.470669,
+              "type": "fuzzing"
+            }
+          ],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 21,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "max_engine_coolant_temp_attack",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "evaluation",
+          "attack_type": "spoofing",
+          "family": "max_engine_coolant_temp",
+          "source": "data/raw/road/road/attacks/max_engine_coolant_temp_attack.log",
+          "source_sha256": "0f907546586b3f9401772df4d7642e995f30e764baa86f0aec46b72598e2b541",
+          "frame_count": 61923,
+          "duration_s": 25.875547885894775,
+          "unique_ids": 106,
+          "attack_labeled_frames": 85,
+          "attack_intervals": [
+            {
+              "start": 19.979078,
+              "end": 24.170183,
+              "type": "spoofing"
+            }
+          ],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 103,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "max_engine_coolant_temp_attack_masquerade",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "evaluation",
+          "attack_type": "masquerade",
+          "family": "max_engine_coolant_temp",
+          "source": "data/raw/road/road/attacks/max_engine_coolant_temp_attack_masquerade.log",
+          "source_sha256": "6a6f3e419963b2118a9cc116021e62ad22c4138497aec0840b30f47320595c73",
+          "frame_count": 61881,
+          "duration_s": 25.875547885894775,
+          "unique_ids": 106,
+          "attack_labeled_frames": 43,
+          "attack_intervals": [
+            {
+              "start": 19.979078,
+              "end": 24.170183,
+              "type": "masquerade"
+            }
+          ],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 103,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "max_speedometer_attack_1",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "tuning",
+          "attack_type": "spoofing",
+          "family": "max_speedometer",
+          "source": "data/raw/road/road/attacks/max_speedometer_attack_1.log",
+          "source_sha256": "6d36e0985dc7e962f600f328d2056d013f759df8a4daeb2db1505274fcecaca1",
+          "frame_count": 213397,
+          "duration_s": 88.02157688140869,
+          "unique_ids": 106,
+          "attack_labeled_frames": 4887,
+          "attack_intervals": [
+            {
+              "start": 42.009204,
+              "end": 66.449011,
+              "type": "spoofing"
+            }
+          ],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 352,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "max_speedometer_attack_1_masquerade",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "tuning",
+          "attack_type": "masquerade",
+          "family": "max_speedometer",
+          "source": "data/raw/road/road/attacks/max_speedometer_attack_1_masquerade.log",
+          "source_sha256": "9905b3b4305c86f1562659e48327aa9ba471941078dcbf93aea4f001620e20a6",
+          "frame_count": 210953,
+          "duration_s": 88.02157688140869,
+          "unique_ids": 106,
+          "attack_labeled_frames": 2443,
+          "attack_intervals": [
+            {
+              "start": 42.009204,
+              "end": 66.449011,
+              "type": "masquerade"
+            }
+          ],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 352,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "max_speedometer_attack_2",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "evaluation",
+          "attack_type": "spoofing",
+          "family": "max_speedometer",
+          "source": "data/raw/road/road/attacks/max_speedometer_attack_2.log",
+          "source_sha256": "20e8877307407de41b66c84d29205e99329590cbf47c1894ffe4713bd29d68dd",
+          "frame_count": 145894,
+          "duration_s": 59.69697308540344,
+          "unique_ids": 106,
+          "attack_labeled_frames": 6279,
+          "attack_intervals": [
+            {
+              "start": 16.009225,
+              "end": 47.408246,
+              "type": "spoofing"
+            }
+          ],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 238,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "max_speedometer_attack_2_masquerade",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "evaluation",
+          "attack_type": "masquerade",
+          "family": "max_speedometer",
+          "source": "data/raw/road/road/attacks/max_speedometer_attack_2_masquerade.log",
+          "source_sha256": "e0fdb8078d2aa9ce26cae34d2dbe216aab654cb77eddfb4917b41f0f574298e3",
+          "frame_count": 142754,
+          "duration_s": 59.69697308540344,
+          "unique_ids": 106,
+          "attack_labeled_frames": 3139,
+          "attack_intervals": [
+            {
+              "start": 16.009225,
+              "end": 47.408246,
+              "type": "masquerade"
+            }
+          ],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 238,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "max_speedometer_attack_3",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "evaluation",
+          "attack_type": "spoofing",
+          "family": "max_speedometer",
+          "source": "data/raw/road/road/attacks/max_speedometer_attack_3.log",
+          "source_sha256": "dff0445e7941722227668865e10947e6c7a7bb15d1bf39b9425de4347288bd10",
+          "frame_count": 213551,
+          "duration_s": 86.76666688919067,
+          "unique_ids": 106,
+          "attack_labeled_frames": 12214,
+          "attack_intervals": [
+            {
+              "start": 9.516489,
+              "end": 70.587285,
+              "type": "spoofing"
+            }
+          ],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 347,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "max_speedometer_attack_3_masquerade",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "evaluation",
+          "attack_type": "masquerade",
+          "family": "max_speedometer",
+          "source": "data/raw/road/road/attacks/max_speedometer_attack_3_masquerade.log",
+          "source_sha256": "f8bea0945d47fcbcdea26dcab38845274a20ba17698eb417e68bb3ba57863388",
+          "frame_count": 207444,
+          "duration_s": 86.76666688919067,
+          "unique_ids": 106,
+          "attack_labeled_frames": 6107,
+          "attack_intervals": [
+            {
+              "start": 9.516489,
+              "end": 70.587285,
+              "type": "masquerade"
+            }
+          ],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 347,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "reverse_light_off_attack_1",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "tuning",
+          "attack_type": "spoofing",
+          "family": "reverse_light_off",
+          "source": "data/raw/road/road/attacks/reverse_light_off_attack_1.log",
+          "source_sha256": "0e253c574f6c8ba2a03c39f7fbbdb2c450bf2c4c072ac817f22c961d32996560",
+          "frame_count": 67902,
+          "duration_s": 28.1098690032959,
+          "unique_ids": 106,
+          "attack_labeled_frames": 1344,
+          "attack_intervals": [
+            {
+              "start": 16.627923,
+              "end": 23.347311,
+              "type": "spoofing"
+            }
+          ],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 112,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "reverse_light_off_attack_1_masquerade",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "tuning",
+          "attack_type": "masquerade",
+          "family": "reverse_light_off",
+          "source": "data/raw/road/road/attacks/reverse_light_off_attack_1_masquerade.log",
+          "source_sha256": "4cd8616e2bfd0623b99a72e63876dc966d0c3a29252a2ac4cba736d0bfb0398b",
+          "frame_count": 67230,
+          "duration_s": 28.1098690032959,
+          "unique_ids": 106,
+          "attack_labeled_frames": 672,
+          "attack_intervals": [
+            {
+              "start": 16.627923,
+              "end": 23.347311,
+              "type": "masquerade"
+            }
+          ],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 112,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "reverse_light_off_attack_2",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "evaluation",
+          "attack_type": "spoofing",
+          "family": "reverse_light_off",
+          "source": "data/raw/road/road/attacks/reverse_light_off_attack_2.log",
+          "source_sha256": "e2247262c4ff7b2d3f9b509916c8c18487a4e5dc8ee0c282ba5c7da0d321ba48",
+          "frame_count": 99628,
+          "duration_s": 40.66529607772827,
+          "unique_ids": 106,
+          "attack_labeled_frames": 4741,
+          "attack_intervals": [
+            {
+              "start": 13.168608,
+              "end": 36.87663,
+              "type": "spoofing"
+            }
+          ],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 162,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "reverse_light_off_attack_2_masquerade",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "evaluation",
+          "attack_type": "masquerade",
+          "family": "reverse_light_off",
+          "source": "data/raw/road/road/attacks/reverse_light_off_attack_2_masquerade.log",
+          "source_sha256": "e576b6a7a608afebcd6438d92ea0e9f8314936d676a4e46e7700e4cbefd17771",
+          "frame_count": 97257,
+          "duration_s": 40.66529607772827,
+          "unique_ids": 106,
+          "attack_labeled_frames": 2370,
+          "attack_intervals": [
+            {
+              "start": 13.168608,
+              "end": 36.87663,
+              "type": "masquerade"
+            }
+          ],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 162,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "reverse_light_off_attack_3",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "evaluation",
+          "attack_type": "spoofing",
+          "family": "reverse_light_off",
+          "source": "data/raw/road/road/attacks/reverse_light_off_attack_3.log",
+          "source_sha256": "b359e592f92775a9f10540b83f29a2e3de89e77b6828dee698fec3f9a8ee29ad",
+          "frame_count": 140855,
+          "duration_s": 57.8848819732666,
+          "unique_ids": 106,
+          "attack_labeled_frames": 4868,
+          "attack_intervals": [
+            {
+              "start": 16.524085,
+              "end": 40.862015,
+              "type": "spoofing"
+            }
+          ],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 231,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "reverse_light_off_attack_3_masquerade",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "evaluation",
+          "attack_type": "masquerade",
+          "family": "reverse_light_off",
+          "source": "data/raw/road/road/attacks/reverse_light_off_attack_3_masquerade.log",
+          "source_sha256": "19d02cc4c85c22aaab8e80ee700e0b139cc888c3232b2bd7c371c0877d6a9582",
+          "frame_count": 138421,
+          "duration_s": 57.8848819732666,
+          "unique_ids": 106,
+          "attack_labeled_frames": 2434,
+          "attack_intervals": [
+            {
+              "start": 16.524085,
+              "end": 40.862015,
+              "type": "masquerade"
+            }
+          ],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 231,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "reverse_light_on_attack_1",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "tuning",
+          "attack_type": "spoofing",
+          "family": "reverse_light_on",
+          "source": "data/raw/road/road/attacks/reverse_light_on_attack_1.log",
+          "source_sha256": "c5c34833e27241ced63b0b6e074d80651897a505f8f4fd6d005f859432384c82",
+          "frame_count": 133237,
+          "duration_s": 54.85020709037781,
+          "unique_ids": 106,
+          "attack_labeled_frames": 3983,
+          "attack_intervals": [
+            {
+              "start": 18.929177,
+              "end": 38.836015,
+              "type": "spoofing"
+            }
+          ],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 219,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "reverse_light_on_attack_1_masquerade",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "tuning",
+          "attack_type": "masquerade",
+          "family": "reverse_light_on",
+          "source": "data/raw/road/road/attacks/reverse_light_on_attack_1_masquerade.log",
+          "source_sha256": "9a1d6907104e4a94495552818b8d8aaf0852c8ffc58c12b2f602ee5ee1bffd1e",
+          "frame_count": 131246,
+          "duration_s": 54.85020709037781,
+          "unique_ids": 106,
+          "attack_labeled_frames": 1992,
+          "attack_intervals": [
+            {
+              "start": 18.929177,
+              "end": 38.836015,
+              "type": "masquerade"
+            }
+          ],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 219,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "reverse_light_on_attack_2",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "evaluation",
+          "attack_type": "spoofing",
+          "family": "reverse_light_on",
+          "source": "data/raw/road/road/attacks/reverse_light_on_attack_2.log",
+          "source_sha256": "1f8bb86b754127e61149cecee33ce924a66f1d7e3f7b06890715c240c6843fd3",
+          "frame_count": 175945,
+          "duration_s": 72.02090501785278,
+          "unique_ids": 106,
+          "attack_labeled_frames": 7379,
+          "attack_intervals": [
+            {
+              "start": 20.407134,
+              "end": 57.297253,
+              "type": "spoofing"
+            }
+          ],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 288,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "reverse_light_on_attack_2_masquerade",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "evaluation",
+          "attack_type": "masquerade",
+          "family": "reverse_light_on",
+          "source": "data/raw/road/road/attacks/reverse_light_on_attack_2_masquerade.log",
+          "source_sha256": "c15e11e83895deeaecf904ca0757efb0acd84053f58637d6d7029c6f58344da1",
+          "frame_count": 172256,
+          "duration_s": 72.02090501785278,
+          "unique_ids": 106,
+          "attack_labeled_frames": 3690,
+          "attack_intervals": [
+            {
+              "start": 20.407134,
+              "end": 57.297253,
+              "type": "masquerade"
+            }
+          ],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 288,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "reverse_light_on_attack_3",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "evaluation",
+          "attack_type": "spoofing",
+          "family": "reverse_light_on",
+          "source": "data/raw/road/road/attacks/reverse_light_on_attack_3.log",
+          "source_sha256": "8ad277b7b19e66a4744f8309c02e4c7a9c149ce4c3b141f557780baefe9dcb8e",
+          "frame_count": 156052,
+          "duration_s": 64.25877094268799,
+          "unique_ids": 106,
+          "attack_labeled_frames": 4701,
+          "attack_intervals": [
+            {
+              "start": 23.070278,
+              "end": 46.580686,
+              "type": "spoofing"
+            }
+          ],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 257,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "reverse_light_on_attack_3_masquerade",
+          "dataset": "road",
+          "kind": "attack",
+          "role": "evaluation",
+          "attack_type": "masquerade",
+          "family": "reverse_light_on",
+          "source": "data/raw/road/road/attacks/reverse_light_on_attack_3_masquerade.log",
+          "source_sha256": "4fbbce65cbe81c5fd762dd0440486a5dc0bb53cff3f29b408ab798236ba9c6e1",
+          "frame_count": 153701,
+          "duration_s": 64.25877094268799,
+          "unique_ids": 106,
+          "attack_labeled_frames": 2350,
+          "attack_intervals": [
+            {
+              "start": 23.070278,
+              "end": 46.580686,
+              "type": "masquerade"
+            }
+          ],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 257,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "ambient_dyno_drive_basic_long",
+          "dataset": "road",
+          "kind": "ambient",
+          "role": "tuning",
+          "attack_type": null,
+          "family": null,
+          "source": "data/raw/road/road/ambient/ambient_dyno_drive_basic_long.log",
+          "source_sha256": "38b6cf1b806dbff515ce31f287d445ae6148db513d58c79509b2311d62bcffe7",
+          "frame_count": 2991272,
+          "duration_s": 1250.9435288906097,
+          "unique_ids": 106,
+          "attack_labeled_frames": 0,
+          "attack_intervals": [],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 5003,
+          "cache_version": 2,
+          "reference_slices": [
+            "all"
+          ]
+        },
+        {
+          "name": "ambient_dyno_drive_basic_short",
+          "dataset": "road",
+          "kind": "ambient",
+          "role": "reference",
+          "attack_type": null,
+          "family": null,
+          "source": "data/raw/road/road/ambient/ambient_dyno_drive_basic_short.log",
+          "source_sha256": "c9f65e0050dfbbce10105a48d7da6aae9facb1d3d499b8968262c29cff9612bb",
+          "frame_count": 1063624,
+          "duration_s": 444.75060999393463,
+          "unique_ids": 106,
+          "attack_labeled_frames": 0,
+          "attack_intervals": [],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 1779,
+          "cache_version": 2,
+          "reference_slices": [
+            "all"
+          ]
+        },
+        {
+          "name": "ambient_dyno_drive_benign_anomaly",
+          "dataset": "road",
+          "kind": "ambient",
+          "role": "evaluation",
+          "attack_type": null,
+          "family": null,
+          "source": "data/raw/road/road/ambient/ambient_dyno_drive_benign_anomaly.log",
+          "source_sha256": "2578f97340613b93b62a222769332019e78e4014278840c5e569f6b395b4d10d",
+          "frame_count": 771519,
+          "duration_s": 456.45596396923065,
+          "unique_ids": 106,
+          "attack_labeled_frames": 0,
+          "attack_intervals": [],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 1725,
+          "cache_version": 2,
+          "reference_slices": [
+            "all"
+          ]
+        },
+        {
+          "name": "ambient_dyno_drive_extended_long",
+          "dataset": "road",
+          "kind": "ambient",
+          "role": "tuning",
+          "attack_type": null,
+          "family": null,
+          "source": "data/raw/road/road/ambient/ambient_dyno_drive_extended_long.log",
+          "source_sha256": "f06d22c9f67ce5bf42945441b9b0f48b677a4fc3004cb67147cffb1a58c72788",
+          "frame_count": 1424208,
+          "duration_s": 657.8763449192047,
+          "unique_ids": 106,
+          "attack_labeled_frames": 0,
+          "attack_intervals": [],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 2631,
+          "cache_version": 2,
+          "reference_slices": [
+            "all"
+          ]
+        },
+        {
+          "name": "ambient_dyno_drive_extended_short",
+          "dataset": "road",
+          "kind": "ambient",
+          "role": "evaluation",
+          "attack_type": null,
+          "family": null,
+          "source": "data/raw/road/road/ambient/ambient_dyno_drive_extended_short.log",
+          "source_sha256": "ddc11a7ed5dcb85b7de063c609638b123eaf59b52939da55ea8a0cbfe6fe24b0",
+          "frame_count": 790442,
+          "duration_s": 359.8099069595337,
+          "unique_ids": 106,
+          "attack_labeled_frames": 0,
+          "attack_intervals": [],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 1439,
+          "cache_version": 2,
+          "reference_slices": [
+            "all"
+          ]
+        },
+        {
+          "name": "ambient_dyno_drive_radio_infotainment",
+          "dataset": "road",
+          "kind": "ambient",
+          "role": "tuning",
+          "attack_type": null,
+          "family": null,
+          "source": "data/raw/road/road/ambient/ambient_dyno_drive_radio_infotainment.log",
+          "source_sha256": "8e06679eaa54d627a9346ab400a6fc51bba9313ed3f50883aeb4ca9ad0365ff4",
+          "frame_count": 932852,
+          "duration_s": 390.4556300640106,
+          "unique_ids": 106,
+          "attack_labeled_frames": 0,
+          "attack_intervals": [],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 1561,
+          "cache_version": 2,
+          "reference_slices": [
+            "all"
+          ]
+        },
+        {
+          "name": "ambient_dyno_drive_winter",
+          "dataset": "road",
+          "kind": "ambient",
+          "role": "evaluation",
+          "attack_type": null,
+          "family": null,
+          "source": "data/raw/road/road/ambient/ambient_dyno_drive_winter.log",
+          "source_sha256": "29868df8bdab5380ed7b643ebc4bcfdd6c11cca3486830b7b326ff4745433894",
+          "frame_count": 114148,
+          "duration_s": 47.73052203655243,
+          "unique_ids": 106,
+          "attack_labeled_frames": 0,
+          "attack_intervals": [],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 190,
+          "cache_version": 2,
+          "reference_slices": [
+            "all"
+          ]
+        },
+        {
+          "name": "ambient_dyno_exercise_all_bits",
+          "dataset": "road",
+          "kind": "ambient",
+          "role": "tuning",
+          "attack_type": null,
+          "family": null,
+          "source": "data/raw/road/road/ambient/ambient_dyno_exercise_all_bits.log",
+          "source_sha256": "710d0deff388686b05765573b36bccdbbc175fa693caafd6f18fadec0f226cd7",
+          "frame_count": 4419422,
+          "duration_s": 2172.804311990738,
+          "unique_ids": 106,
+          "attack_labeled_frames": 0,
+          "attack_intervals": [],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 8559,
+          "cache_version": 2,
+          "reference_slices": [
+            "all"
+          ]
+        },
+        {
+          "name": "ambient_dyno_idle_radio_infotainment",
+          "dataset": "road",
+          "kind": "ambient",
+          "role": "evaluation",
+          "attack_type": null,
+          "family": null,
+          "source": "data/raw/road/road/ambient/ambient_dyno_idle_radio_infotainment.log",
+          "source_sha256": "a410eb564cab15a3de84f97f4b8d84753c7fcaaed24da7eb05074ac7ef4d800c",
+          "frame_count": 1572318,
+          "duration_s": 660.7840249538422,
+          "unique_ids": 106,
+          "attack_labeled_frames": 0,
+          "attack_intervals": [],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 2635,
+          "cache_version": 2,
+          "reference_slices": [
+            "all"
+          ]
+        },
+        {
+          "name": "ambient_dyno_reverse",
+          "dataset": "road",
+          "kind": "ambient",
+          "role": "tuning",
+          "attack_type": null,
+          "family": null,
+          "source": "data/raw/road/road/ambient/ambient_dyno_reverse.log",
+          "source_sha256": "c21004cd476155bde8459d7a96b87a8eec996d7410d294f51ee66c3217a13001",
+          "frame_count": 123047,
+          "duration_s": 51.434144020080566,
+          "unique_ids": 106,
+          "attack_labeled_frames": 0,
+          "attack_intervals": [],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 205,
+          "cache_version": 2,
+          "reference_slices": [
+            "all"
+          ]
+        },
+        {
+          "name": "ambient_highway_street_driving_diagnostics",
+          "dataset": "road",
+          "kind": "ambient",
+          "role": "evaluation",
+          "attack_type": null,
+          "family": null,
+          "source": "data/raw/road/road/ambient/ambient_highway_street_driving_diagnostics.log",
+          "source_sha256": "95ccdc033aadf9156dc055f09ede2ca849b7c69a889c61c74107016c4956fa54",
+          "frame_count": 1124751,
+          "duration_s": 469.9417029619217,
+          "unique_ids": 106,
+          "attack_labeled_frames": 0,
+          "attack_intervals": [],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 1879,
+          "cache_version": 2,
+          "reference_slices": [
+            "all"
+          ]
+        },
+        {
+          "name": "ambient_highway_street_driving_long",
+          "dataset": "road",
+          "kind": "ambient",
+          "role": "tuning",
+          "attack_type": null,
+          "family": null,
+          "source": "data/raw/road/road/ambient/ambient_highway_street_driving_long.log",
+          "source_sha256": "5d4d2715dfac8089fdea4e3bfd39609f1e863336657379a705c9ce790efcfc76",
+          "frame_count": 8821916,
+          "duration_s": 3764.3175909519196,
+          "unique_ids": 106,
+          "attack_labeled_frames": 0,
+          "attack_intervals": [],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 14937,
+          "cache_version": 2,
+          "reference_slices": [
+            "all"
+          ]
+        }
+      ],
+      "october_reference_comparison": [
+        {
+          "capture": "correlated_signal_attack_1",
+          "windows": 132,
+          "source_sha256_matches": true,
+          "max_score_delta": 2.608695652173143e-05,
+          "changed_flags": 0
+        },
+        {
+          "capture": "correlated_signal_attack_1_masquerade",
+          "windows": 132,
+          "source_sha256_matches": true,
+          "max_score_delta": 5.551115123125783e-17,
+          "changed_flags": 0
+        },
+        {
+          "capture": "correlated_signal_attack_2",
+          "windows": 112,
+          "source_sha256_matches": true,
+          "max_score_delta": 4.782608695658164e-05,
+          "changed_flags": 0
+        },
+        {
+          "capture": "correlated_signal_attack_2_masquerade",
+          "windows": 112,
+          "source_sha256_matches": true,
+          "max_score_delta": 4.7826086956526126e-05,
+          "changed_flags": 0
+        },
+        {
+          "capture": "correlated_signal_attack_3",
+          "windows": 67,
+          "source_sha256_matches": true,
+          "max_score_delta": 3.0434782608779187e-05,
+          "changed_flags": 0
+        },
+        {
+          "capture": "correlated_signal_attack_3_masquerade",
+          "windows": 67,
+          "source_sha256_matches": true,
+          "max_score_delta": 5.551115123125783e-17,
+          "changed_flags": 0
+        },
+        {
+          "capture": "fuzzing_attack_1",
+          "windows": 81,
+          "source_sha256_matches": true,
+          "max_score_delta": 4.7826086956526126e-05,
+          "changed_flags": 0
+        },
+        {
+          "capture": "fuzzing_attack_2",
+          "windows": 53,
+          "source_sha256_matches": true,
+          "max_score_delta": 5.551115123125783e-17,
+          "changed_flags": 0
+        },
+        {
+          "capture": "fuzzing_attack_3",
+          "windows": 21,
+          "source_sha256_matches": true,
+          "max_score_delta": 5.551115123125783e-17,
+          "changed_flags": 0
+        },
+        {
+          "capture": "max_engine_coolant_temp_attack",
+          "windows": 103,
+          "source_sha256_matches": true,
+          "max_score_delta": 3.043478260889021e-05,
+          "changed_flags": 0
+        },
+        {
+          "capture": "max_engine_coolant_temp_attack_masquerade",
+          "windows": 103,
+          "source_sha256_matches": true,
+          "max_score_delta": 3.333333333332966e-05,
+          "changed_flags": 0
+        },
+        {
+          "capture": "max_speedometer_attack_1",
+          "windows": 352,
+          "source_sha256_matches": true,
+          "max_score_delta": 4.7826086956526126e-05,
+          "changed_flags": 0
+        },
+        {
+          "capture": "max_speedometer_attack_1_masquerade",
+          "windows": 352,
+          "source_sha256_matches": true,
+          "max_score_delta": 4.7826086956526126e-05,
+          "changed_flags": 0
+        },
+        {
+          "capture": "max_speedometer_attack_2",
+          "windows": 238,
+          "source_sha256_matches": true,
+          "max_score_delta": 2.608695652173143e-05,
+          "changed_flags": 0
+        },
+        {
+          "capture": "max_speedometer_attack_2_masquerade",
+          "windows": 238,
+          "source_sha256_matches": true,
+          "max_score_delta": 5.551115123125783e-17,
+          "changed_flags": 0
+        },
+        {
+          "capture": "max_speedometer_attack_3",
+          "windows": 347,
+          "source_sha256_matches": true,
+          "max_score_delta": 4.34782608696449e-05,
+          "changed_flags": 0
+        },
+        {
+          "capture": "max_speedometer_attack_3_masquerade",
+          "windows": 347,
+          "source_sha256_matches": true,
+          "max_score_delta": 5.551115123125783e-17,
+          "changed_flags": 0
+        },
+        {
+          "capture": "reverse_light_off_attack_1",
+          "windows": 112,
+          "source_sha256_matches": true,
+          "max_score_delta": 4.7826086956415104e-05,
+          "changed_flags": 0
+        },
+        {
+          "capture": "reverse_light_off_attack_1_masquerade",
+          "windows": 112,
+          "source_sha256_matches": true,
+          "max_score_delta": 5.551115123125783e-17,
+          "changed_flags": 0
+        },
+        {
+          "capture": "reverse_light_off_attack_2",
+          "windows": 162,
+          "source_sha256_matches": true,
+          "max_score_delta": 4.34782608696449e-05,
+          "changed_flags": 0
+        },
+        {
+          "capture": "reverse_light_off_attack_2_masquerade",
+          "windows": 162,
+          "source_sha256_matches": true,
+          "max_score_delta": 5.551115123125783e-17,
+          "changed_flags": 0
+        },
+        {
+          "capture": "reverse_light_off_attack_3",
+          "windows": 231,
+          "source_sha256_matches": true,
+          "max_score_delta": 3.47826086956049e-05,
+          "changed_flags": 0
+        },
+        {
+          "capture": "reverse_light_off_attack_3_masquerade",
+          "windows": 231,
+          "source_sha256_matches": true,
+          "max_score_delta": 5.551115123125783e-17,
+          "changed_flags": 0
+        },
+        {
+          "capture": "reverse_light_on_attack_1",
+          "windows": 219,
+          "source_sha256_matches": true,
+          "max_score_delta": 4.34782608696449e-05,
+          "changed_flags": 0
+        },
+        {
+          "capture": "reverse_light_on_attack_1_masquerade",
+          "windows": 219,
+          "source_sha256_matches": true,
+          "max_score_delta": 5.551115123125783e-17,
+          "changed_flags": 0
+        },
+        {
+          "capture": "reverse_light_on_attack_2",
+          "windows": 288,
+          "source_sha256_matches": true,
+          "max_score_delta": 4.7826086956415104e-05,
+          "changed_flags": 0
+        },
+        {
+          "capture": "reverse_light_on_attack_2_masquerade",
+          "windows": 288,
+          "source_sha256_matches": true,
+          "max_score_delta": 1.1111111111128391e-05,
+          "changed_flags": 0
+        },
+        {
+          "capture": "reverse_light_on_attack_3",
+          "windows": 257,
+          "source_sha256_matches": true,
+          "max_score_delta": 4.34782608696449e-05,
+          "changed_flags": 0
+        },
+        {
+          "capture": "reverse_light_on_attack_3_masquerade",
+          "windows": 257,
+          "source_sha256_matches": true,
+          "max_score_delta": 3.333333333332966e-05,
+          "changed_flags": 0
+        }
+      ],
+      "live_rule_parity": [
+        {
+          "capture": "correlated_signal_attack_3",
+          "windows": 67,
+          "profiles": [
+            "v1",
+            "v2"
+          ],
+          "identical_scores_and_flags": true
+        },
+        {
+          "capture": "correlated_signal_attack_3_masquerade",
+          "windows": 67,
+          "profiles": [
+            "v1",
+            "v2"
+          ],
+          "identical_scores_and_flags": true
+        },
+        {
+          "capture": "fuzzing_attack_3",
+          "windows": 21,
+          "profiles": [
+            "v1",
+            "v2"
+          ],
+          "identical_scores_and_flags": true
+        }
+      ]
+    },
+    {
+      "dataset": "hcrl",
+      "metrics": {
+        "single": {
+          "rule@0.55": {
+            "fresh": {
+              "windows": 22074,
+              "tp": 8450,
+              "fp": 1,
+              "fn": 166,
+              "tn": 13457,
+              "precision": 0.9998816708081883,
+              "recall": 0.9807335190343547,
+              "fpr": 7.43052459503641e-05,
+              "recall_by_type": {
+                "dos": [
+                  2337,
+                  2337
+                ],
+                "fuzzing": [
+                  2728,
+                  2728
+                ],
+                "spoofing": [
+                  3385,
+                  3551
+                ]
+              },
+              "ambient_fpr": {
+                "k": 0,
+                "n": 825,
+                "value": 0.0
+              }
+            },
+            "frozen": {
+              "windows": 22074,
+              "tp": 8450,
+              "fp": 32,
+              "fn": 166,
+              "tn": 13426,
+              "precision": 0.9962273048809243,
+              "recall": 0.9807335190343547,
+              "fpr": 0.002377767870411651,
+              "recall_by_type": {
+                "dos": [
+                  2337,
+                  2337
+                ],
+                "fuzzing": [
+                  2728,
+                  2728
+                ],
+                "spoofing": [
+                  3385,
+                  3551
+                ]
+              },
+              "ambient_fpr": {
+                "k": 0,
+                "n": 825,
+                "value": 0.0
+              }
+            }
+          },
+          "rule_v2@0.55": {
+            "fresh": {
+              "windows": 22074,
+              "tp": 8394,
+              "fp": 0,
+              "fn": 222,
+              "tn": 13458,
+              "precision": 1.0,
+              "recall": 0.974233983286908,
+              "fpr": 0.0,
+              "recall_by_type": {
+                "dos": [
+                  2337,
+                  2337
+                ],
+                "fuzzing": [
+                  2728,
+                  2728
+                ],
+                "spoofing": [
+                  3329,
+                  3551
+                ]
+              },
+              "ambient_fpr": {
+                "k": 0,
+                "n": 825,
+                "value": 0.0
+              }
+            },
+            "frozen": {
+              "windows": 22074,
+              "tp": 8394,
+              "fp": 0,
+              "fn": 222,
+              "tn": 13458,
+              "precision": 1.0,
+              "recall": 0.974233983286908,
+              "fpr": 0.0,
+              "recall_by_type": {
+                "dos": [
+                  2337,
+                  2337
+                ],
+                "fuzzing": [
+                  2728,
+                  2728
+                ],
+                "spoofing": [
+                  3329,
+                  3551
+                ]
+              },
+              "ambient_fpr": {
+                "k": 0,
+                "n": 825,
+                "value": 0.0
+              }
+            }
+          }
+        }
+      },
+      "capture_inputs": [
+        {
+          "name": "DoS_dataset",
+          "dataset": "hcrl",
+          "kind": "attack",
+          "role": "split",
+          "attack_type": "dos",
+          "family": "DoS",
+          "source": "data/raw/hcrl-car-hacking/DoS_dataset.csv",
+          "source_sha256": "09bf3136647b1d846d13c374f26208f06ffeba18369093fc57c8076fc56b795e",
+          "frame_count": 3665771,
+          "duration_s": 2832.6695170402527,
+          "unique_ids": 27,
+          "attack_labeled_frames": 587521,
+          "attack_intervals": [],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 11242,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "Fuzzy_dataset",
+          "dataset": "hcrl",
+          "kind": "attack",
+          "role": "split",
+          "attack_type": "fuzzing",
+          "family": "Fuzzy",
+          "source": "data/raw/hcrl-car-hacking/Fuzzy_dataset.csv",
+          "source_sha256": "a0e78dff6365a1ad3d314973f1ac5879b57f9b80c40eb07b1e3bbe4aeddaecfe",
+          "frame_count": 3838860,
+          "duration_s": 5487.1550669670105,
+          "unique_ids": 2048,
+          "attack_labeled_frames": 491847,
+          "attack_intervals": [],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 11791,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "RPM_dataset",
+          "dataset": "hcrl",
+          "kind": "attack",
+          "role": "split",
+          "attack_type": "spoofing",
+          "family": "RPM",
+          "source": "data/raw/hcrl-car-hacking/RPM_dataset.csv",
+          "source_sha256": "6718c6cb0a5fe6bdf0e966a680f1d6d7d79c063d603254d6118c16aaeb74974d",
+          "frame_count": 4621702,
+          "duration_s": 10179.013829946518,
+          "unique_ids": 26,
+          "attack_labeled_frames": 654897,
+          "attack_intervals": [],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 9738,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "gear_dataset",
+          "dataset": "hcrl",
+          "kind": "attack",
+          "role": "split",
+          "attack_type": "spoofing",
+          "family": "gear",
+          "source": "data/raw/hcrl-car-hacking/gear_dataset.csv",
+          "source_sha256": "b4eba43605fff337117ff30e13c33f63b56eec3b00927c8bccb31192df3bee23",
+          "frame_count": 4443142,
+          "duration_s": 8019.002377986908,
+          "unique_ids": 26,
+          "attack_labeled_frames": 597252,
+          "attack_intervals": [],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "windows": 9725,
+          "cache_version": 2,
+          "reference_slices": []
+        },
+        {
+          "name": "normal_run_data",
+          "dataset": "hcrl",
+          "kind": "ambient",
+          "role": "split",
+          "attack_type": null,
+          "family": null,
+          "source": "data/raw/hcrl-car-hacking/normal_run_data/normal_run_data.txt",
+          "source_sha256": "efbbafbf8e965c0d2f75eb97f1d118d0ae1c4b9f3077a6c4c000a26eb5be97ea",
+          "frame_count": 988871,
+          "duration_s": 506.43657088279724,
+          "unique_ids": 27,
+          "attack_labeled_frames": 0,
+          "attack_intervals": [],
+          "window_s": 0.5,
+          "stride_s": 0.25,
+          "truncated_tail_line": 988872,
+          "windows": 2025,
+          "cache_version": 2,
+          "reference_slices": [
+            "0-120"
+          ]
+        }
+      ],
+      "october_reference_comparison": [
+        {
+          "capture": "DoS_dataset",
+          "windows": 11242,
+          "source_sha256_matches": true,
+          "max_score_delta": 5.551115123125783e-17,
+          "changed_flags": 0
+        },
+        {
+          "capture": "Fuzzy_dataset",
+          "windows": 11791,
+          "source_sha256_matches": true,
+          "max_score_delta": 5.551115123125783e-17,
+          "changed_flags": 0
+        },
+        {
+          "capture": "RPM_dataset",
+          "windows": 9738,
+          "source_sha256_matches": true,
+          "max_score_delta": 1.1102230246251565e-16,
+          "changed_flags": 0
+        },
+        {
+          "capture": "gear_dataset",
+          "windows": 9725,
+          "source_sha256_matches": true,
+          "max_score_delta": 1.1102230246251565e-16,
+          "changed_flags": 0
+        }
+      ],
+      "live_rule_parity": []
+    }
+  ]
+}

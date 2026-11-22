@@ -1,0 +1,3499 @@
+{
+  "october_v4": {
+    "hcrl": {
+      "frozen_corpus_file": {
+        "path": "out/frozen_2026-10-30_v4/hcrl.json",
+        "sha256": "4a9da326cd167eabe55e1fd95b92a839a6db857cc2e928edb657c5ad5ab72c71"
+      },
+      "canonical_corpus_sha256": "c9f8ee0c7a9b71537a74186cfc257c75fbf3f7a555fd0742e0844ded6efd65e7",
+      "exact_targets_shared_with_november_midterm100": 69,
+      "runs": {
+        "control": {
+          "source": {
+            "path": "out/explanations_v4_2026-10-30_control_v5/hcrl/explanations_mock.json",
+            "sha256": "88658c389b47f2cb10447431d1c04d6388bf1b174e2baf0d3f6053fa36d76e23"
+          },
+          "settings": {
+            "model": "mock",
+            "prompt_version": "control-v5",
+            "temperature": null,
+            "max_tokens": null,
+            "reasoning_effort": null,
+            "status": "complete"
+          },
+          "manifest": {
+            "corpus_sha256": "c9f8ee0c7a9b71537a74186cfc257c75fbf3f7a555fd0742e0844ded6efd65e7",
+            "selector": "mock",
+            "request_key": "mock:control:e60fb900529d",
+            "prompt_sha256": "654c9d6a52d596d4aabdf77e938492cd050205701a34dafc5d46a9de7595e11b",
+            "llm_code_sha256": "923dd9817a17403116c8e678c27344d6e239b98869c1dd8eabb8a225152fc307",
+            "runner_sha256": "6b22714b3e3abf2fb0cf9d3753ef3df7ebcce48e6934673a2d35f8203f20ffdb",
+            "limit": null,
+            "prices": null,
+            "workers": 1,
+            "timeout_s": null
+          },
+          "results": {
+            "attempts": 69,
+            "successful_responses": 69,
+            "fallbacks": 0,
+            "classification": {
+              "scored_alerts": 69,
+              "correct": 69,
+              "accuracy": 1.0,
+              "successful_only_accuracy": 1.0,
+              "confusion": {
+                "dos": {
+                  "dos": 16
+                },
+                "fuzzing": {
+                  "fuzzing": 15
+                },
+                "spoofing": {
+                  "spoofing": 38
+                }
+              }
+            },
+            "false_alarms": 0,
+            "false_alarms_labeled_benign": 0,
+            "grounding": {
+              "rate": 1.0,
+              "meaning": "Citation validity only; semantic claim support needs review"
+            },
+            "latency_s_median": 1.9e-05,
+            "latency_s_p95": 2.9e-05,
+            "latency_s_max": 0.000119,
+            "attempt_latency_s_p95": 2.9e-05,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0,
+            "successful_alerts_per_second": 797.0796848647275
+          },
+          "identifier_validation": {
+            "responses_checked": 69,
+            "responses_with_warnings": 0,
+            "responses_with_absent_explicit_ids": 0,
+            "warnings_by_code": {},
+            "meaning": "Identifier membership review only; neither citation validity nor semantic entailment."
+          }
+        },
+        "glm": {
+          "source": {
+            "path": "out/explanations_v4_2026-10-30_glm_low/hcrl/explanations_rcd.json",
+            "sha256": "8a111636dde711cb90019bc5ff3e586ff9eefb80df77672ff0a64d8f0985a2e6"
+          },
+          "settings": {
+            "model": "glm-5.3",
+            "prompt_version": "can-evidence-v3",
+            "temperature": 0.0,
+            "max_tokens": 1800,
+            "reasoning_effort": "low",
+            "status": "complete"
+          },
+          "manifest": {
+            "corpus_sha256": "c9f8ee0c7a9b71537a74186cfc257c75fbf3f7a555fd0742e0844ded6efd65e7",
+            "selector": "rcd:glm-5.3",
+            "request_key": "rcd:glm-5.3:f24a8f2845bf",
+            "prompt_sha256": "654c9d6a52d596d4aabdf77e938492cd050205701a34dafc5d46a9de7595e11b",
+            "llm_code_sha256": "a18ac41dea064b46084afb3a6779c32a13fe1cc293ddd24bfb6a18395a93ab74",
+            "runner_sha256": "6b22714b3e3abf2fb0cf9d3753ef3df7ebcce48e6934673a2d35f8203f20ffdb",
+            "limit": null,
+            "prices": null,
+            "workers": 2,
+            "timeout_s": 90.0
+          },
+          "results": {
+            "attempts": 69,
+            "successful_responses": 69,
+            "fallbacks": 0,
+            "classification": {
+              "scored_alerts": 69,
+              "correct": 69,
+              "accuracy": 1.0,
+              "successful_only_accuracy": 1.0,
+              "confusion": {
+                "dos": {
+                  "dos": 16
+                },
+                "fuzzing": {
+                  "fuzzing": 15
+                },
+                "spoofing": {
+                  "spoofing": 38
+                }
+              }
+            },
+            "false_alarms": 0,
+            "false_alarms_labeled_benign": 0,
+            "grounding": {
+              "rate": 1.0,
+              "meaning": "Citation validity only; semantic claim support needs review"
+            },
+            "latency_s_median": 6.331,
+            "latency_s_p95": 8.9164,
+            "latency_s_max": 12.508,
+            "attempt_latency_s_p95": 8.9164,
+            "input_tokens": 230642,
+            "output_tokens": 46313,
+            "estimated_cost_usd": null,
+            "successful_alerts_per_second": 0.3155563519161268
+          },
+          "identifier_validation": {
+            "responses_checked": 69,
+            "responses_with_warnings": 12,
+            "responses_with_absent_explicit_ids": 1,
+            "warnings_by_code": {
+              "can_id_not_in_evidence": 1,
+              "ambiguous_hex_reference": 12
+            },
+            "meaning": "Identifier membership review only; neither citation validity nor semantic entailment."
+          }
+        },
+        "qwen": {
+          "source": {
+            "path": "out/explanations_expansion_2026-10-30_qwen3-30b-a3b-instruct-fp8/hcrl/explanations_rcd.json",
+            "sha256": "a2b3408e83eb9f5b1de147c51644d82f33dfc5aa61b2603b70403412f74c81a2"
+          },
+          "settings": {
+            "model": "qwen3-30b-a3b-instruct-fp8",
+            "prompt_version": "can-evidence-v3",
+            "temperature": 0.0,
+            "max_tokens": 1800,
+            "reasoning_effort": null,
+            "status": "complete"
+          },
+          "manifest": {
+            "corpus_sha256": "c9f8ee0c7a9b71537a74186cfc257c75fbf3f7a555fd0742e0844ded6efd65e7",
+            "selector": "rcd:qwen3-30b-a3b-instruct-fp8",
+            "request_key": "rcd:qwen3-30b-a3b-instruct-fp8:188d75956878",
+            "prompt_sha256": "654c9d6a52d596d4aabdf77e938492cd050205701a34dafc5d46a9de7595e11b",
+            "llm_code_sha256": "7b3dabd1dee8611d6c92391078d6a64e50629cf83a8f8704d2d79489fc047514",
+            "runner_sha256": "24ecc55d78c6836a7f663a0dce16e6ec0d5cb187e319b60768965ad5b6db4a60",
+            "limit": null,
+            "prices": null,
+            "workers": 2,
+            "timeout_s": 90.0
+          },
+          "results": {
+            "attempts": 69,
+            "successful_responses": 69,
+            "fallbacks": 0,
+            "classification": {
+              "scored_alerts": 69,
+              "correct": 24,
+              "accuracy": 0.34782608695652173,
+              "successful_only_accuracy": 0.34782608695652173,
+              "confusion": {
+                "dos": {
+                  "spoofing": 9,
+                  "dos": 4,
+                  "fuzzing": 3
+                },
+                "fuzzing": {
+                  "fuzzing": 15
+                },
+                "spoofing": {
+                  "fuzzing": 33,
+                  "spoofing": 5
+                }
+              }
+            },
+            "false_alarms": 0,
+            "false_alarms_labeled_benign": 0,
+            "grounding": {
+              "rate": 1.0,
+              "meaning": "Citation validity only; semantic claim support needs review"
+            },
+            "latency_s_median": 4.272,
+            "latency_s_p95": 5.4138,
+            "latency_s_max": 5.737,
+            "attempt_latency_s_p95": 5.4138,
+            "input_tokens": 259580,
+            "output_tokens": 38879,
+            "estimated_cost_usd": null,
+            "successful_alerts_per_second": 0.46076419584938405
+          },
+          "identifier_validation": {
+            "responses_checked": 69,
+            "responses_with_warnings": 0,
+            "responses_with_absent_explicit_ids": 0,
+            "warnings_by_code": {},
+            "meaning": "Identifier membership review only; neither citation validity nor semantic entailment."
+          }
+        }
+      },
+      "paired_comparisons": {
+        "glm": {
+          "source": {
+            "path": "out/comparisons_v4_2026-10-30_control_v5/hcrl.json",
+            "sha256": "0b511230f1f9c3ee6d19da9d91ae3ece04c2b5cc09796f4c3805fe2a768504ec"
+          },
+          "paired_attack_outcomes": {
+            "both_correct": 69,
+            "control_only_correct": 0,
+            "model_only_correct": 0,
+            "neither_correct": 0
+          }
+        },
+        "qwen": {
+          "source": {
+            "path": "out/final_2026-11-22/qwen_v4_hcrl.json",
+            "sha256": "45857aef30b8078897210175c78fc6da6ce6646c7b304cdc4ff0cc743690c567"
+          },
+          "paired_attack_outcomes": {
+            "both_correct": 24,
+            "control_only_correct": 45,
+            "model_only_correct": 0,
+            "neither_correct": 0
+          }
+        }
+      }
+    },
+    "road": {
+      "frozen_corpus_file": {
+        "path": "out/frozen_2026-10-30_v4/road.json",
+        "sha256": "868c68afb19cfa7fac84324392d8af17cfd8e6172bc03c6eed98058bbaea9af9"
+      },
+      "canonical_corpus_sha256": "2bcace3e64304d2b8f402b124af73c7549e4b459ca83549afe158e19f5fff0d6",
+      "exact_targets_shared_with_november_midterm100": 31,
+      "runs": {
+        "control": {
+          "source": {
+            "path": "out/explanations_v4_2026-10-30_control_v5/road/explanations_mock.json",
+            "sha256": "b89315e106555fdd7dda46c5de685abdc380296581cce97469883fb3c6e7be99"
+          },
+          "settings": {
+            "model": "mock",
+            "prompt_version": "control-v5",
+            "temperature": null,
+            "max_tokens": null,
+            "reasoning_effort": null,
+            "status": "complete"
+          },
+          "manifest": {
+            "corpus_sha256": "2bcace3e64304d2b8f402b124af73c7549e4b459ca83549afe158e19f5fff0d6",
+            "selector": "mock",
+            "request_key": "mock:control:e60fb900529d",
+            "prompt_sha256": "654c9d6a52d596d4aabdf77e938492cd050205701a34dafc5d46a9de7595e11b",
+            "llm_code_sha256": "923dd9817a17403116c8e678c27344d6e239b98869c1dd8eabb8a225152fc307",
+            "runner_sha256": "6b22714b3e3abf2fb0cf9d3753ef3df7ebcce48e6934673a2d35f8203f20ffdb",
+            "limit": null,
+            "prices": null,
+            "workers": 1,
+            "timeout_s": null
+          },
+          "results": {
+            "attempts": 31,
+            "successful_responses": 31,
+            "fallbacks": 0,
+            "classification": {
+              "scored_alerts": 20,
+              "correct": 17,
+              "accuracy": 0.85,
+              "successful_only_accuracy": 0.85,
+              "confusion": {
+                "spoofing": {
+                  "spoofing": 13
+                },
+                "masquerade": {
+                  "spoofing": 3,
+                  "masquerade": 1
+                },
+                "fuzzing": {
+                  "fuzzing": 3
+                }
+              }
+            },
+            "false_alarms": 11,
+            "false_alarms_labeled_benign": 0,
+            "grounding": {
+              "rate": 1.0,
+              "meaning": "Citation validity only; semantic claim support needs review"
+            },
+            "latency_s_median": 2e-05,
+            "latency_s_p95": 4.8e-05,
+            "latency_s_max": 0.000134,
+            "attempt_latency_s_p95": 4.8e-05,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "estimated_cost_usd": 0.0,
+            "successful_alerts_per_second": 1370.4686118479221
+          },
+          "identifier_validation": {
+            "responses_checked": 31,
+            "responses_with_warnings": 0,
+            "responses_with_absent_explicit_ids": 0,
+            "warnings_by_code": {},
+            "meaning": "Identifier membership review only; neither citation validity nor semantic entailment."
+          }
+        },
+        "glm": {
+          "source": {
+            "path": "out/explanations_v4_2026-10-30_glm_low/road/explanations_rcd.json",
+            "sha256": "43545be49d3128b0bfc3f49c0b21c979fed9e34e72b0e622bbfdaabce453722c"
+          },
+          "settings": {
+            "model": "glm-5.3",
+            "prompt_version": "can-evidence-v3",
+            "temperature": 0.0,
+            "max_tokens": 1800,
+            "reasoning_effort": "low",
+            "status": "complete"
+          },
+          "manifest": {
+            "corpus_sha256": "2bcace3e64304d2b8f402b124af73c7549e4b459ca83549afe158e19f5fff0d6",
+            "selector": "rcd:glm-5.3",
+            "request_key": "rcd:glm-5.3:f24a8f2845bf",
+            "prompt_sha256": "654c9d6a52d596d4aabdf77e938492cd050205701a34dafc5d46a9de7595e11b",
+            "llm_code_sha256": "a18ac41dea064b46084afb3a6779c32a13fe1cc293ddd24bfb6a18395a93ab74",
+            "runner_sha256": "6b22714b3e3abf2fb0cf9d3753ef3df7ebcce48e6934673a2d35f8203f20ffdb",
+            "limit": null,
+            "prices": null,
+            "workers": 2,
+            "timeout_s": 90.0
+          },
+          "results": {
+            "attempts": 31,
+            "successful_responses": 31,
+            "fallbacks": 0,
+            "classification": {
+              "scored_alerts": 20,
+              "correct": 17,
+              "accuracy": 0.85,
+              "successful_only_accuracy": 0.85,
+              "confusion": {
+                "spoofing": {
+                  "spoofing": 13
+                },
+                "masquerade": {
+                  "spoofing": 3,
+                  "masquerade": 1
+                },
+                "fuzzing": {
+                  "fuzzing": 3
+                }
+              }
+            },
+            "false_alarms": 11,
+            "false_alarms_labeled_benign": 1,
+            "grounding": {
+              "rate": 1.0,
+              "meaning": "Citation validity only; semantic claim support needs review"
+            },
+            "latency_s_median": 6.599,
+            "latency_s_p95": 9.2495,
+            "latency_s_max": 10.692,
+            "attempt_latency_s_p95": 9.2495,
+            "input_tokens": 96537,
+            "output_tokens": 21612,
+            "estimated_cost_usd": null,
+            "successful_alerts_per_second": 0.3023573436600395
+          },
+          "identifier_validation": {
+            "responses_checked": 31,
+            "responses_with_warnings": 4,
+            "responses_with_absent_explicit_ids": 1,
+            "warnings_by_code": {
+              "ambiguous_hex_reference": 7,
+              "can_id_not_in_evidence": 1
+            },
+            "meaning": "Identifier membership review only; neither citation validity nor semantic entailment."
+          }
+        },
+        "qwen": {
+          "source": {
+            "path": "out/explanations_expansion_2026-10-30_qwen3-30b-a3b-instruct-fp8/road/explanations_rcd.json",
+            "sha256": "d8557c53f9c2ccee7c716f49c90fb48f6a5188789772603f73c44054b38a9c62"
+          },
+          "settings": {
+            "model": "qwen3-30b-a3b-instruct-fp8",
+            "prompt_version": "can-evidence-v3",
+            "temperature": 0.0,
+            "max_tokens": 1800,
+            "reasoning_effort": null,
+            "status": "complete"
+          },
+          "manifest": {
+            "corpus_sha256": "2bcace3e64304d2b8f402b124af73c7549e4b459ca83549afe158e19f5fff0d6",
+            "selector": "rcd:qwen3-30b-a3b-instruct-fp8",
+            "request_key": "rcd:qwen3-30b-a3b-instruct-fp8:188d75956878",
+            "prompt_sha256": "654c9d6a52d596d4aabdf77e938492cd050205701a34dafc5d46a9de7595e11b",
+            "llm_code_sha256": "7b3dabd1dee8611d6c92391078d6a64e50629cf83a8f8704d2d79489fc047514",
+            "runner_sha256": "24ecc55d78c6836a7f663a0dce16e6ec0d5cb187e319b60768965ad5b6db4a60",
+            "limit": null,
+            "prices": null,
+            "workers": 2,
+            "timeout_s": 90.0
+          },
+          "results": {
+            "attempts": 31,
+            "successful_responses": 31,
+            "fallbacks": 0,
+            "classification": {
+              "scored_alerts": 20,
+              "correct": 14,
+              "accuracy": 0.7,
+              "successful_only_accuracy": 0.7,
+              "confusion": {
+                "spoofing": {
+                  "spoofing": 11,
+                  "fuzzing": 2
+                },
+                "masquerade": {
+                  "fuzzing": 4
+                },
+                "fuzzing": {
+                  "fuzzing": 3
+                }
+              }
+            },
+            "false_alarms": 11,
+            "false_alarms_labeled_benign": 0,
+            "grounding": {
+              "rate": 1.0,
+              "meaning": "Citation validity only; semantic claim support needs review"
+            },
+            "latency_s_median": 4.192,
+            "latency_s_p95": 5.314,
+            "latency_s_max": 5.672,
+            "attempt_latency_s_p95": 5.314,
+            "input_tokens": 106210,
+            "output_tokens": 17645,
+            "estimated_cost_usd": null,
+            "successful_alerts_per_second": 0.45640177171634344
+          },
+          "identifier_validation": {
+            "responses_checked": 31,
+            "responses_with_warnings": 2,
+            "responses_with_absent_explicit_ids": 0,
+            "warnings_by_code": {
+              "ambiguous_hex_reference": 3
+            },
+            "meaning": "Identifier membership review only; neither citation validity nor semantic entailment."
+          }
+        }
+      },
+      "paired_comparisons": {
+        "glm": {
+          "source": {
+            "path": "out/comparisons_v4_2026-10-30_control_v5/road.json",
+            "sha256": "d71c3b08ce856445ee7dbd81326fc94ff2d13db8c8f7ccfac0a4dcd4d05d0831"
+          },
+          "paired_attack_outcomes": {
+            "both_correct": 17,
+            "control_only_correct": 0,
+            "model_only_correct": 0,
+            "neither_correct": 3
+          }
+        },
+        "qwen": {
+          "source": {
+            "path": "out/final_2026-11-22/qwen_v4_road.json",
+            "sha256": "ba5d0f06e0e14980bae02e0b17329b23e3c0d573f06ec9b0a5ca7c0ede3bfb6e"
+          },
+          "paired_attack_outcomes": {
+            "both_correct": 14,
+            "control_only_correct": 3,
+            "model_only_correct": 0,
+            "neither_correct": 3
+          }
+        }
+      }
+    }
+  },
+  "october_additional_evidence": {
+    "one_alert_smoke_runs": {
+      "gemma-4-12b": {
+        "source": {
+          "path": "out/explanations_expansion_smoke_2026-10-30_gemma-4-12b/road/explanations_rcd.json",
+          "sha256": "e00037744bc38877339571c3d3e1f504db3736d2a76e092ce3e36f055ccf036c"
+        },
+        "limit": 1,
+        "corpus_sha256": "2bcace3e64304d2b8f402b124af73c7549e4b459ca83549afe158e19f5fff0d6",
+        "results": {
+          "attempts": 1,
+          "successful_responses": 1,
+          "fallbacks": 0,
+          "classification": {
+            "scored_alerts": 1,
+            "correct": 1,
+            "accuracy": 1.0,
+            "successful_only_accuracy": 1.0,
+            "confusion": {
+              "spoofing": {
+                "spoofing": 1
+              }
+            }
+          },
+          "false_alarms": 0,
+          "false_alarms_labeled_benign": 0,
+          "grounding": {
+            "rate": 1.0,
+            "meaning": "Citation validity only; semantic claim support needs review"
+          },
+          "latency_s_median": 5.33,
+          "latency_s_p95": 5.33,
+          "latency_s_max": 5.33,
+          "attempt_latency_s_p95": 5.33,
+          "input_tokens": 3807,
+          "output_tokens": 604,
+          "estimated_cost_usd": null
+        }
+      },
+      "gptoss-120b": {
+        "source": {
+          "path": "out/explanations_expansion_smoke_2026-10-30_gptoss-120b/road/explanations_rcd.json",
+          "sha256": "8b99ab43f82133c9cddd110e3bf09e1f1920118746ca6d9aa5993e710fd8d21a"
+        },
+        "limit": 1,
+        "corpus_sha256": "2bcace3e64304d2b8f402b124af73c7549e4b459ca83549afe158e19f5fff0d6",
+        "results": {
+          "attempts": 1,
+          "successful_responses": 1,
+          "fallbacks": 0,
+          "classification": {
+            "scored_alerts": 1,
+            "correct": 1,
+            "accuracy": 1.0,
+            "successful_only_accuracy": 1.0,
+            "confusion": {
+              "spoofing": {
+                "spoofing": 1
+              }
+            }
+          },
+          "false_alarms": 0,
+          "false_alarms_labeled_benign": 0,
+          "grounding": {
+            "rate": 1.0,
+            "meaning": "Citation validity only; semantic claim support needs review"
+          },
+          "latency_s_median": 10.702,
+          "latency_s_p95": 10.702,
+          "latency_s_max": 10.702,
+          "attempt_latency_s_p95": 10.702,
+          "input_tokens": 3233,
+          "output_tokens": 1030,
+          "estimated_cost_usd": null
+        }
+      },
+      "qwen3-30b-a3b-instruct-fp8": {
+        "source": {
+          "path": "out/explanations_expansion_smoke_2026-10-30_qwen3-30b-a3b-instruct-fp8/road/explanations_rcd.json",
+          "sha256": "1c263310e6f9525f4fd4d75c42794e38835489050babc1949040472aba8a4ec5"
+        },
+        "limit": 1,
+        "corpus_sha256": "2bcace3e64304d2b8f402b124af73c7549e4b459ca83549afe158e19f5fff0d6",
+        "results": {
+          "attempts": 1,
+          "successful_responses": 1,
+          "fallbacks": 0,
+          "classification": {
+            "scored_alerts": 1,
+            "correct": 1,
+            "accuracy": 1.0,
+            "successful_only_accuracy": 1.0,
+            "confusion": {
+              "spoofing": {
+                "spoofing": 1
+              }
+            }
+          },
+          "false_alarms": 0,
+          "false_alarms_labeled_benign": 0,
+          "grounding": {
+            "rate": 1.0,
+            "meaning": "Citation validity only; semantic claim support needs review"
+          },
+          "latency_s_median": 3.656,
+          "latency_s_p95": 3.656,
+          "latency_s_max": 3.656,
+          "attempt_latency_s_p95": 3.656,
+          "input_tokens": 3567,
+          "output_tokens": 541,
+          "estimated_cost_usd": null
+        }
+      }
+    },
+    "numeric_packet_validation": {
+      "source": {
+        "path": "out/semantic_audit_2026-10-30/numeric_validation_v4.json",
+        "sha256": "9e09f9ad95b655c3f3e4f022c8985e376c5871bd92252fdc0de3bde24b4aada6"
+      },
+      "checks": 7056,
+      "passed": true
+    },
+    "ai_assisted_semantic_audit": {
+      "source": {
+        "path": "out/semantic_audit_2026-10-30/claims_v4_followup.json",
+        "sha256": "036248ce19eac8afbebaba4c3e138a606d9e4787deb5757447d4f25043ac9273"
+      },
+      "claims": 18,
+      "citation_ids_resolve": 18,
+      "semantic_verdict_counts": {
+        "supported": 13,
+        "unsupported_inference": 5
+      }
+    }
+  },
+  "november": {
+    "midterm100": {
+      "manifest": {
+        "path": "out/explanations/midterm100/qwen3.6-27b-fp8_v2_alert/run.json",
+        "sha256": "45c1dbcab9ba1dd13e4d13dd5a04956c60a0445705127d3ab388c7baab03b09e"
+      },
+      "counts": {
+        "alerts": 100,
+        "by_dataset": {
+          "hcrl": {
+            "alerts": 69,
+            "attack": 69,
+            "false_alarm": 0
+          },
+          "road": {
+            "alerts": 31,
+            "attack": 20,
+            "false_alarm": 11
+          }
+        }
+      },
+      "attack_alerts_by_type": {
+        "hcrl/dos": 16,
+        "hcrl/fuzzing": 15,
+        "hcrl/spoofing": 38,
+        "road/spoofing": 13,
+        "road/masquerade": 4,
+        "road/fuzzing": 3
+      },
+      "alerts": {
+        "path": "out/alerts/midterm100/alerts.jsonl",
+        "sha256": "4dff28614660fc6d4d16b486f1b66e601428f99e7afcfb73b152617667f0c0f2"
+      },
+      "evidence_packets": {
+        "alert": {
+          "path": "out/alerts/midterm100/packets_alert.jsonl",
+          "sha256": "14c9d4aa93e7382e4fedc44918dbeb31122f120e3c2c220b9bc496a856c57d29"
+        },
+        "window": {
+          "path": "out/alerts/midterm100/packets_window.jsonl",
+          "sha256": "4ddccd2b6a45e4cf101a27bad65bb71d48a0f44604e42634b0543672f39eb98f"
+        }
+      },
+      "saved_scores": {
+        "path": "out/explanations/midterm100/scores.json",
+        "sha256": "17a2a314778574c4cee18b747dffebd7042d2fee1a96c639c1c8b5a6ba473a8e"
+      },
+      "runs": {
+        "control-v1_alert": {
+          "replies": {
+            "path": "out/explanations/midterm100/control-v1_alert/replies.jsonl",
+            "sha256": "5e169c0b48fbdf4556e655074445490162507c1fa77fbf009c697d0d7b450a88"
+          },
+          "manifest": {
+            "path": "out/explanations/midterm100/control-v1_alert/run.json",
+            "sha256": "e32164fb36d1a616221c70d0c3b0d34bba750924ceddbe86367e86688f627b19"
+          },
+          "settings": {
+            "set": "midterm100",
+            "run": "control-v1_alert",
+            "explainer": "control",
+            "model": "rule-based control (rules v1)",
+            "scope": "alert",
+            "control_rules": "v1",
+            "prompt_version": null,
+            "prompt_sha256": null,
+            "temperature": null,
+            "max_tokens": null,
+            "strict": true,
+            "fallbacks": 0,
+            "alerts": 100,
+            "errors": 0,
+            "updated_utc": "2026-11-17T22:15:55.687997+00:00"
+          },
+          "target_alerts": 100,
+          "recorded_reply_failures": [],
+          "missing_target_ids": [],
+          "scores": {
+            "alerts": 100,
+            "errors": 0,
+            "attack_alerts": 89,
+            "false_alarms": 11,
+            "accuracy": {
+              "all": {
+                "k": 70,
+                "n": 89,
+                "value": 0.7865168539325843,
+                "lo": 0.690471517751574,
+                "hi": 0.8588520349782139
+              },
+              "hcrl": {
+                "k": 53,
+                "n": 69,
+                "value": 0.7681159420289855,
+                "lo": 0.6560315295999074,
+                "hi": 0.8519209551392967
+              },
+              "road": {
+                "k": 17,
+                "n": 20,
+                "value": 0.85,
+                "lo": 0.6395811352592431,
+                "hi": 0.9476312541037835
+              }
+            },
+            "accuracy_by_type": {
+              "hcrl/dos": {
+                "k": 0,
+                "n": 16,
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.1936076805344365
+              },
+              "hcrl/fuzzing": {
+                "k": 15,
+                "n": 15,
+                "value": 1.0,
+                "lo": 0.7961166989641515,
+                "hi": 1.0
+              },
+              "hcrl/spoofing": {
+                "k": 38,
+                "n": 38,
+                "value": 1.0,
+                "lo": 0.908190131774416,
+                "hi": 0.9999999999999999
+              },
+              "road/fuzzing": {
+                "k": 3,
+                "n": 3,
+                "value": 1.0,
+                "lo": 0.4385029682449546,
+                "hi": 1.0
+              },
+              "road/masquerade": {
+                "k": 1,
+                "n": 4,
+                "value": 0.25,
+                "lo": 0.04558726080970055,
+                "hi": 0.6993581574175981
+              },
+              "road/spoofing": {
+                "k": 13,
+                "n": 13,
+                "value": 1.0,
+                "lo": 0.7719046276458016,
+                "hi": 0.9999999999999999
+              }
+            },
+            "confusion": {
+              "hcrl/dos": {
+                "unknown": 16
+              },
+              "hcrl/fuzzing": {
+                "fuzzing": 15
+              },
+              "hcrl/spoofing": {
+                "spoofing": 38
+              },
+              "road/spoofing": {
+                "spoofing": 13
+              },
+              "road/masquerade": {
+                "spoofing": 3,
+                "masquerade": 1
+              },
+              "road/fuzzing": {
+                "fuzzing": 3
+              }
+            },
+            "false_alarm_labels": {
+              "spoofing": 4,
+              "masquerade": 4,
+              "unknown": 3
+            },
+            "false_alarms_called_benign": {
+              "k": 0,
+              "n": 11,
+              "value": 0.0,
+              "lo": 0.0,
+              "hi": 0.2588329669680317
+            },
+            "claims": 176,
+            "claims_with_valid_citations": {
+              "k": 176,
+              "n": 176,
+              "value": 1.0,
+              "lo": 0.9786397483323124,
+              "hi": 1.0
+            },
+            "replies_fully_grounded": {
+              "k": 100,
+              "n": 100,
+              "value": 1.0,
+              "lo": 0.9630065017930143,
+              "hi": 1.0
+            },
+            "latency_s": {
+              "median": 0.0,
+              "max": 0.0
+            },
+            "completion_tokens": null,
+            "no_answer": 0
+          }
+        },
+        "control-v1_window": {
+          "replies": {
+            "path": "out/explanations/midterm100/control-v1_window/replies.jsonl",
+            "sha256": "213ee5b404f9b9b87692365a8a21840d354bd302c77dd7081cd9726ea91fb84d"
+          },
+          "manifest": {
+            "path": "out/explanations/midterm100/control-v1_window/run.json",
+            "sha256": "fb822d1ce2c35a99ce2318c1a7aefd2a47516044b60d0dd9b89f9c88dfdba590"
+          },
+          "settings": {
+            "set": "midterm100",
+            "run": "control-v1_window",
+            "explainer": "control",
+            "model": "rule-based control (rules v1)",
+            "scope": "window",
+            "control_rules": "v1",
+            "prompt_version": null,
+            "prompt_sha256": null,
+            "temperature": null,
+            "max_tokens": null,
+            "strict": true,
+            "fallbacks": 0,
+            "alerts": 100,
+            "errors": 0,
+            "updated_utc": "2026-11-17T22:15:57.392793+00:00"
+          },
+          "target_alerts": 100,
+          "recorded_reply_failures": [],
+          "missing_target_ids": [],
+          "scores": {
+            "alerts": 100,
+            "errors": 0,
+            "attack_alerts": 89,
+            "false_alarms": 11,
+            "accuracy": {
+              "all": {
+                "k": 70,
+                "n": 89,
+                "value": 0.7865168539325843,
+                "lo": 0.690471517751574,
+                "hi": 0.8588520349782139
+              },
+              "hcrl": {
+                "k": 53,
+                "n": 69,
+                "value": 0.7681159420289855,
+                "lo": 0.6560315295999074,
+                "hi": 0.8519209551392967
+              },
+              "road": {
+                "k": 17,
+                "n": 20,
+                "value": 0.85,
+                "lo": 0.6395811352592431,
+                "hi": 0.9476312541037835
+              }
+            },
+            "accuracy_by_type": {
+              "hcrl/dos": {
+                "k": 0,
+                "n": 16,
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.1936076805344365
+              },
+              "hcrl/fuzzing": {
+                "k": 15,
+                "n": 15,
+                "value": 1.0,
+                "lo": 0.7961166989641515,
+                "hi": 1.0
+              },
+              "hcrl/spoofing": {
+                "k": 38,
+                "n": 38,
+                "value": 1.0,
+                "lo": 0.908190131774416,
+                "hi": 0.9999999999999999
+              },
+              "road/fuzzing": {
+                "k": 3,
+                "n": 3,
+                "value": 1.0,
+                "lo": 0.4385029682449546,
+                "hi": 1.0
+              },
+              "road/masquerade": {
+                "k": 1,
+                "n": 4,
+                "value": 0.25,
+                "lo": 0.04558726080970055,
+                "hi": 0.6993581574175981
+              },
+              "road/spoofing": {
+                "k": 13,
+                "n": 13,
+                "value": 1.0,
+                "lo": 0.7719046276458016,
+                "hi": 0.9999999999999999
+              }
+            },
+            "confusion": {
+              "hcrl/dos": {
+                "unknown": 16
+              },
+              "hcrl/fuzzing": {
+                "fuzzing": 15
+              },
+              "hcrl/spoofing": {
+                "spoofing": 38
+              },
+              "road/spoofing": {
+                "spoofing": 13
+              },
+              "road/masquerade": {
+                "spoofing": 3,
+                "masquerade": 1
+              },
+              "road/fuzzing": {
+                "fuzzing": 3
+              }
+            },
+            "false_alarm_labels": {
+              "spoofing": 7,
+              "masquerade": 2,
+              "unknown": 2
+            },
+            "false_alarms_called_benign": {
+              "k": 0,
+              "n": 11,
+              "value": 0.0,
+              "lo": 0.0,
+              "hi": 0.2588329669680317
+            },
+            "claims": 179,
+            "claims_with_valid_citations": {
+              "k": 179,
+              "n": 179,
+              "value": 1.0,
+              "lo": 0.978990220021919,
+              "hi": 0.9999999999999999
+            },
+            "replies_fully_grounded": {
+              "k": 100,
+              "n": 100,
+              "value": 1.0,
+              "lo": 0.9630065017930143,
+              "hi": 1.0
+            },
+            "latency_s": {
+              "median": 0.0,
+              "max": 0.0
+            },
+            "completion_tokens": null,
+            "no_answer": 0
+          }
+        },
+        "control-v2_alert": {
+          "replies": {
+            "path": "out/explanations/midterm100/control-v2_alert/replies.jsonl",
+            "sha256": "962d8ca1631ddb38dcfb6481476891a83a09c98c6a382e23de0261d839f8e267"
+          },
+          "manifest": {
+            "path": "out/explanations/midterm100/control-v2_alert/run.json",
+            "sha256": "ca8d8ad8d098c181c43209515a741a6d1d02a75f3de37d2d61bb4a5412f6a6d5"
+          },
+          "settings": {
+            "set": "midterm100",
+            "run": "control-v2_alert",
+            "explainer": "control",
+            "model": "rule-based control (rules v2)",
+            "scope": "alert",
+            "control_rules": "v2",
+            "prompt_version": null,
+            "prompt_sha256": null,
+            "temperature": null,
+            "max_tokens": null,
+            "strict": true,
+            "fallbacks": 0,
+            "alerts": 100,
+            "errors": 0,
+            "updated_utc": "2026-11-17T22:15:56.094970+00:00"
+          },
+          "target_alerts": 100,
+          "recorded_reply_failures": [],
+          "missing_target_ids": [],
+          "scores": {
+            "alerts": 100,
+            "errors": 0,
+            "attack_alerts": 89,
+            "false_alarms": 11,
+            "accuracy": {
+              "all": {
+                "k": 85,
+                "n": 89,
+                "value": 0.9550561797752809,
+                "lo": 0.8900695404028713,
+                "hi": 0.982385513932674
+              },
+              "hcrl": {
+                "k": 69,
+                "n": 69,
+                "value": 1.0,
+                "lo": 0.9472627418109483,
+                "hi": 1.0
+              },
+              "road": {
+                "k": 16,
+                "n": 20,
+                "value": 0.8,
+                "lo": 0.5839825677481064,
+                "hi": 0.919342337420202
+              }
+            },
+            "accuracy_by_type": {
+              "hcrl/dos": {
+                "k": 16,
+                "n": 16,
+                "value": 1.0,
+                "lo": 0.8063923194655637,
+                "hi": 1.0
+              },
+              "hcrl/fuzzing": {
+                "k": 15,
+                "n": 15,
+                "value": 1.0,
+                "lo": 0.7961166989641515,
+                "hi": 1.0
+              },
+              "hcrl/spoofing": {
+                "k": 38,
+                "n": 38,
+                "value": 1.0,
+                "lo": 0.908190131774416,
+                "hi": 0.9999999999999999
+              },
+              "road/fuzzing": {
+                "k": 3,
+                "n": 3,
+                "value": 1.0,
+                "lo": 0.4385029682449546,
+                "hi": 1.0
+              },
+              "road/masquerade": {
+                "k": 0,
+                "n": 4,
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.4898908364545973
+              },
+              "road/spoofing": {
+                "k": 13,
+                "n": 13,
+                "value": 1.0,
+                "lo": 0.7719046276458016,
+                "hi": 0.9999999999999999
+              }
+            },
+            "confusion": {
+              "hcrl/dos": {
+                "dos": 16
+              },
+              "hcrl/fuzzing": {
+                "fuzzing": 15
+              },
+              "hcrl/spoofing": {
+                "spoofing": 38
+              },
+              "road/spoofing": {
+                "spoofing": 13
+              },
+              "road/masquerade": {
+                "spoofing": 3,
+                "benign": 1
+              },
+              "road/fuzzing": {
+                "fuzzing": 3
+              }
+            },
+            "false_alarm_labels": {
+              "spoofing": 4,
+              "benign": 5,
+              "unknown": 2
+            },
+            "false_alarms_called_benign": {
+              "k": 5,
+              "n": 11,
+              "value": 0.45454545454545453,
+              "lo": 0.21271271622459764,
+              "hi": 0.719908462590678
+            },
+            "claims": 198,
+            "claims_with_valid_citations": {
+              "k": 198,
+              "n": 198,
+              "value": 1.0,
+              "lo": 0.9809679396733518,
+              "hi": 1.0
+            },
+            "replies_fully_grounded": {
+              "k": 100,
+              "n": 100,
+              "value": 1.0,
+              "lo": 0.9630065017930143,
+              "hi": 1.0
+            },
+            "latency_s": {
+              "median": 0.0,
+              "max": 0.0
+            },
+            "completion_tokens": null,
+            "no_answer": 0
+          }
+        },
+        "gemma-4-31b_v2-dosv1_alert": {
+          "replies": {
+            "path": "out/explanations/midterm100/gemma-4-31b_v2-dosv1_alert/replies.jsonl",
+            "sha256": "fab318e1788669017e6e1f38965e7da476add1815638aa2d6d2853f2a769ad7a"
+          },
+          "manifest": {
+            "path": "out/explanations/midterm100/gemma-4-31b_v2-dosv1_alert/run.json",
+            "sha256": "02ef5105da5be4bee19c5488ddf75cad4d38f2e3269f5dbcc2d5946858f5ddd4"
+          },
+          "settings": {
+            "set": "midterm100",
+            "run": "gemma-4-31b_v2-dosv1_alert",
+            "explainer": "chat",
+            "model": "gemma-4-31b",
+            "scope": "alert",
+            "control_rules": null,
+            "prompt_version": "v2-dosv1",
+            "prompt_sha256": "bc82eb03785ea96f6cbbcb7528e2d6863e2a171c015896c2ea7b2a357aadcb52",
+            "temperature": 0,
+            "max_tokens": 16000,
+            "strict": true,
+            "fallbacks": 0,
+            "alerts": 31,
+            "errors": 0,
+            "updated_utc": "2026-11-17T23:04:33.065228+00:00"
+          },
+          "target_alerts": 31,
+          "recorded_reply_failures": [],
+          "missing_target_ids": [],
+          "scores": {
+            "alerts": 31,
+            "errors": 0,
+            "attack_alerts": 20,
+            "false_alarms": 11,
+            "accuracy": {
+              "all": {
+                "k": 16,
+                "n": 20,
+                "value": 0.8,
+                "lo": 0.5839825677481064,
+                "hi": 0.919342337420202
+              },
+              "road": {
+                "k": 16,
+                "n": 20,
+                "value": 0.8,
+                "lo": 0.5839825677481064,
+                "hi": 0.919342337420202
+              }
+            },
+            "accuracy_by_type": {
+              "road/fuzzing": {
+                "k": 3,
+                "n": 3,
+                "value": 1.0,
+                "lo": 0.4385029682449546,
+                "hi": 1.0
+              },
+              "road/masquerade": {
+                "k": 0,
+                "n": 4,
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.4898908364545973
+              },
+              "road/spoofing": {
+                "k": 13,
+                "n": 13,
+                "value": 1.0,
+                "lo": 0.7719046276458016,
+                "hi": 0.9999999999999999
+              }
+            },
+            "confusion": {
+              "road/spoofing": {
+                "spoofing": 13
+              },
+              "road/masquerade": {
+                "spoofing": 3,
+                "benign": 1
+              },
+              "road/fuzzing": {
+                "fuzzing": 3
+              }
+            },
+            "false_alarm_labels": {
+              "spoofing": 4,
+              "benign": 7
+            },
+            "false_alarms_called_benign": {
+              "k": 7,
+              "n": 11,
+              "value": 0.6363636363636364,
+              "lo": 0.35380117450784887,
+              "hi": 0.8483352890463243
+            },
+            "claims": 172,
+            "claims_with_valid_citations": {
+              "k": 172,
+              "n": 172,
+              "value": 1.0,
+              "lo": 0.9781538503692052,
+              "hi": 1.0
+            },
+            "replies_fully_grounded": {
+              "k": 31,
+              "n": 31,
+              "value": 1.0,
+              "lo": 0.889744604539564,
+              "hi": 1.0
+            },
+            "latency_s": {
+              "median": 20.177,
+              "max": 39.895
+            },
+            "completion_tokens": {
+              "median": 550,
+              "total": 17038
+            },
+            "no_answer": 0
+          }
+        },
+        "gemma-4-31b_v2_alert": {
+          "replies": {
+            "path": "out/explanations/midterm100/gemma-4-31b_v2_alert/replies.jsonl",
+            "sha256": "01f714f01547d2a7443a9ce8c320635076aa999facb25326142f19c24ec5580f"
+          },
+          "manifest": {
+            "path": "out/explanations/midterm100/gemma-4-31b_v2_alert/run.json",
+            "sha256": "a1fbf8ed48ecbf32bfdffa4b85fdb910e5dd683a4dc06ead5864e767dc57a700"
+          },
+          "settings": {
+            "set": "midterm100",
+            "run": "gemma-4-31b_v2_alert",
+            "explainer": "chat",
+            "model": "gemma-4-31b",
+            "scope": "alert",
+            "control_rules": null,
+            "prompt_version": "v2",
+            "prompt_sha256": "c72ef008aaf232e51b0a37ecf779552b91de8e0e626d4776177df63b19dd3be6",
+            "temperature": 0,
+            "max_tokens": 16000,
+            "strict": true,
+            "fallbacks": 0,
+            "alerts": 100,
+            "errors": 0,
+            "updated_utc": "2026-11-17T16:19:24.692595+00:00"
+          },
+          "target_alerts": 100,
+          "recorded_reply_failures": [],
+          "missing_target_ids": [],
+          "scores": {
+            "alerts": 100,
+            "errors": 0,
+            "attack_alerts": 89,
+            "false_alarms": 11,
+            "accuracy": {
+              "all": {
+                "k": 82,
+                "n": 89,
+                "value": 0.9213483146067416,
+                "lo": 0.846448576179568,
+                "hi": 0.961380177834826
+              },
+              "hcrl": {
+                "k": 66,
+                "n": 69,
+                "value": 0.9565217391304348,
+                "lo": 0.8797879725062087,
+                "hi": 0.9851040961037877
+              },
+              "road": {
+                "k": 16,
+                "n": 20,
+                "value": 0.8,
+                "lo": 0.5839825677481064,
+                "hi": 0.919342337420202
+              }
+            },
+            "accuracy_by_type": {
+              "hcrl/dos": {
+                "k": 16,
+                "n": 16,
+                "value": 1.0,
+                "lo": 0.8063923194655637,
+                "hi": 1.0
+              },
+              "hcrl/fuzzing": {
+                "k": 15,
+                "n": 15,
+                "value": 1.0,
+                "lo": 0.7961166989641515,
+                "hi": 1.0
+              },
+              "hcrl/spoofing": {
+                "k": 35,
+                "n": 38,
+                "value": 0.9210526315789473,
+                "lo": 0.7920062854222853,
+                "hi": 0.9727854044930122
+              },
+              "road/fuzzing": {
+                "k": 3,
+                "n": 3,
+                "value": 1.0,
+                "lo": 0.4385029682449546,
+                "hi": 1.0
+              },
+              "road/masquerade": {
+                "k": 0,
+                "n": 4,
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.4898908364545973
+              },
+              "road/spoofing": {
+                "k": 13,
+                "n": 13,
+                "value": 1.0,
+                "lo": 0.7719046276458016,
+                "hi": 0.9999999999999999
+              }
+            },
+            "confusion": {
+              "hcrl/dos": {
+                "dos": 16
+              },
+              "hcrl/fuzzing": {
+                "fuzzing": 15
+              },
+              "hcrl/spoofing": {
+                "spoofing": 35,
+                "dos": 3
+              },
+              "road/spoofing": {
+                "spoofing": 13
+              },
+              "road/masquerade": {
+                "spoofing": 3,
+                "benign": 1
+              },
+              "road/fuzzing": {
+                "fuzzing": 3
+              }
+            },
+            "false_alarm_labels": {
+              "spoofing": 4,
+              "benign": 7
+            },
+            "false_alarms_called_benign": {
+              "k": 7,
+              "n": 11,
+              "value": 0.6363636363636364,
+              "lo": 0.35380117450784887,
+              "hi": 0.8483352890463243
+            },
+            "claims": 539,
+            "claims_with_valid_citations": {
+              "k": 538,
+              "n": 539,
+              "value": 0.9981447124304267,
+              "lo": 0.9895666859822151,
+              "hi": 0.9996724210797537
+            },
+            "replies_fully_grounded": {
+              "k": 99,
+              "n": 100,
+              "value": 0.99,
+              "lo": 0.9455138038212946,
+              "hi": 0.9982325679358593
+            },
+            "latency_s": {
+              "median": 15.375,
+              "max": 20.332
+            },
+            "completion_tokens": {
+              "median": 539.0,
+              "total": 54501
+            },
+            "no_answer": 0
+          }
+        },
+        "glm-5.3_v2-dosv1_alert": {
+          "replies": {
+            "path": "out/explanations/midterm100/glm-5.3_v2-dosv1_alert/replies.jsonl",
+            "sha256": "b5cb11ce6b1788c094f5a3c63805ae2a123becef99845aea3d8c24ee801ff63f"
+          },
+          "manifest": {
+            "path": "out/explanations/midterm100/glm-5.3_v2-dosv1_alert/run.json",
+            "sha256": "5da01c002d941787ec6172c9d4f1c7c9c2a03ff127aba7980e4f563c32a2c35a"
+          },
+          "settings": {
+            "set": "midterm100",
+            "run": "glm-5.3_v2-dosv1_alert",
+            "explainer": "chat",
+            "model": "glm-5.3",
+            "scope": "alert",
+            "control_rules": null,
+            "prompt_version": "v2-dosv1",
+            "prompt_sha256": "bc82eb03785ea96f6cbbcb7528e2d6863e2a171c015896c2ea7b2a357aadcb52",
+            "temperature": 0,
+            "max_tokens": 16000,
+            "strict": true,
+            "fallbacks": 0,
+            "alerts": 30,
+            "errors": 0,
+            "note": "ROAD alerts only (--dataset road). Run in time-limited chunks; one false-alarm alert (of 31) never finished inside a chunk and has no reply. run.json written after the fact.",
+            "updated_utc": "2026-11-17T23:12:53.193515+00:00"
+          },
+          "target_alerts": 31,
+          "recorded_reply_failures": [],
+          "missing_target_ids": [
+            "A0093"
+          ],
+          "scores": {
+            "alerts": 30,
+            "errors": 0,
+            "attack_alerts": 20,
+            "false_alarms": 10,
+            "accuracy": {
+              "all": {
+                "k": 16,
+                "n": 20,
+                "value": 0.8,
+                "lo": 0.5839825677481064,
+                "hi": 0.919342337420202
+              },
+              "road": {
+                "k": 16,
+                "n": 20,
+                "value": 0.8,
+                "lo": 0.5839825677481064,
+                "hi": 0.919342337420202
+              }
+            },
+            "accuracy_by_type": {
+              "road/fuzzing": {
+                "k": 3,
+                "n": 3,
+                "value": 1.0,
+                "lo": 0.4385029682449546,
+                "hi": 1.0
+              },
+              "road/masquerade": {
+                "k": 0,
+                "n": 4,
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.4898908364545973
+              },
+              "road/spoofing": {
+                "k": 13,
+                "n": 13,
+                "value": 1.0,
+                "lo": 0.7719046276458016,
+                "hi": 0.9999999999999999
+              }
+            },
+            "confusion": {
+              "road/spoofing": {
+                "spoofing": 13
+              },
+              "road/masquerade": {
+                "spoofing": 3,
+                "benign": 1
+              },
+              "road/fuzzing": {
+                "fuzzing": 3
+              }
+            },
+            "false_alarm_labels": {
+              "spoofing": 4,
+              "benign": 6
+            },
+            "false_alarms_called_benign": {
+              "k": 6,
+              "n": 10,
+              "value": 0.6,
+              "lo": 0.31267376973365824,
+              "hi": 0.8318196702937638
+            },
+            "claims": 270,
+            "claims_with_valid_citations": {
+              "k": 270,
+              "n": 270,
+              "value": 1.0,
+              "lo": 0.9859719604283536,
+              "hi": 1.0
+            },
+            "replies_fully_grounded": {
+              "k": 30,
+              "n": 30,
+              "value": 1.0,
+              "lo": 0.8864866068260312,
+              "hi": 0.9999999999999999
+            },
+            "latency_s": {
+              "median": 39.2885,
+              "max": 128.675
+            },
+            "completion_tokens": {
+              "median": 3702.5,
+              "total": 130924
+            },
+            "no_answer": 0
+          }
+        },
+        "glm-5.3_v2_alert": {
+          "replies": {
+            "path": "out/explanations/midterm100/glm-5.3_v2_alert/replies.jsonl",
+            "sha256": "aa11b940964d33cddef5bf27cf4376dc0a2703fed03c7549f385a39b302142a8"
+          },
+          "manifest": {
+            "path": "out/explanations/midterm100/glm-5.3_v2_alert/run.json",
+            "sha256": "07b70c26928adceb7240fcbab09b6896d4fae32de493b2fd9d1a7e39a2c689dd"
+          },
+          "settings": {
+            "set": "midterm100",
+            "run": "glm-5.3_v2_alert",
+            "explainer": "chat",
+            "model": "glm-5.3",
+            "scope": "alert",
+            "control_rules": null,
+            "prompt_version": "v2",
+            "prompt_sha256": "c72ef008aaf232e51b0a37ecf779552b91de8e0e626d4776177df63b19dd3be6",
+            "temperature": 0,
+            "max_tokens": 16000,
+            "strict": true,
+            "fallbacks": 0,
+            "alerts": 100,
+            "errors": 5,
+            "updated_utc": "2026-11-17T16:38:19.625586+00:00"
+          },
+          "target_alerts": 100,
+          "recorded_reply_failures": [
+            "A0047",
+            "A0040",
+            "A0049",
+            "A0051",
+            "A0067"
+          ],
+          "missing_target_ids": [],
+          "scores": {
+            "alerts": 100,
+            "errors": 5,
+            "attack_alerts": 89,
+            "false_alarms": 11,
+            "accuracy": {
+              "all": {
+                "k": 77,
+                "n": 89,
+                "value": 0.8651685393258427,
+                "lo": 0.7789609654865195,
+                "hi": 0.921157287992622
+              },
+              "hcrl": {
+                "k": 61,
+                "n": 69,
+                "value": 0.8840579710144928,
+                "lo": 0.787542594696838,
+                "hi": 0.9400650185782384
+              },
+              "road": {
+                "k": 16,
+                "n": 20,
+                "value": 0.8,
+                "lo": 0.5839825677481064,
+                "hi": 0.919342337420202
+              }
+            },
+            "accuracy_by_type": {
+              "hcrl/dos": {
+                "k": 16,
+                "n": 16,
+                "value": 1.0,
+                "lo": 0.8063923194655637,
+                "hi": 1.0
+              },
+              "hcrl/fuzzing": {
+                "k": 15,
+                "n": 15,
+                "value": 1.0,
+                "lo": 0.7961166989641515,
+                "hi": 1.0
+              },
+              "hcrl/spoofing": {
+                "k": 30,
+                "n": 38,
+                "value": 0.7894736842105263,
+                "lo": 0.636542205246726,
+                "hi": 0.8892520815700411
+              },
+              "road/fuzzing": {
+                "k": 3,
+                "n": 3,
+                "value": 1.0,
+                "lo": 0.4385029682449546,
+                "hi": 1.0
+              },
+              "road/masquerade": {
+                "k": 0,
+                "n": 4,
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.4898908364545973
+              },
+              "road/spoofing": {
+                "k": 13,
+                "n": 13,
+                "value": 1.0,
+                "lo": 0.7719046276458016,
+                "hi": 0.9999999999999999
+              }
+            },
+            "confusion": {
+              "hcrl/dos": {
+                "dos": 16
+              },
+              "hcrl/fuzzing": {
+                "fuzzing": 15
+              },
+              "hcrl/spoofing": {
+                "spoofing": 30,
+                "no answer": 5,
+                "dos": 3
+              },
+              "road/spoofing": {
+                "spoofing": 13
+              },
+              "road/masquerade": {
+                "spoofing": 3,
+                "benign": 1
+              },
+              "road/fuzzing": {
+                "fuzzing": 3
+              }
+            },
+            "false_alarm_labels": {
+              "spoofing": 4,
+              "benign": 7
+            },
+            "false_alarms_called_benign": {
+              "k": 7,
+              "n": 11,
+              "value": 0.6363636363636364,
+              "lo": 0.35380117450784887,
+              "hi": 0.8483352890463243
+            },
+            "claims": 888,
+            "claims_with_valid_citations": {
+              "k": 888,
+              "n": 888,
+              "value": 1.0,
+              "lo": 0.9956926662438705,
+              "hi": 1.0
+            },
+            "replies_fully_grounded": {
+              "k": 95,
+              "n": 95,
+              "value": 1.0,
+              "lo": 0.9611351464605271,
+              "hi": 1.0
+            },
+            "latency_s": {
+              "median": 38.581,
+              "max": 133.004
+            },
+            "completion_tokens": {
+              "median": 5530.0,
+              "total": 628674
+            },
+            "no_answer": 5
+          }
+        },
+        "qwen3.6-27b-fp8_v2-dosv1_alert": {
+          "replies": {
+            "path": "out/explanations/midterm100/qwen3.6-27b-fp8_v2-dosv1_alert/replies.jsonl",
+            "sha256": "05e22ce65c3880f1bfcacde3a6e179f34667a437073347c20a87ef2404f7c5eb"
+          },
+          "manifest": {
+            "path": "out/explanations/midterm100/qwen3.6-27b-fp8_v2-dosv1_alert/run.json",
+            "sha256": "63a13b7a51901d2276d64ae7195774e43c2055c9bbdf11b6a8a5670048270adf"
+          },
+          "settings": {
+            "set": "midterm100",
+            "run": "qwen3.6-27b-fp8_v2-dosv1_alert",
+            "explainer": "chat",
+            "model": "qwen3.6-27b-fp8",
+            "scope": "alert",
+            "control_rules": null,
+            "prompt_version": "v2-dosv1",
+            "prompt_sha256": "bc82eb03785ea96f6cbbcb7528e2d6863e2a171c015896c2ea7b2a357aadcb52",
+            "temperature": 0,
+            "max_tokens": 16000,
+            "strict": true,
+            "fallbacks": 0,
+            "alerts": 31,
+            "errors": 0,
+            "updated_utc": "2026-11-17T23:06:03.254110+00:00"
+          },
+          "target_alerts": 31,
+          "recorded_reply_failures": [],
+          "missing_target_ids": [],
+          "scores": {
+            "alerts": 31,
+            "errors": 0,
+            "attack_alerts": 20,
+            "false_alarms": 11,
+            "accuracy": {
+              "all": {
+                "k": 15,
+                "n": 20,
+                "value": 0.75,
+                "lo": 0.531299122381256,
+                "hi": 0.8881382985923343
+              },
+              "road": {
+                "k": 15,
+                "n": 20,
+                "value": 0.75,
+                "lo": 0.531299122381256,
+                "hi": 0.8881382985923343
+              }
+            },
+            "accuracy_by_type": {
+              "road/fuzzing": {
+                "k": 2,
+                "n": 3,
+                "value": 0.6666666666666666,
+                "lo": 0.2076596008020477,
+                "hi": 0.9385080552796037
+              },
+              "road/masquerade": {
+                "k": 0,
+                "n": 4,
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.4898908364545973
+              },
+              "road/spoofing": {
+                "k": 13,
+                "n": 13,
+                "value": 1.0,
+                "lo": 0.7719046276458016,
+                "hi": 0.9999999999999999
+              }
+            },
+            "confusion": {
+              "road/spoofing": {
+                "spoofing": 13
+              },
+              "road/masquerade": {
+                "benign": 2,
+                "spoofing": 2
+              },
+              "road/fuzzing": {
+                "fuzzing": 2,
+                "benign": 1
+              }
+            },
+            "false_alarm_labels": {
+              "spoofing": 3,
+              "benign": 8
+            },
+            "false_alarms_called_benign": {
+              "k": 8,
+              "n": 11,
+              "value": 0.7272727272727273,
+              "lo": 0.43435469882387084,
+              "hi": 0.902539407099751
+            },
+            "claims": 193,
+            "claims_with_valid_citations": {
+              "k": 192,
+              "n": 193,
+              "value": 0.9948186528497409,
+              "lo": 0.9712392635105996,
+              "hi": 0.999084778712562
+            },
+            "replies_fully_grounded": {
+              "k": 29,
+              "n": 31,
+              "value": 0.9354838709677419,
+              "lo": 0.7928136326370188,
+              "hi": 0.9821252164780854
+            },
+            "latency_s": {
+              "median": 67.9,
+              "max": 90.571
+            },
+            "completion_tokens": {
+              "median": 4683,
+              "total": 141061
+            },
+            "no_answer": 0
+          }
+        },
+        "qwen3.6-27b-fp8_v2_alert": {
+          "replies": {
+            "path": "out/explanations/midterm100/qwen3.6-27b-fp8_v2_alert/replies.jsonl",
+            "sha256": "cc1fbe0de3bedea974c6d28f817cb66cbfad9ed2d71d1dc1b2ebdc78de495fdb"
+          },
+          "manifest": {
+            "path": "out/explanations/midterm100/qwen3.6-27b-fp8_v2_alert/run.json",
+            "sha256": "45c1dbcab9ba1dd13e4d13dd5a04956c60a0445705127d3ab388c7baab03b09e"
+          },
+          "settings": {
+            "set": "midterm100",
+            "run": "qwen3.6-27b-fp8_v2_alert",
+            "explainer": "chat",
+            "model": "qwen3.6-27b-fp8",
+            "scope": "alert",
+            "control_rules": null,
+            "prompt_version": "v2",
+            "prompt_sha256": "c72ef008aaf232e51b0a37ecf779552b91de8e0e626d4776177df63b19dd3be6",
+            "temperature": 0,
+            "max_tokens": 16000,
+            "strict": true,
+            "fallbacks": 0,
+            "alerts": 100,
+            "errors": 0,
+            "updated_utc": "2026-11-17T16:40:07.626528+00:00"
+          },
+          "target_alerts": 100,
+          "recorded_reply_failures": [],
+          "missing_target_ids": [],
+          "scores": {
+            "alerts": 100,
+            "errors": 0,
+            "attack_alerts": 89,
+            "false_alarms": 11,
+            "accuracy": {
+              "all": {
+                "k": 50,
+                "n": 89,
+                "value": 0.5617977528089888,
+                "lo": 0.4582820759233694,
+                "hi": 0.6601994746654086
+              },
+              "hcrl": {
+                "k": 36,
+                "n": 69,
+                "value": 0.5217391304347826,
+                "lo": 0.4058725487361115,
+                "hi": 0.6353127878643645
+              },
+              "road": {
+                "k": 14,
+                "n": 20,
+                "value": 0.7,
+                "lo": 0.4810271816464765,
+                "hi": 0.8545227551323956
+              }
+            },
+            "accuracy_by_type": {
+              "hcrl/dos": {
+                "k": 16,
+                "n": 16,
+                "value": 1.0,
+                "lo": 0.8063923194655637,
+                "hi": 1.0
+              },
+              "hcrl/fuzzing": {
+                "k": 15,
+                "n": 15,
+                "value": 1.0,
+                "lo": 0.7961166989641515,
+                "hi": 1.0
+              },
+              "hcrl/spoofing": {
+                "k": 5,
+                "n": 38,
+                "value": 0.13157894736842105,
+                "lo": 0.05753867690120133,
+                "hi": 0.2732685944229131
+              },
+              "road/fuzzing": {
+                "k": 1,
+                "n": 3,
+                "value": 0.3333333333333333,
+                "lo": 0.06149194472039621,
+                "hi": 0.7923403991979522
+              },
+              "road/masquerade": {
+                "k": 0,
+                "n": 4,
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.4898908364545973
+              },
+              "road/spoofing": {
+                "k": 13,
+                "n": 13,
+                "value": 1.0,
+                "lo": 0.7719046276458016,
+                "hi": 0.9999999999999999
+              }
+            },
+            "confusion": {
+              "hcrl/dos": {
+                "dos": 16
+              },
+              "hcrl/fuzzing": {
+                "fuzzing": 15
+              },
+              "hcrl/spoofing": {
+                "dos": 33,
+                "spoofing": 5
+              },
+              "road/spoofing": {
+                "spoofing": 13
+              },
+              "road/masquerade": {
+                "benign": 2,
+                "spoofing": 2
+              },
+              "road/fuzzing": {
+                "fuzzing": 1,
+                "benign": 2
+              }
+            },
+            "false_alarm_labels": {
+              "benign": 10,
+              "spoofing": 1
+            },
+            "false_alarms_called_benign": {
+              "k": 10,
+              "n": 11,
+              "value": 0.9090909090909091,
+              "lo": 0.6226415635484043,
+              "hi": 0.9837678271141151
+            },
+            "claims": 594,
+            "claims_with_valid_citations": {
+              "k": 588,
+              "n": 594,
+              "value": 0.98989898989899,
+              "lo": 0.9781396164835081,
+              "hi": 0.9953626246425205
+            },
+            "replies_fully_grounded": {
+              "k": 94,
+              "n": 100,
+              "value": 0.94,
+              "lo": 0.8752318455410406,
+              "hi": 0.9722138760368118
+            },
+            "latency_s": {
+              "median": 55.271,
+              "max": 81.27
+            },
+            "completion_tokens": {
+              "median": 4540.0,
+              "total": 451125
+            },
+            "no_answer": 0
+          }
+        }
+      },
+      "prompt_ablation": {
+        "gemma-4-31b": {
+          "shared_alerts": 31,
+          "paired_attack_scores_v2_dosv1_vs_v2": {
+            "all": {
+              "n": 20,
+              "a_correct": 16,
+              "b_correct": 16,
+              "only_a_correct": 0,
+              "only_b_correct": 0,
+              "mcnemar_p": 1.0,
+              "difference": {
+                "difference": 0.0,
+                "lo": 0.0,
+                "hi": 0.0,
+                "n": 20,
+                "n_boot": 10000
+              }
+            },
+            "road": {
+              "n": 20,
+              "a_correct": 16,
+              "b_correct": 16,
+              "only_a_correct": 0,
+              "only_b_correct": 0,
+              "mcnemar_p": 1.0,
+              "difference": {
+                "difference": 0.0,
+                "lo": 0.0,
+                "hi": 0.0,
+                "n": 20,
+                "n_boot": 10000
+              }
+            }
+          },
+          "shared_false_alarms_called_benign": {
+            "v2": {
+              "k": 7,
+              "n": 11,
+              "value": 0.6363636363636364,
+              "lo": 0.35380117450784887,
+              "hi": 0.8483352890463243
+            },
+            "v2-dosv1": {
+              "k": 7,
+              "n": 11,
+              "value": 0.6363636363636364,
+              "lo": 0.35380117450784887,
+              "hi": 0.8483352890463243
+            }
+          },
+          "shared_successful_median_latency_s": {
+            "v2": 14.407,
+            "v2-dosv1": 20.177
+          }
+        },
+        "glm-5.3": {
+          "shared_alerts": 30,
+          "paired_attack_scores_v2_dosv1_vs_v2": {
+            "all": {
+              "n": 20,
+              "a_correct": 16,
+              "b_correct": 16,
+              "only_a_correct": 0,
+              "only_b_correct": 0,
+              "mcnemar_p": 1.0,
+              "difference": {
+                "difference": 0.0,
+                "lo": 0.0,
+                "hi": 0.0,
+                "n": 20,
+                "n_boot": 10000
+              }
+            },
+            "road": {
+              "n": 20,
+              "a_correct": 16,
+              "b_correct": 16,
+              "only_a_correct": 0,
+              "only_b_correct": 0,
+              "mcnemar_p": 1.0,
+              "difference": {
+                "difference": 0.0,
+                "lo": 0.0,
+                "hi": 0.0,
+                "n": 20,
+                "n_boot": 10000
+              }
+            }
+          },
+          "shared_false_alarms_called_benign": {
+            "v2": {
+              "k": 6,
+              "n": 10,
+              "value": 0.6,
+              "lo": 0.31267376973365824,
+              "hi": 0.8318196702937638
+            },
+            "v2-dosv1": {
+              "k": 6,
+              "n": 10,
+              "value": 0.6,
+              "lo": 0.31267376973365824,
+              "hi": 0.8318196702937638
+            }
+          },
+          "shared_successful_median_latency_s": {
+            "v2": 44.0685,
+            "v2-dosv1": 39.2885
+          },
+          "missing_false_alarm_sensitivity": {
+            "target": {
+              "id": "A0093",
+              "dataset": "road",
+              "capture": "ambient_dyno_drive_extended_short",
+              "slice_start_s": 0.0,
+              "slice_stop_s": 120.0,
+              "alert_id": 0,
+              "start": 0.0,
+              "end": 23.0,
+              "duration_s": 23.0,
+              "score": 1.0,
+              "components": {
+                "missing_ids": 1.0,
+                "rate_inflation": 0.565,
+                "bus_load": 0.0,
+                "payload_entropy": 0.882,
+                "unknown_ids": 0.0,
+                "timing": 0.45
+              },
+              "true_type": "normal",
+              "is_attack": false
+            },
+            "baseline_v2_prediction": "benign",
+            "v2_full_road_false_alarms_called_benign": {
+              "k": 7,
+              "n": 11,
+              "value": 0.6363636363636364,
+              "lo": 0.35380117450784887,
+              "hi": 0.8483352890463243
+            },
+            "v2_full_road_successful_median_latency_s": 44.28,
+            "v2_dosv1_if_missing_incorrect_or_failed": {
+              "k": 6,
+              "n": 11
+            },
+            "v2_dosv1_if_missing_correct": {
+              "k": 7,
+              "n": 11
+            },
+            "road_attack_labels_unaffected_by_missing_row": true
+          }
+        },
+        "qwen3.6-27b-fp8": {
+          "shared_alerts": 31,
+          "paired_attack_scores_v2_dosv1_vs_v2": {
+            "all": {
+              "n": 20,
+              "a_correct": 15,
+              "b_correct": 14,
+              "only_a_correct": 1,
+              "only_b_correct": 0,
+              "mcnemar_p": 1.0,
+              "difference": {
+                "difference": 0.050000000000000044,
+                "lo": 0.0,
+                "hi": 0.15000000000000002,
+                "n": 20,
+                "n_boot": 10000
+              }
+            },
+            "road": {
+              "n": 20,
+              "a_correct": 15,
+              "b_correct": 14,
+              "only_a_correct": 1,
+              "only_b_correct": 0,
+              "mcnemar_p": 1.0,
+              "difference": {
+                "difference": 0.050000000000000044,
+                "lo": 0.0,
+                "hi": 0.15000000000000002,
+                "n": 20,
+                "n_boot": 10000
+              }
+            }
+          },
+          "shared_false_alarms_called_benign": {
+            "v2": {
+              "k": 10,
+              "n": 11,
+              "value": 0.9090909090909091,
+              "lo": 0.6226415635484043,
+              "hi": 0.9837678271141151
+            },
+            "v2-dosv1": {
+              "k": 8,
+              "n": 11,
+              "value": 0.7272727272727273,
+              "lo": 0.43435469882387084,
+              "hi": 0.902539407099751
+            }
+          },
+          "shared_successful_median_latency_s": {
+            "v2": 54.652,
+            "v2-dosv1": 67.9
+          }
+        }
+      }
+    },
+    "heldout": {
+      "manifest": {
+        "path": "out/explanations/heldout/qwen3.6-27b-fp8_v2_alert/run.json",
+        "sha256": "2e6b9718a1383397a2239b1c8c504f491f36083a1b692f905ce5a774e4baf863"
+      },
+      "counts": {
+        "alerts": 77,
+        "by_dataset": {
+          "hcrl": {
+            "alerts": 70,
+            "attack": 70,
+            "false_alarm": 0
+          },
+          "road": {
+            "alerts": 7,
+            "attack": 0,
+            "false_alarm": 7
+          }
+        }
+      },
+      "attack_alerts_by_type": {
+        "hcrl/dos": 17,
+        "hcrl/fuzzing": 15,
+        "hcrl/spoofing": 38
+      },
+      "alerts": {
+        "path": "out/alerts/heldout/alerts.jsonl",
+        "sha256": "014d5d9bb072f8eabba5afbfb75d3ba7f6f286e623a31d0d4a5ae2d02d4ae8c1"
+      },
+      "evidence_packets": {
+        "alert": {
+          "path": "out/alerts/heldout/packets_alert.jsonl",
+          "sha256": "bdbfff969a9e1c9d353ee1fa2b760c7b3a0dc70d57a919fd018fa6143fbb79e4"
+        },
+        "window": {
+          "path": "out/alerts/heldout/packets_window.jsonl",
+          "sha256": "db949e25cb5b7d3e96bd3509dbe6b6613685476b2ae6a6af085725cb2c4e9a87"
+        }
+      },
+      "saved_scores": {
+        "path": "out/explanations/heldout/scores.json",
+        "sha256": "9ff3f990e00b3698d8147106dc8d7f093320179ca065f49f17b7919b92ba555d"
+      },
+      "runs": {
+        "control-v1_alert": {
+          "replies": {
+            "path": "out/explanations/heldout/control-v1_alert/replies.jsonl",
+            "sha256": "b76398e3373adf44e651bd5e69bca69b294f6fc7d83962d8da26c52aa17858fb"
+          },
+          "manifest": {
+            "path": "out/explanations/heldout/control-v1_alert/run.json",
+            "sha256": "6ae7201670764f018a3b080a5c7c84e92c82f1f16b4781e168d99e81e5f919ec"
+          },
+          "settings": {
+            "set": "heldout",
+            "run": "control-v1_alert",
+            "explainer": "control",
+            "model": "rule-based control (rules v1)",
+            "scope": "alert",
+            "control_rules": "v1",
+            "prompt_version": null,
+            "prompt_sha256": null,
+            "temperature": null,
+            "max_tokens": null,
+            "strict": true,
+            "fallbacks": 0,
+            "alerts": 77,
+            "errors": 0,
+            "updated_utc": "2026-11-17T22:15:56.471679+00:00"
+          },
+          "target_alerts": 77,
+          "recorded_reply_failures": [],
+          "missing_target_ids": [],
+          "scores": {
+            "alerts": 77,
+            "errors": 0,
+            "attack_alerts": 70,
+            "false_alarms": 7,
+            "accuracy": {
+              "all": {
+                "k": 53,
+                "n": 70,
+                "value": 0.7571428571428571,
+                "lo": 0.6450496077036256,
+                "hi": 0.8424813887710942
+              },
+              "hcrl": {
+                "k": 53,
+                "n": 70,
+                "value": 0.7571428571428571,
+                "lo": 0.6450496077036256,
+                "hi": 0.8424813887710942
+              }
+            },
+            "accuracy_by_type": {
+              "hcrl/dos": {
+                "k": 0,
+                "n": 17,
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.1843181350088518
+              },
+              "hcrl/fuzzing": {
+                "k": 15,
+                "n": 15,
+                "value": 1.0,
+                "lo": 0.7961166989641515,
+                "hi": 1.0
+              },
+              "hcrl/spoofing": {
+                "k": 38,
+                "n": 38,
+                "value": 1.0,
+                "lo": 0.908190131774416,
+                "hi": 0.9999999999999999
+              }
+            },
+            "confusion": {
+              "hcrl/dos": {
+                "unknown": 17
+              },
+              "hcrl/fuzzing": {
+                "fuzzing": 15
+              },
+              "hcrl/spoofing": {
+                "spoofing": 38
+              }
+            },
+            "false_alarm_labels": {
+              "unknown": 2,
+              "masquerade": 3,
+              "spoofing": 2
+            },
+            "false_alarms_called_benign": {
+              "k": 0,
+              "n": 7,
+              "value": 0.0,
+              "lo": 5.551115123125783e-17,
+              "hi": 0.35433043506668743
+            },
+            "claims": 132,
+            "claims_with_valid_citations": {
+              "k": 132,
+              "n": 132,
+              "value": 1.0,
+              "lo": 0.9717210132013917,
+              "hi": 1.0
+            },
+            "replies_fully_grounded": {
+              "k": 77,
+              "n": 77,
+              "value": 1.0,
+              "lo": 0.9524815747175658,
+              "hi": 0.9999999999999999
+            },
+            "latency_s": {
+              "median": 0.0,
+              "max": 0.0
+            },
+            "completion_tokens": null,
+            "no_answer": 0
+          }
+        },
+        "control-v2_alert": {
+          "replies": {
+            "path": "out/explanations/heldout/control-v2_alert/replies.jsonl",
+            "sha256": "4f52424b5e7e95b9a758962d240294e9377743ed859d810a63da238dade4b5a2"
+          },
+          "manifest": {
+            "path": "out/explanations/heldout/control-v2_alert/run.json",
+            "sha256": "5116b6c96995318b734f811380ad7186a523df0d143bbfef072fc9c36292d8ef"
+          },
+          "settings": {
+            "set": "heldout",
+            "run": "control-v2_alert",
+            "explainer": "control",
+            "model": "rule-based control (rules v2)",
+            "scope": "alert",
+            "control_rules": "v2",
+            "prompt_version": null,
+            "prompt_sha256": null,
+            "temperature": null,
+            "max_tokens": null,
+            "strict": true,
+            "fallbacks": 0,
+            "alerts": 77,
+            "errors": 0,
+            "updated_utc": "2026-11-17T22:15:56.853133+00:00"
+          },
+          "target_alerts": 77,
+          "recorded_reply_failures": [],
+          "missing_target_ids": [],
+          "scores": {
+            "alerts": 77,
+            "errors": 0,
+            "attack_alerts": 70,
+            "false_alarms": 7,
+            "accuracy": {
+              "all": {
+                "k": 70,
+                "n": 70,
+                "value": 1.0,
+                "lo": 0.9479769375897331,
+                "hi": 1.0
+              },
+              "hcrl": {
+                "k": 70,
+                "n": 70,
+                "value": 1.0,
+                "lo": 0.9479769375897331,
+                "hi": 1.0
+              }
+            },
+            "accuracy_by_type": {
+              "hcrl/dos": {
+                "k": 17,
+                "n": 17,
+                "value": 1.0,
+                "lo": 0.8156818649911483,
+                "hi": 1.0
+              },
+              "hcrl/fuzzing": {
+                "k": 15,
+                "n": 15,
+                "value": 1.0,
+                "lo": 0.7961166989641515,
+                "hi": 1.0
+              },
+              "hcrl/spoofing": {
+                "k": 38,
+                "n": 38,
+                "value": 1.0,
+                "lo": 0.908190131774416,
+                "hi": 0.9999999999999999
+              }
+            },
+            "confusion": {
+              "hcrl/dos": {
+                "dos": 17
+              },
+              "hcrl/fuzzing": {
+                "fuzzing": 15
+              },
+              "hcrl/spoofing": {
+                "spoofing": 38
+              }
+            },
+            "false_alarm_labels": {
+              "unknown": 1,
+              "benign": 4,
+              "spoofing": 2
+            },
+            "false_alarms_called_benign": {
+              "k": 4,
+              "n": 7,
+              "value": 0.5714285714285714,
+              "lo": 0.2504583645276572,
+              "hi": 0.8417801447485302
+            },
+            "claims": 153,
+            "claims_with_valid_citations": {
+              "k": 153,
+              "n": 153,
+              "value": 1.0,
+              "lo": 0.9755073763686055,
+              "hi": 1.0
+            },
+            "replies_fully_grounded": {
+              "k": 77,
+              "n": 77,
+              "value": 1.0,
+              "lo": 0.9524815747175658,
+              "hi": 0.9999999999999999
+            },
+            "latency_s": {
+              "median": 0.0,
+              "max": 0.0
+            },
+            "completion_tokens": null,
+            "no_answer": 0
+          }
+        },
+        "gemma-4-31b_v2-dosv1_alert": {
+          "replies": {
+            "path": "out/explanations/heldout/gemma-4-31b_v2-dosv1_alert/replies.jsonl",
+            "sha256": "0ac34c9cfc1ffad1a4a42f7614afee6424f121956b465db03568c131c89fd986"
+          },
+          "manifest": {
+            "path": "out/explanations/heldout/gemma-4-31b_v2-dosv1_alert/run.json",
+            "sha256": "bc1d6c506fe6bdc3247f4270f74df8313b2785f37affb6e1278384de4e065ff4"
+          },
+          "settings": {
+            "set": "heldout",
+            "run": "gemma-4-31b_v2-dosv1_alert",
+            "explainer": "chat",
+            "model": "gemma-4-31b",
+            "scope": "alert",
+            "control_rules": null,
+            "prompt_version": "v2-dosv1",
+            "prompt_sha256": "bc82eb03785ea96f6cbbcb7528e2d6863e2a171c015896c2ea7b2a357aadcb52",
+            "temperature": 0,
+            "max_tokens": 16000,
+            "strict": true,
+            "fallbacks": 0,
+            "alerts": 77,
+            "errors": 0,
+            "updated_utc": "2026-11-17T22:49:51.587380+00:00"
+          },
+          "target_alerts": 77,
+          "recorded_reply_failures": [],
+          "missing_target_ids": [],
+          "scores": {
+            "alerts": 77,
+            "errors": 0,
+            "attack_alerts": 70,
+            "false_alarms": 7,
+            "accuracy": {
+              "all": {
+                "k": 70,
+                "n": 70,
+                "value": 1.0,
+                "lo": 0.9479769375897331,
+                "hi": 1.0
+              },
+              "hcrl": {
+                "k": 70,
+                "n": 70,
+                "value": 1.0,
+                "lo": 0.9479769375897331,
+                "hi": 1.0
+              }
+            },
+            "accuracy_by_type": {
+              "hcrl/dos": {
+                "k": 17,
+                "n": 17,
+                "value": 1.0,
+                "lo": 0.8156818649911483,
+                "hi": 1.0
+              },
+              "hcrl/fuzzing": {
+                "k": 15,
+                "n": 15,
+                "value": 1.0,
+                "lo": 0.7961166989641515,
+                "hi": 1.0
+              },
+              "hcrl/spoofing": {
+                "k": 38,
+                "n": 38,
+                "value": 1.0,
+                "lo": 0.908190131774416,
+                "hi": 0.9999999999999999
+              }
+            },
+            "confusion": {
+              "hcrl/dos": {
+                "dos": 17
+              },
+              "hcrl/fuzzing": {
+                "fuzzing": 15
+              },
+              "hcrl/spoofing": {
+                "spoofing": 38
+              }
+            },
+            "false_alarm_labels": {
+              "benign": 5,
+              "spoofing": 2
+            },
+            "false_alarms_called_benign": {
+              "k": 5,
+              "n": 7,
+              "value": 0.7142857142857143,
+              "lo": 0.35893445183261935,
+              "hi": 0.9177810759959433
+            },
+            "claims": 431,
+            "claims_with_valid_citations": {
+              "k": 431,
+              "n": 431,
+              "value": 1.0,
+              "lo": 0.9911658404626084,
+              "hi": 0.9999999999999999
+            },
+            "replies_fully_grounded": {
+              "k": 77,
+              "n": 77,
+              "value": 1.0,
+              "lo": 0.9524815747175658,
+              "hi": 0.9999999999999999
+            },
+            "latency_s": {
+              "median": 19.273,
+              "max": 24.075
+            },
+            "completion_tokens": {
+              "median": 566,
+              "total": 42857
+            },
+            "no_answer": 0
+          }
+        },
+        "gemma-4-31b_v2_alert": {
+          "replies": {
+            "path": "out/explanations/heldout/gemma-4-31b_v2_alert/replies.jsonl",
+            "sha256": "d9a192fb902306198d599a6f63df8c02cf70f83eb01edb14c4a25bf73f129ee2"
+          },
+          "manifest": {
+            "path": "out/explanations/heldout/gemma-4-31b_v2_alert/run.json",
+            "sha256": "f18faf9debff5f7e1db041a0b4c13c4cc2b1c54fafe6bcf83fbaf4c477cfbb4e"
+          },
+          "settings": {
+            "set": "heldout",
+            "run": "gemma-4-31b_v2_alert",
+            "explainer": "chat",
+            "model": "gemma-4-31b",
+            "scope": "alert",
+            "control_rules": null,
+            "prompt_version": "v2",
+            "prompt_sha256": "c72ef008aaf232e51b0a37ecf779552b91de8e0e626d4776177df63b19dd3be6",
+            "temperature": 0,
+            "max_tokens": 16000,
+            "strict": true,
+            "fallbacks": 0,
+            "alerts": 77,
+            "errors": 0,
+            "updated_utc": "2026-11-17T16:09:53.817705+00:00"
+          },
+          "target_alerts": 77,
+          "recorded_reply_failures": [],
+          "missing_target_ids": [],
+          "scores": {
+            "alerts": 77,
+            "errors": 0,
+            "attack_alerts": 70,
+            "false_alarms": 7,
+            "accuracy": {
+              "all": {
+                "k": 69,
+                "n": 70,
+                "value": 0.9857142857142858,
+                "lo": 0.9234181286879168,
+                "hi": 0.9974737535421097
+              },
+              "hcrl": {
+                "k": 69,
+                "n": 70,
+                "value": 0.9857142857142858,
+                "lo": 0.9234181286879168,
+                "hi": 0.9974737535421097
+              }
+            },
+            "accuracy_by_type": {
+              "hcrl/dos": {
+                "k": 17,
+                "n": 17,
+                "value": 1.0,
+                "lo": 0.8156818649911483,
+                "hi": 1.0
+              },
+              "hcrl/fuzzing": {
+                "k": 15,
+                "n": 15,
+                "value": 1.0,
+                "lo": 0.7961166989641515,
+                "hi": 1.0
+              },
+              "hcrl/spoofing": {
+                "k": 37,
+                "n": 38,
+                "value": 0.9736842105263158,
+                "lo": 0.8650512388404787,
+                "hi": 0.9953394123142312
+              }
+            },
+            "confusion": {
+              "hcrl/dos": {
+                "dos": 17
+              },
+              "hcrl/fuzzing": {
+                "fuzzing": 15
+              },
+              "hcrl/spoofing": {
+                "spoofing": 37,
+                "dos": 1
+              }
+            },
+            "false_alarm_labels": {
+              "benign": 5,
+              "spoofing": 2
+            },
+            "false_alarms_called_benign": {
+              "k": 5,
+              "n": 7,
+              "value": 0.7142857142857143,
+              "lo": 0.35893445183261935,
+              "hi": 0.9177810759959433
+            },
+            "claims": 425,
+            "claims_with_valid_citations": {
+              "k": 424,
+              "n": 425,
+              "value": 0.9976470588235294,
+              "lo": 0.9867939846312374,
+              "hi": 0.9995845272860616
+            },
+            "replies_fully_grounded": {
+              "k": 76,
+              "n": 77,
+              "value": 0.987012987012987,
+              "lo": 0.9300380108531947,
+              "hi": 0.9977037827028759
+            },
+            "latency_s": {
+              "median": 15.995,
+              "max": 18.207
+            },
+            "completion_tokens": {
+              "median": 581,
+              "total": 43697
+            },
+            "no_answer": 0
+          }
+        },
+        "glm-5.3_v2-dosv1_alert": {
+          "replies": {
+            "path": "out/explanations/heldout/glm-5.3_v2-dosv1_alert/replies.jsonl",
+            "sha256": "147ad1004aa49f777fef1120ee5cbfdf664f611b93a9531ba8805403d8346163"
+          },
+          "manifest": {
+            "path": "out/explanations/heldout/glm-5.3_v2-dosv1_alert/run.json",
+            "sha256": "92309f200ba272fb0369c53c521803f53cbee4dbc4d66c2568cd0db12ead5e02"
+          },
+          "settings": {
+            "set": "heldout",
+            "run": "glm-5.3_v2-dosv1_alert",
+            "explainer": "chat",
+            "model": "glm-5.3",
+            "scope": "alert",
+            "control_rules": null,
+            "prompt_version": "v2-dosv1",
+            "prompt_sha256": "bc82eb03785ea96f6cbbcb7528e2d6863e2a171c015896c2ea7b2a357aadcb52",
+            "temperature": 0,
+            "max_tokens": 16000,
+            "strict": true,
+            "fallbacks": 0,
+            "alerts": 77,
+            "errors": 1,
+            "updated_utc": "2026-11-17T23:01:55.590028+00:00"
+          },
+          "target_alerts": 77,
+          "recorded_reply_failures": [
+            "A0070"
+          ],
+          "missing_target_ids": [],
+          "scores": {
+            "alerts": 77,
+            "errors": 1,
+            "attack_alerts": 70,
+            "false_alarms": 7,
+            "accuracy": {
+              "all": {
+                "k": 70,
+                "n": 70,
+                "value": 1.0,
+                "lo": 0.9479769375897331,
+                "hi": 1.0
+              },
+              "hcrl": {
+                "k": 70,
+                "n": 70,
+                "value": 1.0,
+                "lo": 0.9479769375897331,
+                "hi": 1.0
+              }
+            },
+            "accuracy_by_type": {
+              "hcrl/dos": {
+                "k": 17,
+                "n": 17,
+                "value": 1.0,
+                "lo": 0.8156818649911483,
+                "hi": 1.0
+              },
+              "hcrl/fuzzing": {
+                "k": 15,
+                "n": 15,
+                "value": 1.0,
+                "lo": 0.7961166989641515,
+                "hi": 1.0
+              },
+              "hcrl/spoofing": {
+                "k": 38,
+                "n": 38,
+                "value": 1.0,
+                "lo": 0.908190131774416,
+                "hi": 0.9999999999999999
+              }
+            },
+            "confusion": {
+              "hcrl/dos": {
+                "dos": 17
+              },
+              "hcrl/fuzzing": {
+                "fuzzing": 15
+              },
+              "hcrl/spoofing": {
+                "spoofing": 38
+              }
+            },
+            "false_alarm_labels": {
+              "no answer": 1,
+              "benign": 4,
+              "spoofing": 2
+            },
+            "false_alarms_called_benign": {
+              "k": 4,
+              "n": 7,
+              "value": 0.5714285714285714,
+              "lo": 0.2504583645276572,
+              "hi": 0.8417801447485302
+            },
+            "claims": 723,
+            "claims_with_valid_citations": {
+              "k": 723,
+              "n": 723,
+              "value": 1.0,
+              "lo": 0.9947148600646323,
+              "hi": 1.0
+            },
+            "replies_fully_grounded": {
+              "k": 76,
+              "n": 76,
+              "value": 1.0,
+              "lo": 0.9518864149348628,
+              "hi": 1.0
+            },
+            "latency_s": {
+              "median": 90.206,
+              "max": 158.069
+            },
+            "completion_tokens": {
+              "median": 5809,
+              "total": 495644
+            },
+            "no_answer": 1
+          }
+        },
+        "glm-5.3_v2_alert": {
+          "replies": {
+            "path": "out/explanations/heldout/glm-5.3_v2_alert/replies.jsonl",
+            "sha256": "cf8cc47432e72690aebfabc75e2842a07ae3bce24748b2e8349e8f6b42e7e923"
+          },
+          "manifest": {
+            "path": "out/explanations/heldout/glm-5.3_v2_alert/run.json",
+            "sha256": "3e638cb2d8e36306ea713e8abdcec9c43880bb5d4847e2792749c2b310c4ebb6"
+          },
+          "settings": {
+            "set": "heldout",
+            "run": "glm-5.3_v2_alert",
+            "explainer": "chat",
+            "model": "glm-5.3",
+            "scope": "alert",
+            "control_rules": null,
+            "prompt_version": "v2",
+            "prompt_sha256": "c72ef008aaf232e51b0a37ecf779552b91de8e0e626d4776177df63b19dd3be6",
+            "temperature": 0,
+            "max_tokens": 16000,
+            "strict": true,
+            "fallbacks": 0,
+            "alerts": 77,
+            "errors": 5,
+            "updated_utc": "2026-11-17T16:22:37.739026+00:00"
+          },
+          "target_alerts": 77,
+          "recorded_reply_failures": [
+            "A0047",
+            "A0037",
+            "A0048",
+            "A0070",
+            "A0068"
+          ],
+          "missing_target_ids": [],
+          "scores": {
+            "alerts": 77,
+            "errors": 5,
+            "attack_alerts": 70,
+            "false_alarms": 7,
+            "accuracy": {
+              "all": {
+                "k": 59,
+                "n": 70,
+                "value": 0.8428571428571429,
+                "lo": 0.7401175342315778,
+                "hi": 0.909923794401382
+              },
+              "hcrl": {
+                "k": 59,
+                "n": 70,
+                "value": 0.8428571428571429,
+                "lo": 0.7401175342315778,
+                "hi": 0.909923794401382
+              }
+            },
+            "accuracy_by_type": {
+              "hcrl/dos": {
+                "k": 17,
+                "n": 17,
+                "value": 1.0,
+                "lo": 0.8156818649911483,
+                "hi": 1.0
+              },
+              "hcrl/fuzzing": {
+                "k": 15,
+                "n": 15,
+                "value": 1.0,
+                "lo": 0.7961166989641515,
+                "hi": 1.0
+              },
+              "hcrl/spoofing": {
+                "k": 27,
+                "n": 38,
+                "value": 0.7105263157894737,
+                "lo": 0.5524286232424794,
+                "hi": 0.8299672217151693
+              }
+            },
+            "confusion": {
+              "hcrl/dos": {
+                "dos": 17
+              },
+              "hcrl/fuzzing": {
+                "fuzzing": 15
+              },
+              "hcrl/spoofing": {
+                "spoofing": 27,
+                "dos": 7,
+                "no answer": 4
+              }
+            },
+            "false_alarm_labels": {
+              "no answer": 1,
+              "benign": 4,
+              "spoofing": 2
+            },
+            "false_alarms_called_benign": {
+              "k": 4,
+              "n": 7,
+              "value": 0.5714285714285714,
+              "lo": 0.2504583645276572,
+              "hi": 0.8417801447485302
+            },
+            "claims": 692,
+            "claims_with_valid_citations": {
+              "k": 692,
+              "n": 692,
+              "value": 1.0,
+              "lo": 0.9944794050828696,
+              "hi": 1.0
+            },
+            "replies_fully_grounded": {
+              "k": 72,
+              "n": 72,
+              "value": 1.0,
+              "lo": 0.9493488274035422,
+              "hi": 1.0
+            },
+            "latency_s": {
+              "median": 36.302499999999995,
+              "max": 126.629
+            },
+            "completion_tokens": {
+              "median": 6223,
+              "total": 580716
+            },
+            "no_answer": 5
+          }
+        },
+        "qwen3.6-27b-fp8_v2-dosv1_alert": {
+          "replies": {
+            "path": "out/explanations/heldout/qwen3.6-27b-fp8_v2-dosv1_alert/replies.jsonl",
+            "sha256": "554d52bc84858975240ad528ef0b68a5c9fbac8e3858fbe852c4b3f51bac5408"
+          },
+          "manifest": {
+            "path": "out/explanations/heldout/qwen3.6-27b-fp8_v2-dosv1_alert/run.json",
+            "sha256": "d96ab0a534d07a01b8fb5f1f0c0564197f600b036dbac057d48d94543af6b08c"
+          },
+          "settings": {
+            "set": "heldout",
+            "run": "qwen3.6-27b-fp8_v2-dosv1_alert",
+            "explainer": "chat",
+            "model": "qwen3.6-27b-fp8",
+            "scope": "alert",
+            "control_rules": null,
+            "prompt_version": "v2-dosv1",
+            "prompt_sha256": "bc82eb03785ea96f6cbbcb7528e2d6863e2a171c015896c2ea7b2a357aadcb52",
+            "temperature": 0,
+            "max_tokens": 16000,
+            "strict": true,
+            "fallbacks": 0,
+            "alerts": 77,
+            "errors": 0,
+            "updated_utc": "2026-11-17T22:47:19.916165+00:00"
+          },
+          "target_alerts": 77,
+          "recorded_reply_failures": [],
+          "missing_target_ids": [],
+          "scores": {
+            "alerts": 77,
+            "errors": 0,
+            "attack_alerts": 70,
+            "false_alarms": 7,
+            "accuracy": {
+              "all": {
+                "k": 69,
+                "n": 70,
+                "value": 0.9857142857142858,
+                "lo": 0.9234181286879168,
+                "hi": 0.9974737535421097
+              },
+              "hcrl": {
+                "k": 69,
+                "n": 70,
+                "value": 0.9857142857142858,
+                "lo": 0.9234181286879168,
+                "hi": 0.9974737535421097
+              }
+            },
+            "accuracy_by_type": {
+              "hcrl/dos": {
+                "k": 17,
+                "n": 17,
+                "value": 1.0,
+                "lo": 0.8156818649911483,
+                "hi": 1.0
+              },
+              "hcrl/fuzzing": {
+                "k": 14,
+                "n": 15,
+                "value": 0.9333333333333333,
+                "lo": 0.7018347012621998,
+                "hi": 0.9881331045067315
+              },
+              "hcrl/spoofing": {
+                "k": 38,
+                "n": 38,
+                "value": 1.0,
+                "lo": 0.908190131774416,
+                "hi": 0.9999999999999999
+              }
+            },
+            "confusion": {
+              "hcrl/dos": {
+                "dos": 17
+              },
+              "hcrl/fuzzing": {
+                "fuzzing": 14,
+                "benign": 1
+              },
+              "hcrl/spoofing": {
+                "spoofing": 38
+              }
+            },
+            "false_alarm_labels": {
+              "benign": 5,
+              "spoofing": 2
+            },
+            "false_alarms_called_benign": {
+              "k": 5,
+              "n": 7,
+              "value": 0.7142857142857143,
+              "lo": 0.35893445183261935,
+              "hi": 0.9177810759959433
+            },
+            "claims": 516,
+            "claims_with_valid_citations": {
+              "k": 509,
+              "n": 516,
+              "value": 0.9864341085271318,
+              "lo": 0.9722655586984983,
+              "hi": 0.9934134795583407
+            },
+            "replies_fully_grounded": {
+              "k": 70,
+              "n": 77,
+              "value": 0.9090909090909091,
+              "lo": 0.8240388171888766,
+              "hi": 0.9552642893982226
+            },
+            "latency_s": {
+              "median": 64.522,
+              "max": 98.323
+            },
+            "completion_tokens": {
+              "median": 4748,
+              "total": 374691
+            },
+            "no_answer": 0
+          }
+        },
+        "qwen3.6-27b-fp8_v2_alert": {
+          "replies": {
+            "path": "out/explanations/heldout/qwen3.6-27b-fp8_v2_alert/replies.jsonl",
+            "sha256": "abd43021c9ea9da8aea6ee965b2ee73caf0f25b5400a2b6e00c6794d9f72c77d"
+          },
+          "manifest": {
+            "path": "out/explanations/heldout/qwen3.6-27b-fp8_v2_alert/run.json",
+            "sha256": "2e6b9718a1383397a2239b1c8c504f491f36083a1b692f905ce5a774e4baf863"
+          },
+          "settings": {
+            "set": "heldout",
+            "run": "qwen3.6-27b-fp8_v2_alert",
+            "explainer": "chat",
+            "model": "qwen3.6-27b-fp8",
+            "scope": "alert",
+            "control_rules": null,
+            "prompt_version": "v2",
+            "prompt_sha256": "c72ef008aaf232e51b0a37ecf779552b91de8e0e626d4776177df63b19dd3be6",
+            "temperature": 0,
+            "max_tokens": 16000,
+            "strict": true,
+            "fallbacks": 0,
+            "alerts": 77,
+            "errors": 0,
+            "updated_utc": "2026-11-17T16:23:13.721761+00:00"
+          },
+          "target_alerts": 77,
+          "recorded_reply_failures": [],
+          "missing_target_ids": [],
+          "scores": {
+            "alerts": 77,
+            "errors": 0,
+            "attack_alerts": 70,
+            "false_alarms": 7,
+            "accuracy": {
+              "all": {
+                "k": 37,
+                "n": 70,
+                "value": 0.5285714285714286,
+                "lo": 0.4132188746832562,
+                "hi": 0.6409512360361571
+              },
+              "hcrl": {
+                "k": 37,
+                "n": 70,
+                "value": 0.5285714285714286,
+                "lo": 0.4132188746832562,
+                "hi": 0.6409512360361571
+              }
+            },
+            "accuracy_by_type": {
+              "hcrl/dos": {
+                "k": 17,
+                "n": 17,
+                "value": 1.0,
+                "lo": 0.8156818649911483,
+                "hi": 1.0
+              },
+              "hcrl/fuzzing": {
+                "k": 15,
+                "n": 15,
+                "value": 1.0,
+                "lo": 0.7961166989641515,
+                "hi": 1.0
+              },
+              "hcrl/spoofing": {
+                "k": 5,
+                "n": 38,
+                "value": 0.13157894736842105,
+                "lo": 0.05753867690120133,
+                "hi": 0.2732685944229131
+              }
+            },
+            "confusion": {
+              "hcrl/dos": {
+                "dos": 17
+              },
+              "hcrl/fuzzing": {
+                "fuzzing": 15
+              },
+              "hcrl/spoofing": {
+                "dos": 32,
+                "spoofing": 5,
+                "benign": 1
+              }
+            },
+            "false_alarm_labels": {
+              "benign": 5,
+              "spoofing": 2
+            },
+            "false_alarms_called_benign": {
+              "k": 5,
+              "n": 7,
+              "value": 0.7142857142857143,
+              "lo": 0.35893445183261935,
+              "hi": 0.9177810759959433
+            },
+            "claims": 486,
+            "claims_with_valid_citations": {
+              "k": 480,
+              "n": 486,
+              "value": 0.9876543209876543,
+              "lo": 0.9733301127429683,
+              "hi": 0.9943299157510819
+            },
+            "replies_fully_grounded": {
+              "k": 71,
+              "n": 77,
+              "value": 0.922077922077922,
+              "lo": 0.8402438428027608,
+              "hi": 0.9637990449458338
+            },
+            "latency_s": {
+              "median": 55.41,
+              "max": 88.421
+            },
+            "completion_tokens": {
+              "median": 4447,
+              "total": 363252
+            },
+            "no_answer": 0
+          }
+        }
+      },
+      "prompt_ablation": {
+        "gemma-4-31b": {
+          "shared_alerts": 77,
+          "paired_attack_scores_v2_dosv1_vs_v2": {
+            "all": {
+              "n": 70,
+              "a_correct": 70,
+              "b_correct": 69,
+              "only_a_correct": 1,
+              "only_b_correct": 0,
+              "mcnemar_p": 1.0,
+              "difference": {
+                "difference": 0.014285714285714235,
+                "lo": 0.0,
+                "hi": 0.042857142857142816,
+                "n": 70,
+                "n_boot": 10000
+              }
+            },
+            "hcrl": {
+              "n": 70,
+              "a_correct": 70,
+              "b_correct": 69,
+              "only_a_correct": 1,
+              "only_b_correct": 0,
+              "mcnemar_p": 1.0,
+              "difference": {
+                "difference": 0.014285714285714235,
+                "lo": 0.0,
+                "hi": 0.042857142857142816,
+                "n": 70,
+                "n_boot": 10000
+              }
+            }
+          },
+          "shared_false_alarms_called_benign": {
+            "v2": {
+              "k": 5,
+              "n": 7,
+              "value": 0.7142857142857143,
+              "lo": 0.35893445183261935,
+              "hi": 0.9177810759959433
+            },
+            "v2-dosv1": {
+              "k": 5,
+              "n": 7,
+              "value": 0.7142857142857143,
+              "lo": 0.35893445183261935,
+              "hi": 0.9177810759959433
+            }
+          },
+          "shared_successful_median_latency_s": {
+            "v2": 15.995,
+            "v2-dosv1": 19.273
+          }
+        },
+        "glm-5.3": {
+          "shared_alerts": 77,
+          "paired_attack_scores_v2_dosv1_vs_v2": {
+            "all": {
+              "n": 70,
+              "a_correct": 70,
+              "b_correct": 59,
+              "only_a_correct": 11,
+              "only_b_correct": 0,
+              "mcnemar_p": 0.0009765625,
+              "difference": {
+                "difference": 0.15714285714285714,
+                "lo": 0.0714285714285714,
+                "hi": 0.24285714285714288,
+                "n": 70,
+                "n_boot": 10000
+              }
+            },
+            "hcrl": {
+              "n": 70,
+              "a_correct": 70,
+              "b_correct": 59,
+              "only_a_correct": 11,
+              "only_b_correct": 0,
+              "mcnemar_p": 0.0009765625,
+              "difference": {
+                "difference": 0.15714285714285714,
+                "lo": 0.0714285714285714,
+                "hi": 0.24285714285714288,
+                "n": 70,
+                "n_boot": 10000
+              }
+            }
+          },
+          "shared_false_alarms_called_benign": {
+            "v2": {
+              "k": 4,
+              "n": 7,
+              "value": 0.5714285714285714,
+              "lo": 0.2504583645276572,
+              "hi": 0.8417801447485302
+            },
+            "v2-dosv1": {
+              "k": 4,
+              "n": 7,
+              "value": 0.5714285714285714,
+              "lo": 0.2504583645276572,
+              "hi": 0.8417801447485302
+            }
+          },
+          "shared_successful_median_latency_s": {
+            "v2": 36.302499999999995,
+            "v2-dosv1": 90.206
+          }
+        },
+        "qwen3.6-27b-fp8": {
+          "shared_alerts": 77,
+          "paired_attack_scores_v2_dosv1_vs_v2": {
+            "all": {
+              "n": 70,
+              "a_correct": 69,
+              "b_correct": 37,
+              "only_a_correct": 33,
+              "only_b_correct": 1,
+              "mcnemar_p": 4.0745362639427185e-09,
+              "difference": {
+                "difference": 0.4571428571428572,
+                "lo": 0.3285714285714286,
+                "hi": 0.5714285714285714,
+                "n": 70,
+                "n_boot": 10000
+              }
+            },
+            "hcrl": {
+              "n": 70,
+              "a_correct": 69,
+              "b_correct": 37,
+              "only_a_correct": 33,
+              "only_b_correct": 1,
+              "mcnemar_p": 4.0745362639427185e-09,
+              "difference": {
+                "difference": 0.4571428571428572,
+                "lo": 0.3285714285714286,
+                "hi": 0.5714285714285714,
+                "n": 70,
+                "n_boot": 10000
+              }
+            }
+          },
+          "shared_false_alarms_called_benign": {
+            "v2": {
+              "k": 5,
+              "n": 7,
+              "value": 0.7142857142857143,
+              "lo": 0.35893445183261935,
+              "hi": 0.9177810759959433
+            },
+            "v2-dosv1": {
+              "k": 5,
+              "n": 7,
+              "value": 0.7142857142857143,
+              "lo": 0.35893445183261935,
+              "hi": 0.9177810759959433
+            }
+          },
+          "shared_successful_median_latency_s": {
+            "v2": 55.41,
+            "v2-dosv1": 64.522
+          }
+        }
+      }
+    }
+  },
+  "prior_development_overlap": {
+    "interpretation": "November roles are separated within that protocol. October development already used these recordings.",
+    "prior_hcrl": {
+      "path": "out/midterm_2026-10-20/hcrl_full/results.json",
+      "sha256": "84570d33a27a1733be4692f84d3448e9bbdfda131771e186ff314b6bff97cc12"
+    },
+    "prior_road": {
+      "path": "out/midterm_2026-10-20/road/results.json",
+      "sha256": "e26ebf82d7d900dba92b80ac339a2acadf1cf1b658baccaee1f538951608f357"
+    },
+    "prior_broad_road": {
+      "path": "out/detectors_2026-10-30/road_broad/results.json",
+      "sha256": "cc5fe00baa74f81e8380a9aabb01b63946cd6a7bcff2c94de94eb1038442c4d7"
+    },
+    "november_detection": {
+      "path": "out/benchmark/results.json",
+      "sha256": "30373bb1d829aaef17165312a2f36b847cdb0b16e304622fdaecd8da52a72c9a"
+    },
+    "november_evaluation_hcrl_attacks_scored_in_full_october": [
+      "DoS_dataset",
+      "Fuzzy_dataset",
+      "RPM_dataset",
+      "gear_dataset"
+    ],
+    "november_evaluation_road_attacks_scored_in_full_october": [
+      "correlated_signal_attack_2",
+      "correlated_signal_attack_2_masquerade",
+      "correlated_signal_attack_3",
+      "correlated_signal_attack_3_masquerade",
+      "fuzzing_attack_2",
+      "fuzzing_attack_3",
+      "max_engine_coolant_temp_attack",
+      "max_engine_coolant_temp_attack_masquerade",
+      "max_speedometer_attack_2",
+      "max_speedometer_attack_2_masquerade",
+      "max_speedometer_attack_3",
+      "max_speedometer_attack_3_masquerade",
+      "reverse_light_off_attack_2",
+      "reverse_light_off_attack_2_masquerade",
+      "reverse_light_off_attack_3",
+      "reverse_light_off_attack_3_masquerade",
+      "reverse_light_on_attack_2",
+      "reverse_light_on_attack_2_masquerade",
+      "reverse_light_on_attack_3",
+      "reverse_light_on_attack_3_masquerade"
+    ],
+    "november_evaluation_road_ambient_prefixes_scored_in_october": [
+      "ambient_dyno_drive_benign_anomaly",
+      "ambient_dyno_drive_extended_short",
+      "ambient_dyno_drive_winter",
+      "ambient_highway_street_driving_diagnostics"
+    ],
+    "november_evaluation_road_ambient_prefixes_used_as_october_reference": [
+      "ambient_dyno_idle_radio_infotainment"
+    ],
+    "ambient_slice_note": "October scored extended_short [0,120) and November heldout uses [120,240). The November detector evaluates the full capture."
+  },
+  "human_claim_review": {
+    "status": "incomplete",
+    "sheets": {
+      "A": {
+        "source": {
+          "path": "out/claim_review/heldout/rater_A.csv",
+          "sha256": "63f98974c1512110cd912b9346fcd55005b1b892698bd259190aad81b1b09992"
+        },
+        "rows": 40,
+        "labeled": 0
+      },
+      "B": {
+        "source": {
+          "path": "out/claim_review/heldout/rater_B.csv",
+          "sha256": "63f98974c1512110cd912b9346fcd55005b1b892698bd259190aad81b1b09992"
+        },
+        "rows": 40,
+        "labeled": 0
+      }
+    }
+  }
+}

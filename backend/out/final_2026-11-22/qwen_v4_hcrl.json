@@ -1,0 +1,509 @@
+{
+  "comparisons": [
+    {
+      "dataset": "hcrl",
+      "corpus_sha256": "c9f8ee0c7a9b71537a74186cfc257c75fbf3f7a555fd0742e0844ded6efd65e7",
+      "control": "mock",
+      "model": "qwen3-30b-a3b-instruct-fp8",
+      "matched_alerts": 69,
+      "matched_attack_alerts": 69,
+      "paired_attack_outcomes": {
+        "both_correct": 24,
+        "control_only_correct": 45,
+        "model_only_correct": 0,
+        "neither_correct": 0
+      },
+      "model_minus_control_accuracy": -0.6521739130434783,
+      "observed_accuracy_at_least_control": false,
+      "control_summary": {
+        "attempts": 69,
+        "successful_responses": 69,
+        "fallbacks": 0,
+        "classification": {
+          "scored_alerts": 69,
+          "correct": 69,
+          "accuracy": 1.0,
+          "successful_only_accuracy": 1.0,
+          "confusion": {
+            "dos": {
+              "dos": 16
+            },
+            "fuzzing": {
+              "fuzzing": 15
+            },
+            "spoofing": {
+              "spoofing": 38
+            }
+          }
+        },
+        "false_alarms": 0,
+        "false_alarms_labeled_benign": 0,
+        "grounding": {
+          "rate": 1.0,
+          "meaning": "Citation validity only; semantic claim support needs review"
+        },
+        "latency_s_median": 1.9e-05,
+        "latency_s_p95": 2.9e-05,
+        "latency_s_max": 0.000119,
+        "attempt_latency_s_p95": 2.9e-05,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0.0
+      },
+      "model_summary": {
+        "attempts": 69,
+        "successful_responses": 69,
+        "fallbacks": 0,
+        "classification": {
+          "scored_alerts": 69,
+          "correct": 24,
+          "accuracy": 0.34782608695652173,
+          "successful_only_accuracy": 0.34782608695652173,
+          "confusion": {
+            "dos": {
+              "spoofing": 9,
+              "dos": 4,
+              "fuzzing": 3
+            },
+            "fuzzing": {
+              "fuzzing": 15
+            },
+            "spoofing": {
+              "fuzzing": 33,
+              "spoofing": 5
+            }
+          }
+        },
+        "false_alarms": 0,
+        "false_alarms_labeled_benign": 0,
+        "grounding": {
+          "rate": 1.0,
+          "meaning": "Citation validity only; semantic claim support needs review"
+        },
+        "latency_s_median": 4.272,
+        "latency_s_p95": 5.4138,
+        "latency_s_max": 5.737,
+        "attempt_latency_s_p95": 5.4138,
+        "input_tokens": 259580,
+        "output_tokens": 38879,
+        "estimated_cost_usd": null
+      },
+      "errors": [
+        {
+          "corpus_index": 0,
+          "capture": "DoS_dataset",
+          "alert_id": 0,
+          "true_type": "dos",
+          "control_prediction": "dos",
+          "model_prediction": "spoofing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 1,
+          "capture": "DoS_dataset",
+          "alert_id": 1,
+          "true_type": "dos",
+          "control_prediction": "dos",
+          "model_prediction": "spoofing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 2,
+          "capture": "DoS_dataset",
+          "alert_id": 2,
+          "true_type": "dos",
+          "control_prediction": "dos",
+          "model_prediction": "spoofing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 3,
+          "capture": "DoS_dataset",
+          "alert_id": 3,
+          "true_type": "dos",
+          "control_prediction": "dos",
+          "model_prediction": "spoofing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 4,
+          "capture": "DoS_dataset",
+          "alert_id": 4,
+          "true_type": "dos",
+          "control_prediction": "dos",
+          "model_prediction": "spoofing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 6,
+          "capture": "DoS_dataset",
+          "alert_id": 6,
+          "true_type": "dos",
+          "control_prediction": "dos",
+          "model_prediction": "spoofing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 7,
+          "capture": "DoS_dataset",
+          "alert_id": 7,
+          "true_type": "dos",
+          "control_prediction": "dos",
+          "model_prediction": "spoofing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 8,
+          "capture": "DoS_dataset",
+          "alert_id": 8,
+          "true_type": "dos",
+          "control_prediction": "dos",
+          "model_prediction": "spoofing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 9,
+          "capture": "DoS_dataset",
+          "alert_id": 9,
+          "true_type": "dos",
+          "control_prediction": "dos",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 10,
+          "capture": "DoS_dataset",
+          "alert_id": 10,
+          "true_type": "dos",
+          "control_prediction": "dos",
+          "model_prediction": "spoofing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 13,
+          "capture": "DoS_dataset",
+          "alert_id": 13,
+          "true_type": "dos",
+          "control_prediction": "dos",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 14,
+          "capture": "DoS_dataset",
+          "alert_id": 14,
+          "true_type": "dos",
+          "control_prediction": "dos",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 31,
+          "capture": "RPM_dataset",
+          "alert_id": 0,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 32,
+          "capture": "RPM_dataset",
+          "alert_id": 1,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 33,
+          "capture": "RPM_dataset",
+          "alert_id": 2,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 34,
+          "capture": "RPM_dataset",
+          "alert_id": 3,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 35,
+          "capture": "RPM_dataset",
+          "alert_id": 4,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 36,
+          "capture": "RPM_dataset",
+          "alert_id": 5,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 39,
+          "capture": "RPM_dataset",
+          "alert_id": 8,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 40,
+          "capture": "RPM_dataset",
+          "alert_id": 9,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 41,
+          "capture": "RPM_dataset",
+          "alert_id": 10,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 43,
+          "capture": "RPM_dataset",
+          "alert_id": 12,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 44,
+          "capture": "RPM_dataset",
+          "alert_id": 13,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 46,
+          "capture": "RPM_dataset",
+          "alert_id": 15,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 47,
+          "capture": "RPM_dataset",
+          "alert_id": 16,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 48,
+          "capture": "RPM_dataset",
+          "alert_id": 17,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 49,
+          "capture": "RPM_dataset",
+          "alert_id": 18,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 50,
+          "capture": "gear_dataset",
+          "alert_id": 0,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 51,
+          "capture": "gear_dataset",
+          "alert_id": 1,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 52,
+          "capture": "gear_dataset",
+          "alert_id": 2,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 53,
+          "capture": "gear_dataset",
+          "alert_id": 3,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 54,
+          "capture": "gear_dataset",
+          "alert_id": 4,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 55,
+          "capture": "gear_dataset",
+          "alert_id": 5,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 56,
+          "capture": "gear_dataset",
+          "alert_id": 6,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 58,
+          "capture": "gear_dataset",
+          "alert_id": 8,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 59,
+          "capture": "gear_dataset",
+          "alert_id": 9,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 60,
+          "capture": "gear_dataset",
+          "alert_id": 10,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 61,
+          "capture": "gear_dataset",
+          "alert_id": 11,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 62,
+          "capture": "gear_dataset",
+          "alert_id": 12,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 63,
+          "capture": "gear_dataset",
+          "alert_id": 13,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 64,
+          "capture": "gear_dataset",
+          "alert_id": 14,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 65,
+          "capture": "gear_dataset",
+          "alert_id": 15,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 66,
+          "capture": "gear_dataset",
+          "alert_id": 16,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 67,
+          "capture": "gear_dataset",
+          "alert_id": 17,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        },
+        {
+          "corpus_index": 68,
+          "capture": "gear_dataset",
+          "alert_id": 18,
+          "true_type": "spoofing",
+          "control_prediction": "spoofing",
+          "model_prediction": "fuzzing",
+          "paired_outcome": "control_only_correct"
+        }
+      ],
+      "interpretation": "Observed paired outcomes on this development corpus only, not statistical equivalence, held-out validation, or evidence of analyst benefit. Alerts may overlap and share captures.",
+      "source_sha256": {
+        "control": "88658c389b47f2cb10447431d1c04d6388bf1b174e2baf0d3f6053fa36d76e23",
+        "model": "a2b3408e83eb9f5b1de147c51644d82f33dfc5aa61b2603b70403412f74c81a2"
+      },
+      "source_paths": {
+        "control": "out/explanations_v4_2026-10-30_control_v5/hcrl/explanations_mock.json",
+        "model": "out/explanations_expansion_2026-10-30_qwen3-30b-a3b-instruct-fp8/hcrl/explanations_rcd.json"
+      }
+    }
+  ]
+}

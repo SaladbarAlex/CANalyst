@@ -1,0 +1,2654 @@
+{
+  "dataset": "road",
+  "corpus_sha256": "2bcace3e64304d2b8f402b124af73c7549e4b459ca83549afe158e19f5fff0d6",
+  "manifest": {
+    "corpus_sha256": "2bcace3e64304d2b8f402b124af73c7549e4b459ca83549afe158e19f5fff0d6",
+    "selector": "rcd:qwen3-30b-a3b-instruct-fp8",
+    "request_key": "rcd:qwen3-30b-a3b-instruct-fp8:188d75956878",
+    "prompt_sha256": "654c9d6a52d596d4aabdf77e938492cd050205701a34dafc5d46a9de7595e11b",
+    "llm_code_sha256": "7b3dabd1dee8611d6c92391078d6a64e50629cf83a8f8704d2d79489fc047514",
+    "runner_sha256": "24ecc55d78c6836a7f663a0dce16e6ec0d5cb187e319b60768965ad5b6db4a60",
+    "limit": null,
+    "prices": null,
+    "workers": 2,
+    "timeout_s": 90.0
+  },
+  "model": "qwen3-30b-a3b-instruct-fp8",
+  "explainer": "rcd",
+  "temperature": 0.0,
+  "git": "5b8d6c6994a857569166540c1aa69f532ce59fef",
+  "reasoning_effort": null,
+  "max_tokens": 1800,
+  "prompt_version": "can-evidence-v3",
+  "status": "complete",
+  "expected_alerts": 31,
+  "alerts": [
+    {
+      "capture": "correlated_signal_attack_1",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 9.25,
+      "end": 30.0,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 0,
+      "evidence_sha256": "d30a6d2f9f156bad2ae4fb365ee47f00ddc6549080b0c3f991985448cf8471e2",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.95,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "Multiple CAN IDs (0x6E0, 0x69D, 0x075, 0x3B9, 0x4EE, 0x6D7) exhibit elevated rates with low entropy and inconsistent timing, indicating fabricated messages. The most significant deviation is 0x6E0, which shows a 2.02x rate increase, reduced IAT, and entropy drop from 6.952 to 3.746. Other IDs show similar patterns with 2.0 msg/s rates despite baseline near 1.0 msg/s, and entropy reductions. No replay evidence is present, and the IDs are not in the baseline, but the consistent rate inflation and entropy drop support spoofing.",
+        "claims": [
+          {
+            "text": "The CAN ID 0x6E0 shows a 2.02x rate increase over baseline, with a mean inter-arrival time of 4.975 ms versus 10.0 ms baseline, indicating reduced timing jitter.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The payload entropy for 0x6E0 dropped from 6.952 to 3.746, indicating reduced randomness and potential message fabrication.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Multiple IDs (0x69D, 0x075, 0x3B9, 0x4EE, 0x6D7) exhibit elevated rates (2.0 msg/s) with baseline near 1.0 msg/s, suggesting added frames beyond normal operation.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "Payload entropy for 0x69D, 0x075, 0x3B9, 0x4EE, and 0x6D7 is significantly lower than baseline, supporting non-random, fabricated payloads.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "No evidence of replay is present, as no earlier sequence is referenced and the frame samples do not show repeated sequences out of context.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "The detector's rate_inflation component is 0.583, driven by the elevated rates of multiple IDs, particularly 0x6E0.",
+            "cites": [
+              "E0",
+              "E2"
+            ]
+          },
+          {
+            "text": "The bus load remained stable at 2516 msg/s (1.05x baseline), ruling out denial-of-service flooding.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Isolate and investigate the source of the elevated CAN traffic on IDs 0x6E0, 0x69D, 0x075, 0x3B9, 0x4EE, and 0x6D7. Perform signal decoding to determine if payloads correspond to valid vehicle functions. If no valid function is identified, consider disabling or filtering these IDs at the gateway. Review vehicle state logs to correlate with the anomaly window.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"spoofing\", \"confidence\": 0.95, \"severity\": \"high\", \"affected_function\": \"unknown\", \"summary\": \"Multiple CAN IDs (0x6E0, 0x69D, 0x075, 0x3B9, 0x4EE, 0x6D7) exhibit elevated rates with low entropy and inconsistent timing, indicating fabricated messages. The most significant deviation is 0x6E0, which shows a 2.02x rate increase, reduced IAT, and entropy drop from 6.952 to 3.746. Other IDs show similar patterns with 2.0 msg/s rates despite baseline near 1.0 msg/s, and entropy reductions. No replay evidence is present, and the IDs are not in the baseline, but the consistent rate inflation and entropy drop support spoofing.\", \"claims\": [{\"text\": \"The CAN ID 0x6E0 shows a 2.02x rate increase over baseline, with a mean inter-arrival time of 4.975 ms versus 10.0 ms baseline, indicating reduced timing jitter.\", \"cites\": [\"E2\"]}, {\"text\": \"The payload entropy for 0x6E0 dropped from 6.952 to 3.746, indicating reduced randomness and potential message fabrication.\", \"cites\": [\"E2\"]}, {\"text\": \"Multiple IDs (0x69D, 0x075, 0x3B9, 0x4EE, 0x6D7) exhibit elevated rates (2.0 msg/s) with baseline near 1.0 msg/s, suggesting added frames beyond normal operation.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"Payload entropy for 0x69D, 0x075, 0x3B9, 0x4EE, and 0x6D7 is significantly lower than baseline, supporting non-random, fabricated payloads.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"No evidence of replay is present, as no earlier sequence is referenced and the frame samples do not show repeated sequences out of context.\", \"cites\": [\"E8\"]}, {\"text\": \"The detector's rate_inflation component is 0.583, driven by the elevated rates of multiple IDs, particularly 0x6E0.\", \"cites\": [\"E0\", \"E2\"]}, {\"text\": \"The bus load remained stable at 2516 msg/s (1.05x baseline), ruling out denial-of-service flooding.\", \"cites\": [\"E1\"]}], \"recommended_action\": \"Isolate and investigate the source of the elevated CAN traffic on IDs 0x6E0, 0x69D, 0x075, 0x3B9, 0x4EE, and 0x6D7. Perform signal decoding to determine if payloads correspond to valid vehicle functions. If no valid function is identified, consider disabling or filtering these IDs at the gateway. Review vehicle state logs to correlate with the anomaly window.\"}",
+        "latency_s": 5.672,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3567,
+          "output_tokens": 710
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "correlated_signal_attack_2",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 7.0,
+      "end": 28.0,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 1,
+      "evidence_sha256": "e24271498bd7e70d91438d96e59795a666c1b06a71c24e30bb2ae774d966df8c",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.95,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a high-rate injection of CAN frames on multiple unknown IDs, with significant rate inflation and reduced payload entropy. The most prominent deviation is on ID 0x6E0, which shows a 2.02x rate increase with collapsed timing jitter and entropy drop. The repeated payloads on 0x025 and 0x69D suggest fabricated messages, not replay, due to lack of sequence evidence and inconsistent timing. No evidence of flooding, fuzzing, or masquerade is present.",
+        "claims": [
+          {
+            "text": "The CAN bus experienced a sustained rate increase on ID 0x6E0, with a detector rate ratio of 2.02x, indicating abnormal frame injection.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "ID 0x6E0 exhibited a significant entropy drop from 6.952 to 3.742, consistent with non-random, fabricated payloads.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The timing jitter on ID 0x6E0 collapsed, with a jitter ratio of 5.592 and a mean IAT of 4.978 ms, indicating synchronized frame injection.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "ID 0x025 showed a 9.38x raw rate increase, but the detector rate ratio was 2.0x due to a guarded reference, suggesting a burst of frames not matching baseline behavior.",
+            "cites": [
+              "E3"
+            ]
+          },
+          {
+            "text": "The repeated payloads on 0x025 and 0x69D (e.g., 00 00 02 88 40 40 12 01 and 80 8D CF B0 4F C1 FC B1) appear identical and are not part of a known sequence, indicating fabrication rather than replay.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "No evidence of unknown IDs, missing IDs, or bus load increase supports a denial-of-service or fuzzing attack.",
+            "cites": [
+              "E0",
+              "E1",
+              "E2",
+              "E3"
+            ]
+          },
+          {
+            "text": "The affected vehicle function cannot be determined from the evidence, as all IDs are labeled as having unknown function.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Isolate and investigate the source of the high-rate injection on ID 0x6E0 and other affected IDs. Validate the legitimacy of the payloads and consider disabling or filtering frames from these IDs if they are not part of normal vehicle operation. Review baseline models for sparse IDs to prevent false negatives in future detection.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"spoofing\", \"confidence\": 0.95, \"severity\": \"high\", \"affected_function\": \"unknown\", \"summary\": \"The anomaly detector flagged a high-rate injection of CAN frames on multiple unknown IDs, with significant rate inflation and reduced payload entropy. The most prominent deviation is on ID 0x6E0, which shows a 2.02x rate increase with collapsed timing jitter and entropy drop. The repeated payloads on 0x025 and 0x69D suggest fabricated messages, not replay, due to lack of sequence evidence and inconsistent timing. No evidence of flooding, fuzzing, or masquerade is present.\", \"claims\": [{\"text\": \"The CAN bus experienced a sustained rate increase on ID 0x6E0, with a detector rate ratio of 2.02x, indicating abnormal frame injection.\", \"cites\": [\"E2\"]}, {\"text\": \"ID 0x6E0 exhibited a significant entropy drop from 6.952 to 3.742, consistent with non-random, fabricated payloads.\", \"cites\": [\"E2\"]}, {\"text\": \"The timing jitter on ID 0x6E0 collapsed, with a jitter ratio of 5.592 and a mean IAT of 4.978 ms, indicating synchronized frame injection.\", \"cites\": [\"E2\"]}, {\"text\": \"ID 0x025 showed a 9.38x raw rate increase, but the detector rate ratio was 2.0x due to a guarded reference, suggesting a burst of frames not matching baseline behavior.\", \"cites\": [\"E3\"]}, {\"text\": \"The repeated payloads on 0x025 and 0x69D (e.g., 00 00 02 88 40 40 12 01 and 80 8D CF B0 4F C1 FC B1) appear identical and are not part of a known sequence, indicating fabrication rather than replay.\", \"cites\": [\"E8\"]}, {\"text\": \"No evidence of unknown IDs, missing IDs, or bus load increase supports a denial-of-service or fuzzing attack.\", \"cites\": [\"E0\", \"E1\", \"E2\", \"E3\"]}, {\"text\": \"The affected vehicle function cannot be determined from the evidence, as all IDs are labeled as having unknown function.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}], \"recommended_action\": \"Isolate and investigate the source of the high-rate injection on ID 0x6E0 and other affected IDs. Validate the legitimacy of the payloads and consider disabling or filtering frames from these IDs if they are not part of normal vehicle operation. Review baseline models for sparse IDs to prevent false negatives in future detection.\"}",
+        "latency_s": 5.025,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3598,
+          "output_tokens": 622
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "correlated_signal_attack_2_masquerade",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 25.25,
+      "end": 25.75,
+      "true_type": "masquerade",
+      "detector_score": 0.5652,
+      "corpus_index": 2,
+      "evidence_sha256": "4db1826d3d67e4de8d0483a26a4dd26a09c2c3dea06ce2a5259787766fe5d02e",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.85,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "The alert window shows a significant rate inflation for ID 0x025, with a detector rate ratio of 2.0x and a raw rate ratio of 9.38x. The payload entropy for 0x025 is reduced from 3.28 to 2.625, indicating low randomness. Multiple other IDs (0x69D, 0x075, 0x4EE, 0x3B9, 0x0F1) show elevated rates but insufficient frames for jitter analysis. No known IDs are absent, and bus load is unchanged. The low entropy and high rate inflation for a previously unknown ID suggest fuzzing.",
+        "claims": [
+          {
+            "text": "The ID 0x025 shows a raw rate ratio of 9.38x, with a detector rate ratio of 2.0x, indicating significant rate inflation beyond baseline.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The payload entropy for 0x025 decreased from 3.28 to 2.625, indicating reduced randomness in the transmitted data.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The ID 0x025 is not in the baseline and has no known function, suggesting it is an unknown or unexpected ID.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Other IDs (0x69D, 0x075, 0x4EE, 0x3B9, 0x0F1) show elevated rates but insufficient frame counts for jitter analysis.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "No evidence of bus load increase, missing IDs, or timing anomalies supports a denial-of-service or masquerade attack.",
+            "cites": [
+              "E0",
+              "E1",
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The low entropy and high rate inflation for an unknown ID are consistent with fuzzing behavior.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Block or filter traffic from unknown ID 0x025 and investigate its source. Monitor for similar unknown IDs with low entropy and elevated rates. Update baseline if this behavior is confirmed as malicious.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"fuzzing\", \"confidence\": 0.85, \"severity\": \"high\", \"affected_function\": \"unknown\", \"summary\": \"The alert window shows a significant rate inflation for ID 0x025, with a detector rate ratio of 2.0x and a raw rate ratio of 9.38x. The payload entropy for 0x025 is reduced from 3.28 to 2.625, indicating low randomness. Multiple other IDs (0x69D, 0x075, 0x4EE, 0x3B9, 0x0F1) show elevated rates but insufficient frames for jitter analysis. No known IDs are absent, and bus load is unchanged. The low entropy and high rate inflation for a previously unknown ID suggest fuzzing.\", \"claims\": [{\"text\": \"The ID 0x025 shows a raw rate ratio of 9.38x, with a detector rate ratio of 2.0x, indicating significant rate inflation beyond baseline.\", \"cites\": [\"E2\"]}, {\"text\": \"The payload entropy for 0x025 decreased from 3.28 to 2.625, indicating reduced randomness in the transmitted data.\", \"cites\": [\"E2\"]}, {\"text\": \"The ID 0x025 is not in the baseline and has no known function, suggesting it is an unknown or unexpected ID.\", \"cites\": [\"E2\"]}, {\"text\": \"Other IDs (0x69D, 0x075, 0x4EE, 0x3B9, 0x0F1) show elevated rates but insufficient frame counts for jitter analysis.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"No evidence of bus load increase, missing IDs, or timing anomalies supports a denial-of-service or masquerade attack.\", \"cites\": [\"E0\", \"E1\", \"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"The low entropy and high rate inflation for an unknown ID are consistent with fuzzing behavior.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}], \"recommended_action\": \"Block or filter traffic from unknown ID 0x025 and investigate its source. Monitor for similar unknown IDs with low entropy and elevated rates. Update baseline if this behavior is confirmed as malicious.\"}",
+        "latency_s": 4.293,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3360,
+          "output_tokens": 563
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "correlated_signal_attack_2_masquerade",
+      "role": "attack_capture",
+      "alert_id": 1,
+      "start": 26.25,
+      "end": 27.5,
+      "true_type": "masquerade",
+      "detector_score": 0.5652,
+      "corpus_index": 3,
+      "evidence_sha256": "a57e80123090379126f30b002a98b1ab0e4c967870556041f4e5f0ba860cf48b",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.85,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window with elevated rate inflation and reduced payload entropy, primarily driven by a single ID (0x025) showing a 9.38x raw rate increase. The payload entropy dropped significantly (2.625 vs baseline 3.28), and multiple unknown IDs exhibited abnormal rates with minimal frame counts, suggesting injection of non-standard or random data. No replay evidence is present, and the high rate inflation with low entropy supports a fuzzing attack.",
+        "claims": [
+          {
+            "text": "The window shows a significant rate inflation component (0.565) in the detector score, driven by a 9.38x raw rate increase for ID 0x025.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for ID 0x025 dropped from 3.28 to 2.625, indicating reduced randomness and potential injection of structured or malformed data.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Multiple unknown IDs (0x025, 0x69D, 0x075, 0x4EE, 0x6D7, 0x655) exhibit abnormal rates with very low frame counts in the statistics window, suggesting injection of new or non-standard messages.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The detector rate ratio for 0x025 is 2.0x, which is based on a guarded reference of 6.0 msg/s, indicating the system treats the ID as sparse and applies rate normalization.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "No evidence of replay is present, as no earlier reference sequence is supplied, and the identical payloads on different IDs are not part of a repeated sequence.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "The low jitter eligibility (fewer than eight frames) prevents timing-based analysis, but the entropy drop and rate inflation are sufficient to classify the attack as fuzzing.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Block or filter traffic from unknown CAN IDs with abnormal rate inflation and low payload entropy. Investigate the source of the injected frames (0x025, 0x69D, etc.) and validate the legitimacy of their payloads. Update the baseline model to account for potential new vehicle states if the behavior is confirmed as benign.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"fuzzing\", \"confidence\": 0.85, \"severity\": \"high\", \"affected_function\": \"unknown\", \"summary\": \"The anomaly detector flagged a window with elevated rate inflation and reduced payload entropy, primarily driven by a single ID (0x025) showing a 9.38x raw rate increase. The payload entropy dropped significantly (2.625 vs baseline 3.28), and multiple unknown IDs exhibited abnormal rates with minimal frame counts, suggesting injection of non-standard or random data. No replay evidence is present, and the high rate inflation with low entropy supports a fuzzing attack.\", \"claims\": [{\"text\": \"The window shows a significant rate inflation component (0.565) in the detector score, driven by a 9.38x raw rate increase for ID 0x025.\", \"cites\": [\"E2\"]}, {\"text\": \"Payload entropy for ID 0x025 dropped from 3.28 to 2.625, indicating reduced randomness and potential injection of structured or malformed data.\", \"cites\": [\"E2\"]}, {\"text\": \"Multiple unknown IDs (0x025, 0x69D, 0x075, 0x4EE, 0x6D7, 0x655) exhibit abnormal rates with very low frame counts in the statistics window, suggesting injection of new or non-standard messages.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"The detector rate ratio for 0x025 is 2.0x, which is based on a guarded reference of 6.0 msg/s, indicating the system treats the ID as sparse and applies rate normalization.\", \"cites\": [\"E2\"]}, {\"text\": \"No evidence of replay is present, as no earlier reference sequence is supplied, and the identical payloads on different IDs are not part of a repeated sequence.\", \"cites\": [\"E8\"]}, {\"text\": \"The low jitter eligibility (fewer than eight frames) prevents timing-based analysis, but the entropy drop and rate inflation are sufficient to classify the attack as fuzzing.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}], \"recommended_action\": \"Block or filter traffic from unknown CAN IDs with abnormal rate inflation and low payload entropy. Investigate the source of the injected frames (0x025, 0x69D, etc.) and validate the legitimacy of their payloads. Update the baseline model to account for potential new vehicle states if the behavior is confirmed as benign.\"}",
+        "latency_s": 4.394,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3552,
+          "output_tokens": 584
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "correlated_signal_attack_3",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 4.5,
+      "end": 16.75,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 4,
+      "evidence_sha256": "3a7bdac292ed19e3614c53f92b37d99f54b987d5506aaa598da4d73147958360",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.9,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a high-rate injection of CAN frames on multiple IDs (0x6E0, 0x69D, 0x075, 0x4EE, 0x6D7, 0x655) with sustained elevated rates, particularly 0x6E0 at 202 msg/s (2.02x baseline). Frame timing shows reduced IAT and collapsed jitter, indicating synchronized transmission. Payload entropy is significantly lower than baseline, suggesting non-random, repeated data. No evidence of replay or unknown IDs. The pattern is consistent with spoofing of known IDs with fabricated, low-entropy payloads.",
+        "claims": [
+          {
+            "text": "The CAN ID 0x6E0 exhibited a rate ratio of 2.02x above baseline, with 202.0 msg/s observed versus 99.999863 msg/s baseline.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The 0x6E0 ID showed reduced inter-arrival time (mean gap 4.989 ms vs 10.0 ms baseline) and collapsed jitter (jitter ratio 5.947), indicating synchronized transmission.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The 0x6E0 ID had payload entropy of 3.931, significantly lower than baseline 6.952, indicating non-random, structured payloads.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Multiple IDs (0x69D, 0x075, 0x4EE, 0x6D7, 0x655) showed elevated rates in the first 0.5s window, with detector rate ratios of 0.333x due to guarded reference, but raw rate ratios were 1.999x to 2.003x.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "Sampled frames from the alert window show repeated payloads on 0x075 and 0x69D, such as '0F 32 00 0F B0 1E E0 00' and '80 8D CF B0 4F C1 FC B1', suggesting fabrication rather than replay.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "No evidence of unknown IDs, bus load increase, or missing IDs was found, ruling out fuzzing, dos, and missing ID attacks.",
+            "cites": [
+              "E0",
+              "E1",
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Isolate and investigate the source of the high-rate CAN traffic on IDs 0x6E0, 0x69D, 0x075, 0x4EE, 0x6D7, and 0x655. Validate the legitimacy of these messages using vehicle-specific signal decoding. Implement message rate and entropy monitoring on critical IDs to detect future spoofing attempts.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"spoofing\", \"confidence\": 0.9, \"severity\": \"high\", \"affected_function\": \"unknown\", \"summary\": \"The anomaly detector flagged a high-rate injection of CAN frames on multiple IDs (0x6E0, 0x69D, 0x075, 0x4EE, 0x6D7, 0x655) with sustained elevated rates, particularly 0x6E0 at 202 msg/s (2.02x baseline). Frame timing shows reduced IAT and collapsed jitter, indicating synchronized transmission. Payload entropy is significantly lower than baseline, suggesting non-random, repeated data. No evidence of replay or unknown IDs. The pattern is consistent with spoofing of known IDs with fabricated, low-entropy payloads.\", \"claims\": [{\"text\": \"The CAN ID 0x6E0 exhibited a rate ratio of 2.02x above baseline, with 202.0 msg/s observed versus 99.999863 msg/s baseline.\", \"cites\": [\"E2\"]}, {\"text\": \"The 0x6E0 ID showed reduced inter-arrival time (mean gap 4.989 ms vs 10.0 ms baseline) and collapsed jitter (jitter ratio 5.947), indicating synchronized transmission.\", \"cites\": [\"E2\"]}, {\"text\": \"The 0x6E0 ID had payload entropy of 3.931, significantly lower than baseline 6.952, indicating non-random, structured payloads.\", \"cites\": [\"E2\"]}, {\"text\": \"Multiple IDs (0x69D, 0x075, 0x4EE, 0x6D7, 0x655) showed elevated rates in the first 0.5s window, with detector rate ratios of 0.333x due to guarded reference, but raw rate ratios were 1.999x to 2.003x.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"Sampled frames from the alert window show repeated payloads on 0x075 and 0x69D, such as '0F 32 00 0F B0 1E E0 00' and '80 8D CF B0 4F C1 FC B1', suggesting fabrication rather than replay.\", \"cites\": [\"E8\"]}, {\"text\": \"No evidence of unknown IDs, bus load increase, or missing IDs was found, ruling out fuzzing, dos, and missing ID attacks.\", \"cites\": [\"E0\", \"E1\", \"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}], \"recommended_action\": \"Isolate and investigate the source of the high-rate CAN traffic on IDs 0x6E0, 0x69D, 0x075, 0x4EE, 0x6D7, and 0x655. Validate the legitimacy of these messages using vehicle-specific signal decoding. Implement message rate and entropy monitoring on critical IDs to detect future spoofing attempts.\"}",
+        "latency_s": 5.426,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3543,
+          "output_tokens": 713
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "fuzzing_attack_1",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 4.25,
+      "end": 8.25,
+      "true_type": "fuzzing",
+      "detector_score": 1.0,
+      "corpus_index": 5,
+      "evidence_sha256": "f67859baf61da0ca15d7ad59294516e2f431cdd27e9ab0101862a42de1d87d31",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.95,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "The alert window contains multiple unknown CAN IDs (0x070, 0x095, 0x09F, 0x0B3, 0x0C4, 0x0CA) each transmitting a single frame with all-FF payloads, indicating potential fuzzing attack. The detector score is maximized due to high unknown ID presence and elevated payload entropy, though entropy is reported as -0.0, suggesting uniform payload patterns. No replay evidence is present, and bus load remains near baseline.",
+        "claims": [
+          {
+            "text": "The alert window contains six unknown CAN IDs not present in the baseline set.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "Each unknown ID transmitted exactly one frame during the full alert window at a rate of 0.250 msg/s.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "All unknown ID frames have payloads consisting of all 0xFF bytes, indicating uniform and potentially malicious data injection.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "The detector score is 1.0, primarily driven by the presence of unknown IDs (component score 1.0) and rate inflation (0.565).",
+            "cites": [
+              "E0",
+              "E1"
+            ]
+          },
+          {
+            "text": "Payload entropy for unknown IDs is reported as -0.000 bits, indicating no variation in payload data, consistent with fuzzing.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Block or filter all traffic from unknown CAN IDs 0x070, 0x095, 0x09F, 0x0B3, 0x0C4, and 0x0CA. Investigate the source of these IDs and validate whether they belong to a legitimate vehicle function. Update the baseline to include these IDs if they are legitimate, or implement a filtering policy to prevent future unknown ID injection.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"fuzzing\", \"confidence\": 0.95, \"severity\": \"high\", \"affected_function\": \"unknown\", \"summary\": \"The alert window contains multiple unknown CAN IDs (0x070, 0x095, 0x09F, 0x0B3, 0x0C4, 0x0CA) each transmitting a single frame with all-FF payloads, indicating potential fuzzing attack. The detector score is maximized due to high unknown ID presence and elevated payload entropy, though entropy is reported as -0.0, suggesting uniform payload patterns. No replay evidence is present, and bus load remains near baseline.\", \"claims\": [{\"text\": \"The alert window contains six unknown CAN IDs not present in the baseline set.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"Each unknown ID transmitted exactly one frame during the full alert window at a rate of 0.250 msg/s.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"All unknown ID frames have payloads consisting of all 0xFF bytes, indicating uniform and potentially malicious data injection.\", \"cites\": [\"E8\"]}, {\"text\": \"The detector score is 1.0, primarily driven by the presence of unknown IDs (component score 1.0) and rate inflation (0.565).\", \"cites\": [\"E0\", \"E1\"]}, {\"text\": \"Payload entropy for unknown IDs is reported as -0.000 bits, indicating no variation in payload data, consistent with fuzzing.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}], \"recommended_action\": \"Block or filter all traffic from unknown CAN IDs 0x070, 0x095, 0x09F, 0x0B3, 0x0C4, and 0x0CA. Investigate the source of these IDs and validate whether they belong to a legitimate vehicle function. Update the baseline to include these IDs if they are legitimate, or implement a filtering policy to prevent future unknown ID injection.\"}",
+        "latency_s": 3.764,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2402,
+          "output_tokens": 504
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": [
+          {
+            "code": "ambiguous_hex_reference",
+            "field": "claims[2].text",
+            "token": "0xFF",
+            "canonical_id": "0x0FF",
+            "start": 54,
+            "end": 58,
+            "message": "This hexadecimal reference is absent from the supplied CAN IDs. It may be a payload value, mask, or general example; review its meaning."
+          }
+        ]
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "fuzzing_attack_1",
+      "role": "attack_capture",
+      "alert_id": 1,
+      "start": 16.25,
+      "end": 20.0,
+      "true_type": "normal",
+      "detector_score": 0.5652,
+      "corpus_index": 6,
+      "evidence_sha256": "7a81da7cd9a056f48c3b2fb1b99c66c8a7d16ebee000363ee3af68bff2bf88c9",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.9,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "Multiple CAN IDs (0x025, 0x075, 0x69D, 0x4EE, 0x6D7, 0x655) exhibited elevated rates with consistent payloads, indicating potential spoofing. The most significant deviation is ID 0x025, which showed a 9.38x raw rate increase and a detector rate ratio of 2.0x, with stable, repeated payloads. No evidence of replay or fuzzing; entropy remains low. The absence of timing jitter and lack of sequence evidence prevent replay classification.",
+        "claims": [
+          {
+            "text": "The CAN ID 0x025 showed a raw rate ratio of 9.38x and a detector rate ratio of 2.0x, indicating a significant rate inflation beyond baseline.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The payload for 0x025 was repeated with minor variations (00 00 0A A8 ... vs 00 00 0A C8 ...), suggesting fabricated frames rather than random noise.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "Other IDs (0x075, 0x69D, 0x4EE, 0x6D7, 0x655) also showed elevated rates with repeated payloads, consistent with spoofing.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "Payload entropy for all affected IDs was low (2.0\u20133.156), below baseline (3.28\u20135.621), indicating non-random, structured data rather than fuzzing.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "No evidence of replay was found, as no earlier reference sequence was provided and the frames were sampled from a single alert window.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "The bus load increased only slightly (1.02x), ruling out a denial-of-service attack.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "The affected IDs are not known in the baseline, but their functions are unknown, so no specific vehicle function can be identified.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Isolate and investigate the source of the high-rate injection on CAN IDs 0x025, 0x075, 0x69D, 0x4EE, 0x6D7, and 0x655. Validate the legitimacy of these IDs and their payloads. Implement CAN ID filtering or authentication for unknown or high-rate IDs. Review vehicle network segmentation to prevent unauthorized message injection.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"Multiple CAN IDs (0x025, 0x075, 0x69D, 0x4EE, 0x6D7, 0x655) exhibited elevated rates with consistent payloads, indicating potential spoofing. The most significant deviation is ID 0x025, which showed a 9.38x raw rate increase and a detector rate ratio of 2.0x, with stable, repeated payloads. No evidence of replay or fuzzing; entropy remains low. The absence of timing jitter and lack of sequence evidence prevent replay classification.\",\n  \"claims\": [\n    {\n      \"text\": \"The CAN ID 0x025 showed a raw rate ratio of 9.38x and a detector rate ratio of 2.0x, indicating a significant rate inflation beyond baseline.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"The payload for 0x025 was repeated with minor variations (00 00 0A A8 ... vs 00 00 0A C8 ...), suggesting fabricated frames rather than random noise.\",\n      \"cites\": [\"E8\"]\n    },\n    {\n      \"text\": \"Other IDs (0x075, 0x69D, 0x4EE, 0x6D7, 0x655) also showed elevated rates with repeated payloads, consistent with spoofing.\",\n      \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]\n    },\n    {\n      \"text\": \"Payload entropy for all affected IDs was low (2.0\u20133.156), below baseline (3.28\u20135.621), indicating non-random, structured data rather than fuzzing.\",\n      \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]\n    },\n    {\n      \"text\": \"No evidence of replay was found, as no earlier reference sequence was provided and the frames were sampled from a single alert window.\",\n      \"cites\": [\"E8\"]\n    },\n    {\n      \"text\": \"The bus load increased only slightly (1.02x), ruling out a denial-of-service attack.\",\n      \"cites\": [\"E1\"]\n    },\n    {\n      \"text\": \"The affected IDs are not known in the baseline, but their functions are unknown, so no specific vehicle function can be identified.\",\n      \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]\n    }\n  ],\n  \"recommended_action\": \"Isolate and investigate the source of the high-rate injection on CAN IDs 0x025, 0x075, 0x69D, 0x4EE, 0x6D7, and 0x655. Validate the legitimacy of these IDs and their payloads. Implement CAN ID filtering or authentication for unknown or high-rate IDs. Review vehicle network segmentation to prevent unauthorized message injection.\"\n}",
+        "latency_s": 5.202,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3549,
+          "output_tokens": 704
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "fuzzing_attack_2",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 11.0,
+      "end": 13.5,
+      "true_type": "fuzzing",
+      "detector_score": 1.0,
+      "corpus_index": 7,
+      "evidence_sha256": "9e79d3859c94fe0abb3d131c6256ecf7431ea7e0cae39a07a4cb57d5ee78ea17",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.95,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "Multiple unknown CAN IDs (0x070, 0x095, 0x09F, 0x0B3, 0x0C4, 0x0CA) were observed once each during the alert window, each transmitting a single frame with all-ones payload (0xFF) and zero entropy, indicating potential fuzzing attack. The detector score is maximized due to the presence of unknown IDs and elevated timing jitter, though bus load and rate inflation are not significant.",
+        "claims": [
+          {
+            "text": "The alert window contains six unique CAN IDs not present in the baseline set.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "Each unknown ID transmitted exactly one frame during the full alert window at a rate of 0.4 msg/s.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "All unknown ID frames had payloads consisting of all 0xFF bytes, resulting in zero payload entropy.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "The detector score is 1.0, driven primarily by the presence of unknown IDs (component score 1.0) and moderate timing deviation (0.45).",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "No earlier reference sequence is available to confirm replay or sequence-based attack patterns.",
+            "cites": [
+              "E8"
+            ]
+          }
+        ],
+        "recommended_action": "Block or filter all traffic from the unknown CAN IDs (0x070, 0x095, 0x09F, 0x0B3, 0x0C4, 0x0CA) at the gateway, and investigate the source of these frames to determine if they originate from a compromised ECU or malicious device. Review baseline ID set for completeness.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"fuzzing\", \"confidence\": 0.95, \"severity\": \"high\", \"affected_function\": \"unknown\", \"summary\": \"Multiple unknown CAN IDs (0x070, 0x095, 0x09F, 0x0B3, 0x0C4, 0x0CA) were observed once each during the alert window, each transmitting a single frame with all-ones payload (0xFF) and zero entropy, indicating potential fuzzing attack. The detector score is maximized due to the presence of unknown IDs and elevated timing jitter, though bus load and rate inflation are not significant.\", \"claims\": [{\"text\": \"The alert window contains six unique CAN IDs not present in the baseline set.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"Each unknown ID transmitted exactly one frame during the full alert window at a rate of 0.4 msg/s.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"All unknown ID frames had payloads consisting of all 0xFF bytes, resulting in zero payload entropy.\", \"cites\": [\"E8\"]}, {\"text\": \"The detector score is 1.0, driven primarily by the presence of unknown IDs (component score 1.0) and moderate timing deviation (0.45).\", \"cites\": [\"E0\"]}, {\"text\": \"No earlier reference sequence is available to confirm replay or sequence-based attack patterns.\", \"cites\": [\"E8\"]}], \"recommended_action\": \"Block or filter all traffic from the unknown CAN IDs (0x070, 0x095, 0x09F, 0x0B3, 0x0C4, 0x0CA) at the gateway, and investigate the source of these frames to determine if they originate from a compromised ECU or malicious device. Review baseline ID set for completeness.\"}",
+        "latency_s": 3.361,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2393,
+          "output_tokens": 448
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": [
+          {
+            "code": "ambiguous_hex_reference",
+            "field": "summary",
+            "token": "0xFF",
+            "canonical_id": "0x0FF",
+            "start": 173,
+            "end": 177,
+            "message": "This hexadecimal reference is absent from the supplied CAN IDs. It may be a payload value, mask, or general example; review its meaning."
+          },
+          {
+            "code": "ambiguous_hex_reference",
+            "field": "claims[2].text",
+            "token": "0xFF",
+            "canonical_id": "0x0FF",
+            "start": 53,
+            "end": 57,
+            "message": "This hexadecimal reference is absent from the supplied CAN IDs. It may be a payload value, mask, or general example; review its meaning."
+          }
+        ]
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "fuzzing_attack_3",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 4.5,
+      "end": 5.5,
+      "true_type": "fuzzing",
+      "detector_score": 1.0,
+      "corpus_index": 8,
+      "evidence_sha256": "7b4c99f869c1ac8d54fed352a9974e6a43124807ee2596e90f1201822a85067e",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.95,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "The alert window contains multiple unknown CAN IDs (0x04A, 0x070, 0x095, 0x09F, 0x0B3, 0x0C4) each transmitted once with fully random payloads (all FF), indicating potential fuzzing attack. No evidence of replay, spoofing, or denial-of-service is present.",
+        "claims": [
+          {
+            "text": "The alert window contains 2470 frames over 1.00 second, with a peak bus rate of 2556 msg/s, slightly above the baseline of 2392 msg/s, but bus load remains at 0.000, indicating no flooding.",
+            "cites": [
+              "E0",
+              "E1"
+            ]
+          },
+          {
+            "text": "Six unknown CAN IDs (0x04A, 0x070, 0x095, 0x09F, 0x0B3, 0x0C4) are present in the alert window, each sent only once, and were not in the baseline ID set.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "Each unknown ID transmitted a payload of all FF bytes, resulting in a payload entropy of -0.000 bits, indicating maximum randomness and no semantic structure.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7",
+              "E8"
+            ]
+          },
+          {
+            "text": "The detector score of 1.000 is primarily driven by the presence of unknown IDs (component score 1.000), with secondary contributions from timing (0.450) and payload entropy (0.200).",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "No earlier reference sequence is available, so replay cannot be confirmed; the identical payloads on different IDs do not constitute sequence replay evidence.",
+            "cites": [
+              "E8"
+            ]
+          }
+        ],
+        "recommended_action": "Block or filter all unknown CAN IDs (0x04A, 0x070, 0x095, 0x09F, 0x0B3, 0x0C4) at the gateway and investigate the source of these frames to prevent potential fuzzing or probing attacks.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"fuzzing\", \"confidence\": 0.95, \"severity\": \"high\", \"affected_function\": \"unknown\", \"summary\": \"The alert window contains multiple unknown CAN IDs (0x04A, 0x070, 0x095, 0x09F, 0x0B3, 0x0C4) each transmitted once with fully random payloads (all FF), indicating potential fuzzing attack. No evidence of replay, spoofing, or denial-of-service is present.\", \"claims\": [{\"text\": \"The alert window contains 2470 frames over 1.00 second, with a peak bus rate of 2556 msg/s, slightly above the baseline of 2392 msg/s, but bus load remains at 0.000, indicating no flooding.\", \"cites\": [\"E0\", \"E1\"]}, {\"text\": \"Six unknown CAN IDs (0x04A, 0x070, 0x095, 0x09F, 0x0B3, 0x0C4) are present in the alert window, each sent only once, and were not in the baseline ID set.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"Each unknown ID transmitted a payload of all FF bytes, resulting in a payload entropy of -0.000 bits, indicating maximum randomness and no semantic structure.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\", \"E8\"]}, {\"text\": \"The detector score of 1.000 is primarily driven by the presence of unknown IDs (component score 1.000), with secondary contributions from timing (0.450) and payload entropy (0.200).\", \"cites\": [\"E0\"]}, {\"text\": \"No earlier reference sequence is available, so replay cannot be confirmed; the identical payloads on different IDs do not constitute sequence replay evidence.\", \"cites\": [\"E8\"]}], \"recommended_action\": \"Block or filter all unknown CAN IDs (0x04A, 0x070, 0x095, 0x09F, 0x0B3, 0x0C4) at the gateway and investigate the source of these frames to prevent potential fuzzing or probing attacks.\"}",
+        "latency_s": 4.102,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 2373,
+          "output_tokens": 547
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "max_engine_coolant_temp_attack",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 20.25,
+      "end": 24.25,
+      "true_type": "spoofing",
+      "detector_score": 0.7391,
+      "corpus_index": 9,
+      "evidence_sha256": "f13a7e6853ed9da48dc13cfd49e3312f1ef557a4388c70e0997a3f724aee2290",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.85,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a window with multiple unknown CAN IDs exhibiting elevated rates and reduced payload entropy, indicating potential fuzzing. The primary evidence is the appearance of unknown IDs (0x4E7, 0x69D, 0x3B9, 0x4EE, 0x075, 0x0F1) with rate inflation and entropy drops, especially for 0x4E7, which shows a 2.2x rate increase and entropy reduction from 2.148 to 1.673. No replay sequence is present, and the bus load is nominal, ruling out DoS. The low entropy and presence of new IDs suggest injection of random or malformed payloads.",
+        "claims": [
+          {
+            "text": "Multiple unknown CAN IDs (0x4E7, 0x69D, 0x3B9, 0x4EE, 0x075, 0x0F1) appeared in the alert window with elevated rates compared to baseline.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The ID 0x4E7 showed a 2.2x detector rate ratio, with a significant drop in payload entropy from 2.148 to 1.673, indicating non-random payload patterns.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for multiple unknown IDs was reduced compared to baseline, with 0x4E7 showing a delta of -0.475 and 0x69D showing -2.621.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The detector's rate_inflation component scored 0.739, driven by the elevated rates of unknown IDs, and the payload_entropy component scored 0.364, indicating low entropy.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "No evidence of replay was found, as no earlier sequence was provided and no identical payload sequences were repeated out of context.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "Bus load remained stable at 1.02x baseline, ruling out DoS via flooding.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Isolate and investigate the source of unknown CAN IDs (0x4E7, 0x69D, etc.). Validate the legitimacy of these IDs against the vehicle's ECU configuration. Implement filtering or blocking of unknown IDs with low entropy and high rate inflation. Review baseline models for sparse IDs to prevent false negatives.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\n  \"attack_type\": \"fuzzing\",\n  \"confidence\": 0.85,\n  \"severity\": \"high\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The anomaly detector flagged a window with multiple unknown CAN IDs exhibiting elevated rates and reduced payload entropy, indicating potential fuzzing. The primary evidence is the appearance of unknown IDs (0x4E7, 0x69D, 0x3B9, 0x4EE, 0x075, 0x0F1) with rate inflation and entropy drops, especially for 0x4E7, which shows a 2.2x rate increase and entropy reduction from 2.148 to 1.673. No replay sequence is present, and the bus load is nominal, ruling out DoS. The low entropy and presence of new IDs suggest injection of random or malformed payloads.\",\n  \"claims\": [\n    {\n      \"text\": \"Multiple unknown CAN IDs (0x4E7, 0x69D, 0x3B9, 0x4EE, 0x075, 0x0F1) appeared in the alert window with elevated rates compared to baseline.\",\n      \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]\n    },\n    {\n      \"text\": \"The ID 0x4E7 showed a 2.2x detector rate ratio, with a significant drop in payload entropy from 2.148 to 1.673, indicating non-random payload patterns.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"Payload entropy for multiple unknown IDs was reduced compared to baseline, with 0x4E7 showing a delta of -0.475 and 0x69D showing -2.621.\",\n      \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]\n    },\n    {\n      \"text\": \"The detector's rate_inflation component scored 0.739, driven by the elevated rates of unknown IDs, and the payload_entropy component scored 0.364, indicating low entropy.\",\n      \"cites\": [\"E0\"]\n    },\n    {\n      \"text\": \"No evidence of replay was found, as no earlier sequence was provided and no identical payload sequences were repeated out of context.\",\n      \"cites\": [\"E8\"]\n    },\n    {\n      \"text\": \"Bus load remained stable at 1.02x baseline, ruling out DoS via flooding.\",\n      \"cites\": [\"E1\"]\n    }\n  ],\n  \"recommended_action\": \"Isolate and investigate the source of unknown CAN IDs (0x4E7, 0x69D, etc.). Validate the legitimacy of these IDs against the vehicle's ECU configuration. Implement filtering or blocking of unknown IDs with low entropy and high rate inflation. Review baseline models for sparse IDs to prevent false negatives.\"\n}",
+        "latency_s": 4.927,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3572,
+          "output_tokens": 655
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "max_speedometer_attack_1",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 42.0,
+      "end": 66.75,
+      "true_type": "spoofing",
+      "detector_score": 1.0,
+      "corpus_index": 10,
+      "evidence_sha256": "be68c353a290596cb1f659166194ddfd21c2c5b36ceb346f943da6e8a479374a",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.95,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "Multiple CAN IDs exhibit sustained rate inflation and reduced payload entropy, with 0x0D0 and 0x280 showing significant increases in transmission rate and abnormal timing patterns. The repeated identical payloads on 0x69D suggest potential replay or fabrication, but without a prior sequence, spoofing is the most plausible explanation. No evidence of unknown IDs or bus load increase supports spoofing over other attack types.",
+        "claims": [
+          {
+            "text": "The CAN ID 0x0D0 shows a raw rate ratio of 2.02x and a detector rate ratio of 2.02x, indicating a significant increase in transmission rate above baseline.",
+            "cites": [
+              "E3"
+            ]
+          },
+          {
+            "text": "The CAN ID 0x280 exhibits a raw rate ratio of 5.167x and a detector rate ratio of 4.333x, with a mean inter-arrival time of 38.333 ms versus a baseline of 198.754 ms, indicating a substantial increase in transmission frequency.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The payload entropy for 0x280 decreased from 1.518 to 1.181, suggesting reduced randomness and potential manipulation of data.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The payload for 0x69D is repeated identically at 42.316s and 43.316s, but without a prior reference sequence, this does not confirm replay; thus, it is consistent with spoofing.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "No unknown CAN IDs are present, ruling out fuzzing and confirming that the anomaly involves known IDs with abnormal behavior.",
+            "cites": [
+              "E0",
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The bus load remains nearly unchanged (2536 msg/s vs 2392 msg/s baseline), indicating no flooding or denial-of-service attack.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "The timing component of the detector score (0.45) and reduced jitter ratio (0.933) for 0x280 suggest abnormal timing patterns consistent with spoofing.",
+            "cites": [
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Isolate and investigate the source of the high-rate transmissions on CAN IDs 0x0D0 and 0x280. Validate the legitimacy of the payloads, especially the repeated 0x69D frames. Update the baseline if these rates are part of normal operation; otherwise, implement filtering or authentication for these IDs.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"spoofing\", \"confidence\": 0.95, \"severity\": \"high\", \"affected_function\": \"unknown\", \"summary\": \"Multiple CAN IDs exhibit sustained rate inflation and reduced payload entropy, with 0x0D0 and 0x280 showing significant increases in transmission rate and abnormal timing patterns. The repeated identical payloads on 0x69D suggest potential replay or fabrication, but without a prior sequence, spoofing is the most plausible explanation. No evidence of unknown IDs or bus load increase supports spoofing over other attack types.\", \"claims\": [{\"text\": \"The CAN ID 0x0D0 shows a raw rate ratio of 2.02x and a detector rate ratio of 2.02x, indicating a significant increase in transmission rate above baseline.\", \"cites\": [\"E3\"]}, {\"text\": \"The CAN ID 0x280 exhibits a raw rate ratio of 5.167x and a detector rate ratio of 4.333x, with a mean inter-arrival time of 38.333 ms versus a baseline of 198.754 ms, indicating a substantial increase in transmission frequency.\", \"cites\": [\"E2\"]}, {\"text\": \"The payload entropy for 0x280 decreased from 1.518 to 1.181, suggesting reduced randomness and potential manipulation of data.\", \"cites\": [\"E2\"]}, {\"text\": \"The payload for 0x69D is repeated identically at 42.316s and 43.316s, but without a prior reference sequence, this does not confirm replay; thus, it is consistent with spoofing.\", \"cites\": [\"E8\"]}, {\"text\": \"No unknown CAN IDs are present, ruling out fuzzing and confirming that the anomaly involves known IDs with abnormal behavior.\", \"cites\": [\"E0\", \"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"The bus load remains nearly unchanged (2536 msg/s vs 2392 msg/s baseline), indicating no flooding or denial-of-service attack.\", \"cites\": [\"E1\"]}, {\"text\": \"The timing component of the detector score (0.45) and reduced jitter ratio (0.933) for 0x280 suggest abnormal timing patterns consistent with spoofing.\", \"cites\": [\"E2\"]}], \"recommended_action\": \"Isolate and investigate the source of the high-rate transmissions on CAN IDs 0x0D0 and 0x280. Validate the legitimacy of the payloads, especially the repeated 0x69D frames. Update the baseline if these rates are part of normal operation; otherwise, implement filtering or authentication for these IDs.\"}",
+        "latency_s": 4.657,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3656,
+          "output_tokens": 615
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "max_speedometer_attack_1_masquerade",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 42.0,
+      "end": 66.75,
+      "true_type": "masquerade",
+      "detector_score": 1.0,
+      "corpus_index": 11,
+      "evidence_sha256": "7a3feec01205539f25061e9b25a3bc1ea369f13fe8ed83460040049434349dcc",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.85,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "The alert window shows a significant increase in payload entropy and timing anomalies for several unknown CAN IDs, particularly 0x280, which exhibits a high rate ratio and reduced jitter. The presence of multiple unknown IDs with elevated entropy and inconsistent timing suggests injection of non-standard, potentially random payloads, consistent with fuzzing.",
+        "claims": [
+          {
+            "text": "The CAN ID 0x280 shows a raw rate ratio of 5.167x and a detector rate ratio of 4.333x, indicating a substantial increase in transmission rate compared to baseline.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The payload entropy for 0x280 is 1.181, significantly lower than its baseline of 1.518, suggesting non-random, structured but anomalous data injection.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The timing jitter for 0x280 is highly reduced (jitter ratio 0.933) with a 11.97 sigma deviation in IAT, indicating tightly controlled, possibly artificial frame injection.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Multiple unknown CAN IDs (0x075, 0x69D, 0x4EE, 0x6D7, 0x3B9) each transmit only one frame in the initial 0.5s window, suggesting sporadic, non-periodic injection.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The payload entropy for several IDs (e.g., 0x69D, 0x075) is significantly lower than baseline, indicating structured but anomalous data patterns.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The detector components show non-zero payload_entropy (0.364) and timing (0.45) scores, indicating deviation in data structure and timing behavior.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "No earlier reference sequence is available, so replay cannot be confirmed; the anomaly is better explained by injection of novel, high-entropy payloads.",
+            "cites": [
+              "E8"
+            ]
+          }
+        ],
+        "recommended_action": "Isolate and analyze the source of the unknown CAN IDs (0x280, 0x075, 0x69D, etc.) to determine if they are legitimate or malicious. Implement filtering or rate limiting for unknown IDs with high entropy and timing anomalies. Review vehicle firmware and ECU configurations for unauthorized or unregistered CAN communication.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"fuzzing\", \"confidence\": 0.85, \"severity\": \"high\", \"affected_function\": \"unknown\", \"summary\": \"The alert window shows a significant increase in payload entropy and timing anomalies for several unknown CAN IDs, particularly 0x280, which exhibits a high rate ratio and reduced jitter. The presence of multiple unknown IDs with elevated entropy and inconsistent timing suggests injection of non-standard, potentially random payloads, consistent with fuzzing.\", \"claims\": [{\"text\": \"The CAN ID 0x280 shows a raw rate ratio of 5.167x and a detector rate ratio of 4.333x, indicating a substantial increase in transmission rate compared to baseline.\", \"cites\": [\"E2\"]}, {\"text\": \"The payload entropy for 0x280 is 1.181, significantly lower than its baseline of 1.518, suggesting non-random, structured but anomalous data injection.\", \"cites\": [\"E2\"]}, {\"text\": \"The timing jitter for 0x280 is highly reduced (jitter ratio 0.933) with a 11.97 sigma deviation in IAT, indicating tightly controlled, possibly artificial frame injection.\", \"cites\": [\"E2\"]}, {\"text\": \"Multiple unknown CAN IDs (0x075, 0x69D, 0x4EE, 0x6D7, 0x3B9) each transmit only one frame in the initial 0.5s window, suggesting sporadic, non-periodic injection.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"The payload entropy for several IDs (e.g., 0x69D, 0x075) is significantly lower than baseline, indicating structured but anomalous data patterns.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"The detector components show non-zero payload_entropy (0.364) and timing (0.45) scores, indicating deviation in data structure and timing behavior.\", \"cites\": [\"E0\"]}, {\"text\": \"No earlier reference sequence is available, so replay cannot be confirmed; the anomaly is better explained by injection of novel, high-entropy payloads.\", \"cites\": [\"E8\"]}], \"recommended_action\": \"Isolate and analyze the source of the unknown CAN IDs (0x280, 0x075, 0x69D, etc.) to determine if they are legitimate or malicious. Implement filtering or rate limiting for unknown IDs with high entropy and timing anomalies. Review vehicle firmware and ECU configurations for unauthorized or unregistered CAN communication.\"}",
+        "latency_s": 4.553,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3577,
+          "output_tokens": 603
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "max_speedometer_attack_2",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 16.0,
+      "end": 47.25,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 12,
+      "evidence_sha256": "5e1458ee4570f060ad03cbab099feae8a4d80bfab719ea10dff07dc5fcf074ad",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.85,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "A sudden spike in message rate for ID 0x0D0, with a 2.02x detector rate ratio and reduced entropy, indicates potential spoofing. Multiple other IDs show brief, isolated bursts at double their baseline rate, but lack sufficient frames for jitter analysis. No replay evidence is present.",
+        "claims": [
+          {
+            "text": "ID 0x0D0 exhibited a 2.02x detector rate ratio, with a mean inter-arrival time of 4.991 ms versus a baseline of 10.0 ms, indicating a significant rate increase.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The payload entropy for ID 0x0D0 dropped from 6.055 to 4.776, suggesting reduced randomness and potential injection of structured data.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Other IDs (0x69D, 0x075, 0x4EE, 0x6D7, 0x3B9) each transmitted only one frame in the initial 0.5s window, with rates doubling baseline but insufficient data for jitter or timing analysis.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The sample frames show repeated payloads for 0x075 and 0x69D at 16.11s and 16.61s, and again at 17.14s, but without a prior sequence, this does not confirm replay.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "No evidence of bus load increase (peak bus load 2506 msg/s vs baseline 2392 msg/s, 1.05x) or unknown IDs supports a denial-of-service or fuzzing attack.",
+            "cites": [
+              "E0",
+              "E1",
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of the elevated rate on ID 0x0D0; validate whether the payload content is valid for the vehicle's current state. Monitor for similar anomalies on other IDs. Consider isolating or filtering suspicious CAN IDs if the function is not critical.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.85,\n  \"severity\": \"high\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"A sudden spike in message rate for ID 0x0D0, with a 2.02x detector rate ratio and reduced entropy, indicates potential spoofing. Multiple other IDs show brief, isolated bursts at double their baseline rate, but lack sufficient frames for jitter analysis. No replay evidence is present.\",\n  \"claims\": [\n    {\n      \"text\": \"ID 0x0D0 exhibited a 2.02x detector rate ratio, with a mean inter-arrival time of 4.991 ms versus a baseline of 10.0 ms, indicating a significant rate increase.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"The payload entropy for ID 0x0D0 dropped from 6.055 to 4.776, suggesting reduced randomness and potential injection of structured data.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"Other IDs (0x69D, 0x075, 0x4EE, 0x6D7, 0x3B9) each transmitted only one frame in the initial 0.5s window, with rates doubling baseline but insufficient data for jitter or timing analysis.\",\n      \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]\n    },\n    {\n      \"text\": \"The sample frames show repeated payloads for 0x075 and 0x69D at 16.11s and 16.61s, and again at 17.14s, but without a prior sequence, this does not confirm replay.\",\n      \"cites\": [\"E8\"]\n    },\n    {\n      \"text\": \"No evidence of bus load increase (peak bus load 2506 msg/s vs baseline 2392 msg/s, 1.05x) or unknown IDs supports a denial-of-service or fuzzing attack.\",\n      \"cites\": [\"E0\", \"E1\", \"E2\"]\n    }\n  ],\n  \"recommended_action\": \"Investigate the source of the elevated rate on ID 0x0D0; validate whether the payload content is valid for the vehicle's current state. Monitor for similar anomalies on other IDs. Consider isolating or filtering suspicious CAN IDs if the function is not critical.\"\n}",
+        "latency_s": 4.139,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3592,
+          "output_tokens": 546
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "max_speedometer_attack_3",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 10.0,
+      "end": 70.5,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 13,
+      "evidence_sha256": "78129d5239392c7ba8853e23965ad208af3a95cbd49449818134a70a15a625c8",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.95,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "Multiple CAN IDs exhibit sustained rate inflation and reduced payload entropy, with 0x0D0 showing a 2.02x rate increase and significant jitter collapse, indicating deliberate injection of frames. The repeated identical payloads across different IDs suggest fabricated messages rather than replay or benign behavior.",
+        "claims": [
+          {
+            "text": "The CAN ID 0x0D0 shows a 2.02x rate ratio and a 3.9 sigma reduction in IAT mean, indicating sustained high-rate injection beyond baseline.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for 0x0D0 dropped from 6.055 to 4.351, suggesting reduced randomness consistent with spoofing.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Multiple IDs (0x075, 0x69D, 0x4EE, 0x6D7, 0x3B9) show rate ratios near 2.0x with only one frame in the statistics window, indicating sparse but elevated injection.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "Identical payloads are observed for 0x075 and 0x69D across different timestamps, but no earlier reference sequence is available, so replay cannot be confirmed; the pattern is consistent with spoofing.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "The detector's rate_inflation component is 0.583, driven by elevated rates on known IDs with no evidence of unknown or missing IDs.",
+            "cites": [
+              "E0"
+            ]
+          }
+        ],
+        "recommended_action": "Isolate and investigate the source of the high-rate injection on CAN IDs 0x0D0, 0x075, 0x69D, 0x4EE, 0x6D7, and 0x3B9. Validate the legitimacy of these messages using signal-level decoding and compare with known vehicle behavior. Consider disabling or filtering suspicious IDs if no valid function is identified.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"spoofing\", \"confidence\": 0.95, \"severity\": \"high\", \"affected_function\": \"unknown\", \"summary\": \"Multiple CAN IDs exhibit sustained rate inflation and reduced payload entropy, with 0x0D0 showing a 2.02x rate increase and significant jitter collapse, indicating deliberate injection of frames. The repeated identical payloads across different IDs suggest fabricated messages rather than replay or benign behavior.\", \"claims\": [{\"text\": \"The CAN ID 0x0D0 shows a 2.02x rate ratio and a 3.9 sigma reduction in IAT mean, indicating sustained high-rate injection beyond baseline.\", \"cites\": [\"E2\"]}, {\"text\": \"Payload entropy for 0x0D0 dropped from 6.055 to 4.351, suggesting reduced randomness consistent with spoofing.\", \"cites\": [\"E2\"]}, {\"text\": \"Multiple IDs (0x075, 0x69D, 0x4EE, 0x6D7, 0x3B9) show rate ratios near 2.0x with only one frame in the statistics window, indicating sparse but elevated injection.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"Identical payloads are observed for 0x075 and 0x69D across different timestamps, but no earlier reference sequence is available, so replay cannot be confirmed; the pattern is consistent with spoofing.\", \"cites\": [\"E8\"]}, {\"text\": \"The detector's rate_inflation component is 0.583, driven by elevated rates on known IDs with no evidence of unknown or missing IDs.\", \"cites\": [\"E0\"]}], \"recommended_action\": \"Isolate and investigate the source of the high-rate injection on CAN IDs 0x0D0, 0x075, 0x69D, 0x4EE, 0x6D7, and 0x3B9. Validate the legitimacy of these messages using signal-level decoding and compare with known vehicle behavior. Consider disabling or filtering suspicious IDs if no valid function is identified.\"}",
+        "latency_s": 3.747,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3596,
+          "output_tokens": 478
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_off_attack_1",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 16.75,
+      "end": 23.25,
+      "true_type": "spoofing",
+      "detector_score": 0.5652,
+      "corpus_index": 14,
+      "evidence_sha256": "7df8090ea9fdcaca8e8a2b94747e597590f7ebbd90363e01a47db7f9fa9519a6",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.95,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "A high-rate injection of frames on ID 0x0D0 (200 msg/s vs 100 msg/s baseline) with reduced entropy and collapsed timing jitter indicates spoofing. Multiple other IDs show similar rate inflation and entropy drops, but only 0x0D0 has sufficient data for timing analysis. No replay evidence is present.",
+        "claims": [
+          {
+            "text": "The ID 0x0D0 exhibited a detector rate ratio of 2.0x, significantly above baseline, indicating rate inflation.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The 0x0D0 ID showed reduced payload entropy (4.386 vs 6.055 baseline), suggesting non-random, possibly fabricated data.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The 0x0D0 ID had a mean inter-arrival time of 4.97 ms, significantly lower than the baseline 10.0 ms, with a 3.91 sigma deviation, indicating timing jitter collapse.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The 0x0D0 ID had a jitter ratio of 5.755, much higher than the baseline, indicating suppressed timing variation consistent with spoofing.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Other IDs (0x69D, 0x075, 0x3B9, 0x4EE, 0x6D7) showed similar rate inflation and entropy reduction, but insufficient frame counts prevent timing analysis.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "No evidence of replay was found, as no earlier sequence was provided and no identical payload sequences were repeated in context.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "The detector score was primarily driven by rate_inflation (0.565) and payload_entropy (0.364), supporting spoofing.",
+            "cites": [
+              "E0"
+            ]
+          }
+        ],
+        "recommended_action": "Isolate and investigate the source of high-rate CAN traffic on ID 0x0D0. Validate the legitimacy of the payload content and assess potential impact on vehicle systems. Implement rate and entropy thresholds to detect similar anomalies in real time.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"spoofing\", \"confidence\": 0.95, \"severity\": \"high\", \"affected_function\": \"unknown\", \"summary\": \"A high-rate injection of frames on ID 0x0D0 (200 msg/s vs 100 msg/s baseline) with reduced entropy and collapsed timing jitter indicates spoofing. Multiple other IDs show similar rate inflation and entropy drops, but only 0x0D0 has sufficient data for timing analysis. No replay evidence is present.\", \"claims\": [{\"text\": \"The ID 0x0D0 exhibited a detector rate ratio of 2.0x, significantly above baseline, indicating rate inflation.\", \"cites\": [\"E2\"]}, {\"text\": \"The 0x0D0 ID showed reduced payload entropy (4.386 vs 6.055 baseline), suggesting non-random, possibly fabricated data.\", \"cites\": [\"E2\"]}, {\"text\": \"The 0x0D0 ID had a mean inter-arrival time of 4.97 ms, significantly lower than the baseline 10.0 ms, with a 3.91 sigma deviation, indicating timing jitter collapse.\", \"cites\": [\"E2\"]}, {\"text\": \"The 0x0D0 ID had a jitter ratio of 5.755, much higher than the baseline, indicating suppressed timing variation consistent with spoofing.\", \"cites\": [\"E2\"]}, {\"text\": \"Other IDs (0x69D, 0x075, 0x3B9, 0x4EE, 0x6D7) showed similar rate inflation and entropy reduction, but insufficient frame counts prevent timing analysis.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"No evidence of replay was found, as no earlier sequence was provided and no identical payload sequences were repeated in context.\", \"cites\": [\"E8\"]}, {\"text\": \"The detector score was primarily driven by rate_inflation (0.565) and payload_entropy (0.364), supporting spoofing.\", \"cites\": [\"E0\"]}], \"recommended_action\": \"Isolate and investigate the source of high-rate CAN traffic on ID 0x0D0. Validate the legitimacy of the payload content and assess potential impact on vehicle systems. Implement rate and entropy thresholds to detect similar anomalies in real time.\"}",
+        "latency_s": 3.996,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3599,
+          "output_tokens": 526
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_off_attack_2",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 13.25,
+      "end": 36.75,
+      "true_type": "spoofing",
+      "detector_score": 0.5652,
+      "corpus_index": 15,
+      "evidence_sha256": "5372b362fe677d2317688d93cff009f1d4d4a14c3b994d9969470e5d4216cd56",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.85,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "The alert window shows multiple CAN IDs with elevated rates and significantly reduced payload entropy, indicating potential fuzzing. The ID 0x0D0 exhibits a 2.0x rate ratio with collapsed timing jitter and entropy drop, while other IDs show similar patterns with low frame counts and high entropy reduction. No replay evidence is present, and the high rate inflation and entropy drop support fuzzing.",
+        "claims": [
+          {
+            "text": "The CAN ID 0x0D0 had a rate ratio of 2.0x, indicating elevated transmission frequency compared to baseline.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The 0x0D0 ID showed a significant entropy drop from 6.055 to 4.533, suggesting payload uniformity typical of fuzzing.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Multiple IDs (0x075, 0x3B9, 0x4EE, 0x69D, 0x6D7) exhibited rate ratios near 2.0x with low frame counts and entropy reductions, consistent with fuzzing behavior.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The timing jitter for 0x0D0 collapsed from a baseline of 10.0 ms to a mean gap of 4.985 ms, with a 3.9 sigma deviation, indicating non-random injection.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "No evidence of replay was found, as no earlier sequence was referenced and identical payloads were not repeated in a temporal pattern.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "The detector's rate_inflation component scored 0.565, and payload_entropy scored 0.364, both contributing to the fuzzing classification.",
+            "cites": [
+              "E0"
+            ]
+          }
+        ],
+        "recommended_action": "Isolate and analyze the source of the high-rate, low-entropy CAN messages on IDs 0x0D0, 0x075, 0x3B9, 0x4EE, 0x69D, and 0x6D7. Implement filtering or rate limiting on these IDs if they are not part of normal vehicle operation. Review vehicle function mappings to determine if these IDs are legitimate and if their behavior is expected under current driving conditions.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"fuzzing\", \"confidence\": 0.85, \"severity\": \"high\", \"affected_function\": \"unknown\", \"summary\": \"The alert window shows multiple CAN IDs with elevated rates and significantly reduced payload entropy, indicating potential fuzzing. The ID 0x0D0 exhibits a 2.0x rate ratio with collapsed timing jitter and entropy drop, while other IDs show similar patterns with low frame counts and high entropy reduction. No replay evidence is present, and the high rate inflation and entropy drop support fuzzing.\", \"claims\": [{\"text\": \"The CAN ID 0x0D0 had a rate ratio of 2.0x, indicating elevated transmission frequency compared to baseline.\", \"cites\": [\"E2\"]}, {\"text\": \"The 0x0D0 ID showed a significant entropy drop from 6.055 to 4.533, suggesting payload uniformity typical of fuzzing.\", \"cites\": [\"E2\"]}, {\"text\": \"Multiple IDs (0x075, 0x3B9, 0x4EE, 0x69D, 0x6D7) exhibited rate ratios near 2.0x with low frame counts and entropy reductions, consistent with fuzzing behavior.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"The timing jitter for 0x0D0 collapsed from a baseline of 10.0 ms to a mean gap of 4.985 ms, with a 3.9 sigma deviation, indicating non-random injection.\", \"cites\": [\"E2\"]}, {\"text\": \"No evidence of replay was found, as no earlier sequence was referenced and identical payloads were not repeated in a temporal pattern.\", \"cites\": [\"E8\"]}, {\"text\": \"The detector's rate_inflation component scored 0.565, and payload_entropy scored 0.364, both contributing to the fuzzing classification.\", \"cites\": [\"E0\"]}], \"recommended_action\": \"Isolate and analyze the source of the high-rate, low-entropy CAN messages on IDs 0x0D0, 0x075, 0x3B9, 0x4EE, 0x69D, and 0x6D7. Implement filtering or rate limiting on these IDs if they are not part of normal vehicle operation. Review vehicle function mappings to determine if these IDs are legitimate and if their behavior is expected under current driving conditions.\"}",
+        "latency_s": 4.192,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3591,
+          "output_tokens": 548
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_off_attack_3",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 16.75,
+      "end": 40.75,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 16,
+      "evidence_sha256": "91afbb839c464674d7d33eb3964f2df1c03a7c7bc9607a100d99506734421529",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.95,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "A high-rate injection of CAN frames on ID 0x0D0 with a 2.02x rate ratio and reduced entropy suggests spoofing. Multiple other IDs show brief, high-rate bursts with low entropy, consistent with fabricated frames. No evidence of replay or fuzzing. The anomaly is not benign due to sustained rate inflation and entropy drop.",
+        "claims": [
+          {
+            "text": "The CAN ID 0x0D0 experienced a 2.02x rate ratio compared to baseline, indicating a significant increase in frame transmission rate.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The payload entropy for 0x0D0 dropped from 6.055 to 4.27, indicating reduced randomness and potential fabrication.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Other IDs (0x69D, 0x075, 0x3B9, 0x4EE, 0x6D7) each transmitted a single frame in a 0.5s window at 2.0 msg/s, exceeding baseline rates and showing low entropy, consistent with spoofing.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The detector's rate_inflation component scored 0.583, primarily driven by the elevated rate on 0x0D0 and other IDs.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "No evidence of replay is present, as no earlier sequence is referenced and the frames are not repeated in order.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "The bus load remained stable at 1.05x baseline, ruling out denial-of-service flooding.",
+            "cites": [
+              "E1"
+            ]
+          }
+        ],
+        "recommended_action": "Isolate and investigate the source of the 0x0D0 CAN ID injection. Review vehicle function mapping for 0x0D0 and validate its legitimacy. Implement rate and entropy monitoring for all CAN IDs with known functions. Consider filtering or blocking unexpected high-rate transmissions on non-critical IDs.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"spoofing\", \"confidence\": 0.95, \"severity\": \"high\", \"affected_function\": \"unknown\", \"summary\": \"A high-rate injection of CAN frames on ID 0x0D0 with a 2.02x rate ratio and reduced entropy suggests spoofing. Multiple other IDs show brief, high-rate bursts with low entropy, consistent with fabricated frames. No evidence of replay or fuzzing. The anomaly is not benign due to sustained rate inflation and entropy drop.\", \"claims\": [{\"text\": \"The CAN ID 0x0D0 experienced a 2.02x rate ratio compared to baseline, indicating a significant increase in frame transmission rate.\", \"cites\": [\"E2\"]}, {\"text\": \"The payload entropy for 0x0D0 dropped from 6.055 to 4.27, indicating reduced randomness and potential fabrication.\", \"cites\": [\"E2\"]}, {\"text\": \"Other IDs (0x69D, 0x075, 0x3B9, 0x4EE, 0x6D7) each transmitted a single frame in a 0.5s window at 2.0 msg/s, exceeding baseline rates and showing low entropy, consistent with spoofing.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"The detector's rate_inflation component scored 0.583, primarily driven by the elevated rate on 0x0D0 and other IDs.\", \"cites\": [\"E0\"]}, {\"text\": \"No evidence of replay is present, as no earlier sequence is referenced and the frames are not repeated in order.\", \"cites\": [\"E8\"]}, {\"text\": \"The bus load remained stable at 1.05x baseline, ruling out denial-of-service flooding.\", \"cites\": [\"E1\"]}], \"recommended_action\": \"Isolate and investigate the source of the 0x0D0 CAN ID injection. Review vehicle function mapping for 0x0D0 and validate its legitimacy. Implement rate and entropy monitoring for all CAN IDs with known functions. Consider filtering or blocking unexpected high-rate transmissions on non-critical IDs.\"}",
+        "latency_s": 3.67,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3602,
+          "output_tokens": 481
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_on_attack_1",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 19.0,
+      "end": 38.75,
+      "true_type": "spoofing",
+      "detector_score": 0.5652,
+      "corpus_index": 17,
+      "evidence_sha256": "a0be54d2905cc465dadf65c7653d5cbee2898d6f030272997e751a70300ed325",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.95,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "A high-rate injection of frames on ID 0x0D0 at 200 msg/s (2.0x baseline) with reduced timing jitter and lower payload entropy indicates spoofing. Multiple other IDs show similar rate inflation and entropy reduction, but only 0x0D0 has sufficient data to confirm abnormal behavior. No replay evidence is present.",
+        "claims": [
+          {
+            "text": "The CAN ID 0x0D0 exhibited a rate ratio of 2.0x, well above its baseline of 99.997614 msg/s, indicating abnormal frame injection.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The timing jitter for 0x0D0 collapsed, with a jitter ratio of 5.495 and a 3.9 sigma deviation from baseline, suggesting deliberate frame injection.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for 0x0D0 dropped from 6.055 to 4.543, indicating reduced randomness consistent with spoofing.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Other IDs (0x69D, 0x075, 0x3B9, 0x4EE, 0x6D7) also showed rate inflation and entropy reduction, but insufficient frame counts prevent definitive classification.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "No evidence of replay was found, as no earlier sequence was provided and the frames are not identical in order or timing.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "The detector score of 0.565 is primarily driven by rate_inflation (0.565) and payload_entropy (0.364), supporting spoofing.",
+            "cites": [
+              "E0"
+            ]
+          }
+        ],
+        "recommended_action": "Isolate and investigate the source of the 0x0D0 CAN ID injection. Review vehicle function associated with this ID. Implement rate and entropy monitoring for similar IDs. Validate baseline models for sparse IDs to reduce false positives.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"spoofing\", \"confidence\": 0.95, \"severity\": \"high\", \"affected_function\": \"unknown\", \"summary\": \"A high-rate injection of frames on ID 0x0D0 at 200 msg/s (2.0x baseline) with reduced timing jitter and lower payload entropy indicates spoofing. Multiple other IDs show similar rate inflation and entropy reduction, but only 0x0D0 has sufficient data to confirm abnormal behavior. No replay evidence is present.\", \"claims\": [{\"text\": \"The CAN ID 0x0D0 exhibited a rate ratio of 2.0x, well above its baseline of 99.997614 msg/s, indicating abnormal frame injection.\", \"cites\": [\"E2\"]}, {\"text\": \"The timing jitter for 0x0D0 collapsed, with a jitter ratio of 5.495 and a 3.9 sigma deviation from baseline, suggesting deliberate frame injection.\", \"cites\": [\"E2\"]}, {\"text\": \"Payload entropy for 0x0D0 dropped from 6.055 to 4.543, indicating reduced randomness consistent with spoofing.\", \"cites\": [\"E2\"]}, {\"text\": \"Other IDs (0x69D, 0x075, 0x3B9, 0x4EE, 0x6D7) also showed rate inflation and entropy reduction, but insufficient frame counts prevent definitive classification.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"No evidence of replay was found, as no earlier sequence was provided and the frames are not identical in order or timing.\", \"cites\": [\"E8\"]}, {\"text\": \"The detector score of 0.565 is primarily driven by rate_inflation (0.565) and payload_entropy (0.364), supporting spoofing.\", \"cites\": [\"E0\"]}], \"recommended_action\": \"Isolate and investigate the source of the 0x0D0 CAN ID injection. Review vehicle function associated with this ID. Implement rate and entropy monitoring for similar IDs. Validate baseline models for sparse IDs to reduce false positives.\"}",
+        "latency_s": 3.719,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3587,
+          "output_tokens": 487
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_on_attack_2",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 20.5,
+      "end": 57.25,
+      "true_type": "spoofing",
+      "detector_score": 0.6,
+      "corpus_index": 18,
+      "evidence_sha256": "661b6a6d35c113c1a6d3c9a33f6bcaf09d33e419788ae347c20f8362e80cca3a",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.85,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "A sudden spike in frame rate for ID 0x0D0, with a detector rate ratio of 2.0x and reduced timing jitter, indicates potential spoofing. Multiple other IDs show elevated rates and low entropy, but the strongest evidence is the high rate and timing anomaly on 0x0D0, which is not a known ID in the baseline.",
+        "claims": [
+          {
+            "text": "The ID 0x0D0 exhibited a detector rate ratio of 2.0x, significantly above its baseline rate of 99.997614 msg/s, indicating a rate inflation beyond normal variation.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The timing of 0x0D0 frames showed a mean inter-arrival time of 4.98 ms, significantly lower than the baseline of 10.0 ms, with a z-score of 3.91, indicating reduced jitter and potential deliberate injection.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The payload entropy for 0x0D0 dropped from 6.055 to 4.612, suggesting structured or repeated data, consistent with spoofing rather than random noise.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Other IDs (0x69D, 0x075, 0x4EE, 0x6D7, 0x3B9) also showed elevated rates and low entropy, but insufficient frame counts prevent reliable jitter or timing analysis.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "No earlier reference sequence is available, so replay cannot be confirmed; the pattern is better explained by spoofing due to rate inflation and timing anomalies.",
+            "cites": [
+              "E8"
+            ]
+          }
+        ],
+        "recommended_action": "Isolate and investigate the source of CAN ID 0x0D0. Validate the legitimacy of the ID and its function. Implement rate and entropy monitoring for similar unknown IDs. Review vehicle network configuration to prevent unauthorized ID injection.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"spoofing\", \"confidence\": 0.85, \"severity\": \"high\", \"affected_function\": \"unknown\", \"summary\": \"A sudden spike in frame rate for ID 0x0D0, with a detector rate ratio of 2.0x and reduced timing jitter, indicates potential spoofing. Multiple other IDs show elevated rates and low entropy, but the strongest evidence is the high rate and timing anomaly on 0x0D0, which is not a known ID in the baseline.\", \"claims\": [{\"text\": \"The ID 0x0D0 exhibited a detector rate ratio of 2.0x, significantly above its baseline rate of 99.997614 msg/s, indicating a rate inflation beyond normal variation.\", \"cites\": [\"E2\"]}, {\"text\": \"The timing of 0x0D0 frames showed a mean inter-arrival time of 4.98 ms, significantly lower than the baseline of 10.0 ms, with a z-score of 3.91, indicating reduced jitter and potential deliberate injection.\", \"cites\": [\"E2\"]}, {\"text\": \"The payload entropy for 0x0D0 dropped from 6.055 to 4.612, suggesting structured or repeated data, consistent with spoofing rather than random noise.\", \"cites\": [\"E2\"]}, {\"text\": \"Other IDs (0x69D, 0x075, 0x4EE, 0x6D7, 0x3B9) also showed elevated rates and low entropy, but insufficient frame counts prevent reliable jitter or timing analysis.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"No earlier reference sequence is available, so replay cannot be confirmed; the pattern is better explained by spoofing due to rate inflation and timing anomalies.\", \"cites\": [\"E8\"]}], \"recommended_action\": \"Isolate and investigate the source of CAN ID 0x0D0. Validate the legitimacy of the ID and its function. Implement rate and entropy monitoring for similar unknown IDs. Review vehicle network configuration to prevent unauthorized ID injection.\"}",
+        "latency_s": 3.623,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3573,
+          "output_tokens": 476
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_on_attack_2",
+      "role": "attack_capture",
+      "alert_id": 1,
+      "start": 71.25,
+      "end": 71.75,
+      "true_type": "normal",
+      "detector_score": 0.6,
+      "corpus_index": 19,
+      "evidence_sha256": "e4c262a34b37492e098a0e83596ddea36c1cf55a5d82769348dc709bbb35afa1",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.85,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a short time window with elevated payload entropy and timing anomalies on multiple CAN IDs, including 0x230, 0x075, 0x3B9, 0x0F1, 0x025, and 0x03A. The primary evidence is a significant drop in payload entropy (e.g., 3.132 vs. 4.122 for 0x230) and a low jitter ratio (0.081), indicating highly structured, non-random payloads. No evidence of replay, spoofing, or flooding is present. The low entropy and structured timing suggest deliberate injection of non-random, possibly malformed frames, consistent with fuzzing.",
+        "claims": [
+          {
+            "text": "The window exhibits a significant drop in payload entropy compared to baseline, with 0x230 showing 3.132 vs. 4.122 baseline entropy.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The jitter ratio for 0x230 is 0.081, indicating collapsed timing jitter, which is a sign of structured or non-random frame injection.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Multiple CAN IDs (0x075, 0x3B9, 0x0F1, 0x025, 0x03A) show low entropy and single-frame statistics, suggesting non-random payload injection.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "No evidence of replay, spoofing, or flooding is present, as there is no repeated sequence, no rate inflation, and no bus load increase.",
+            "cites": [
+              "E0",
+              "E1",
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The detector's timing component scored 0.6, and payload entropy scored 0.261, both contributing to the alert, with timing being the dominant factor.",
+            "cites": [
+              "E0"
+            ]
+          }
+        ],
+        "recommended_action": "Isolate and analyze the CAN IDs 0x230, 0x075, 0x3B9, 0x0F1, 0x025, and 0x03A for potential fuzzing attacks. Review signal decoding to determine if payloads contain invalid or unexpected values. Implement payload entropy monitoring and jitter analysis for anomaly detection on all CAN IDs.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"fuzzing\", \"confidence\": 0.85, \"severity\": \"high\", \"affected_function\": \"unknown\", \"summary\": \"The anomaly detector flagged a short time window with elevated payload entropy and timing anomalies on multiple CAN IDs, including 0x230, 0x075, 0x3B9, 0x0F1, 0x025, and 0x03A. The primary evidence is a significant drop in payload entropy (e.g., 3.132 vs. 4.122 for 0x230) and a low jitter ratio (0.081), indicating highly structured, non-random payloads. No evidence of replay, spoofing, or flooding is present. The low entropy and structured timing suggest deliberate injection of non-random, possibly malformed frames, consistent with fuzzing.\", \"claims\": [{\"text\": \"The window exhibits a significant drop in payload entropy compared to baseline, with 0x230 showing 3.132 vs. 4.122 baseline entropy.\", \"cites\": [\"E2\"]}, {\"text\": \"The jitter ratio for 0x230 is 0.081, indicating collapsed timing jitter, which is a sign of structured or non-random frame injection.\", \"cites\": [\"E2\"]}, {\"text\": \"Multiple CAN IDs (0x075, 0x3B9, 0x0F1, 0x025, 0x03A) show low entropy and single-frame statistics, suggesting non-random payload injection.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"No evidence of replay, spoofing, or flooding is present, as there is no repeated sequence, no rate inflation, and no bus load increase.\", \"cites\": [\"E0\", \"E1\", \"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"The detector's timing component scored 0.6, and payload entropy scored 0.261, both contributing to the alert, with timing being the dominant factor.\", \"cites\": [\"E0\"]}], \"recommended_action\": \"Isolate and analyze the CAN IDs 0x230, 0x075, 0x3B9, 0x0F1, 0x025, and 0x03A for potential fuzzing attacks. Review signal decoding to determine if payloads contain invalid or unexpected values. Implement payload entropy monitoring and jitter analysis for anomaly detection on all CAN IDs.\"}",
+        "latency_s": 4.379,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3369,
+          "output_tokens": 582
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_on_attack_2_masquerade",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 45.25,
+      "end": 45.75,
+      "true_type": "masquerade",
+      "detector_score": 0.6,
+      "corpus_index": 20,
+      "evidence_sha256": "4ce4918a204db848be3cbac8eb3626927a35d1f03381bf49866eca62a0b3a47a",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.85,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a short time window with elevated payload entropy and timing anomalies on multiple CAN IDs, including 0x230, 0x075, 0x3B9, 0x0F1, 0x025, and 0x03A. The primary evidence is a significant drop in payload entropy across all affected IDs compared to baseline, with no increase in rate or bus load. The timing component of the detector score is driven by jitter collapse on 0x230, which shows a very low jitter ratio (0.081) and near-constant inter-arrival times. The presence of multiple IDs with low entropy and consistent timing, despite low frame counts and no evidence of replay or spoofing, suggests random or structured injection of non-standard payloads, consistent with fuzzing.",
+        "claims": [
+          {
+            "text": "The alert window contains 1198 frames over 0.5 seconds, with a peak bus rate of 2396 msg/s, matching a baseline of 2391.51 msg/s, indicating no bus load increase.",
+            "cites": [
+              "E0",
+              "E1"
+            ]
+          },
+          {
+            "text": "The ID 0x230 shows a jitter ratio of 0.081, significantly below the baseline, indicating collapsed timing jitter, which is a sign of timing anomaly.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for 0x230 dropped from 4.122 to 2.859, a delta of -1.263, indicating reduced randomness in payloads.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Multiple IDs (0x075, 0x3B9, 0x0F1, 0x025, 0x03A) show entropy reductions from baseline, with values ranging from 1.061 to 3.0, suggesting non-random payload injection.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The detector's timing component score of 0.6 is driven by jitter collapse on 0x230, which has jitter_eligible=true and a low jitter ratio.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy is reduced across multiple IDs, with no evidence of rate inflation, unknown IDs, or replay, supporting a fuzzing attack.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Isolate and inspect the source of the CAN traffic on IDs 0x230, 0x075, 0x3B9, 0x0F1, 0x025, and 0x03A. Implement payload entropy monitoring and anomaly filtering for non-standard or low-entropy frames. Review vehicle function mappings for these IDs to determine if they are legitimate or malicious.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"fuzzing\", \"confidence\": 0.85, \"severity\": \"high\", \"affected_function\": \"unknown\", \"summary\": \"The anomaly detector flagged a short time window with elevated payload entropy and timing anomalies on multiple CAN IDs, including 0x230, 0x075, 0x3B9, 0x0F1, 0x025, and 0x03A. The primary evidence is a significant drop in payload entropy across all affected IDs compared to baseline, with no increase in rate or bus load. The timing component of the detector score is driven by jitter collapse on 0x230, which shows a very low jitter ratio (0.081) and near-constant inter-arrival times. The presence of multiple IDs with low entropy and consistent timing, despite low frame counts and no evidence of replay or spoofing, suggests random or structured injection of non-standard payloads, consistent with fuzzing.\", \"claims\": [{\"text\": \"The alert window contains 1198 frames over 0.5 seconds, with a peak bus rate of 2396 msg/s, matching a baseline of 2391.51 msg/s, indicating no bus load increase.\", \"cites\": [\"E0\", \"E1\"]}, {\"text\": \"The ID 0x230 shows a jitter ratio of 0.081, significantly below the baseline, indicating collapsed timing jitter, which is a sign of timing anomaly.\", \"cites\": [\"E2\"]}, {\"text\": \"Payload entropy for 0x230 dropped from 4.122 to 2.859, a delta of -1.263, indicating reduced randomness in payloads.\", \"cites\": [\"E2\"]}, {\"text\": \"Multiple IDs (0x075, 0x3B9, 0x0F1, 0x025, 0x03A) show entropy reductions from baseline, with values ranging from 1.061 to 3.0, suggesting non-random payload injection.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"The detector's timing component score of 0.6 is driven by jitter collapse on 0x230, which has jitter_eligible=true and a low jitter ratio.\", \"cites\": [\"E2\"]}, {\"text\": \"Payload entropy is reduced across multiple IDs, with no evidence of rate inflation, unknown IDs, or replay, supporting a fuzzing attack.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}], \"recommended_action\": \"Isolate and inspect the source of the CAN traffic on IDs 0x230, 0x075, 0x3B9, 0x0F1, 0x025, and 0x03A. Implement payload entropy monitoring and anomaly filtering for non-standard or low-entropy frames. Review vehicle function mappings for these IDs to determine if they are legitimate or malicious.\"}",
+        "latency_s": 5.014,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3366,
+          "output_tokens": 684
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_on_attack_2_masquerade",
+      "role": "attack_capture",
+      "alert_id": 1,
+      "start": 71.25,
+      "end": 71.75,
+      "true_type": "normal",
+      "detector_score": 0.6,
+      "corpus_index": 21,
+      "evidence_sha256": "e4c262a34b37492e098a0e83596ddea36c1cf55a5d82769348dc709bbb35afa1",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.85,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a short time window with elevated payload entropy and timing anomalies on multiple CAN IDs, including 0x230, 0x075, 0x3B9, 0x0F1, 0x025, and 0x03A. The primary evidence is a significant drop in payload entropy (e.g., 3.132 vs. 4.122 baseline for 0x230) and a low jitter ratio (0.081), indicating highly structured, non-random payloads. No evidence of replay, spoofing, or flooding is present. The low entropy and collapsed jitter suggest deliberate injection of non-random, possibly malformed frames, consistent with fuzzing.",
+        "claims": [
+          {
+            "text": "The alert window spans 0.5 seconds and contains 1196 frames, with a detector score of 0.6, primarily driven by timing and payload entropy components.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "The CAN ID 0x230 exhibits a jitter ratio of 0.081, significantly below the baseline, indicating collapsed timing jitter, which is a hallmark of non-random frame injection.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for 0x230 is 3.132, a substantial decrease from the baseline of 4.122, indicating structured or non-random data injection.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Multiple IDs (0x075, 0x3B9, 0x0F1, 0x025, 0x03A) show low entropy and single-frame statistics, suggesting non-standard or malformed payloads.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "No evidence of replay is present, as no earlier sequence is referenced and the frames are not repeated.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "The bus load remains at baseline (1.00x), ruling out denial-of-service flooding.",
+            "cites": [
+              "E1"
+            ]
+          },
+          {
+            "text": "No unknown IDs are present, so fuzzing is not due to novel arbitration IDs.",
+            "cites": [
+              "E0",
+              "E2"
+            ]
+          }
+        ],
+        "recommended_action": "Investigate the source of structured, low-entropy payloads on CAN IDs 0x230, 0x075, 0x3B9, 0x0F1, 0x025, and 0x03A. Perform signal decoding to determine if payloads contain implausible values. Isolate and monitor affected ECUs. Update anomaly detection rules to flag low entropy and jitter collapse on known IDs.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"fuzzing\", \"confidence\": 0.85, \"severity\": \"high\", \"affected_function\": \"unknown\", \"summary\": \"The anomaly detector flagged a short time window with elevated payload entropy and timing anomalies on multiple CAN IDs, including 0x230, 0x075, 0x3B9, 0x0F1, 0x025, and 0x03A. The primary evidence is a significant drop in payload entropy (e.g., 3.132 vs. 4.122 baseline for 0x230) and a low jitter ratio (0.081), indicating highly structured, non-random payloads. No evidence of replay, spoofing, or flooding is present. The low entropy and collapsed jitter suggest deliberate injection of non-random, possibly malformed frames, consistent with fuzzing.\", \"claims\": [{\"text\": \"The alert window spans 0.5 seconds and contains 1196 frames, with a detector score of 0.6, primarily driven by timing and payload entropy components.\", \"cites\": [\"E0\"]}, {\"text\": \"The CAN ID 0x230 exhibits a jitter ratio of 0.081, significantly below the baseline, indicating collapsed timing jitter, which is a hallmark of non-random frame injection.\", \"cites\": [\"E2\"]}, {\"text\": \"Payload entropy for 0x230 is 3.132, a substantial decrease from the baseline of 4.122, indicating structured or non-random data injection.\", \"cites\": [\"E2\"]}, {\"text\": \"Multiple IDs (0x075, 0x3B9, 0x0F1, 0x025, 0x03A) show low entropy and single-frame statistics, suggesting non-standard or malformed payloads.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"No evidence of replay is present, as no earlier sequence is referenced and the frames are not repeated.\", \"cites\": [\"E8\"]}, {\"text\": \"The bus load remains at baseline (1.00x), ruling out denial-of-service flooding.\", \"cites\": [\"E1\"]}, {\"text\": \"No unknown IDs are present, so fuzzing is not due to novel arbitration IDs.\", \"cites\": [\"E0\", \"E2\"]}], \"recommended_action\": \"Investigate the source of structured, low-entropy payloads on CAN IDs 0x230, 0x075, 0x3B9, 0x0F1, 0x025, and 0x03A. Perform signal decoding to determine if payloads contain implausible values. Isolate and monitor affected ECUs. Update anomaly detection rules to flag low entropy and jitter collapse on known IDs.\"}",
+        "latency_s": 4.651,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3369,
+          "output_tokens": 630
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "reverse_light_on_attack_3",
+      "role": "attack_capture",
+      "alert_id": 0,
+      "start": 23.25,
+      "end": 46.5,
+      "true_type": "spoofing",
+      "detector_score": 0.5826,
+      "corpus_index": 22,
+      "evidence_sha256": "8509a22ce4b59643577935ee21bc61572795503420c01814b02271e5e43a4c85",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.95,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a high rate of injection on known CAN IDs with elevated rates and reduced payload entropy, indicating potential spoofing. The most significant deviation is on ID 0x0D0, which shows a 2.02x rate increase with collapsed timing jitter and lower entropy, consistent with fabricated messages. Other IDs (0x69D, 0x075, 0x4EE, 0x6D7, 0x3B9) show similar patterns of isolated high-rate bursts with low entropy, but insufficient data to confirm replay. No evidence of unknown IDs, bus load increase, or timing jitter collapse beyond 0x0D0. The pattern suggests deliberate injection of frames on known IDs, not normal behavior.",
+        "claims": [
+          {
+            "text": "The CAN ID 0x0D0 exhibited a 2.02x rate ratio, with a mean inter-arrival time of 4.99 ms versus a baseline of 10.0 ms, indicating reduced timing jitter.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The payload entropy for 0x0D0 dropped from 6.055 to 4.774, a significant decrease suggesting non-random, possibly fabricated data.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Other IDs (0x69D, 0x075, 0x4EE, 0x6D7, 0x3B9) each transmitted only one frame in their respective 0.5s windows, with no measurable IAT or jitter, and low entropy, indicating potential injection of isolated frames.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The detector rate ratio for 0x0D0 was 2.02x, using a guarded reference of 99.997614 msg/s, confirming rate inflation beyond baseline.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "No evidence of unknown IDs, missing IDs, or bus load increase supports a benign or replay explanation.",
+            "cites": [
+              "E0",
+              "E1",
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The sample frames show repeated payloads on 0x075 and 0x69D at 0.5s intervals, but without a prior reference sequence, this does not confirm replay.",
+            "cites": [
+              "E8"
+            ]
+          }
+        ],
+        "recommended_action": "Isolate and inspect the ECU associated with CAN ID 0x0D0. Investigate the source of repeated frame injection on known IDs. Review baseline models for sparse IDs to ensure rate thresholds are appropriately set. Monitor for further anomalies on related IDs.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"spoofing\", \"confidence\": 0.95, \"severity\": \"high\", \"affected_function\": \"unknown\", \"summary\": \"The anomaly detector flagged a high rate of injection on known CAN IDs with elevated rates and reduced payload entropy, indicating potential spoofing. The most significant deviation is on ID 0x0D0, which shows a 2.02x rate increase with collapsed timing jitter and lower entropy, consistent with fabricated messages. Other IDs (0x69D, 0x075, 0x4EE, 0x6D7, 0x3B9) show similar patterns of isolated high-rate bursts with low entropy, but insufficient data to confirm replay. No evidence of unknown IDs, bus load increase, or timing jitter collapse beyond 0x0D0. The pattern suggests deliberate injection of frames on known IDs, not normal behavior.\", \"claims\": [{\"text\": \"The CAN ID 0x0D0 exhibited a 2.02x rate ratio, with a mean inter-arrival time of 4.99 ms versus a baseline of 10.0 ms, indicating reduced timing jitter.\", \"cites\": [\"E2\"]}, {\"text\": \"The payload entropy for 0x0D0 dropped from 6.055 to 4.774, a significant decrease suggesting non-random, possibly fabricated data.\", \"cites\": [\"E2\"]}, {\"text\": \"Other IDs (0x69D, 0x075, 0x4EE, 0x6D7, 0x3B9) each transmitted only one frame in their respective 0.5s windows, with no measurable IAT or jitter, and low entropy, indicating potential injection of isolated frames.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"The detector rate ratio for 0x0D0 was 2.02x, using a guarded reference of 99.997614 msg/s, confirming rate inflation beyond baseline.\", \"cites\": [\"E2\"]}, {\"text\": \"No evidence of unknown IDs, missing IDs, or bus load increase supports a benign or replay explanation.\", \"cites\": [\"E0\", \"E1\", \"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"The sample frames show repeated payloads on 0x075 and 0x69D at 0.5s intervals, but without a prior reference sequence, this does not confirm replay.\", \"cites\": [\"E8\"]}], \"recommended_action\": \"Isolate and inspect the ECU associated with CAN ID 0x0D0. Investigate the source of repeated frame injection on known IDs. Review baseline models for sparse IDs to ensure rate thresholds are appropriately set. Monitor for further anomalies on related IDs.\"}",
+        "latency_s": 4.768,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3596,
+          "output_tokens": 636
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_basic_long",
+      "role": "held_out_normal",
+      "alert_id": 0,
+      "start": 67.25,
+      "end": 67.75,
+      "true_type": "normal",
+      "detector_score": 0.5652,
+      "corpus_index": 23,
+      "evidence_sha256": "de60db4e0cc9f1bafb1b86fb09bf85fc13344c5ec0beadcca31a2ec0df3e1855",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.95,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "A single CAN ID (0x025) shows a significant rate increase (9.38x baseline) with low timing jitter and reduced payload entropy, indicating potential spoofing. Other IDs show minimal rate changes but low entropy, suggesting possible payload manipulation. No replay evidence or unknown IDs are present.",
+        "claims": [
+          {
+            "text": "The CAN ID 0x025 exhibits a raw rate ratio of 9.38x above baseline, with a detector rate ratio of 2.0x using a guarded reference of 6.0 msg/s, indicating a significant deviation from normal behavior.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The 0x025 ID has a mean inter-arrival time of 80.007 ms, significantly lower than the baseline of 781.8 ms, with a jitter ratio of 0.074, suggesting tightly controlled frame injection.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for 0x025 is 2.875, below the baseline of 3.28, indicating reduced randomness and potential deliberate payload construction.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Other IDs (0x075, 0x03A, 0x30A, 0x0F1, 0x655) each appear only once in the window, with no measurable inter-arrival times or jitter, and show reduced entropy, suggesting possible injection of low-entropy frames.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "No evidence of unknown IDs, bus load increase, or timing jitter collapse is present, ruling out dos, fuzzing, and masquerade.",
+            "cites": [
+              "E0",
+              "E1",
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "No earlier reference sequence is available, so replay cannot be confirmed; thus, spoofing is the most plausible explanation for the elevated rate and low entropy on 0x025.",
+            "cites": [
+              "E8"
+            ]
+          }
+        ],
+        "recommended_action": "Isolate and investigate the source of CAN ID 0x025 traffic; validate the legitimacy of its payload and function; monitor for similar anomalies on other IDs with low entropy and elevated rates.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"spoofing\", \"confidence\": 0.95, \"severity\": \"high\", \"affected_function\": \"unknown\", \"summary\": \"A single CAN ID (0x025) shows a significant rate increase (9.38x baseline) with low timing jitter and reduced payload entropy, indicating potential spoofing. Other IDs show minimal rate changes but low entropy, suggesting possible payload manipulation. No replay evidence or unknown IDs are present.\", \"claims\": [{\"text\": \"The CAN ID 0x025 exhibits a raw rate ratio of 9.38x above baseline, with a detector rate ratio of 2.0x using a guarded reference of 6.0 msg/s, indicating a significant deviation from normal behavior.\", \"cites\": [\"E2\"]}, {\"text\": \"The 0x025 ID has a mean inter-arrival time of 80.007 ms, significantly lower than the baseline of 781.8 ms, with a jitter ratio of 0.074, suggesting tightly controlled frame injection.\", \"cites\": [\"E2\"]}, {\"text\": \"Payload entropy for 0x025 is 2.875, below the baseline of 3.28, indicating reduced randomness and potential deliberate payload construction.\", \"cites\": [\"E2\"]}, {\"text\": \"Other IDs (0x075, 0x03A, 0x30A, 0x0F1, 0x655) each appear only once in the window, with no measurable inter-arrival times or jitter, and show reduced entropy, suggesting possible injection of low-entropy frames.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"No evidence of unknown IDs, bus load increase, or timing jitter collapse is present, ruling out dos, fuzzing, and masquerade.\", \"cites\": [\"E0\", \"E1\", \"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"No earlier reference sequence is available, so replay cannot be confirmed; thus, spoofing is the most plausible explanation for the elevated rate and low entropy on 0x025.\", \"cites\": [\"E8\"]}], \"recommended_action\": \"Isolate and investigate the source of CAN ID 0x025 traffic; validate the legitimacy of its payload and function; monitor for similar anomalies on other IDs with low entropy and elevated rates.\"}",
+        "latency_s": 4.168,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3385,
+          "output_tokens": 552
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 0,
+      "start": 0.0,
+      "end": 23.0,
+      "true_type": "normal",
+      "detector_score": 1.0,
+      "corpus_index": 24,
+      "evidence_sha256": "fc4488264e677e7da4ec82095d14c3f9d1097d262f052e93cc7413b3461bd528",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.95,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "The alert window shows a high detector score driven by missing IDs and elevated payload entropy, with multiple unknown IDs appearing at high rates in short bursts. The most prominent anomaly is 0x297, which exhibits a 6x rate increase and high entropy, suggesting fabricated messages. No replay evidence is present, and the absence of known IDs in multiple windows supports spoofing over replay or masquerade.",
+        "claims": [
+          {
+            "text": "The CAN ID 0x297 appeared at 12.0 msg/s in the final 0.5s window, a 6.003x increase over its 1.999 msg/s baseline, with a detector rate ratio of 2.0x due to a guarded reference.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The payload entropy for 0x297 increased from 2.0 to 3.01, indicating non-random, possibly fabricated data.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Multiple unknown IDs (0x00E, 0x033, 0x03D) were missing in a majority of scored windows, suggesting they are not part of normal operation.",
+            "cites": [
+              "E8",
+              "E9",
+              "E10"
+            ]
+          },
+          {
+            "text": "The sample frames show repeated payloads for 0x297 and 0x075, but no earlier reference sequence is available, so replay cannot be confirmed.",
+            "cites": [
+              "E11"
+            ]
+          },
+          {
+            "text": "The detector score of 1.000 is primarily driven by missing_ids (1.0) and payload_entropy (0.882), with rate_inflation (0.565) and timing (0.45) contributing moderately.",
+            "cites": [
+              "E0"
+            ]
+          }
+        ],
+        "recommended_action": "Isolate and investigate the source of the unknown CAN IDs (0x297, 0x075, 0x69D, etc.). Validate whether these IDs are legitimate in the current vehicle state. Consider blocking or rate-limiting unknown IDs with high entropy and elevated rates. Review baseline definitions to ensure they reflect all normal vehicle states.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\n  \"attack_type\": \"spoofing\",\n  \"confidence\": 0.95,\n  \"severity\": \"high\",\n  \"affected_function\": \"unknown\",\n  \"summary\": \"The alert window shows a high detector score driven by missing IDs and elevated payload entropy, with multiple unknown IDs appearing at high rates in short bursts. The most prominent anomaly is 0x297, which exhibits a 6x rate increase and high entropy, suggesting fabricated messages. No replay evidence is present, and the absence of known IDs in multiple windows supports spoofing over replay or masquerade.\",\n  \"claims\": [\n    {\n      \"text\": \"The CAN ID 0x297 appeared at 12.0 msg/s in the final 0.5s window, a 6.003x increase over its 1.999 msg/s baseline, with a detector rate ratio of 2.0x due to a guarded reference.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"The payload entropy for 0x297 increased from 2.0 to 3.01, indicating non-random, possibly fabricated data.\",\n      \"cites\": [\"E2\"]\n    },\n    {\n      \"text\": \"Multiple unknown IDs (0x00E, 0x033, 0x03D) were missing in a majority of scored windows, suggesting they are not part of normal operation.\",\n      \"cites\": [\"E8\", \"E9\", \"E10\"]\n    },\n    {\n      \"text\": \"The sample frames show repeated payloads for 0x297 and 0x075, but no earlier reference sequence is available, so replay cannot be confirmed.\",\n      \"cites\": [\"E11\"]\n    },\n    {\n      \"text\": \"The detector score of 1.000 is primarily driven by missing_ids (1.0) and payload_entropy (0.882), with rate_inflation (0.565) and timing (0.45) contributing moderately.\",\n      \"cites\": [\"E0\"]\n    }\n  ],\n  \"recommended_action\": \"Isolate and investigate the source of the unknown CAN IDs (0x297, 0x075, 0x69D, etc.). Validate whether these IDs are legitimate in the current vehicle state. Consider blocking or rate-limiting unknown IDs with high entropy and elevated rates. Review baseline definitions to ensure they reflect all normal vehicle states.\"\n}",
+        "latency_s": 4.102,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3838,
+          "output_tokens": 538
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 1,
+      "start": 24.0,
+      "end": 25.25,
+      "true_type": "normal",
+      "detector_score": 0.8548,
+      "corpus_index": 25,
+      "evidence_sha256": "eab530300e4aaaac24b3a31180b93894f2303595e2c15c95bf0f7f9378a2cf1c",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.9,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a high rate of injection on ID 0x21D with a 13.99x raw rate ratio and elevated payload entropy (1.328 vs baseline 0.544), indicating potential fuzzing. The ID is unknown and not in the baseline, and the payload entropy increase supports this. No replay evidence is present, and the bus load did not spike. Other IDs show minor rate changes but lack sufficient frames for jitter analysis. The primary anomaly is the injection of a previously unseen ID with high entropy.",
+        "claims": [
+          {
+            "text": "The ID 0x21D is not in the baseline and appears with a raw rate ratio of 13.992x, indicating an unknown ID injection.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The payload entropy for 0x21D increased from 0.544 to 1.328, suggesting non-standard or random data injection consistent with fuzzing.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The detector's rate_inflation component is 0.855, driven by the high rate of 0x21D, which is not a known function.",
+            "cites": [
+              "E0",
+              "E2"
+            ]
+          },
+          {
+            "text": "No evidence of replay is present, as the sampled frames do not match a prior sequence and no earlier reference is provided.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "Other IDs (0x075, 0x69D, etc.) show minor rate changes but insufficient frames for jitter or entropy analysis, and their entropy decreased, ruling out fuzzing.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Isolate and investigate the source of CAN ID 0x21D. Block or filter messages from this ID if it is not part of the vehicle's known communication. Review the vehicle's ECU configuration to confirm whether 0x21D should be present. Monitor for further unknown ID injections.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"fuzzing\", \"confidence\": 0.9, \"severity\": \"high\", \"affected_function\": \"unknown\", \"summary\": \"The anomaly detector flagged a high rate of injection on ID 0x21D with a 13.99x raw rate ratio and elevated payload entropy (1.328 vs baseline 0.544), indicating potential fuzzing. The ID is unknown and not in the baseline, and the payload entropy increase supports this. No replay evidence is present, and the bus load did not spike. Other IDs show minor rate changes but lack sufficient frames for jitter analysis. The primary anomaly is the injection of a previously unseen ID with high entropy.\", \"claims\": [{\"text\": \"The ID 0x21D is not in the baseline and appears with a raw rate ratio of 13.992x, indicating an unknown ID injection.\", \"cites\": [\"E2\"]}, {\"text\": \"The payload entropy for 0x21D increased from 0.544 to 1.328, suggesting non-standard or random data injection consistent with fuzzing.\", \"cites\": [\"E2\"]}, {\"text\": \"The detector's rate_inflation component is 0.855, driven by the high rate of 0x21D, which is not a known function.\", \"cites\": [\"E0\", \"E2\"]}, {\"text\": \"No evidence of replay is present, as the sampled frames do not match a prior sequence and no earlier reference is provided.\", \"cites\": [\"E8\"]}, {\"text\": \"Other IDs (0x075, 0x69D, etc.) show minor rate changes but insufficient frames for jitter or entropy analysis, and their entropy decreased, ruling out fuzzing.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}], \"recommended_action\": \"Isolate and investigate the source of CAN ID 0x21D. Block or filter messages from this ID if it is not part of the vehicle's known communication. Review the vehicle's ECU configuration to confirm whether 0x21D should be present. Monitor for further unknown ID injections.\"}",
+        "latency_s": 3.674,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3570,
+          "output_tokens": 479
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 2,
+      "start": 26.0,
+      "end": 27.25,
+      "true_type": "normal",
+      "detector_score": 0.8548,
+      "corpus_index": 26,
+      "evidence_sha256": "b86a5dd430121d3d8ba880e4f6f9107abdb1e1d3f656e06d8ef801938b225b02",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.9,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "The alert window shows a significant spike in frame rate and payload entropy for ID 0x21D, with a raw rate ratio of 13.99x and entropy increase from 0.544 to 1.514. The ID is unknown and not part of the baseline, and the payload patterns show low predictability. No replay evidence is present, and the high entropy and novel ID indicate fuzzing.",
+        "claims": [
+          {
+            "text": "The CAN ID 0x21D is unknown and not part of the baseline, appearing with a raw rate ratio of 13.992x in the 26.25\u201326.75s window.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The payload entropy for 0x21D increased from 0.544 (baseline) to 1.514 in the alert window, indicating high unpredictability.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The ID 0x21D has a mean inter-arrival time of 75.079 ms, significantly lower than the baseline of 999.673 ms, with a z-score of 1019.22, indicating a burst of frames.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "No earlier reference sequence is available, so replay cannot be confirmed; the high entropy and novel ID support fuzzing over replay.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "Other IDs (0x075, 0x69D, etc.) show low frame counts and insufficient data for jitter analysis, but their rates are near baseline and do not indicate sustained attack.",
+            "cites": [
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Block or filter traffic from unknown CAN ID 0x21D. Investigate the source of the ID and validate its legitimacy. Monitor for similar unknown ID activity in future windows.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"fuzzing\", \"confidence\": 0.9, \"severity\": \"high\", \"affected_function\": \"unknown\", \"summary\": \"The alert window shows a significant spike in frame rate and payload entropy for ID 0x21D, with a raw rate ratio of 13.99x and entropy increase from 0.544 to 1.514. The ID is unknown and not part of the baseline, and the payload patterns show low predictability. No replay evidence is present, and the high entropy and novel ID indicate fuzzing.\", \"claims\": [{\"text\": \"The CAN ID 0x21D is unknown and not part of the baseline, appearing with a raw rate ratio of 13.992x in the 26.25\u201326.75s window.\", \"cites\": [\"E2\"]}, {\"text\": \"The payload entropy for 0x21D increased from 0.544 (baseline) to 1.514 in the alert window, indicating high unpredictability.\", \"cites\": [\"E2\"]}, {\"text\": \"The ID 0x21D has a mean inter-arrival time of 75.079 ms, significantly lower than the baseline of 999.673 ms, with a z-score of 1019.22, indicating a burst of frames.\", \"cites\": [\"E2\"]}, {\"text\": \"No earlier reference sequence is available, so replay cannot be confirmed; the high entropy and novel ID support fuzzing over replay.\", \"cites\": [\"E8\"]}, {\"text\": \"Other IDs (0x075, 0x69D, etc.) show low frame counts and insufficient data for jitter analysis, but their rates are near baseline and do not indicate sustained attack.\", \"cites\": [\"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}], \"recommended_action\": \"Block or filter traffic from unknown CAN ID 0x21D. Investigate the source of the ID and validate its legitimacy. Monitor for similar unknown ID activity in future windows.\"}",
+        "latency_s": 3.573,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3574,
+          "output_tokens": 468
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 3,
+      "start": 44.25,
+      "end": 45.25,
+      "true_type": "normal",
+      "detector_score": 0.6196,
+      "corpus_index": 27,
+      "evidence_sha256": "45e09c7e30e01613b705151cd6656303bca87290b206aceffdb8b504561f6b9e",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.85,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "Multiple unknown CAN IDs (0x075, 0x3B9, 0x4EE, 0x655, 0x69D, 0x6D7) exhibit elevated rates with significantly reduced payload entropy, indicating potential injection of malformed or random data. No evidence of replay or spoofing sequence, but entropy drops suggest non-standard payloads.",
+        "claims": [
+          {
+            "text": "The detector score is driven by payload entropy (0.62), indicating abnormal payload randomness.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "Multiple unknown CAN IDs (0x075, 0x3B9, 0x4EE, 0x655, 0x69D, 0x6D7) appear in the window with rates above baseline, suggesting injection of new or unexpected messages.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "Payload entropy for these IDs is significantly lower than baseline (e.g., 2.406 vs 4.084 for 0x4EE), indicating non-random, possibly malformed or crafted data.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "No evidence of replay or sequence repetition; sample frames are isolated and no earlier reference sequence is provided.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "Jitter and IAT metrics are unavailable due to fewer than two frames per ID in their respective statistics windows, preventing timing-based analysis.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Isolate and investigate the source of unknown CAN IDs (0x075, 0x3B9, 0x4EE, 0x655, 0x69D, 0x6D7). Perform signal decoding to determine if payloads represent valid vehicle functions or malicious data. Consider updating the baseline to include these IDs if they are legitimate but previously unobserved.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"fuzzing\", \"confidence\": 0.85, \"severity\": \"high\", \"affected_function\": \"unknown\", \"summary\": \"Multiple unknown CAN IDs (0x075, 0x3B9, 0x4EE, 0x655, 0x69D, 0x6D7) exhibit elevated rates with significantly reduced payload entropy, indicating potential injection of malformed or random data. No evidence of replay or spoofing sequence, but entropy drops suggest non-standard payloads.\", \"claims\": [{\"text\": \"The detector score is driven by payload entropy (0.62), indicating abnormal payload randomness.\", \"cites\": [\"E0\"]}, {\"text\": \"Multiple unknown CAN IDs (0x075, 0x3B9, 0x4EE, 0x655, 0x69D, 0x6D7) appear in the window with rates above baseline, suggesting injection of new or unexpected messages.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"Payload entropy for these IDs is significantly lower than baseline (e.g., 2.406 vs 4.084 for 0x4EE), indicating non-random, possibly malformed or crafted data.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"No evidence of replay or sequence repetition; sample frames are isolated and no earlier reference sequence is provided.\", \"cites\": [\"E8\"]}, {\"text\": \"Jitter and IAT metrics are unavailable due to fewer than two frames per ID in their respective statistics windows, preventing timing-based analysis.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}], \"recommended_action\": \"Isolate and investigate the source of unknown CAN IDs (0x075, 0x3B9, 0x4EE, 0x655, 0x69D, 0x6D7). Perform signal decoding to determine if payloads represent valid vehicle functions or malicious data. Consider updating the baseline to include these IDs if they are legitimate but previously unobserved.\"}",
+        "latency_s": 3.813,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3305,
+          "output_tokens": 506
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 4,
+      "start": 45.75,
+      "end": 72.0,
+      "true_type": "normal",
+      "detector_score": 0.7316,
+      "corpus_index": 28,
+      "evidence_sha256": "5ec34416fa1bbf04d136668a82afb42af0f9d96963088d6627beff253ae76bb0",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.85,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "The alert window shows a significant increase in payload entropy and rate inflation for multiple CAN IDs, particularly 0x025, which exhibits a 9.38x raw rate increase and entropy drop from 3.28 to 2.81. The presence of multiple unknown IDs with elevated rates and low entropy suggests injection of non-standard, possibly random payloads, consistent with fuzzing. No replay evidence is present, and the timing jitter is not measurable due to insufficient frames. The detector score is driven by payload entropy and rate inflation components.",
+        "claims": [
+          {
+            "text": "The CAN ID 0x025 shows a raw rate ratio of 9.38x, with a detector rate ratio of 2.0x using a guarded reference of 6.0 msg/s for sparse IDs.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Payload entropy for 0x025 dropped from 3.28 to 2.812, indicating reduced randomness and potential injection of structured but non-standard data.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "Multiple unknown CAN IDs (0x025, 0x69D, 0x075, 0x3B9, 0x4EE, 0x6D7) exhibit elevated rates with low entropy, suggesting injection of non-baseline payloads.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The detector components show high payload_entropy (0.732) and rate_inflation (0.565), which are key indicators of fuzzing.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "No evidence of replay is present, as no earlier reference sequence is supplied and the frame pairs are not temporally aligned with prior behavior.",
+            "cites": [
+              "E8"
+            ]
+          },
+          {
+            "text": "Jitter collapse is not assessable for most IDs due to fewer than eight frames in the statistics window, so timing anomalies cannot be confirmed.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          }
+        ],
+        "recommended_action": "Isolate and analyze the source of the unknown CAN IDs (0x025, 0x69D, etc.) to determine if they originate from a compromised ECU or unauthorized device. Implement filtering rules to block or flag frames from these IDs. Review vehicle function definitions to confirm if any of these IDs are legitimate but unregistered. Conduct a deeper payload analysis to detect potential signal-level anomalies.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"fuzzing\", \"confidence\": 0.85, \"severity\": \"high\", \"affected_function\": \"unknown\", \"summary\": \"The alert window shows a significant increase in payload entropy and rate inflation for multiple CAN IDs, particularly 0x025, which exhibits a 9.38x raw rate increase and entropy drop from 3.28 to 2.81. The presence of multiple unknown IDs with elevated rates and low entropy suggests injection of non-standard, possibly random payloads, consistent with fuzzing. No replay evidence is present, and the timing jitter is not measurable due to insufficient frames. The detector score is driven by payload entropy and rate inflation components.\", \"claims\": [{\"text\": \"The CAN ID 0x025 shows a raw rate ratio of 9.38x, with a detector rate ratio of 2.0x using a guarded reference of 6.0 msg/s for sparse IDs.\", \"cites\": [\"E2\"]}, {\"text\": \"Payload entropy for 0x025 dropped from 3.28 to 2.812, indicating reduced randomness and potential injection of structured but non-standard data.\", \"cites\": [\"E2\"]}, {\"text\": \"Multiple unknown CAN IDs (0x025, 0x69D, 0x075, 0x3B9, 0x4EE, 0x6D7) exhibit elevated rates with low entropy, suggesting injection of non-baseline payloads.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"The detector components show high payload_entropy (0.732) and rate_inflation (0.565), which are key indicators of fuzzing.\", \"cites\": [\"E0\"]}, {\"text\": \"No evidence of replay is present, as no earlier reference sequence is supplied and the frame pairs are not temporally aligned with prior behavior.\", \"cites\": [\"E8\"]}, {\"text\": \"Jitter collapse is not assessable for most IDs due to fewer than eight frames in the statistics window, so timing anomalies cannot be confirmed.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}], \"recommended_action\": \"Isolate and analyze the source of the unknown CAN IDs (0x025, 0x69D, etc.) to determine if they originate from a compromised ECU or unauthorized device. Implement filtering rules to block or flag frames from these IDs. Review vehicle function definitions to confirm if any of these IDs are legitimate but unregistered. Conduct a deeper payload analysis to detect potential signal-level anomalies.\"}",
+        "latency_s": 4.437,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3579,
+          "output_tokens": 590
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 5,
+      "start": 72.75,
+      "end": 73.75,
+      "true_type": "normal",
+      "detector_score": 0.592,
+      "corpus_index": 29,
+      "evidence_sha256": "d34682552327bcede70d315f77564610e55201aa005441f30284716c5f5f6395",
+      "explanation": {
+        "attack_type": "fuzzing",
+        "confidence": 0.85,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "The anomaly detector flagged a high payload entropy deviation with no evidence of rate inflation, bus load increase, or timing anomalies. Multiple unknown CAN IDs (0x69D, 0x075, 0x3B9, 0x4EE, 0x6D7, 0x655) each transmitted only one frame in their respective 0.5-second windows, all with significantly reduced entropy compared to baseline. The detector score is driven entirely by payload entropy, indicating non-standard or random-like payloads. No replay sequence or rate spike supports spoofing or replay. The presence of multiple unknown IDs with low entropy and sparse transmission suggests injection of malformed or non-standard frames, consistent with fuzzing.",
+        "claims": [
+          {
+            "text": "The detector score is driven solely by payload_entropy (0.592), with all other components at 0.0.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "Multiple unknown CAN IDs (0x69D, 0x075, 0x3B9, 0x4EE, 0x6D7, 0x655) each transmitted only one frame in their respective 0.5-second windows.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "Each of the unknown IDs exhibited reduced payload entropy compared to baseline (e.g., 3.0 vs 5.621 for 0x69D).",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "No evidence of rate inflation, bus load increase, or timing anomalies supports dos, spoofing, or replay.",
+            "cites": [
+              "E0",
+              "E1"
+            ]
+          },
+          {
+            "text": "The frame samples show non-repeating, non-periodic payloads from unknown IDs, with no earlier reference sequence provided.",
+            "cites": [
+              "E8"
+            ]
+          }
+        ],
+        "recommended_action": "Isolate and analyze the unknown CAN IDs (0x69D, 0x075, 0x3B9, 0x4EE, 0x6D7, 0x655) for potential firmware or ECU vulnerabilities. Block or filter these IDs if not part of the vehicle's known communication profile. Investigate the source of the low-entropy, sporadic frames to rule out malicious injection or misbehaving ECU.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"fuzzing\", \"confidence\": 0.85, \"severity\": \"high\", \"affected_function\": \"unknown\", \"summary\": \"The anomaly detector flagged a high payload entropy deviation with no evidence of rate inflation, bus load increase, or timing anomalies. Multiple unknown CAN IDs (0x69D, 0x075, 0x3B9, 0x4EE, 0x6D7, 0x655) each transmitted only one frame in their respective 0.5-second windows, all with significantly reduced entropy compared to baseline. The detector score is driven entirely by payload entropy, indicating non-standard or random-like payloads. No replay sequence or rate spike supports spoofing or replay. The presence of multiple unknown IDs with low entropy and sparse transmission suggests injection of malformed or non-standard frames, consistent with fuzzing.\", \"claims\": [{\"text\": \"The detector score is driven solely by payload_entropy (0.592), with all other components at 0.0.\", \"cites\": [\"E0\"]}, {\"text\": \"Multiple unknown CAN IDs (0x69D, 0x075, 0x3B9, 0x4EE, 0x6D7, 0x655) each transmitted only one frame in their respective 0.5-second windows.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"Each of the unknown IDs exhibited reduced payload entropy compared to baseline (e.g., 3.0 vs 5.621 for 0x69D).\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"No evidence of rate inflation, bus load increase, or timing anomalies supports dos, spoofing, or replay.\", \"cites\": [\"E0\", \"E1\"]}, {\"text\": \"The frame samples show non-repeating, non-periodic payloads from unknown IDs, with no earlier reference sequence provided.\", \"cites\": [\"E8\"]}], \"recommended_action\": \"Isolate and analyze the unknown CAN IDs (0x69D, 0x075, 0x3B9, 0x4EE, 0x6D7, 0x655) for potential firmware or ECU vulnerabilities. Block or filter these IDs if not part of the vehicle's known communication profile. Investigate the source of the low-entropy, sporadic frames to rule out malicious injection or misbehaving ECU.\"}",
+        "latency_s": 4.297,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3311,
+          "output_tokens": 568
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    },
+    {
+      "capture": "ambient_dyno_drive_extended_short",
+      "role": "held_out_normal",
+      "alert_id": 6,
+      "start": 75.5,
+      "end": 120.0,
+      "true_type": "normal",
+      "detector_score": 0.668,
+      "corpus_index": 30,
+      "evidence_sha256": "243c6b60a20a330e4984a19280bd01d8b95f1b9307b9e05be5d60b145990a384",
+      "explanation": {
+        "attack_type": "spoofing",
+        "confidence": 0.85,
+        "severity": "high",
+        "affected_function": "unknown",
+        "summary": "Multiple CAN IDs (0x4C9, 0x280, 0x69D, 0x075, 0x3B9, 0x4EE) exhibit elevated rates and anomalous timing patterns, with significant entropy drops and high rate ratios. The detector flags these as spoofing due to sustained rate inflation and abnormal payload entropy, despite no evidence of replay or unknown IDs. The affected IDs are not associated with known vehicle functions.",
+        "claims": [
+          {
+            "text": "The CAN ID 0x4C9 shows a rate ratio of 1.8x and a jitter ratio of 28.85, indicating abnormal timing behavior with a 44.48 sigma deviation from baseline IAT.",
+            "cites": [
+              "E2"
+            ]
+          },
+          {
+            "text": "The CAN ID 0x280 exhibits a rate ratio of 1.987x and a 7.39 sigma IAT deviation, with entropy dropping from 1.518 to 1.498, suggesting payload manipulation.",
+            "cites": [
+              "E3"
+            ]
+          },
+          {
+            "text": "Multiple IDs (0x69D, 0x075, 0x3B9, 0x4EE) show rate ratios near 2x with only one frame in their statistics window, indicating sparse but elevated activity.",
+            "cites": [
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "Payload entropy for several IDs is significantly lower than baseline (e.g., 0x4C9: 4.073 vs 3.388), indicating reduced randomness and potential fabrication.",
+            "cites": [
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "The detector score of 0.668 is driven primarily by payload_entropy (0.668) and timing (0.45), with rate_inflation (0.391) contributing moderately.",
+            "cites": [
+              "E0"
+            ]
+          },
+          {
+            "text": "No evidence of replay is present, as no earlier sequence is provided and the detector does not confirm sequence repetition.",
+            "cites": [
+              "E8"
+            ]
+          }
+        ],
+        "recommended_action": "Isolate and investigate the source of the elevated CAN traffic on IDs 0x4C9, 0x280, 0x69D, 0x075, 0x3B9, and 0x4EE. Perform signal decoding to determine if payloads represent valid control commands. Consider disabling or filtering these IDs if they are not part of normal vehicle operation.",
+        "model": "qwen3-30b-a3b-instruct-fp8",
+        "grounded": true,
+        "raw_response": "{\"attack_type\": \"spoofing\", \"confidence\": 0.85, \"severity\": \"high\", \"affected_function\": \"unknown\", \"summary\": \"Multiple CAN IDs (0x4C9, 0x280, 0x69D, 0x075, 0x3B9, 0x4EE) exhibit elevated rates and anomalous timing patterns, with significant entropy drops and high rate ratios. The detector flags these as spoofing due to sustained rate inflation and abnormal payload entropy, despite no evidence of replay or unknown IDs. The affected IDs are not associated with known vehicle functions.\", \"claims\": [{\"text\": \"The CAN ID 0x4C9 shows a rate ratio of 1.8x and a jitter ratio of 28.85, indicating abnormal timing behavior with a 44.48 sigma deviation from baseline IAT.\", \"cites\": [\"E2\"]}, {\"text\": \"The CAN ID 0x280 exhibits a rate ratio of 1.987x and a 7.39 sigma IAT deviation, with entropy dropping from 1.518 to 1.498, suggesting payload manipulation.\", \"cites\": [\"E3\"]}, {\"text\": \"Multiple IDs (0x69D, 0x075, 0x3B9, 0x4EE) show rate ratios near 2x with only one frame in their statistics window, indicating sparse but elevated activity.\", \"cites\": [\"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"Payload entropy for several IDs is significantly lower than baseline (e.g., 0x4C9: 4.073 vs 3.388), indicating reduced randomness and potential fabrication.\", \"cites\": [\"E2\", \"E3\", \"E4\", \"E5\", \"E6\", \"E7\"]}, {\"text\": \"The detector score of 0.668 is driven primarily by payload_entropy (0.668) and timing (0.45), with rate_inflation (0.391) contributing moderately.\", \"cites\": [\"E0\"]}, {\"text\": \"No evidence of replay is present, as no earlier sequence is provided and the detector does not confirm sequence repetition.\", \"cites\": [\"E8\"]}], \"recommended_action\": \"Isolate and investigate the source of the elevated CAN traffic on IDs 0x4C9, 0x280, 0x69D, 0x075, 0x3B9, and 0x4EE. Perform signal decoding to determine if payloads represent valid control commands. Consider disabling or filtering these IDs if they are not part of normal vehicle operation.\"}",
+        "latency_s": 3.716,
+        "requested_model": "qwen3-30b-a3b-instruct-fp8",
+        "fallback": false,
+        "error_type": null,
+        "usage": {
+          "input_tokens": 3666,
+          "output_tokens": 602
+        },
+        "prompt_version": "can-evidence-v3",
+        "finish_reason": "stop",
+        "response_model": "Qwen/Qwen3-30B-A3B-Instruct-2507-FP8",
+        "reasoning_effort": null,
+        "validation_version": "can-id-membership-v1",
+        "validation_warnings": []
+      },
+      "estimated_cost_usd": null
+    }
+  ],
+  "scoring": "Attack-label accuracy on frozen alerts; failures count as incorrect, never control predictions. Normal alerts scored separately. Development corpus, not an untouched test set.",
+  "summary": {
+    "attempts": 31,
+    "successful_responses": 31,
+    "fallbacks": 0,
+    "classification": {
+      "scored_alerts": 20,
+      "correct": 14,
+      "accuracy": 0.7,
+      "successful_only_accuracy": 0.7,
+      "confusion": {
+        "spoofing": {
+          "spoofing": 11,
+          "fuzzing": 2
+        },
+        "masquerade": {
+          "fuzzing": 4
+        },
+        "fuzzing": {
+          "fuzzing": 3
+        }
+      }
+    },
+    "false_alarms": 11,
+    "false_alarms_labeled_benign": 0,
+    "grounding": {
+      "rate": 1.0,
+      "meaning": "Citation validity only; semantic claim support needs review"
+    },
+    "latency_s_median": 4.192,
+    "latency_s_p95": 5.314,
+    "latency_s_max": 5.672,
+    "attempt_latency_s_p95": 5.314,
+    "input_tokens": 106210,
+    "output_tokens": 17645,
+    "estimated_cost_usd": null,
+    "successful_alerts_per_second": 0.45640177171634344
+  },
+  "wall_seconds": 67.922611,
+  "updated_at": "2026-10-31T01:14:40.721783+00:00"
+}

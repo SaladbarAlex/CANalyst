@@ -1,0 +1,6 @@
+*.pdf binary
+*.png binary
+# Preserve exact experiment bytes: manifests and annotations hash these files.
+backend/out/** -text
+backend/out/**/*.csv whitespace=cr-at-eol
+backend/out/browser_qa_*/**/*.txt whitespace=-blank-at-eol,-blank-at-eof

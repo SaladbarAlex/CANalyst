@@ -1,0 +1,4853 @@
+{
+  "created_utc": "2026-11-22T22:55:10+00:00",
+  "protocol": "app/datasets.py",
+  "window_s": 0.5,
+  "rule_threshold": 0.55,
+  "target_fpr": 0.01,
+  "bootstrap": {
+    "draws": 2000,
+    "block_windows": 20,
+    "seed": 0
+  },
+  "code_sha256": {
+    "app/windowstats.py": "9d1c6d60c12d68d2301f5d8c2ef071a58a26b57f45622615d74be3bbc450b8ba",
+    "app/datasets.py": "0c26e715650a02e913b3e9a9e01fbfaf086df981d55bc9ed805d3e938c90a3be",
+    "app/stats.py": "ce69b98c012ca0cd83d024747abedf6ed6ae6c9b9b283af92861518eb17f5402",
+    "app/features.py": "14d15d0b8629f9a58748af4470e16d7f5567ea6d26e9f3c02ea0490ccc242874",
+    "app/detector.py": "7a686b3893bbfdce87952ed53ece18ba1b1eeb4494cdf2ddc30f54d43bae182e",
+    "scripts/benchmark.py": "b562ab1295fcd45b417b1e73e403d718399e82c3d9a12dc929f7831ad3b73e01"
+  },
+  "datasets": [
+    {
+      "dataset": "road",
+      "references": {
+        "single": {
+          "reference_captures": [
+            "ambient_dyno_drive_basic_short"
+          ],
+          "reference_seconds": 444.8,
+          "reference_ids": 106,
+          "normal_model_windows": 34000,
+          "threshold_rule": "smallest threshold with FPR <= 1% on attack-free tuning windows",
+          "thresholds": {
+            "rule": 1.0000000000000002,
+            "id_whitelist": 1.0,
+            "interval": 1.4000000000000001,
+            "whitelist_interval": 1.4000000000000001,
+            "id_entropy": 3.8424540437379573,
+            "iforest": 0.664398269090865,
+            "ocsvm": -1.9203788626523604
+          },
+          "evaluation": {
+            "rule@0.55": {
+              "threshold": 0.55,
+              "windows": 11552,
+              "tp": 911,
+              "fp": 1461,
+              "fn": 1043,
+              "tn": 8137,
+              "precision": {
+                "value": 0.38406408094435074,
+                "lo": 0.32666899307325314,
+                "hi": 0.4397456296431477
+              },
+              "recall": {
+                "value": 0.4662231320368475,
+                "lo": 0.40359323609278047,
+                "hi": 0.5215959167966332
+              },
+              "f1": {
+                "value": 0.42117429496070274,
+                "lo": 0.36577464881671956,
+                "hi": 0.4683901822427602
+              },
+              "fpr": {
+                "value": 0.15221921233590333,
+                "lo": 0.12642373409494692,
+                "hi": 0.1772828744216573
+              },
+              "auroc": 0.5648992785301783,
+              "auprc": 0.27377416343091276,
+              "recall_by_type": {
+                "fuzzing": {
+                  "k": 12,
+                  "n": 12,
+                  "value": 1.0,
+                  "ci": [
+                    0.7575059933447592,
+                    1.0
+                  ]
+                },
+                "masquerade": {
+                  "k": 4,
+                  "n": 971,
+                  "value": 0.004119464469618949,
+                  "ci": [
+                    0.00160311023106914,
+                    0.01054395092800305
+                  ]
+                },
+                "spoofing": {
+                  "k": 895,
+                  "n": 971,
+                  "value": 0.92173017507724,
+                  "ci": [
+                    0.9031257260368284,
+                    0.937010885500783
+                  ]
+                }
+              },
+              "recall_by_family": {
+                "correlated_signal/masquerade": {
+                  "k": 3,
+                  "n": 137,
+                  "value": 0.021897810218978103
+                },
+                "correlated_signal": {
+                  "k": 127,
+                  "n": 137,
+                  "value": 0.927007299270073
+                },
+                "fuzzing": {
+                  "k": 12,
+                  "n": 12,
+                  "value": 1.0
+                },
+                "max_engine_coolant_temp/masquerade": {
+                  "k": 0,
+                  "n": 19,
+                  "value": 0.0
+                },
+                "max_engine_coolant_temp": {
+                  "k": 13,
+                  "n": 19,
+                  "value": 0.6842105263157895
+                },
+                "max_speedometer/masquerade": {
+                  "k": 0,
+                  "n": 373,
+                  "value": 0.0
+                },
+                "max_speedometer": {
+                  "k": 339,
+                  "n": 373,
+                  "value": 0.9088471849865952
+                },
+                "reverse_light_off/masquerade": {
+                  "k": 0,
+                  "n": 196,
+                  "value": 0.0
+                },
+                "reverse_light_off": {
+                  "k": 180,
+                  "n": 196,
+                  "value": 0.9183673469387755
+                },
+                "reverse_light_on/masquerade": {
+                  "k": 1,
+                  "n": 246,
+                  "value": 0.0040650406504065045
+                },
+                "reverse_light_on": {
+                  "k": 236,
+                  "n": 246,
+                  "value": 0.959349593495935
+                }
+              },
+              "fpr_by_source": {
+                "ambient captures": {
+                  "k": 1459,
+                  "n": 7868,
+                  "value": 0.18543467208947637
+                },
+                "normal windows inside attack captures": {
+                  "k": 2,
+                  "n": 1730,
+                  "value": 0.0011560693641618498
+                }
+              },
+              "fpr_by_ambient_capture": {
+                "ambient_dyno_drive_benign_anomaly": {
+                  "k": 858,
+                  "n": 1725,
+                  "value": 0.4973913043478261
+                },
+                "ambient_dyno_drive_extended_short": {
+                  "k": 582,
+                  "n": 1439,
+                  "value": 0.4044475330090341
+                },
+                "ambient_dyno_drive_winter": {
+                  "k": 0,
+                  "n": 190,
+                  "value": 0.0
+                },
+                "ambient_dyno_idle_radio_infotainment": {
+                  "k": 18,
+                  "n": 2635,
+                  "value": 0.00683111954459203
+                },
+                "ambient_highway_street_driving_diagnostics": {
+                  "k": 1,
+                  "n": 1879,
+                  "value": 0.0005321979776476849
+                }
+              }
+            },
+            "rule_v2@0.55": {
+              "threshold": 0.55,
+              "windows": 11552,
+              "tp": 910,
+              "fp": 50,
+              "fn": 1044,
+              "tn": 9548,
+              "precision": {
+                "value": 0.9479166666666666,
+                "lo": 0.9148208546809501,
+                "hi": 0.9761672492721138
+              },
+              "recall": {
+                "value": 0.4657113613101331,
+                "lo": 0.40314822291062713,
+                "hi": 0.5212069948890299
+              },
+              "f1": {
+                "value": 0.6245710363761153,
+                "lo": 0.562634334233618,
+                "hi": 0.6748529617014816
+              },
+              "fpr": {
+                "value": 0.005209418628881017,
+                "lo": 0.0022982384867405205,
+                "hi": 0.008657828246678878
+              },
+              "auroc": 0.7460109823289268,
+              "auprc": 0.55690323866001,
+              "recall_by_type": {
+                "fuzzing": {
+                  "k": 12,
+                  "n": 12,
+                  "value": 1.0,
+                  "ci": [
+                    0.7575059933447592,
+                    1.0
+                  ]
+                },
+                "masquerade": {
+                  "k": 3,
+                  "n": 971,
+                  "value": 0.003089598352214212,
+                  "ci": [
+                    0.0010512865334147917,
+                    0.009044158968666893
+                  ]
+                },
+                "spoofing": {
+                  "k": 895,
+                  "n": 971,
+                  "value": 0.92173017507724,
+                  "ci": [
+                    0.9031257260368284,
+                    0.937010885500783
+                  ]
+                }
+              },
+              "recall_by_family": {
+                "correlated_signal/masquerade": {
+                  "k": 3,
+                  "n": 137,
+                  "value": 0.021897810218978103
+                },
+                "correlated_signal": {
+                  "k": 127,
+                  "n": 137,
+                  "value": 0.927007299270073
+                },
+                "fuzzing": {
+                  "k": 12,
+                  "n": 12,
+                  "value": 1.0
+                },
+                "max_engine_coolant_temp/masquerade": {
+                  "k": 0,
+                  "n": 19,
+                  "value": 0.0
+                },
+                "max_engine_coolant_temp": {
+                  "k": 13,
+                  "n": 19,
+                  "value": 0.6842105263157895
+                },
+                "max_speedometer/masquerade": {
+                  "k": 0,
+                  "n": 373,
+                  "value": 0.0
+                },
+                "max_speedometer": {
+                  "k": 339,
+                  "n": 373,
+                  "value": 0.9088471849865952
+                },
+                "reverse_light_off/masquerade": {
+                  "k": 0,
+                  "n": 196,
+                  "value": 0.0
+                },
+                "reverse_light_off": {
+                  "k": 180,
+                  "n": 196,
+                  "value": 0.9183673469387755
+                },
+                "reverse_light_on/masquerade": {
+                  "k": 0,
+                  "n": 246,
+                  "value": 0.0
+                },
+                "reverse_light_on": {
+                  "k": 236,
+                  "n": 246,
+                  "value": 0.959349593495935
+                }
+              },
+              "fpr_by_source": {
+                "ambient captures": {
+                  "k": 50,
+                  "n": 7868,
+                  "value": 0.006354855109303508
+                },
+                "normal windows inside attack captures": {
+                  "k": 0,
+                  "n": 1730,
+                  "value": 0.0
+                }
+              },
+              "fpr_by_ambient_capture": {
+                "ambient_dyno_drive_benign_anomaly": {
+                  "k": 14,
+                  "n": 1725,
+                  "value": 0.008115942028985508
+                },
+                "ambient_dyno_drive_extended_short": {
+                  "k": 28,
+                  "n": 1439,
+                  "value": 0.019457956914523976
+                },
+                "ambient_dyno_drive_winter": {
+                  "k": 0,
+                  "n": 190,
+                  "value": 0.0
+                },
+                "ambient_dyno_idle_radio_infotainment": {
+                  "k": 8,
+                  "n": 2635,
+                  "value": 0.0030360531309297912
+                },
+                "ambient_highway_street_driving_diagnostics": {
+                  "k": 0,
+                  "n": 1879,
+                  "value": 0.0
+                }
+              }
+            },
+            "rule@tuned": {
+              "threshold": 1.0000000000000002,
+              "windows": 11552,
+              "tp": 0,
+              "fp": 0,
+              "fn": 1954,
+              "tn": 9598,
+              "precision": {
+                "value": NaN,
+                "lo": NaN,
+                "hi": NaN
+              },
+              "recall": {
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.0
+              },
+              "f1": {
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.0
+              },
+              "fpr": {
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.0
+              },
+              "auroc": 0.5648992785301783,
+              "auprc": 0.27377416343091276,
+              "recall_by_type": {
+                "fuzzing": {
+                  "k": 0,
+                  "n": 12,
+                  "value": 0.0,
+                  "ci": [
+                    2.7755575615628914e-17,
+                    0.24249400665524085
+                  ]
+                },
+                "masquerade": {
+                  "k": 0,
+                  "n": 971,
+                  "value": 0.0,
+                  "ci": [
+                    0.0,
+                    0.003940598531110172
+                  ]
+                },
+                "spoofing": {
+                  "k": 0,
+                  "n": 971,
+                  "value": 0.0,
+                  "ci": [
+                    0.0,
+                    0.003940598531110172
+                  ]
+                }
+              },
+              "recall_by_family": {
+                "correlated_signal/masquerade": {
+                  "k": 0,
+                  "n": 137,
+                  "value": 0.0
+                },
+                "correlated_signal": {
+                  "k": 0,
+                  "n": 137,
+                  "value": 0.0
+                },
+                "fuzzing": {
+                  "k": 0,
+                  "n": 12,
+                  "value": 0.0
+                },
+                "max_engine_coolant_temp/masquerade": {
+                  "k": 0,
+                  "n": 19,
+                  "value": 0.0
+                },
+                "max_engine_coolant_temp": {
+                  "k": 0,
+                  "n": 19,
+                  "value": 0.0
+                },
+                "max_speedometer/masquerade": {
+                  "k": 0,
+                  "n": 373,
+                  "value": 0.0
+                },
+                "max_speedometer": {
+                  "k": 0,
+                  "n": 373,
+                  "value": 0.0
+                },
+                "reverse_light_off/masquerade": {
+                  "k": 0,
+                  "n": 196,
+                  "value": 0.0
+                },
+                "reverse_light_off": {
+                  "k": 0,
+                  "n": 196,
+                  "value": 0.0
+                },
+                "reverse_light_on/masquerade": {
+                  "k": 0,
+                  "n": 246,
+                  "value": 0.0
+                },
+                "reverse_light_on": {
+                  "k": 0,
+                  "n": 246,
+                  "value": 0.0
+                }
+              },
+              "fpr_by_source": {
+                "ambient captures": {
+                  "k": 0,
+                  "n": 7868,
+                  "value": 0.0
+                },
+                "normal windows inside attack captures": {
+                  "k": 0,
+                  "n": 1730,
+                  "value": 0.0
+                }
+              },
+              "fpr_by_ambient_capture": {
+                "ambient_dyno_drive_benign_anomaly": {
+                  "k": 0,
+                  "n": 1725,
+                  "value": 0.0
+                },
+                "ambient_dyno_drive_extended_short": {
+                  "k": 0,
+                  "n": 1439,
+                  "value": 0.0
+                },
+                "ambient_dyno_drive_winter": {
+                  "k": 0,
+                  "n": 190,
+                  "value": 0.0
+                },
+                "ambient_dyno_idle_radio_infotainment": {
+                  "k": 0,
+                  "n": 2635,
+                  "value": 0.0
+                },
+                "ambient_highway_street_driving_diagnostics": {
+                  "k": 0,
+                  "n": 1879,
+                  "value": 0.0
+                }
+              }
+            },
+            "id_whitelist": {
+              "threshold": 1.0,
+              "windows": 11552,
+              "tp": 12,
+              "fp": 0,
+              "fn": 1942,
+              "tn": 9598,
+              "precision": {
+                "value": 1.0,
+                "lo": 1.0,
+                "hi": 1.0
+              },
+              "recall": {
+                "value": 0.006141248720573183,
+                "lo": 0.0009994628434285852,
+                "hi": 0.014759135462306332
+              },
+              "f1": {
+                "value": 0.012207527975584944,
+                "lo": 0.0019969298295826454,
+                "hi": 0.02908894321448309
+              },
+              "fpr": {
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.0
+              },
+              "auroc": 0.5030706243602866,
+              "auprc": 0.1742506670031217,
+              "recall_by_type": {
+                "fuzzing": {
+                  "k": 12,
+                  "n": 12,
+                  "value": 1.0,
+                  "ci": [
+                    0.7575059933447592,
+                    1.0
+                  ]
+                },
+                "masquerade": {
+                  "k": 0,
+                  "n": 971,
+                  "value": 0.0,
+                  "ci": [
+                    0.0,
+                    0.003940598531110172
+                  ]
+                },
+                "spoofing": {
+                  "k": 0,
+                  "n": 971,
+                  "value": 0.0,
+                  "ci": [
+                    0.0,
+                    0.003940598531110172
+                  ]
+                }
+              },
+              "recall_by_family": {
+                "correlated_signal/masquerade": {
+                  "k": 0,
+                  "n": 137,
+                  "value": 0.0
+                },
+                "correlated_signal": {
+                  "k": 0,
+                  "n": 137,
+                  "value": 0.0
+                },
+                "fuzzing": {
+                  "k": 12,
+                  "n": 12,
+                  "value": 1.0
+                },
+                "max_engine_coolant_temp/masquerade": {
+                  "k": 0,
+                  "n": 19,
+                  "value": 0.0
+                },
+                "max_engine_coolant_temp": {
+                  "k": 0,
+                  "n": 19,
+                  "value": 0.0
+                },
+                "max_speedometer/masquerade": {
+                  "k": 0,
+                  "n": 373,
+                  "value": 0.0
+                },
+                "max_speedometer": {
+                  "k": 0,
+                  "n": 373,
+                  "value": 0.0
+                },
+                "reverse_light_off/masquerade": {
+                  "k": 0,
+                  "n": 196,
+                  "value": 0.0
+                },
+                "reverse_light_off": {
+                  "k": 0,
+                  "n": 196,
+                  "value": 0.0
+                },
+                "reverse_light_on/masquerade": {
+                  "k": 0,
+                  "n": 246,
+                  "value": 0.0
+                },
+                "reverse_light_on": {
+                  "k": 0,
+                  "n": 246,
+                  "value": 0.0
+                }
+              },
+              "fpr_by_source": {
+                "ambient captures": {
+                  "k": 0,
+                  "n": 7868,
+                  "value": 0.0
+                },
+                "normal windows inside attack captures": {
+                  "k": 0,
+                  "n": 1730,
+                  "value": 0.0
+                }
+              },
+              "fpr_by_ambient_capture": {
+                "ambient_dyno_drive_benign_anomaly": {
+                  "k": 0,
+                  "n": 1725,
+                  "value": 0.0
+                },
+                "ambient_dyno_drive_extended_short": {
+                  "k": 0,
+                  "n": 1439,
+                  "value": 0.0
+                },
+                "ambient_dyno_drive_winter": {
+                  "k": 0,
+                  "n": 190,
+                  "value": 0.0
+                },
+                "ambient_dyno_idle_radio_infotainment": {
+                  "k": 0,
+                  "n": 2635,
+                  "value": 0.0
+                },
+                "ambient_highway_street_driving_diagnostics": {
+                  "k": 0,
+                  "n": 1879,
+                  "value": 0.0
+                }
+              }
+            },
+            "interval": {
+              "threshold": 1.4000000000000001,
+              "windows": 11552,
+              "tp": 968,
+              "fp": 133,
+              "fn": 986,
+              "tn": 9465,
+              "precision": {
+                "value": 0.8792007266121707,
+                "lo": 0.8242924376075732,
+                "hi": 0.9257860083039345
+              },
+              "recall": {
+                "value": 0.4953940634595701,
+                "lo": 0.42902752680217326,
+                "hi": 0.5536561942579169
+              },
+              "f1": {
+                "value": 0.6337152209492635,
+                "lo": 0.5709272317142993,
+                "hi": 0.6846167127755806
+              },
+              "fpr": {
+                "value": 0.013857053552823505,
+                "lo": 0.008306945629024046,
+                "hi": 0.020267415277617204
+              },
+              "auroc": 0.7641705784406211,
+              "auprc": 0.5871893802909055,
+              "recall_by_type": {
+                "fuzzing": {
+                  "k": 0,
+                  "n": 12,
+                  "value": 0.0,
+                  "ci": [
+                    2.7755575615628914e-17,
+                    0.24249400665524085
+                  ]
+                },
+                "masquerade": {
+                  "k": 10,
+                  "n": 971,
+                  "value": 0.010298661174047374,
+                  "ci": [
+                    0.005603519441522977,
+                    0.01885323565949224
+                  ]
+                },
+                "spoofing": {
+                  "k": 958,
+                  "n": 971,
+                  "value": 0.9866117404737385,
+                  "ci": [
+                    0.9772290541738592,
+                    0.9921593437541542
+                  ]
+                }
+              },
+              "recall_by_family": {
+                "correlated_signal/masquerade": {
+                  "k": 10,
+                  "n": 137,
+                  "value": 0.072992700729927
+                },
+                "correlated_signal": {
+                  "k": 135,
+                  "n": 137,
+                  "value": 0.9854014598540146
+                },
+                "fuzzing": {
+                  "k": 0,
+                  "n": 12,
+                  "value": 0.0
+                },
+                "max_engine_coolant_temp/masquerade": {
+                  "k": 0,
+                  "n": 19,
+                  "value": 0.0
+                },
+                "max_engine_coolant_temp": {
+                  "k": 17,
+                  "n": 19,
+                  "value": 0.8947368421052632
+                },
+                "max_speedometer/masquerade": {
+                  "k": 0,
+                  "n": 373,
+                  "value": 0.0
+                },
+                "max_speedometer": {
+                  "k": 371,
+                  "n": 373,
+                  "value": 0.9946380697050938
+                },
+                "reverse_light_off/masquerade": {
+                  "k": 0,
+                  "n": 196,
+                  "value": 0.0
+                },
+                "reverse_light_off": {
+                  "k": 193,
+                  "n": 196,
+                  "value": 0.9846938775510204
+                },
+                "reverse_light_on/masquerade": {
+                  "k": 0,
+                  "n": 246,
+                  "value": 0.0
+                },
+                "reverse_light_on": {
+                  "k": 242,
+                  "n": 246,
+                  "value": 0.983739837398374
+                }
+              },
+              "fpr_by_source": {
+                "ambient captures": {
+                  "k": 129,
+                  "n": 7868,
+                  "value": 0.016395526182003052
+                },
+                "normal windows inside attack captures": {
+                  "k": 4,
+                  "n": 1730,
+                  "value": 0.0023121387283236996
+                }
+              },
+              "fpr_by_ambient_capture": {
+                "ambient_dyno_drive_benign_anomaly": {
+                  "k": 33,
+                  "n": 1725,
+                  "value": 0.019130434782608695
+                },
+                "ambient_dyno_drive_extended_short": {
+                  "k": 82,
+                  "n": 1439,
+                  "value": 0.05698401667824878
+                },
+                "ambient_dyno_drive_winter": {
+                  "k": 3,
+                  "n": 190,
+                  "value": 0.015789473684210527
+                },
+                "ambient_dyno_idle_radio_infotainment": {
+                  "k": 10,
+                  "n": 2635,
+                  "value": 0.003795066413662239
+                },
+                "ambient_highway_street_driving_diagnostics": {
+                  "k": 1,
+                  "n": 1879,
+                  "value": 0.0005321979776476849
+                }
+              }
+            },
+            "whitelist_interval": {
+              "threshold": 1.4000000000000001,
+              "windows": 11552,
+              "tp": 980,
+              "fp": 133,
+              "fn": 974,
+              "tn": 9465,
+              "precision": {
+                "value": 0.8805031446540881,
+                "lo": 0.8265545581732281,
+                "hi": 0.9262331556050719
+              },
+              "recall": {
+                "value": 0.5015353121801432,
+                "lo": 0.43647244896591475,
+                "hi": 0.5606782871662471
+              },
+              "f1": {
+                "value": 0.639060971633518,
+                "lo": 0.5780543874404261,
+                "hi": 0.6897342363518834
+              },
+              "fpr": {
+                "value": 0.013857053552823505,
+                "lo": 0.008306945629024046,
+                "hi": 0.020267415277617204
+              },
+              "auroc": 0.765833140135174,
+              "auprc": 0.5922053945984761,
+              "recall_by_type": {
+                "fuzzing": {
+                  "k": 12,
+                  "n": 12,
+                  "value": 1.0,
+                  "ci": [
+                    0.7575059933447592,
+                    1.0
+                  ]
+                },
+                "masquerade": {
+                  "k": 10,
+                  "n": 971,
+                  "value": 0.010298661174047374,
+                  "ci": [
+                    0.005603519441522977,
+                    0.01885323565949224
+                  ]
+                },
+                "spoofing": {
+                  "k": 958,
+                  "n": 971,
+                  "value": 0.9866117404737385,
+                  "ci": [
+                    0.9772290541738592,
+                    0.9921593437541542
+                  ]
+                }
+              },
+              "recall_by_family": {
+                "correlated_signal/masquerade": {
+                  "k": 10,
+                  "n": 137,
+                  "value": 0.072992700729927
+                },
+                "correlated_signal": {
+                  "k": 135,
+                  "n": 137,
+                  "value": 0.9854014598540146
+                },
+                "fuzzing": {
+                  "k": 12,
+                  "n": 12,
+                  "value": 1.0
+                },
+                "max_engine_coolant_temp/masquerade": {
+                  "k": 0,
+                  "n": 19,
+                  "value": 0.0
+                },
+                "max_engine_coolant_temp": {
+                  "k": 17,
+                  "n": 19,
+                  "value": 0.8947368421052632
+                },
+                "max_speedometer/masquerade": {
+                  "k": 0,
+                  "n": 373,
+                  "value": 0.0
+                },
+                "max_speedometer": {
+                  "k": 371,
+                  "n": 373,
+                  "value": 0.9946380697050938
+                },
+                "reverse_light_off/masquerade": {
+                  "k": 0,
+                  "n": 196,
+                  "value": 0.0
+                },
+                "reverse_light_off": {
+                  "k": 193,
+                  "n": 196,
+                  "value": 0.9846938775510204
+                },
+                "reverse_light_on/masquerade": {
+                  "k": 0,
+                  "n": 246,
+                  "value": 0.0
+                },
+                "reverse_light_on": {
+                  "k": 242,
+                  "n": 246,
+                  "value": 0.983739837398374
+                }
+              },
+              "fpr_by_source": {
+                "ambient captures": {
+                  "k": 129,
+                  "n": 7868,
+                  "value": 0.016395526182003052
+                },
+                "normal windows inside attack captures": {
+                  "k": 4,
+                  "n": 1730,
+                  "value": 0.0023121387283236996
+                }
+              },
+              "fpr_by_ambient_capture": {
+                "ambient_dyno_drive_benign_anomaly": {
+                  "k": 33,
+                  "n": 1725,
+                  "value": 0.019130434782608695
+                },
+                "ambient_dyno_drive_extended_short": {
+                  "k": 82,
+                  "n": 1439,
+                  "value": 0.05698401667824878
+                },
+                "ambient_dyno_drive_winter": {
+                  "k": 3,
+                  "n": 190,
+                  "value": 0.015789473684210527
+                },
+                "ambient_dyno_idle_radio_infotainment": {
+                  "k": 10,
+                  "n": 2635,
+                  "value": 0.003795066413662239
+                },
+                "ambient_highway_street_driving_diagnostics": {
+                  "k": 1,
+                  "n": 1879,
+                  "value": 0.0005321979776476849
+                }
+              }
+            },
+            "id_entropy": {
+              "threshold": 3.8424540437379573,
+              "windows": 11552,
+              "tp": 0,
+              "fp": 72,
+              "fn": 1954,
+              "tn": 9526,
+              "precision": {
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.0
+              },
+              "recall": {
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.0
+              },
+              "f1": {
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.0
+              },
+              "fpr": {
+                "value": 0.007501562825588664,
+                "lo": 0.0028074828002396545,
+                "hi": 0.013665732091851913
+              },
+              "auroc": 0.2459092467020701,
+              "auprc": 0.10840218701620424,
+              "recall_by_type": {
+                "fuzzing": {
+                  "k": 0,
+                  "n": 12,
+                  "value": 0.0,
+                  "ci": [
+                    2.7755575615628914e-17,
+                    0.24249400665524085
+                  ]
+                },
+                "masquerade": {
+                  "k": 0,
+                  "n": 971,
+                  "value": 0.0,
+                  "ci": [
+                    0.0,
+                    0.003940598531110172
+                  ]
+                },
+                "spoofing": {
+                  "k": 0,
+                  "n": 971,
+                  "value": 0.0,
+                  "ci": [
+                    0.0,
+                    0.003940598531110172
+                  ]
+                }
+              },
+              "recall_by_family": {
+                "correlated_signal/masquerade": {
+                  "k": 0,
+                  "n": 137,
+                  "value": 0.0
+                },
+                "correlated_signal": {
+                  "k": 0,
+                  "n": 137,
+                  "value": 0.0
+                },
+                "fuzzing": {
+                  "k": 0,
+                  "n": 12,
+                  "value": 0.0
+                },
+                "max_engine_coolant_temp/masquerade": {
+                  "k": 0,
+                  "n": 19,
+                  "value": 0.0
+                },
+                "max_engine_coolant_temp": {
+                  "k": 0,
+                  "n": 19,
+                  "value": 0.0
+                },
+                "max_speedometer/masquerade": {
+                  "k": 0,
+                  "n": 373,
+                  "value": 0.0
+                },
+                "max_speedometer": {
+                  "k": 0,
+                  "n": 373,
+                  "value": 0.0
+                },
+                "reverse_light_off/masquerade": {
+                  "k": 0,
+                  "n": 196,
+                  "value": 0.0
+                },
+                "reverse_light_off": {
+                  "k": 0,
+                  "n": 196,
+                  "value": 0.0
+                },
+                "reverse_light_on/masquerade": {
+                  "k": 0,
+                  "n": 246,
+                  "value": 0.0
+                },
+                "reverse_light_on": {
+                  "k": 0,
+                  "n": 246,
+                  "value": 0.0
+                }
+              },
+              "fpr_by_source": {
+                "ambient captures": {
+                  "k": 72,
+                  "n": 7868,
+                  "value": 0.009150991357397052
+                },
+                "normal windows inside attack captures": {
+                  "k": 0,
+                  "n": 1730,
+                  "value": 0.0
+                }
+              },
+              "fpr_by_ambient_capture": {
+                "ambient_dyno_drive_benign_anomaly": {
+                  "k": 68,
+                  "n": 1725,
+                  "value": 0.03942028985507246
+                },
+                "ambient_dyno_drive_extended_short": {
+                  "k": 4,
+                  "n": 1439,
+                  "value": 0.002779708130646282
+                },
+                "ambient_dyno_drive_winter": {
+                  "k": 0,
+                  "n": 190,
+                  "value": 0.0
+                },
+                "ambient_dyno_idle_radio_infotainment": {
+                  "k": 0,
+                  "n": 2635,
+                  "value": 0.0
+                },
+                "ambient_highway_street_driving_diagnostics": {
+                  "k": 0,
+                  "n": 1879,
+                  "value": 0.0
+                }
+              }
+            },
+            "iforest": {
+              "threshold": 0.664398269090865,
+              "windows": 11552,
+              "tp": 3,
+              "fp": 152,
+              "fn": 1951,
+              "tn": 9446,
+              "precision": {
+                "value": 0.01935483870967742,
+                "lo": 0.0,
+                "hi": 0.04666666666666667
+              },
+              "recall": {
+                "value": 0.0015353121801432957,
+                "lo": 0.0,
+                "hi": 0.0035071900829771983
+              },
+              "f1": {
+                "value": 0.002844950213371266,
+                "lo": 0.0,
+                "hi": 0.006479538294450867
+              },
+              "fpr": {
+                "value": 0.01583663263179829,
+                "lo": 0.010171461185369489,
+                "hi": 0.02275805415758879
+              },
+              "auroc": 0.6707355496485856,
+              "auprc": 0.3094737588911206,
+              "recall_by_type": {
+                "fuzzing": {
+                  "k": 2,
+                  "n": 12,
+                  "value": 0.16666666666666666,
+                  "ci": [
+                    0.04696514218385378,
+                    0.4480308622529734
+                  ]
+                },
+                "masquerade": {
+                  "k": 0,
+                  "n": 971,
+                  "value": 0.0,
+                  "ci": [
+                    0.0,
+                    0.003940598531110172
+                  ]
+                },
+                "spoofing": {
+                  "k": 1,
+                  "n": 971,
+                  "value": 0.0010298661174047373,
+                  "ci": [
+                    0.00018181979644140865,
+                    0.0058103943916592675
+                  ]
+                }
+              },
+              "recall_by_family": {
+                "correlated_signal/masquerade": {
+                  "k": 0,
+                  "n": 137,
+                  "value": 0.0
+                },
+                "correlated_signal": {
+                  "k": 0,
+                  "n": 137,
+                  "value": 0.0
+                },
+                "fuzzing": {
+                  "k": 2,
+                  "n": 12,
+                  "value": 0.16666666666666666
+                },
+                "max_engine_coolant_temp/masquerade": {
+                  "k": 0,
+                  "n": 19,
+                  "value": 0.0
+                },
+                "max_engine_coolant_temp": {
+                  "k": 0,
+                  "n": 19,
+                  "value": 0.0
+                },
+                "max_speedometer/masquerade": {
+                  "k": 0,
+                  "n": 373,
+                  "value": 0.0
+                },
+                "max_speedometer": {
+                  "k": 0,
+                  "n": 373,
+                  "value": 0.0
+                },
+                "reverse_light_off/masquerade": {
+                  "k": 0,
+                  "n": 196,
+                  "value": 0.0
+                },
+                "reverse_light_off": {
+                  "k": 0,
+                  "n": 196,
+                  "value": 0.0
+                },
+                "reverse_light_on/masquerade": {
+                  "k": 0,
+                  "n": 246,
+                  "value": 0.0
+                },
+                "reverse_light_on": {
+                  "k": 1,
+                  "n": 246,
+                  "value": 0.0040650406504065045
+                }
+              },
+              "fpr_by_source": {
+                "ambient captures": {
+                  "k": 152,
+                  "n": 7868,
+                  "value": 0.019318759532282664
+                },
+                "normal windows inside attack captures": {
+                  "k": 0,
+                  "n": 1730,
+                  "value": 0.0
+                }
+              },
+              "fpr_by_ambient_capture": {
+                "ambient_dyno_drive_benign_anomaly": {
+                  "k": 93,
+                  "n": 1725,
+                  "value": 0.05391304347826087
+                },
+                "ambient_dyno_drive_extended_short": {
+                  "k": 42,
+                  "n": 1439,
+                  "value": 0.029186935371785964
+                },
+                "ambient_dyno_drive_winter": {
+                  "k": 0,
+                  "n": 190,
+                  "value": 0.0
+                },
+                "ambient_dyno_idle_radio_infotainment": {
+                  "k": 17,
+                  "n": 2635,
+                  "value": 0.0064516129032258064
+                },
+                "ambient_highway_street_driving_diagnostics": {
+                  "k": 0,
+                  "n": 1879,
+                  "value": 0.0
+                }
+              }
+            },
+            "ocsvm": {
+              "threshold": -1.9203788626523604,
+              "windows": 11552,
+              "tp": 161,
+              "fp": 189,
+              "fn": 1793,
+              "tn": 9409,
+              "precision": {
+                "value": 0.46,
+                "lo": 0.3481594476025705,
+                "hi": 0.5706878061138321
+              },
+              "recall": {
+                "value": 0.08239508700102355,
+                "lo": 0.05770900948459964,
+                "hi": 0.10708322817227607
+              },
+              "f1": {
+                "value": 0.13975694444444445,
+                "lo": 0.09911348166441807,
+                "hi": 0.17686550698761022
+              },
+              "fpr": {
+                "value": 0.019691602417170245,
+                "lo": 0.013771932650458828,
+                "hi": 0.026400467100951706
+              },
+              "auroc": 0.6550838060556372,
+              "auprc": 0.3111923499234288,
+              "recall_by_type": {
+                "fuzzing": {
+                  "k": 12,
+                  "n": 12,
+                  "value": 1.0,
+                  "ci": [
+                    0.7575059933447592,
+                    1.0
+                  ]
+                },
+                "masquerade": {
+                  "k": 2,
+                  "n": 971,
+                  "value": 0.0020597322348094747,
+                  "ci": [
+                    0.0005650347189441198,
+                    0.00747879512614706
+                  ]
+                },
+                "spoofing": {
+                  "k": 147,
+                  "n": 971,
+                  "value": 0.1513903192584964,
+                  "ci": [
+                    0.13022206888793678,
+                    0.17530603122077745
+                  ]
+                }
+              },
+              "recall_by_family": {
+                "correlated_signal/masquerade": {
+                  "k": 1,
+                  "n": 137,
+                  "value": 0.0072992700729927005
+                },
+                "correlated_signal": {
+                  "k": 136,
+                  "n": 137,
+                  "value": 0.9927007299270073
+                },
+                "fuzzing": {
+                  "k": 12,
+                  "n": 12,
+                  "value": 1.0
+                },
+                "max_engine_coolant_temp/masquerade": {
+                  "k": 0,
+                  "n": 19,
+                  "value": 0.0
+                },
+                "max_engine_coolant_temp": {
+                  "k": 4,
+                  "n": 19,
+                  "value": 0.21052631578947367
+                },
+                "max_speedometer/masquerade": {
+                  "k": 0,
+                  "n": 373,
+                  "value": 0.0
+                },
+                "max_speedometer": {
+                  "k": 1,
+                  "n": 373,
+                  "value": 0.002680965147453083
+                },
+                "reverse_light_off/masquerade": {
+                  "k": 0,
+                  "n": 196,
+                  "value": 0.0
+                },
+                "reverse_light_off": {
+                  "k": 5,
+                  "n": 196,
+                  "value": 0.025510204081632654
+                },
+                "reverse_light_on/masquerade": {
+                  "k": 1,
+                  "n": 246,
+                  "value": 0.0040650406504065045
+                },
+                "reverse_light_on": {
+                  "k": 1,
+                  "n": 246,
+                  "value": 0.0040650406504065045
+                }
+              },
+              "fpr_by_source": {
+                "ambient captures": {
+                  "k": 187,
+                  "n": 7868,
+                  "value": 0.02376715810879512
+                },
+                "normal windows inside attack captures": {
+                  "k": 2,
+                  "n": 1730,
+                  "value": 0.0011560693641618498
+                }
+              },
+              "fpr_by_ambient_capture": {
+                "ambient_dyno_drive_benign_anomaly": {
+                  "k": 88,
+                  "n": 1725,
+                  "value": 0.051014492753623186
+                },
+                "ambient_dyno_drive_extended_short": {
+                  "k": 71,
+                  "n": 1439,
+                  "value": 0.04933981931897151
+                },
+                "ambient_dyno_drive_winter": {
+                  "k": 0,
+                  "n": 190,
+                  "value": 0.0
+                },
+                "ambient_dyno_idle_radio_infotainment": {
+                  "k": 26,
+                  "n": 2635,
+                  "value": 0.009867172675521821
+                },
+                "ambient_highway_street_driving_diagnostics": {
+                  "k": 2,
+                  "n": 1879,
+                  "value": 0.0010643959552953698
+                }
+              }
+            }
+          },
+          "tuning": {
+            "rule@0.55": {
+              "precision": {
+                "value": 0.04505847282733318,
+                "lo": 0.031106434611358032,
+                "hi": 0.05972022189832092
+              },
+              "recall": {
+                "value": 0.6474464579901154,
+                "lo": 0.5313101705110345,
+                "hi": 0.7621720418820689
+              },
+              "f1": {
+                "value": 0.08425340336584843,
+                "lo": 0.05885873517747245,
+                "hi": 0.11014770057523994
+              },
+              "fpr": {
+                "value": 0.2449705882352941,
+                "lo": 0.22648952393613167,
+                "hi": 0.26384483076289006
+              },
+              "windows": 34607
+            },
+            "rule_v2@0.55": {
+              "precision": {
+                "value": 0.747148288973384,
+                "lo": 0.637307214677723,
+                "hi": 0.8317971631032897
+              },
+              "recall": {
+                "value": 0.6474464579901154,
+                "lo": 0.5313101705110345,
+                "hi": 0.7621720418820689
+              },
+              "f1": {
+                "value": 0.6937334510150044,
+                "lo": 0.5918989287212907,
+                "hi": 0.7760409781890283
+              },
+              "fpr": {
+                "value": 0.003911764705882353,
+                "lo": 0.0024956509664351124,
+                "hi": 0.005504861473920783
+              },
+              "windows": 34607
+            },
+            "rule@tuned": {
+              "precision": {
+                "value": NaN,
+                "lo": NaN,
+                "hi": NaN
+              },
+              "recall": {
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.0
+              },
+              "f1": {
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.0
+              },
+              "fpr": {
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.0
+              },
+              "windows": 34607
+            },
+            "id_whitelist": {
+              "precision": {
+                "value": 1.0,
+                "lo": 1.0,
+                "hi": 1.0
+              },
+              "recall": {
+                "value": 0.02471169686985173,
+                "lo": 0.0,
+                "hi": 0.06372487902698457
+              },
+              "f1": {
+                "value": 0.04823151125401929,
+                "lo": 0.0,
+                "hi": 0.1198145837184938
+              },
+              "fpr": {
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.0
+              },
+              "windows": 34607
+            },
+            "interval": {
+              "precision": {
+                "value": 0.5431754874651811,
+                "lo": 0.4256578551062207,
+                "hi": 0.6498122552964883
+              },
+              "recall": {
+                "value": 0.642504118616145,
+                "lo": 0.5311127001490562,
+                "hi": 0.7605710349050826
+              },
+              "f1": {
+                "value": 0.5886792452830188,
+                "lo": 0.47875582994276467,
+                "hi": 0.6794482591509451
+              },
+              "fpr": {
+                "value": 0.009647058823529411,
+                "lo": 0.006903641933658702,
+                "hi": 0.012730712315801092
+              },
+              "windows": 34607
+            },
+            "whitelist_interval": {
+              "precision": {
+                "value": 0.5519125683060109,
+                "lo": 0.4372345325543648,
+                "hi": 0.6573388020833333
+              },
+              "recall": {
+                "value": 0.6655683690280065,
+                "lo": 0.5515919635636147,
+                "hi": 0.7822910534899205
+              },
+              "f1": {
+                "value": 0.6034353995519044,
+                "lo": 0.49448916986769104,
+                "hi": 0.6915762453630101
+              },
+              "fpr": {
+                "value": 0.009647058823529411,
+                "lo": 0.006903641933658702,
+                "hi": 0.012730712315801092
+              },
+              "windows": 34607
+            },
+            "id_entropy": {
+              "precision": {
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.0
+              },
+              "recall": {
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.0
+              },
+              "f1": {
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.0
+              },
+              "fpr": {
+                "value": 0.009970588235294118,
+                "lo": 0.0065337302696724065,
+                "hi": 0.01390530974297242
+              },
+              "windows": 34607
+            },
+            "iforest": {
+              "precision": {
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.0
+              },
+              "recall": {
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.0
+              },
+              "f1": {
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.0
+              },
+              "fpr": {
+                "value": 0.01,
+                "lo": 0.00716192748523941,
+                "hi": 0.013215208990432326
+              },
+              "windows": 34607
+            },
+            "ocsvm": {
+              "precision": {
+                "value": 0.46540880503144655,
+                "lo": 0.3445807360383444,
+                "hi": 0.5628901015506066
+              },
+              "recall": {
+                "value": 0.4876441515650741,
+                "lo": 0.3615070108492812,
+                "hi": 0.6167461904658391
+              },
+              "f1": {
+                "value": 0.4762670957361223,
+                "lo": 0.36269521918914027,
+                "hi": 0.5733413367942894
+              },
+              "fpr": {
+                "value": 0.01,
+                "lo": 0.007976777558859558,
+                "hi": 0.012383731407084254
+              },
+              "windows": 34607
+            }
+          }
+        },
+        "pooled": {
+          "reference_captures": [
+            "ambient_dyno_drive_basic_long",
+            "ambient_dyno_drive_basic_short",
+            "ambient_dyno_drive_extended_long",
+            "ambient_dyno_drive_radio_infotainment",
+            "ambient_dyno_exercise_all_bits",
+            "ambient_dyno_reverse",
+            "ambient_highway_street_driving_long"
+          ],
+          "reference_seconds": 8732.6,
+          "reference_ids": 106,
+          "normal_model_windows": 34000,
+          "threshold_rule": "smallest threshold with FPR <= 1% on attack-free tuning windows",
+          "thresholds": {
+            "rule": 0.8496000000000001,
+            "id_whitelist": 1.0,
+            "interval": 1.4230000000000003,
+            "whitelist_interval": 1.4230000000000003,
+            "id_entropy": 3.8424540437379573,
+            "iforest": 0.6596995759176081,
+            "ocsvm": -2.4707239316521346
+          },
+          "evaluation": {
+            "rule@0.55": {
+              "threshold": 0.55,
+              "windows": 11552,
+              "tp": 954,
+              "fp": 453,
+              "fn": 1000,
+              "tn": 9145,
+              "precision": {
+                "value": 0.6780383795309168,
+                "lo": 0.5948377511915778,
+                "hi": 0.7659884603615479
+              },
+              "recall": {
+                "value": 0.4882292732855681,
+                "lo": 0.4237398304472247,
+                "hi": 0.5462362017983452
+              },
+              "f1": {
+                "value": 0.567688188039274,
+                "lo": 0.5038910405977706,
+                "hi": 0.6227773676019899
+              },
+              "fpr": {
+                "value": 0.04719733277766201,
+                "lo": 0.030983991504180502,
+                "hi": 0.06421449197348185
+              },
+              "auroc": 0.6824870009808849,
+              "auprc": 0.458472730392143,
+              "recall_by_type": {
+                "fuzzing": {
+                  "k": 12,
+                  "n": 12,
+                  "value": 1.0,
+                  "ci": [
+                    0.7575059933447592,
+                    1.0
+                  ]
+                },
+                "masquerade": {
+                  "k": 3,
+                  "n": 971,
+                  "value": 0.003089598352214212,
+                  "ci": [
+                    0.0010512865334147917,
+                    0.009044158968666893
+                  ]
+                },
+                "spoofing": {
+                  "k": 939,
+                  "n": 971,
+                  "value": 0.9670442842430484,
+                  "ci": [
+                    0.9538472380348524,
+                    0.9765604624103412
+                  ]
+                }
+              },
+              "recall_by_family": {
+                "correlated_signal/masquerade": {
+                  "k": 3,
+                  "n": 137,
+                  "value": 0.021897810218978103
+                },
+                "correlated_signal": {
+                  "k": 131,
+                  "n": 137,
+                  "value": 0.9562043795620438
+                },
+                "fuzzing": {
+                  "k": 12,
+                  "n": 12,
+                  "value": 1.0
+                },
+                "max_engine_coolant_temp/masquerade": {
+                  "k": 0,
+                  "n": 19,
+                  "value": 0.0
+                },
+                "max_engine_coolant_temp": {
+                  "k": 13,
+                  "n": 19,
+                  "value": 0.6842105263157895
+                },
+                "max_speedometer/masquerade": {
+                  "k": 0,
+                  "n": 373,
+                  "value": 0.0
+                },
+                "max_speedometer": {
+                  "k": 367,
+                  "n": 373,
+                  "value": 0.9839142091152815
+                },
+                "reverse_light_off/masquerade": {
+                  "k": 0,
+                  "n": 196,
+                  "value": 0.0
+                },
+                "reverse_light_off": {
+                  "k": 189,
+                  "n": 196,
+                  "value": 0.9642857142857143
+                },
+                "reverse_light_on/masquerade": {
+                  "k": 0,
+                  "n": 246,
+                  "value": 0.0
+                },
+                "reverse_light_on": {
+                  "k": 239,
+                  "n": 246,
+                  "value": 0.9715447154471545
+                }
+              },
+              "fpr_by_source": {
+                "ambient captures": {
+                  "k": 453,
+                  "n": 7868,
+                  "value": 0.05757498729028978
+                },
+                "normal windows inside attack captures": {
+                  "k": 0,
+                  "n": 1730,
+                  "value": 0.0
+                }
+              },
+              "fpr_by_ambient_capture": {
+                "ambient_dyno_drive_benign_anomaly": {
+                  "k": 248,
+                  "n": 1725,
+                  "value": 0.14376811594202898
+                },
+                "ambient_dyno_drive_extended_short": {
+                  "k": 190,
+                  "n": 1439,
+                  "value": 0.1320361362056984
+                },
+                "ambient_dyno_drive_winter": {
+                  "k": 0,
+                  "n": 190,
+                  "value": 0.0
+                },
+                "ambient_dyno_idle_radio_infotainment": {
+                  "k": 15,
+                  "n": 2635,
+                  "value": 0.0056925996204933585
+                },
+                "ambient_highway_street_driving_diagnostics": {
+                  "k": 0,
+                  "n": 1879,
+                  "value": 0.0
+                }
+              }
+            },
+            "rule_v2@0.55": {
+              "threshold": 0.55,
+              "windows": 11552,
+              "tp": 954,
+              "fp": 50,
+              "fn": 1000,
+              "tn": 9548,
+              "precision": {
+                "value": 0.950199203187251,
+                "lo": 0.9185602808011419,
+                "hi": 0.9772366366736513
+              },
+              "recall": {
+                "value": 0.4882292732855681,
+                "lo": 0.4237398304472247,
+                "hi": 0.5462362017983452
+              },
+              "f1": {
+                "value": 0.6450304259634888,
+                "lo": 0.5833628068548253,
+                "hi": 0.6949185674947356
+              },
+              "fpr": {
+                "value": 0.005209418628881017,
+                "lo": 0.0022982384867405205,
+                "hi": 0.008657828246678878
+              },
+              "auroc": 0.7474292292214579,
+              "auprc": 0.5744902184693497,
+              "recall_by_type": {
+                "fuzzing": {
+                  "k": 12,
+                  "n": 12,
+                  "value": 1.0,
+                  "ci": [
+                    0.7575059933447592,
+                    1.0
+                  ]
+                },
+                "masquerade": {
+                  "k": 3,
+                  "n": 971,
+                  "value": 0.003089598352214212,
+                  "ci": [
+                    0.0010512865334147917,
+                    0.009044158968666893
+                  ]
+                },
+                "spoofing": {
+                  "k": 939,
+                  "n": 971,
+                  "value": 0.9670442842430484,
+                  "ci": [
+                    0.9538472380348524,
+                    0.9765604624103412
+                  ]
+                }
+              },
+              "recall_by_family": {
+                "correlated_signal/masquerade": {
+                  "k": 3,
+                  "n": 137,
+                  "value": 0.021897810218978103
+                },
+                "correlated_signal": {
+                  "k": 131,
+                  "n": 137,
+                  "value": 0.9562043795620438
+                },
+                "fuzzing": {
+                  "k": 12,
+                  "n": 12,
+                  "value": 1.0
+                },
+                "max_engine_coolant_temp/masquerade": {
+                  "k": 0,
+                  "n": 19,
+                  "value": 0.0
+                },
+                "max_engine_coolant_temp": {
+                  "k": 13,
+                  "n": 19,
+                  "value": 0.6842105263157895
+                },
+                "max_speedometer/masquerade": {
+                  "k": 0,
+                  "n": 373,
+                  "value": 0.0
+                },
+                "max_speedometer": {
+                  "k": 367,
+                  "n": 373,
+                  "value": 0.9839142091152815
+                },
+                "reverse_light_off/masquerade": {
+                  "k": 0,
+                  "n": 196,
+                  "value": 0.0
+                },
+                "reverse_light_off": {
+                  "k": 189,
+                  "n": 196,
+                  "value": 0.9642857142857143
+                },
+                "reverse_light_on/masquerade": {
+                  "k": 0,
+                  "n": 246,
+                  "value": 0.0
+                },
+                "reverse_light_on": {
+                  "k": 239,
+                  "n": 246,
+                  "value": 0.9715447154471545
+                }
+              },
+              "fpr_by_source": {
+                "ambient captures": {
+                  "k": 50,
+                  "n": 7868,
+                  "value": 0.006354855109303508
+                },
+                "normal windows inside attack captures": {
+                  "k": 0,
+                  "n": 1730,
+                  "value": 0.0
+                }
+              },
+              "fpr_by_ambient_capture": {
+                "ambient_dyno_drive_benign_anomaly": {
+                  "k": 14,
+                  "n": 1725,
+                  "value": 0.008115942028985508
+                },
+                "ambient_dyno_drive_extended_short": {
+                  "k": 28,
+                  "n": 1439,
+                  "value": 0.019457956914523976
+                },
+                "ambient_dyno_drive_winter": {
+                  "k": 0,
+                  "n": 190,
+                  "value": 0.0
+                },
+                "ambient_dyno_idle_radio_infotainment": {
+                  "k": 8,
+                  "n": 2635,
+                  "value": 0.0030360531309297912
+                },
+                "ambient_highway_street_driving_diagnostics": {
+                  "k": 0,
+                  "n": 1879,
+                  "value": 0.0
+                }
+              }
+            },
+            "rule@tuned": {
+              "threshold": 0.8496000000000001,
+              "windows": 11552,
+              "tp": 15,
+              "fp": 17,
+              "fn": 1939,
+              "tn": 9581,
+              "precision": {
+                "value": 0.46875,
+                "lo": 0.11764705882352941,
+                "hi": 0.7272727272727273
+              },
+              "recall": {
+                "value": 0.007676560900716479,
+                "lo": 0.0011042257025139415,
+                "hi": 0.015865794132243035
+              },
+              "f1": {
+                "value": 0.015105740181268883,
+                "lo": 0.002182066538559489,
+                "hi": 0.030945384618459918
+              },
+              "fpr": {
+                "value": 0.0017712023338195457,
+                "lo": 0.0007407231208372978,
+                "hi": 0.0030281039402768432
+              },
+              "auroc": 0.6824870009808849,
+              "auprc": 0.458472730392143,
+              "recall_by_type": {
+                "fuzzing": {
+                  "k": 12,
+                  "n": 12,
+                  "value": 1.0,
+                  "ci": [
+                    0.7575059933447592,
+                    1.0
+                  ]
+                },
+                "masquerade": {
+                  "k": 0,
+                  "n": 971,
+                  "value": 0.0,
+                  "ci": [
+                    0.0,
+                    0.003940598531110172
+                  ]
+                },
+                "spoofing": {
+                  "k": 3,
+                  "n": 971,
+                  "value": 0.003089598352214212,
+                  "ci": [
+                    0.0010512865334147917,
+                    0.009044158968666893
+                  ]
+                }
+              },
+              "recall_by_family": {
+                "correlated_signal/masquerade": {
+                  "k": 0,
+                  "n": 137,
+                  "value": 0.0
+                },
+                "correlated_signal": {
+                  "k": 0,
+                  "n": 137,
+                  "value": 0.0
+                },
+                "fuzzing": {
+                  "k": 12,
+                  "n": 12,
+                  "value": 1.0
+                },
+                "max_engine_coolant_temp/masquerade": {
+                  "k": 0,
+                  "n": 19,
+                  "value": 0.0
+                },
+                "max_engine_coolant_temp": {
+                  "k": 3,
+                  "n": 19,
+                  "value": 0.15789473684210525
+                },
+                "max_speedometer/masquerade": {
+                  "k": 0,
+                  "n": 373,
+                  "value": 0.0
+                },
+                "max_speedometer": {
+                  "k": 0,
+                  "n": 373,
+                  "value": 0.0
+                },
+                "reverse_light_off/masquerade": {
+                  "k": 0,
+                  "n": 196,
+                  "value": 0.0
+                },
+                "reverse_light_off": {
+                  "k": 0,
+                  "n": 196,
+                  "value": 0.0
+                },
+                "reverse_light_on/masquerade": {
+                  "k": 0,
+                  "n": 246,
+                  "value": 0.0
+                },
+                "reverse_light_on": {
+                  "k": 0,
+                  "n": 246,
+                  "value": 0.0
+                }
+              },
+              "fpr_by_source": {
+                "ambient captures": {
+                  "k": 17,
+                  "n": 7868,
+                  "value": 0.0021606507371631925
+                },
+                "normal windows inside attack captures": {
+                  "k": 0,
+                  "n": 1730,
+                  "value": 0.0
+                }
+              },
+              "fpr_by_ambient_capture": {
+                "ambient_dyno_drive_benign_anomaly": {
+                  "k": 10,
+                  "n": 1725,
+                  "value": 0.005797101449275362
+                },
+                "ambient_dyno_drive_extended_short": {
+                  "k": 3,
+                  "n": 1439,
+                  "value": 0.0020847810979847115
+                },
+                "ambient_dyno_drive_winter": {
+                  "k": 0,
+                  "n": 190,
+                  "value": 0.0
+                },
+                "ambient_dyno_idle_radio_infotainment": {
+                  "k": 4,
+                  "n": 2635,
+                  "value": 0.0015180265654648956
+                },
+                "ambient_highway_street_driving_diagnostics": {
+                  "k": 0,
+                  "n": 1879,
+                  "value": 0.0
+                }
+              }
+            },
+            "id_whitelist": {
+              "threshold": 1.0,
+              "windows": 11552,
+              "tp": 12,
+              "fp": 0,
+              "fn": 1942,
+              "tn": 9598,
+              "precision": {
+                "value": 1.0,
+                "lo": 1.0,
+                "hi": 1.0
+              },
+              "recall": {
+                "value": 0.006141248720573183,
+                "lo": 0.0009994628434285852,
+                "hi": 0.014759135462306332
+              },
+              "f1": {
+                "value": 0.012207527975584944,
+                "lo": 0.0019969298295826454,
+                "hi": 0.02908894321448309
+              },
+              "fpr": {
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.0
+              },
+              "auroc": 0.5030706243602866,
+              "auprc": 0.1742506670031217,
+              "recall_by_type": {
+                "fuzzing": {
+                  "k": 12,
+                  "n": 12,
+                  "value": 1.0,
+                  "ci": [
+                    0.7575059933447592,
+                    1.0
+                  ]
+                },
+                "masquerade": {
+                  "k": 0,
+                  "n": 971,
+                  "value": 0.0,
+                  "ci": [
+                    0.0,
+                    0.003940598531110172
+                  ]
+                },
+                "spoofing": {
+                  "k": 0,
+                  "n": 971,
+                  "value": 0.0,
+                  "ci": [
+                    0.0,
+                    0.003940598531110172
+                  ]
+                }
+              },
+              "recall_by_family": {
+                "correlated_signal/masquerade": {
+                  "k": 0,
+                  "n": 137,
+                  "value": 0.0
+                },
+                "correlated_signal": {
+                  "k": 0,
+                  "n": 137,
+                  "value": 0.0
+                },
+                "fuzzing": {
+                  "k": 12,
+                  "n": 12,
+                  "value": 1.0
+                },
+                "max_engine_coolant_temp/masquerade": {
+                  "k": 0,
+                  "n": 19,
+                  "value": 0.0
+                },
+                "max_engine_coolant_temp": {
+                  "k": 0,
+                  "n": 19,
+                  "value": 0.0
+                },
+                "max_speedometer/masquerade": {
+                  "k": 0,
+                  "n": 373,
+                  "value": 0.0
+                },
+                "max_speedometer": {
+                  "k": 0,
+                  "n": 373,
+                  "value": 0.0
+                },
+                "reverse_light_off/masquerade": {
+                  "k": 0,
+                  "n": 196,
+                  "value": 0.0
+                },
+                "reverse_light_off": {
+                  "k": 0,
+                  "n": 196,
+                  "value": 0.0
+                },
+                "reverse_light_on/masquerade": {
+                  "k": 0,
+                  "n": 246,
+                  "value": 0.0
+                },
+                "reverse_light_on": {
+                  "k": 0,
+                  "n": 246,
+                  "value": 0.0
+                }
+              },
+              "fpr_by_source": {
+                "ambient captures": {
+                  "k": 0,
+                  "n": 7868,
+                  "value": 0.0
+                },
+                "normal windows inside attack captures": {
+                  "k": 0,
+                  "n": 1730,
+                  "value": 0.0
+                }
+              },
+              "fpr_by_ambient_capture": {
+                "ambient_dyno_drive_benign_anomaly": {
+                  "k": 0,
+                  "n": 1725,
+                  "value": 0.0
+                },
+                "ambient_dyno_drive_extended_short": {
+                  "k": 0,
+                  "n": 1439,
+                  "value": 0.0
+                },
+                "ambient_dyno_drive_winter": {
+                  "k": 0,
+                  "n": 190,
+                  "value": 0.0
+                },
+                "ambient_dyno_idle_radio_infotainment": {
+                  "k": 0,
+                  "n": 2635,
+                  "value": 0.0
+                },
+                "ambient_highway_street_driving_diagnostics": {
+                  "k": 0,
+                  "n": 1879,
+                  "value": 0.0
+                }
+              }
+            },
+            "interval": {
+              "threshold": 1.4230000000000003,
+              "windows": 11552,
+              "tp": 971,
+              "fp": 133,
+              "fn": 983,
+              "tn": 9465,
+              "precision": {
+                "value": 0.8795289855072463,
+                "lo": 0.8249912324649298,
+                "hi": 0.9260671708954198
+              },
+              "recall": {
+                "value": 0.4969293756397134,
+                "lo": 0.42992070446114566,
+                "hi": 0.5550459143732094
+              },
+              "f1": {
+                "value": 0.6350555918901243,
+                "lo": 0.5726630434782609,
+                "hi": 0.6860869792856599
+              },
+              "fpr": {
+                "value": 0.013857053552823505,
+                "lo": 0.008306945629024046,
+                "hi": 0.020267415277617204
+              },
+              "auroc": 0.7702351788574172,
+              "auprc": 0.6127499780866343,
+              "recall_by_type": {
+                "fuzzing": {
+                  "k": 0,
+                  "n": 12,
+                  "value": 0.0,
+                  "ci": [
+                    2.7755575615628914e-17,
+                    0.24249400665524085
+                  ]
+                },
+                "masquerade": {
+                  "k": 10,
+                  "n": 971,
+                  "value": 0.010298661174047374,
+                  "ci": [
+                    0.005603519441522977,
+                    0.01885323565949224
+                  ]
+                },
+                "spoofing": {
+                  "k": 961,
+                  "n": 971,
+                  "value": 0.9897013388259527,
+                  "ci": [
+                    0.9811467643405077,
+                    0.994396480558477
+                  ]
+                }
+              },
+              "recall_by_family": {
+                "correlated_signal/masquerade": {
+                  "k": 10,
+                  "n": 137,
+                  "value": 0.072992700729927
+                },
+                "correlated_signal": {
+                  "k": 135,
+                  "n": 137,
+                  "value": 0.9854014598540146
+                },
+                "fuzzing": {
+                  "k": 0,
+                  "n": 12,
+                  "value": 0.0
+                },
+                "max_engine_coolant_temp/masquerade": {
+                  "k": 0,
+                  "n": 19,
+                  "value": 0.0
+                },
+                "max_engine_coolant_temp": {
+                  "k": 18,
+                  "n": 19,
+                  "value": 0.9473684210526315
+                },
+                "max_speedometer/masquerade": {
+                  "k": 0,
+                  "n": 373,
+                  "value": 0.0
+                },
+                "max_speedometer": {
+                  "k": 372,
+                  "n": 373,
+                  "value": 0.9973190348525469
+                },
+                "reverse_light_off/masquerade": {
+                  "k": 0,
+                  "n": 196,
+                  "value": 0.0
+                },
+                "reverse_light_off": {
+                  "k": 193,
+                  "n": 196,
+                  "value": 0.9846938775510204
+                },
+                "reverse_light_on/masquerade": {
+                  "k": 0,
+                  "n": 246,
+                  "value": 0.0
+                },
+                "reverse_light_on": {
+                  "k": 243,
+                  "n": 246,
+                  "value": 0.9878048780487805
+                }
+              },
+              "fpr_by_source": {
+                "ambient captures": {
+                  "k": 129,
+                  "n": 7868,
+                  "value": 0.016395526182003052
+                },
+                "normal windows inside attack captures": {
+                  "k": 4,
+                  "n": 1730,
+                  "value": 0.0023121387283236996
+                }
+              },
+              "fpr_by_ambient_capture": {
+                "ambient_dyno_drive_benign_anomaly": {
+                  "k": 33,
+                  "n": 1725,
+                  "value": 0.019130434782608695
+                },
+                "ambient_dyno_drive_extended_short": {
+                  "k": 82,
+                  "n": 1439,
+                  "value": 0.05698401667824878
+                },
+                "ambient_dyno_drive_winter": {
+                  "k": 3,
+                  "n": 190,
+                  "value": 0.015789473684210527
+                },
+                "ambient_dyno_idle_radio_infotainment": {
+                  "k": 10,
+                  "n": 2635,
+                  "value": 0.003795066413662239
+                },
+                "ambient_highway_street_driving_diagnostics": {
+                  "k": 1,
+                  "n": 1879,
+                  "value": 0.0005321979776476849
+                }
+              }
+            },
+            "whitelist_interval": {
+              "threshold": 1.4230000000000003,
+              "windows": 11552,
+              "tp": 983,
+              "fp": 133,
+              "fn": 971,
+              "tn": 9465,
+              "precision": {
+                "value": 0.8808243727598566,
+                "lo": 0.8269021246766053,
+                "hi": 0.9263791260576766
+              },
+              "recall": {
+                "value": 0.5030706243602866,
+                "lo": 0.438280775880824,
+                "hi": 0.5618471325103971
+              },
+              "f1": {
+                "value": 0.6403908794788273,
+                "lo": 0.5802764929057741,
+                "hi": 0.691247084257837
+              },
+              "fpr": {
+                "value": 0.013857053552823505,
+                "lo": 0.008306945629024046,
+                "hi": 0.020267415277617204
+              },
+              "auroc": 0.7718640419585878,
+              "auprc": 0.6172730252762049,
+              "recall_by_type": {
+                "fuzzing": {
+                  "k": 12,
+                  "n": 12,
+                  "value": 1.0,
+                  "ci": [
+                    0.7575059933447592,
+                    1.0
+                  ]
+                },
+                "masquerade": {
+                  "k": 10,
+                  "n": 971,
+                  "value": 0.010298661174047374,
+                  "ci": [
+                    0.005603519441522977,
+                    0.01885323565949224
+                  ]
+                },
+                "spoofing": {
+                  "k": 961,
+                  "n": 971,
+                  "value": 0.9897013388259527,
+                  "ci": [
+                    0.9811467643405077,
+                    0.994396480558477
+                  ]
+                }
+              },
+              "recall_by_family": {
+                "correlated_signal/masquerade": {
+                  "k": 10,
+                  "n": 137,
+                  "value": 0.072992700729927
+                },
+                "correlated_signal": {
+                  "k": 135,
+                  "n": 137,
+                  "value": 0.9854014598540146
+                },
+                "fuzzing": {
+                  "k": 12,
+                  "n": 12,
+                  "value": 1.0
+                },
+                "max_engine_coolant_temp/masquerade": {
+                  "k": 0,
+                  "n": 19,
+                  "value": 0.0
+                },
+                "max_engine_coolant_temp": {
+                  "k": 18,
+                  "n": 19,
+                  "value": 0.9473684210526315
+                },
+                "max_speedometer/masquerade": {
+                  "k": 0,
+                  "n": 373,
+                  "value": 0.0
+                },
+                "max_speedometer": {
+                  "k": 372,
+                  "n": 373,
+                  "value": 0.9973190348525469
+                },
+                "reverse_light_off/masquerade": {
+                  "k": 0,
+                  "n": 196,
+                  "value": 0.0
+                },
+                "reverse_light_off": {
+                  "k": 193,
+                  "n": 196,
+                  "value": 0.9846938775510204
+                },
+                "reverse_light_on/masquerade": {
+                  "k": 0,
+                  "n": 246,
+                  "value": 0.0
+                },
+                "reverse_light_on": {
+                  "k": 243,
+                  "n": 246,
+                  "value": 0.9878048780487805
+                }
+              },
+              "fpr_by_source": {
+                "ambient captures": {
+                  "k": 129,
+                  "n": 7868,
+                  "value": 0.016395526182003052
+                },
+                "normal windows inside attack captures": {
+                  "k": 4,
+                  "n": 1730,
+                  "value": 0.0023121387283236996
+                }
+              },
+              "fpr_by_ambient_capture": {
+                "ambient_dyno_drive_benign_anomaly": {
+                  "k": 33,
+                  "n": 1725,
+                  "value": 0.019130434782608695
+                },
+                "ambient_dyno_drive_extended_short": {
+                  "k": 82,
+                  "n": 1439,
+                  "value": 0.05698401667824878
+                },
+                "ambient_dyno_drive_winter": {
+                  "k": 3,
+                  "n": 190,
+                  "value": 0.015789473684210527
+                },
+                "ambient_dyno_idle_radio_infotainment": {
+                  "k": 10,
+                  "n": 2635,
+                  "value": 0.003795066413662239
+                },
+                "ambient_highway_street_driving_diagnostics": {
+                  "k": 1,
+                  "n": 1879,
+                  "value": 0.0005321979776476849
+                }
+              }
+            },
+            "id_entropy": {
+              "threshold": 3.8424540437379573,
+              "windows": 11552,
+              "tp": 0,
+              "fp": 72,
+              "fn": 1954,
+              "tn": 9526,
+              "precision": {
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.0
+              },
+              "recall": {
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.0
+              },
+              "f1": {
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.0
+              },
+              "fpr": {
+                "value": 0.007501562825588664,
+                "lo": 0.0028074828002396545,
+                "hi": 0.013665732091851913
+              },
+              "auroc": 0.2459092467020701,
+              "auprc": 0.10840218701620424,
+              "recall_by_type": {
+                "fuzzing": {
+                  "k": 0,
+                  "n": 12,
+                  "value": 0.0,
+                  "ci": [
+                    2.7755575615628914e-17,
+                    0.24249400665524085
+                  ]
+                },
+                "masquerade": {
+                  "k": 0,
+                  "n": 971,
+                  "value": 0.0,
+                  "ci": [
+                    0.0,
+                    0.003940598531110172
+                  ]
+                },
+                "spoofing": {
+                  "k": 0,
+                  "n": 971,
+                  "value": 0.0,
+                  "ci": [
+                    0.0,
+                    0.003940598531110172
+                  ]
+                }
+              },
+              "recall_by_family": {
+                "correlated_signal/masquerade": {
+                  "k": 0,
+                  "n": 137,
+                  "value": 0.0
+                },
+                "correlated_signal": {
+                  "k": 0,
+                  "n": 137,
+                  "value": 0.0
+                },
+                "fuzzing": {
+                  "k": 0,
+                  "n": 12,
+                  "value": 0.0
+                },
+                "max_engine_coolant_temp/masquerade": {
+                  "k": 0,
+                  "n": 19,
+                  "value": 0.0
+                },
+                "max_engine_coolant_temp": {
+                  "k": 0,
+                  "n": 19,
+                  "value": 0.0
+                },
+                "max_speedometer/masquerade": {
+                  "k": 0,
+                  "n": 373,
+                  "value": 0.0
+                },
+                "max_speedometer": {
+                  "k": 0,
+                  "n": 373,
+                  "value": 0.0
+                },
+                "reverse_light_off/masquerade": {
+                  "k": 0,
+                  "n": 196,
+                  "value": 0.0
+                },
+                "reverse_light_off": {
+                  "k": 0,
+                  "n": 196,
+                  "value": 0.0
+                },
+                "reverse_light_on/masquerade": {
+                  "k": 0,
+                  "n": 246,
+                  "value": 0.0
+                },
+                "reverse_light_on": {
+                  "k": 0,
+                  "n": 246,
+                  "value": 0.0
+                }
+              },
+              "fpr_by_source": {
+                "ambient captures": {
+                  "k": 72,
+                  "n": 7868,
+                  "value": 0.009150991357397052
+                },
+                "normal windows inside attack captures": {
+                  "k": 0,
+                  "n": 1730,
+                  "value": 0.0
+                }
+              },
+              "fpr_by_ambient_capture": {
+                "ambient_dyno_drive_benign_anomaly": {
+                  "k": 68,
+                  "n": 1725,
+                  "value": 0.03942028985507246
+                },
+                "ambient_dyno_drive_extended_short": {
+                  "k": 4,
+                  "n": 1439,
+                  "value": 0.002779708130646282
+                },
+                "ambient_dyno_drive_winter": {
+                  "k": 0,
+                  "n": 190,
+                  "value": 0.0
+                },
+                "ambient_dyno_idle_radio_infotainment": {
+                  "k": 0,
+                  "n": 2635,
+                  "value": 0.0
+                },
+                "ambient_highway_street_driving_diagnostics": {
+                  "k": 0,
+                  "n": 1879,
+                  "value": 0.0
+                }
+              }
+            },
+            "iforest": {
+              "threshold": 0.6596995759176081,
+              "windows": 11552,
+              "tp": 7,
+              "fp": 47,
+              "fn": 1947,
+              "tn": 9551,
+              "precision": {
+                "value": 0.12962962962962962,
+                "lo": 0.017515099223468555,
+                "hi": 0.28205128205128205
+              },
+              "recall": {
+                "value": 0.0035823950870010235,
+                "lo": 0.00048518959895744036,
+                "hi": 0.007494646680942184
+              },
+              "f1": {
+                "value": 0.0069721115537848604,
+                "lo": 0.0009535405188770182,
+                "hi": 0.014508709233649488
+              },
+              "fpr": {
+                "value": 0.0048968535111481555,
+                "lo": 0.002732125781663835,
+                "hi": 0.007532332228625497
+              },
+              "auroc": 0.6575221552255321,
+              "auprc": 0.3210017302754534,
+              "recall_by_type": {
+                "fuzzing": {
+                  "k": 0,
+                  "n": 12,
+                  "value": 0.0,
+                  "ci": [
+                    2.7755575615628914e-17,
+                    0.24249400665524085
+                  ]
+                },
+                "masquerade": {
+                  "k": 0,
+                  "n": 971,
+                  "value": 0.0,
+                  "ci": [
+                    0.0,
+                    0.003940598531110172
+                  ]
+                },
+                "spoofing": {
+                  "k": 7,
+                  "n": 971,
+                  "value": 0.007209062821833162,
+                  "ci": [
+                    0.003496383458080398,
+                    0.014805524671963301
+                  ]
+                }
+              },
+              "recall_by_family": {
+                "correlated_signal/masquerade": {
+                  "k": 0,
+                  "n": 137,
+                  "value": 0.0
+                },
+                "correlated_signal": {
+                  "k": 7,
+                  "n": 137,
+                  "value": 0.051094890510948905
+                },
+                "fuzzing": {
+                  "k": 0,
+                  "n": 12,
+                  "value": 0.0
+                },
+                "max_engine_coolant_temp/masquerade": {
+                  "k": 0,
+                  "n": 19,
+                  "value": 0.0
+                },
+                "max_engine_coolant_temp": {
+                  "k": 0,
+                  "n": 19,
+                  "value": 0.0
+                },
+                "max_speedometer/masquerade": {
+                  "k": 0,
+                  "n": 373,
+                  "value": 0.0
+                },
+                "max_speedometer": {
+                  "k": 0,
+                  "n": 373,
+                  "value": 0.0
+                },
+                "reverse_light_off/masquerade": {
+                  "k": 0,
+                  "n": 196,
+                  "value": 0.0
+                },
+                "reverse_light_off": {
+                  "k": 0,
+                  "n": 196,
+                  "value": 0.0
+                },
+                "reverse_light_on/masquerade": {
+                  "k": 0,
+                  "n": 246,
+                  "value": 0.0
+                },
+                "reverse_light_on": {
+                  "k": 0,
+                  "n": 246,
+                  "value": 0.0
+                }
+              },
+              "fpr_by_source": {
+                "ambient captures": {
+                  "k": 47,
+                  "n": 7868,
+                  "value": 0.005973563802745298
+                },
+                "normal windows inside attack captures": {
+                  "k": 0,
+                  "n": 1730,
+                  "value": 0.0
+                }
+              },
+              "fpr_by_ambient_capture": {
+                "ambient_dyno_drive_benign_anomaly": {
+                  "k": 30,
+                  "n": 1725,
+                  "value": 0.017391304347826087
+                },
+                "ambient_dyno_drive_extended_short": {
+                  "k": 14,
+                  "n": 1439,
+                  "value": 0.009728978457261988
+                },
+                "ambient_dyno_drive_winter": {
+                  "k": 0,
+                  "n": 190,
+                  "value": 0.0
+                },
+                "ambient_dyno_idle_radio_infotainment": {
+                  "k": 3,
+                  "n": 2635,
+                  "value": 0.0011385199240986717
+                },
+                "ambient_highway_street_driving_diagnostics": {
+                  "k": 0,
+                  "n": 1879,
+                  "value": 0.0
+                }
+              }
+            },
+            "ocsvm": {
+              "threshold": -2.4707239316521346,
+              "windows": 11552,
+              "tp": 944,
+              "fp": 191,
+              "fn": 1010,
+              "tn": 9407,
+              "precision": {
+                "value": 0.8317180616740089,
+                "lo": 0.7873198981583439,
+                "hi": 0.8690615988367503
+              },
+              "recall": {
+                "value": 0.48311156601842375,
+                "lo": 0.4199641431105536,
+                "hi": 0.5401196981410898
+              },
+              "f1": {
+                "value": 0.6112010359339592,
+                "lo": 0.5515505487739158,
+                "hi": 0.6596564994385262
+              },
+              "fpr": {
+                "value": 0.019899979162325485,
+                "lo": 0.015491608001468232,
+                "hi": 0.024616215595891586
+              },
+              "auroc": 0.773594720667454,
+              "auprc": 0.6337880864744692,
+              "recall_by_type": {
+                "fuzzing": {
+                  "k": 12,
+                  "n": 12,
+                  "value": 1.0,
+                  "ci": [
+                    0.7575059933447592,
+                    1.0
+                  ]
+                },
+                "masquerade": {
+                  "k": 11,
+                  "n": 971,
+                  "value": 0.01132852729145211,
+                  "ci": [
+                    0.006337277235103406,
+                    0.020171093522902313
+                  ]
+                },
+                "spoofing": {
+                  "k": 921,
+                  "n": 971,
+                  "value": 0.9485066941297632,
+                  "ci": [
+                    0.9327539827503839,
+                    0.9607246358689807
+                  ]
+                }
+              },
+              "recall_by_family": {
+                "correlated_signal/masquerade": {
+                  "k": 10,
+                  "n": 137,
+                  "value": 0.072992700729927
+                },
+                "correlated_signal": {
+                  "k": 135,
+                  "n": 137,
+                  "value": 0.9854014598540146
+                },
+                "fuzzing": {
+                  "k": 12,
+                  "n": 12,
+                  "value": 1.0
+                },
+                "max_engine_coolant_temp/masquerade": {
+                  "k": 0,
+                  "n": 19,
+                  "value": 0.0
+                },
+                "max_engine_coolant_temp": {
+                  "k": 11,
+                  "n": 19,
+                  "value": 0.5789473684210527
+                },
+                "max_speedometer/masquerade": {
+                  "k": 0,
+                  "n": 373,
+                  "value": 0.0
+                },
+                "max_speedometer": {
+                  "k": 364,
+                  "n": 373,
+                  "value": 0.9758713136729222
+                },
+                "reverse_light_off/masquerade": {
+                  "k": 0,
+                  "n": 196,
+                  "value": 0.0
+                },
+                "reverse_light_off": {
+                  "k": 175,
+                  "n": 196,
+                  "value": 0.8928571428571429
+                },
+                "reverse_light_on/masquerade": {
+                  "k": 1,
+                  "n": 246,
+                  "value": 0.0040650406504065045
+                },
+                "reverse_light_on": {
+                  "k": 236,
+                  "n": 246,
+                  "value": 0.959349593495935
+                }
+              },
+              "fpr_by_source": {
+                "ambient captures": {
+                  "k": 169,
+                  "n": 7868,
+                  "value": 0.021479410269445855
+                },
+                "normal windows inside attack captures": {
+                  "k": 22,
+                  "n": 1730,
+                  "value": 0.012716763005780347
+                }
+              },
+              "fpr_by_ambient_capture": {
+                "ambient_dyno_drive_benign_anomaly": {
+                  "k": 121,
+                  "n": 1725,
+                  "value": 0.07014492753623189
+                },
+                "ambient_dyno_drive_extended_short": {
+                  "k": 33,
+                  "n": 1439,
+                  "value": 0.022932592077831826
+                },
+                "ambient_dyno_drive_winter": {
+                  "k": 3,
+                  "n": 190,
+                  "value": 0.015789473684210527
+                },
+                "ambient_dyno_idle_radio_infotainment": {
+                  "k": 12,
+                  "n": 2635,
+                  "value": 0.004554079696394687
+                },
+                "ambient_highway_street_driving_diagnostics": {
+                  "k": 0,
+                  "n": 1879,
+                  "value": 0.0
+                }
+              }
+            }
+          },
+          "tuning": {
+            "rule@0.55": {
+              "precision": {
+                "value": 0.061711079943899017,
+                "lo": 0.04240309123807074,
+                "hi": 0.08095083369359023
+              },
+              "recall": {
+                "value": 0.6523887973640856,
+                "lo": 0.5375313052664065,
+                "hi": 0.7697489357585139
+              },
+              "f1": {
+                "value": 0.11275626423690205,
+                "lo": 0.07910233128222255,
+                "hi": 0.14571892544432413
+              },
+              "fpr": {
+                "value": 0.17708823529411766,
+                "lo": 0.1605778322620445,
+                "hi": 0.19314319864808246
+              },
+              "windows": 34607
+            },
+            "rule_v2@0.55": {
+              "precision": {
+                "value": 0.7485822306238186,
+                "lo": 0.640875946969697,
+                "hi": 0.8333333333333334
+              },
+              "recall": {
+                "value": 0.6523887973640856,
+                "lo": 0.5375313052664065,
+                "hi": 0.7697489357585139
+              },
+              "f1": {
+                "value": 0.6971830985915493,
+                "lo": 0.5978820901960255,
+                "hi": 0.7787054056151503
+              },
+              "fpr": {
+                "value": 0.003911764705882353,
+                "lo": 0.0024956509664351124,
+                "hi": 0.005504861473920783
+              },
+              "windows": 34607
+            },
+            "rule@tuned": {
+              "precision": {
+                "value": 0.4596949891067538,
+                "lo": 0.2982743107844364,
+                "hi": 0.606492534831909
+              },
+              "recall": {
+                "value": 0.34761120263591433,
+                "lo": 0.22151640285786486,
+                "hi": 0.47700306001373877
+              },
+              "f1": {
+                "value": 0.39587242026266417,
+                "lo": 0.25574770803817065,
+                "hi": 0.5110531153118054
+              },
+              "fpr": {
+                "value": 0.007294117647058823,
+                "lo": 0.0046200121444143075,
+                "hi": 0.010468447371863275
+              },
+              "windows": 34607
+            },
+            "id_whitelist": {
+              "precision": {
+                "value": 1.0,
+                "lo": 1.0,
+                "hi": 1.0
+              },
+              "recall": {
+                "value": 0.02471169686985173,
+                "lo": 0.0,
+                "hi": 0.06372487902698457
+              },
+              "f1": {
+                "value": 0.04823151125401929,
+                "lo": 0.0,
+                "hi": 0.1198145837184938
+              },
+              "fpr": {
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.0
+              },
+              "windows": 34607
+            },
+            "interval": {
+              "precision": {
+                "value": 0.5431754874651811,
+                "lo": 0.4256578551062207,
+                "hi": 0.6498122552964883
+              },
+              "recall": {
+                "value": 0.642504118616145,
+                "lo": 0.5311127001490562,
+                "hi": 0.7605710349050826
+              },
+              "f1": {
+                "value": 0.5886792452830188,
+                "lo": 0.47875582994276467,
+                "hi": 0.6794482591509451
+              },
+              "fpr": {
+                "value": 0.009647058823529411,
+                "lo": 0.006903641933658702,
+                "hi": 0.012730712315801092
+              },
+              "windows": 34607
+            },
+            "whitelist_interval": {
+              "precision": {
+                "value": 0.5519125683060109,
+                "lo": 0.4372345325543648,
+                "hi": 0.6573388020833333
+              },
+              "recall": {
+                "value": 0.6655683690280065,
+                "lo": 0.5515919635636147,
+                "hi": 0.7822910534899205
+              },
+              "f1": {
+                "value": 0.6034353995519044,
+                "lo": 0.49448916986769104,
+                "hi": 0.6915762453630101
+              },
+              "fpr": {
+                "value": 0.009647058823529411,
+                "lo": 0.006903641933658702,
+                "hi": 0.012730712315801092
+              },
+              "windows": 34607
+            },
+            "id_entropy": {
+              "precision": {
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.0
+              },
+              "recall": {
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.0
+              },
+              "f1": {
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.0
+              },
+              "fpr": {
+                "value": 0.009970588235294118,
+                "lo": 0.0065337302696724065,
+                "hi": 0.01390530974297242
+              },
+              "windows": 34607
+            },
+            "iforest": {
+              "precision": {
+                "value": 0.017341040462427744,
+                "lo": 0.00282368173258004,
+                "hi": 0.03641782294313073
+              },
+              "recall": {
+                "value": 0.009884678747940691,
+                "lo": 0.0017792016859746096,
+                "hi": 0.01926943120980931
+              },
+              "f1": {
+                "value": 0.012591815320041973,
+                "lo": 0.002182296896527569,
+                "hi": 0.0245057091551375
+              },
+              "fpr": {
+                "value": 0.01,
+                "lo": 0.007037518439802999,
+                "hi": 0.013637949522775325
+              },
+              "windows": 34607
+            },
+            "ocsvm": {
+              "precision": {
+                "value": 0.5245441795231417,
+                "lo": 0.4143951280743734,
+                "hi": 0.6141370710852799
+              },
+              "recall": {
+                "value": 0.6161449752883031,
+                "lo": 0.50318846703493,
+                "hi": 0.7308582495319453
+              },
+              "f1": {
+                "value": 0.5666666666666667,
+                "lo": 0.4632501478123769,
+                "hi": 0.6496823385068897
+              },
+              "fpr": {
+                "value": 0.009970588235294118,
+                "lo": 0.008058782726415695,
+                "hi": 0.012060339025117533
+              },
+              "windows": 34607
+            }
+          }
+        }
+      },
+      "split": {
+        "reference": {
+          "captures": [
+            "ambient_dyno_drive_basic_short"
+          ],
+          "windows": 1779,
+          "attack_windows": 0
+        },
+        "tuning": {
+          "captures": [
+            "ambient_dyno_drive_basic_long",
+            "ambient_dyno_drive_extended_long",
+            "ambient_dyno_drive_radio_infotainment",
+            "ambient_dyno_exercise_all_bits",
+            "ambient_dyno_reverse",
+            "ambient_highway_street_driving_long",
+            "correlated_signal_attack_1",
+            "correlated_signal_attack_1_masquerade",
+            "fuzzing_attack_1",
+            "max_speedometer_attack_1",
+            "max_speedometer_attack_1_masquerade",
+            "reverse_light_off_attack_1",
+            "reverse_light_off_attack_1_masquerade",
+            "reverse_light_on_attack_1",
+            "reverse_light_on_attack_1_masquerade"
+          ],
+          "windows": 34607,
+          "attack_windows": 607
+        },
+        "evaluation": {
+          "captures": [
+            "ambient_dyno_drive_benign_anomaly",
+            "ambient_dyno_drive_extended_short",
+            "ambient_dyno_drive_winter",
+            "ambient_dyno_idle_radio_infotainment",
+            "ambient_highway_street_driving_diagnostics",
+            "correlated_signal_attack_2",
+            "correlated_signal_attack_2_masquerade",
+            "correlated_signal_attack_3",
+            "correlated_signal_attack_3_masquerade",
+            "fuzzing_attack_2",
+            "fuzzing_attack_3",
+            "max_engine_coolant_temp_attack",
+            "max_engine_coolant_temp_attack_masquerade",
+            "max_speedometer_attack_2",
+            "max_speedometer_attack_2_masquerade",
+            "max_speedometer_attack_3",
+            "max_speedometer_attack_3_masquerade",
+            "reverse_light_off_attack_2",
+            "reverse_light_off_attack_2_masquerade",
+            "reverse_light_off_attack_3",
+            "reverse_light_off_attack_3_masquerade",
+            "reverse_light_on_attack_2",
+            "reverse_light_on_attack_2_masquerade",
+            "reverse_light_on_attack_3",
+            "reverse_light_on_attack_3_masquerade"
+          ],
+          "windows": 11552,
+          "attack_windows": 1954
+        }
+      },
+      "coverage": [
+        {
+          "added": null,
+          "reference_captures": 1,
+          "reference_seconds": 444.8,
+          "fpr_ambient": {
+            "k": 1459,
+            "n": 7868,
+            "value": 0.18543467208947637
+          },
+          "fpr_in_attack_captures": {
+            "k": 2,
+            "n": 1730,
+            "value": 0.0011560693641618498
+          },
+          "fpr_by_ambient_capture": {
+            "ambient_dyno_drive_benign_anomaly": {
+              "k": 858,
+              "n": 1725,
+              "value": 0.4973913043478261
+            },
+            "ambient_dyno_drive_extended_short": {
+              "k": 582,
+              "n": 1439,
+              "value": 0.4044475330090341
+            },
+            "ambient_dyno_drive_winter": {
+              "k": 0,
+              "n": 190,
+              "value": 0.0
+            },
+            "ambient_dyno_idle_radio_infotainment": {
+              "k": 18,
+              "n": 2635,
+              "value": 0.00683111954459203
+            },
+            "ambient_highway_street_driving_diagnostics": {
+              "k": 1,
+              "n": 1879,
+              "value": 0.0005321979776476849
+            }
+          },
+          "recall": 0.4662231320368475,
+          "recall_by_type": {
+            "fuzzing": 1.0,
+            "masquerade": 0.004119464469618949,
+            "spoofing": 0.92173017507724
+          },
+          "precision": 0.38406408094435074
+        },
+        {
+          "added": "ambient_dyno_reverse",
+          "reference_captures": 2,
+          "reference_seconds": 496.2,
+          "fpr_ambient": {
+            "k": 1459,
+            "n": 7868,
+            "value": 0.18543467208947637
+          },
+          "fpr_in_attack_captures": {
+            "k": 0,
+            "n": 1730,
+            "value": 0.0
+          },
+          "fpr_by_ambient_capture": {
+            "ambient_dyno_drive_benign_anomaly": {
+              "k": 858,
+              "n": 1725,
+              "value": 0.4973913043478261
+            },
+            "ambient_dyno_drive_extended_short": {
+              "k": 583,
+              "n": 1439,
+              "value": 0.40514246004169563
+            },
+            "ambient_dyno_drive_winter": {
+              "k": 0,
+              "n": 190,
+              "value": 0.0
+            },
+            "ambient_dyno_idle_radio_infotainment": {
+              "k": 15,
+              "n": 2635,
+              "value": 0.0056925996204933585
+            },
+            "ambient_highway_street_driving_diagnostics": {
+              "k": 3,
+              "n": 1879,
+              "value": 0.0015965939329430547
+            }
+          },
+          "recall": 0.4657113613101331,
+          "recall_by_type": {
+            "fuzzing": 1.0,
+            "masquerade": 0.003089598352214212,
+            "spoofing": 0.92173017507724
+          },
+          "precision": 0.3841283241874209
+        },
+        {
+          "added": "ambient_dyno_drive_radio_infotainment",
+          "reference_captures": 3,
+          "reference_seconds": 886.6,
+          "fpr_ambient": {
+            "k": 1475,
+            "n": 7868,
+            "value": 0.18746822572445349
+          },
+          "fpr_in_attack_captures": {
+            "k": 0,
+            "n": 1730,
+            "value": 0.0
+          },
+          "fpr_by_ambient_capture": {
+            "ambient_dyno_drive_benign_anomaly": {
+              "k": 858,
+              "n": 1725,
+              "value": 0.4973913043478261
+            },
+            "ambient_dyno_drive_extended_short": {
+              "k": 585,
+              "n": 1439,
+              "value": 0.4065323141070188
+            },
+            "ambient_dyno_drive_winter": {
+              "k": 0,
+              "n": 190,
+              "value": 0.0
+            },
+            "ambient_dyno_idle_radio_infotainment": {
+              "k": 15,
+              "n": 2635,
+              "value": 0.0056925996204933585
+            },
+            "ambient_highway_street_driving_diagnostics": {
+              "k": 17,
+              "n": 1879,
+              "value": 0.009047365620010643
+            }
+          },
+          "recall": 0.46673490276356194,
+          "recall_by_type": {
+            "fuzzing": 1.0,
+            "masquerade": 0.005149330587023687,
+            "spoofing": 0.92173017507724
+          },
+          "precision": 0.3820695433598659
+        },
+        {
+          "added": "ambient_dyno_drive_extended_long",
+          "reference_captures": 4,
+          "reference_seconds": 1544.5,
+          "fpr_ambient": {
+            "k": 576,
+            "n": 7868,
+            "value": 0.07320793085917641
+          },
+          "fpr_in_attack_captures": {
+            "k": 0,
+            "n": 1730,
+            "value": 0.0
+          },
+          "fpr_by_ambient_capture": {
+            "ambient_dyno_drive_benign_anomaly": {
+              "k": 249,
+              "n": 1725,
+              "value": 0.1443478260869565
+            },
+            "ambient_dyno_drive_extended_short": {
+              "k": 206,
+              "n": 1439,
+              "value": 0.14315496872828354
+            },
+            "ambient_dyno_drive_winter": {
+              "k": 0,
+              "n": 190,
+              "value": 0.0
+            },
+            "ambient_dyno_idle_radio_infotainment": {
+              "k": 15,
+              "n": 2635,
+              "value": 0.0056925996204933585
+            },
+            "ambient_highway_street_driving_diagnostics": {
+              "k": 106,
+              "n": 1879,
+              "value": 0.056412985630654604
+            }
+          },
+          "recall": 0.4887410440122825,
+          "recall_by_type": {
+            "fuzzing": 1.0,
+            "masquerade": 0.005149330587023687,
+            "spoofing": 0.9660144181256437
+          },
+          "precision": 0.6237753102547354
+        },
+        {
+          "added": "ambient_dyno_drive_basic_long",
+          "reference_captures": 5,
+          "reference_seconds": 2795.5,
+          "fpr_ambient": {
+            "k": 488,
+            "n": 7868,
+            "value": 0.062023385866802234
+          },
+          "fpr_in_attack_captures": {
+            "k": 0,
+            "n": 1730,
+            "value": 0.0
+          },
+          "fpr_by_ambient_capture": {
+            "ambient_dyno_drive_benign_anomaly": {
+              "k": 248,
+              "n": 1725,
+              "value": 0.14376811594202898
+            },
+            "ambient_dyno_drive_extended_short": {
+              "k": 214,
+              "n": 1439,
+              "value": 0.1487143849895761
+            },
+            "ambient_dyno_drive_winter": {
+              "k": 0,
+              "n": 190,
+              "value": 0.0
+            },
+            "ambient_dyno_idle_radio_infotainment": {
+              "k": 15,
+              "n": 2635,
+              "value": 0.0056925996204933585
+            },
+            "ambient_highway_street_driving_diagnostics": {
+              "k": 11,
+              "n": 1879,
+              "value": 0.005854177754124534
+            }
+          },
+          "recall": 0.4882292732855681,
+          "recall_by_type": {
+            "fuzzing": 1.0,
+            "masquerade": 0.004119464469618949,
+            "spoofing": 0.9660144181256437
+          },
+          "precision": 0.6615811373092927
+        },
+        {
+          "added": "ambient_dyno_exercise_all_bits",
+          "reference_captures": 6,
+          "reference_seconds": 4968.3,
+          "fpr_ambient": {
+            "k": 718,
+            "n": 7868,
+            "value": 0.09125571936959838
+          },
+          "fpr_in_attack_captures": {
+            "k": 0,
+            "n": 1730,
+            "value": 0.0
+          },
+          "fpr_by_ambient_capture": {
+            "ambient_dyno_drive_benign_anomaly": {
+              "k": 248,
+              "n": 1725,
+              "value": 0.14376811594202898
+            },
+            "ambient_dyno_drive_extended_short": {
+              "k": 447,
+              "n": 1439,
+              "value": 0.310632383599722
+            },
+            "ambient_dyno_drive_winter": {
+              "k": 0,
+              "n": 190,
+              "value": 0.0
+            },
+            "ambient_dyno_idle_radio_infotainment": {
+              "k": 15,
+              "n": 2635,
+              "value": 0.0056925996204933585
+            },
+            "ambient_highway_street_driving_diagnostics": {
+              "k": 8,
+              "n": 1879,
+              "value": 0.004257583821181479
+            }
+          },
+          "recall": 0.4907881269191402,
+          "recall_by_type": {
+            "fuzzing": 1.0,
+            "masquerade": 0.004119464469618949,
+            "spoofing": 0.9711637487126673
+          },
+          "precision": 0.5718545020870602
+        },
+        {
+          "added": "ambient_highway_street_driving_long",
+          "reference_captures": 7,
+          "reference_seconds": 8732.6,
+          "fpr_ambient": {
+            "k": 453,
+            "n": 7868,
+            "value": 0.05757498729028978
+          },
+          "fpr_in_attack_captures": {
+            "k": 0,
+            "n": 1730,
+            "value": 0.0
+          },
+          "fpr_by_ambient_capture": {
+            "ambient_dyno_drive_benign_anomaly": {
+              "k": 248,
+              "n": 1725,
+              "value": 0.14376811594202898
+            },
+            "ambient_dyno_drive_extended_short": {
+              "k": 190,
+              "n": 1439,
+              "value": 0.1320361362056984
+            },
+            "ambient_dyno_drive_winter": {
+              "k": 0,
+              "n": 190,
+              "value": 0.0
+            },
+            "ambient_dyno_idle_radio_infotainment": {
+              "k": 15,
+              "n": 2635,
+              "value": 0.0056925996204933585
+            },
+            "ambient_highway_street_driving_diagnostics": {
+              "k": 0,
+              "n": 1879,
+              "value": 0.0
+            }
+          },
+          "recall": 0.4882292732855681,
+          "recall_by_type": {
+            "fuzzing": 1.0,
+            "masquerade": 0.003089598352214212,
+            "spoofing": 0.9670442842430484
+          },
+          "precision": 0.6780383795309168
+        }
+      ]
+    },
+    {
+      "dataset": "hcrl",
+      "references": {
+        "single": {
+          "reference_captures": [
+            "normal_run_data[0-120)"
+          ],
+          "reference_seconds": 120.0,
+          "reference_ids": 27,
+          "normal_model_windows": 8156,
+          "threshold_rule": "smallest threshold with FPR <= 1% on attack-free tuning windows",
+          "thresholds": {
+            "rule": 0.45000000000000007,
+            "id_whitelist": 1.0,
+            "interval": 1.1990000000000003,
+            "whitelist_interval": 1.1990000000000003,
+            "id_entropy": 2.0409531243433054,
+            "iforest": 0.65866137064695,
+            "ocsvm": -2.28791654704923
+          },
+          "evaluation": {
+            "rule@0.55": {
+              "threshold": 0.55,
+              "windows": 22074,
+              "tp": 8450,
+              "fp": 1,
+              "fn": 166,
+              "tn": 13457,
+              "precision": {
+                "value": 0.9998816708081883,
+                "lo": 0.9996179703619056,
+                "hi": 1.0
+              },
+              "recall": {
+                "value": 0.9807335190343547,
+                "lo": 0.9775823390164539,
+                "hi": 0.9836008236231284
+              },
+              "f1": {
+                "value": 0.9902150348626003,
+                "lo": 0.9886126665942342,
+                "hi": 0.9916683701568489
+              },
+              "fpr": {
+                "value": 7.43052459503641e-05,
+                "lo": 0.0,
+                "hi": 0.00023070520183049014
+              },
+              "auroc": 0.9963268578070804,
+              "auprc": 0.9951680410742162,
+              "recall_by_type": {
+                "dos": {
+                  "k": 2337,
+                  "n": 2337,
+                  "value": 1.0,
+                  "ci": [
+                    0.9983589410524925,
+                    1.0
+                  ]
+                },
+                "fuzzing": {
+                  "k": 2728,
+                  "n": 2728,
+                  "value": 1.0,
+                  "ci": [
+                    0.9985938207327916,
+                    1.0
+                  ]
+                },
+                "spoofing": {
+                  "k": 3385,
+                  "n": 3551,
+                  "value": 0.9532526049000282,
+                  "ci": [
+                    0.9458061635549371,
+                    0.9597194519440708
+                  ]
+                }
+              },
+              "recall_by_family": {
+                "DoS": {
+                  "k": 2337,
+                  "n": 2337,
+                  "value": 1.0
+                },
+                "Fuzzy": {
+                  "k": 2728,
+                  "n": 2728,
+                  "value": 1.0
+                },
+                "RPM": {
+                  "k": 1704,
+                  "n": 1780,
+                  "value": 0.9573033707865168
+                },
+                "gear": {
+                  "k": 1681,
+                  "n": 1771,
+                  "value": 0.9491812535290797
+                }
+              },
+              "fpr_by_source": {
+                "ambient captures": {
+                  "k": 0,
+                  "n": 825,
+                  "value": 0.0
+                },
+                "normal windows inside attack captures": {
+                  "k": 1,
+                  "n": 12633,
+                  "value": 7.915776141850709e-05
+                }
+              },
+              "fpr_by_ambient_capture": {
+                "normal_run_data": {
+                  "k": 0,
+                  "n": 825,
+                  "value": 0.0
+                }
+              }
+            },
+            "rule_v2@0.55": {
+              "threshold": 0.55,
+              "windows": 22074,
+              "tp": 8394,
+              "fp": 0,
+              "fn": 222,
+              "tn": 13458,
+              "precision": {
+                "value": 1.0,
+                "lo": 1.0,
+                "hi": 1.0
+              },
+              "recall": {
+                "value": 0.974233983286908,
+                "lo": 0.9676439471984833,
+                "hi": 0.9797223243042856
+              },
+              "f1": {
+                "value": 0.9869488536155203,
+                "lo": 0.9835559411517035,
+                "hi": 0.9897573132108126
+              },
+              "fpr": {
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.0
+              },
+              "auroc": 0.9966341689879294,
+              "auprc": 0.9958958635715824,
+              "recall_by_type": {
+                "dos": {
+                  "k": 2337,
+                  "n": 2337,
+                  "value": 1.0,
+                  "ci": [
+                    0.9983589410524925,
+                    1.0
+                  ]
+                },
+                "fuzzing": {
+                  "k": 2728,
+                  "n": 2728,
+                  "value": 1.0,
+                  "ci": [
+                    0.9985938207327916,
+                    1.0
+                  ]
+                },
+                "spoofing": {
+                  "k": 3329,
+                  "n": 3551,
+                  "value": 0.937482399324134,
+                  "ci": [
+                    0.9290373075271803,
+                    0.9449819802502095
+                  ]
+                }
+              },
+              "recall_by_family": {
+                "DoS": {
+                  "k": 2337,
+                  "n": 2337,
+                  "value": 1.0
+                },
+                "Fuzzy": {
+                  "k": 2728,
+                  "n": 2728,
+                  "value": 1.0
+                },
+                "RPM": {
+                  "k": 1704,
+                  "n": 1780,
+                  "value": 0.9573033707865168
+                },
+                "gear": {
+                  "k": 1625,
+                  "n": 1771,
+                  "value": 0.9175607001693958
+                }
+              },
+              "fpr_by_source": {
+                "ambient captures": {
+                  "k": 0,
+                  "n": 825,
+                  "value": 0.0
+                },
+                "normal windows inside attack captures": {
+                  "k": 0,
+                  "n": 12633,
+                  "value": 0.0
+                }
+              },
+              "fpr_by_ambient_capture": {
+                "normal_run_data": {
+                  "k": 0,
+                  "n": 825,
+                  "value": 0.0
+                }
+              }
+            },
+            "rule@tuned": {
+              "threshold": 0.45000000000000007,
+              "windows": 22074,
+              "tp": 8474,
+              "fp": 1,
+              "fn": 142,
+              "tn": 13457,
+              "precision": {
+                "value": 0.999882005899705,
+                "lo": 0.9996189459745558,
+                "hi": 1.0
+              },
+              "recall": {
+                "value": 0.9835190343546889,
+                "lo": 0.980471437994331,
+                "hi": 0.986310834315548
+              },
+              "f1": {
+                "value": 0.9916330232285998,
+                "lo": 0.9900789023803834,
+                "hi": 0.993052256265784
+              },
+              "fpr": {
+                "value": 7.43052459503641e-05,
+                "lo": 0.0,
+                "hi": 0.00023070520183049014
+              },
+              "auroc": 0.9963268578070804,
+              "auprc": 0.9951680410742162,
+              "recall_by_type": {
+                "dos": {
+                  "k": 2337,
+                  "n": 2337,
+                  "value": 1.0,
+                  "ci": [
+                    0.9983589410524925,
+                    1.0
+                  ]
+                },
+                "fuzzing": {
+                  "k": 2728,
+                  "n": 2728,
+                  "value": 1.0,
+                  "ci": [
+                    0.9985938207327916,
+                    1.0
+                  ]
+                },
+                "spoofing": {
+                  "k": 3409,
+                  "n": 3551,
+                  "value": 0.9600112644325542,
+                  "ci": [
+                    0.9530541327691939,
+                    0.9659741946105076
+                  ]
+                }
+              },
+              "recall_by_family": {
+                "DoS": {
+                  "k": 2337,
+                  "n": 2337,
+                  "value": 1.0
+                },
+                "Fuzzy": {
+                  "k": 2728,
+                  "n": 2728,
+                  "value": 1.0
+                },
+                "RPM": {
+                  "k": 1718,
+                  "n": 1780,
+                  "value": 0.9651685393258427
+                },
+                "gear": {
+                  "k": 1691,
+                  "n": 1771,
+                  "value": 0.9548277809147374
+                }
+              },
+              "fpr_by_source": {
+                "ambient captures": {
+                  "k": 0,
+                  "n": 825,
+                  "value": 0.0
+                },
+                "normal windows inside attack captures": {
+                  "k": 1,
+                  "n": 12633,
+                  "value": 7.915776141850709e-05
+                }
+              },
+              "fpr_by_ambient_capture": {
+                "normal_run_data": {
+                  "k": 0,
+                  "n": 825,
+                  "value": 0.0
+                }
+              }
+            },
+            "id_whitelist": {
+              "threshold": 1.0,
+              "windows": 22074,
+              "tp": 5065,
+              "fp": 0,
+              "fn": 3551,
+              "tn": 13458,
+              "precision": {
+                "value": 1.0,
+                "lo": 1.0,
+                "hi": 1.0
+              },
+              "recall": {
+                "value": 0.5878597957288765,
+                "lo": 0.5632319469656263,
+                "hi": 0.612426836099302
+              },
+              "f1": {
+                "value": 0.7404429500767488,
+                "lo": 0.7205993301670798,
+                "hi": 0.7596336433852481
+              },
+              "fpr": {
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.0
+              },
+              "auroc": 0.7939298978644382,
+              "auprc": 0.7487277852187741,
+              "recall_by_type": {
+                "dos": {
+                  "k": 2337,
+                  "n": 2337,
+                  "value": 1.0,
+                  "ci": [
+                    0.9983589410524925,
+                    1.0
+                  ]
+                },
+                "fuzzing": {
+                  "k": 2728,
+                  "n": 2728,
+                  "value": 1.0,
+                  "ci": [
+                    0.9985938207327916,
+                    1.0
+                  ]
+                },
+                "spoofing": {
+                  "k": 0,
+                  "n": 3551,
+                  "value": 0.0,
+                  "ci": [
+                    1.0842021724855044e-19,
+                    0.0010806273261954459
+                  ]
+                }
+              },
+              "recall_by_family": {
+                "DoS": {
+                  "k": 2337,
+                  "n": 2337,
+                  "value": 1.0
+                },
+                "Fuzzy": {
+                  "k": 2728,
+                  "n": 2728,
+                  "value": 1.0
+                },
+                "RPM": {
+                  "k": 0,
+                  "n": 1780,
+                  "value": 0.0
+                },
+                "gear": {
+                  "k": 0,
+                  "n": 1771,
+                  "value": 0.0
+                }
+              },
+              "fpr_by_source": {
+                "ambient captures": {
+                  "k": 0,
+                  "n": 825,
+                  "value": 0.0
+                },
+                "normal windows inside attack captures": {
+                  "k": 0,
+                  "n": 12633,
+                  "value": 0.0
+                }
+              },
+              "fpr_by_ambient_capture": {
+                "normal_run_data": {
+                  "k": 0,
+                  "n": 825,
+                  "value": 0.0
+                }
+              }
+            },
+            "interval": {
+              "threshold": 1.1990000000000003,
+              "windows": 22074,
+              "tp": 3527,
+              "fp": 27,
+              "fn": 5089,
+              "tn": 13431,
+              "precision": {
+                "value": 0.9924029262802476,
+                "lo": 0.9894072824159992,
+                "hi": 0.9952089272506625
+              },
+              "recall": {
+                "value": 0.40935468895078925,
+                "lo": 0.3853531401085204,
+                "hi": 0.4334592732522278
+              },
+              "f1": {
+                "value": 0.5796220213640099,
+                "lo": 0.5550850752014451,
+                "hi": 0.6036042628874818
+              },
+              "fpr": {
+                "value": 0.0020062416406598305,
+                "lo": 0.0012570525649653822,
+                "hi": 0.002824722341259832
+              },
+              "auroc": 0.6171558549429133,
+              "auprc": 0.6443280681099656,
+              "recall_by_type": {
+                "dos": {
+                  "k": 3,
+                  "n": 2337,
+                  "value": 0.0012836970474967907,
+                  "ci": [
+                    0.00043666673997813914,
+                    0.0037675730574715386
+                  ]
+                },
+                "fuzzing": {
+                  "k": 8,
+                  "n": 2728,
+                  "value": 0.002932551319648094,
+                  "ci": [
+                    0.0014867204609039088,
+                    0.005776314059869293
+                  ]
+                },
+                "spoofing": {
+                  "k": 3516,
+                  "n": 3551,
+                  "value": 0.9901436215150662,
+                  "ci": [
+                    0.9863235739323745,
+                    0.9929043439154189
+                  ]
+                }
+              },
+              "recall_by_family": {
+                "DoS": {
+                  "k": 3,
+                  "n": 2337,
+                  "value": 0.0012836970474967907
+                },
+                "Fuzzy": {
+                  "k": 8,
+                  "n": 2728,
+                  "value": 0.002932551319648094
+                },
+                "RPM": {
+                  "k": 1770,
+                  "n": 1780,
+                  "value": 0.9943820224719101
+                },
+                "gear": {
+                  "k": 1746,
+                  "n": 1771,
+                  "value": 0.9858836815358555
+                }
+              },
+              "fpr_by_source": {
+                "ambient captures": {
+                  "k": 0,
+                  "n": 825,
+                  "value": 0.0
+                },
+                "normal windows inside attack captures": {
+                  "k": 27,
+                  "n": 12633,
+                  "value": 0.0021372595582996915
+                }
+              },
+              "fpr_by_ambient_capture": {
+                "normal_run_data": {
+                  "k": 0,
+                  "n": 825,
+                  "value": 0.0
+                }
+              }
+            },
+            "whitelist_interval": {
+              "threshold": 1.1990000000000003,
+              "windows": 22074,
+              "tp": 8581,
+              "fp": 27,
+              "fn": 35,
+              "tn": 13431,
+              "precision": {
+                "value": 0.9968633828996283,
+                "lo": 0.995638613125097,
+                "hi": 0.9980042136528396
+              },
+              "recall": {
+                "value": 0.9959377901578459,
+                "lo": 0.9943873146225768,
+                "hi": 0.9972982439714128
+              },
+              "f1": {
+                "value": 0.9964003715745472,
+                "lo": 0.9954125155397432,
+                "hi": 0.9973214885796505
+              },
+              "fpr": {
+                "value": 0.0020062416406598305,
+                "lo": 0.0012570525649653822,
+                "hi": 0.002824722341259832
+              },
+              "auroc": 0.9990466704212551,
+              "auprc": 0.9990887719949031,
+              "recall_by_type": {
+                "dos": {
+                  "k": 2337,
+                  "n": 2337,
+                  "value": 1.0,
+                  "ci": [
+                    0.9983589410524925,
+                    1.0
+                  ]
+                },
+                "fuzzing": {
+                  "k": 2728,
+                  "n": 2728,
+                  "value": 1.0,
+                  "ci": [
+                    0.9985938207327916,
+                    1.0
+                  ]
+                },
+                "spoofing": {
+                  "k": 3516,
+                  "n": 3551,
+                  "value": 0.9901436215150662,
+                  "ci": [
+                    0.9863235739323745,
+                    0.9929043439154189
+                  ]
+                }
+              },
+              "recall_by_family": {
+                "DoS": {
+                  "k": 2337,
+                  "n": 2337,
+                  "value": 1.0
+                },
+                "Fuzzy": {
+                  "k": 2728,
+                  "n": 2728,
+                  "value": 1.0
+                },
+                "RPM": {
+                  "k": 1770,
+                  "n": 1780,
+                  "value": 0.9943820224719101
+                },
+                "gear": {
+                  "k": 1746,
+                  "n": 1771,
+                  "value": 0.9858836815358555
+                }
+              },
+              "fpr_by_source": {
+                "ambient captures": {
+                  "k": 0,
+                  "n": 825,
+                  "value": 0.0
+                },
+                "normal windows inside attack captures": {
+                  "k": 27,
+                  "n": 12633,
+                  "value": 0.0021372595582996915
+                }
+              },
+              "fpr_by_ambient_capture": {
+                "normal_run_data": {
+                  "k": 0,
+                  "n": 825,
+                  "value": 0.0
+                }
+              }
+            },
+            "id_entropy": {
+              "threshold": 2.0409531243433054,
+              "windows": 22074,
+              "tp": 8304,
+              "fp": 9,
+              "fn": 312,
+              "tn": 13449,
+              "precision": {
+                "value": 0.9989173583543847,
+                "lo": 0.9979581725464858,
+                "hi": 0.9996404698956484
+              },
+              "recall": {
+                "value": 0.9637883008356546,
+                "lo": 0.9603863784073673,
+                "hi": 0.9669647833958165
+              },
+              "f1": {
+                "value": 0.9810384547226653,
+                "lo": 0.9792306041469726,
+                "hi": 0.9827159076964551
+              },
+              "fpr": {
+                "value": 0.0006687472135532769,
+                "lo": 0.0002216467616740546,
+                "hi": 0.0012560843629000255
+              },
+              "auroc": 0.992139697691487,
+              "auprc": 0.9928711234730234,
+              "recall_by_type": {
+                "dos": {
+                  "k": 2201,
+                  "n": 2337,
+                  "value": 0.9418057338468121,
+                  "ci": [
+                    0.9315692208354548,
+                    0.9505921883529905
+                  ]
+                },
+                "fuzzing": {
+                  "k": 2695,
+                  "n": 2728,
+                  "value": 0.9879032258064516,
+                  "ci": [
+                    0.9830608055793661,
+                    0.9913734872324707
+                  ]
+                },
+                "spoofing": {
+                  "k": 3408,
+                  "n": 3551,
+                  "value": 0.959729653618699,
+                  "ci": [
+                    0.9527512224272974,
+                    0.9657144919573752
+                  ]
+                }
+              },
+              "recall_by_family": {
+                "DoS": {
+                  "k": 2201,
+                  "n": 2337,
+                  "value": 0.9418057338468121
+                },
+                "Fuzzy": {
+                  "k": 2695,
+                  "n": 2728,
+                  "value": 0.9879032258064516
+                },
+                "RPM": {
+                  "k": 1704,
+                  "n": 1780,
+                  "value": 0.9573033707865168
+                },
+                "gear": {
+                  "k": 1704,
+                  "n": 1771,
+                  "value": 0.9621682665160926
+                }
+              },
+              "fpr_by_source": {
+                "ambient captures": {
+                  "k": 4,
+                  "n": 825,
+                  "value": 0.0048484848484848485
+                },
+                "normal windows inside attack captures": {
+                  "k": 5,
+                  "n": 12633,
+                  "value": 0.00039578880709253544
+                }
+              },
+              "fpr_by_ambient_capture": {
+                "normal_run_data": {
+                  "k": 4,
+                  "n": 825,
+                  "value": 0.0048484848484848485
+                }
+              }
+            },
+            "iforest": {
+              "threshold": 0.65866137064695,
+              "windows": 22074,
+              "tp": 7692,
+              "fp": 42,
+              "fn": 924,
+              "tn": 13416,
+              "precision": {
+                "value": 0.9945694336695112,
+                "lo": 0.9927312274803489,
+                "hi": 0.9963592928949133
+              },
+              "recall": {
+                "value": 0.8927576601671309,
+                "lo": 0.8862211692284503,
+                "hi": 0.8995591051974631
+              },
+              "f1": {
+                "value": 0.9409174311926606,
+                "lo": 0.9371256581446683,
+                "hi": 0.9446168919214725
+              },
+              "fpr": {
+                "value": 0.003120820329915292,
+                "lo": 0.002085614091969911,
+                "hi": 0.004200723264995185
+              },
+              "auroc": 0.9922869671358314,
+              "auprc": 0.9901288817625945,
+              "recall_by_type": {
+                "dos": {
+                  "k": 2005,
+                  "n": 2337,
+                  "value": 0.8579375267436885,
+                  "ci": [
+                    0.8431953255992729,
+                    0.8715049347262812
+                  ]
+                },
+                "fuzzing": {
+                  "k": 2433,
+                  "n": 2728,
+                  "value": 0.8918621700879765,
+                  "ci": [
+                    0.8796526150765235,
+                    0.9029696681810674
+                  ]
+                },
+                "spoofing": {
+                  "k": 3254,
+                  "n": 3551,
+                  "value": 0.9163615882849901,
+                  "ci": [
+                    0.9067998516634894,
+                    0.9250234614867332
+                  ]
+                }
+              },
+              "recall_by_family": {
+                "DoS": {
+                  "k": 2005,
+                  "n": 2337,
+                  "value": 0.8579375267436885
+                },
+                "Fuzzy": {
+                  "k": 2433,
+                  "n": 2728,
+                  "value": 0.8918621700879765
+                },
+                "RPM": {
+                  "k": 1639,
+                  "n": 1780,
+                  "value": 0.9207865168539325
+                },
+                "gear": {
+                  "k": 1615,
+                  "n": 1771,
+                  "value": 0.911914172783738
+                }
+              },
+              "fpr_by_source": {
+                "ambient captures": {
+                  "k": 5,
+                  "n": 825,
+                  "value": 0.006060606060606061
+                },
+                "normal windows inside attack captures": {
+                  "k": 37,
+                  "n": 12633,
+                  "value": 0.0029288371724847623
+                }
+              },
+              "fpr_by_ambient_capture": {
+                "normal_run_data": {
+                  "k": 5,
+                  "n": 825,
+                  "value": 0.006060606060606061
+                }
+              }
+            },
+            "ocsvm": {
+              "threshold": -2.28791654704923,
+              "windows": 22074,
+              "tp": 8550,
+              "fp": 103,
+              "fn": 66,
+              "tn": 13355,
+              "precision": {
+                "value": 0.988096613891136,
+                "lo": 0.9849320937727276,
+                "hi": 0.9909993277605378
+              },
+              "recall": {
+                "value": 0.9923398328690808,
+                "lo": 0.990431441905013,
+                "hi": 0.9940746505027868
+              },
+              "f1": {
+                "value": 0.9902136776883432,
+                "lo": 0.9884755454511194,
+                "hi": 0.991942612479114
+              },
+              "fpr": {
+                "value": 0.0076534403328875015,
+                "lo": 0.00587202013933494,
+                "hi": 0.009652303972790788
+              },
+              "auroc": 0.9986222741462039,
+              "auprc": 0.9985626630033843,
+              "recall_by_type": {
+                "dos": {
+                  "k": 2284,
+                  "n": 2337,
+                  "value": 0.97732135216089,
+                  "ci": [
+                    0.9704563832332453,
+                    0.9826196961369347
+                  ]
+                },
+                "fuzzing": {
+                  "k": 2727,
+                  "n": 2728,
+                  "value": 0.999633431085044,
+                  "ci": [
+                    0.99792642517163,
+                    0.9999352886544657
+                  ]
+                },
+                "spoofing": {
+                  "k": 3539,
+                  "n": 3551,
+                  "value": 0.996620670233737,
+                  "ci": [
+                    0.9941022259806118,
+                    0.9980657907528461
+                  ]
+                }
+              },
+              "recall_by_family": {
+                "DoS": {
+                  "k": 2284,
+                  "n": 2337,
+                  "value": 0.97732135216089
+                },
+                "Fuzzy": {
+                  "k": 2727,
+                  "n": 2728,
+                  "value": 0.999633431085044
+                },
+                "RPM": {
+                  "k": 1776,
+                  "n": 1780,
+                  "value": 0.9977528089887641
+                },
+                "gear": {
+                  "k": 1763,
+                  "n": 1771,
+                  "value": 0.9954827780914738
+                }
+              },
+              "fpr_by_source": {
+                "ambient captures": {
+                  "k": 25,
+                  "n": 825,
+                  "value": 0.030303030303030304
+                },
+                "normal windows inside attack captures": {
+                  "k": 78,
+                  "n": 12633,
+                  "value": 0.006174305390643553
+                }
+              },
+              "fpr_by_ambient_capture": {
+                "normal_run_data": {
+                  "k": 25,
+                  "n": 825,
+                  "value": 0.030303030303030304
+                }
+              }
+            }
+          },
+          "tuning": {
+            "rule@0.55": {
+              "precision": {
+                "value": 0.9980089963866972,
+                "lo": 0.9957944751255479,
+                "hi": 0.9996392858550076
+              },
+              "recall": {
+                "value": 0.9802984209763871,
+                "lo": 0.9783392983892666,
+                "hi": 0.9822731308564481
+              },
+              "f1": {
+                "value": 0.9890744327109292,
+                "lo": 0.9876201257637722,
+                "hi": 0.990386096447717
+              },
+              "fpr": {
+                "value": 0.003310446297204512,
+                "lo": 0.0005912303227692219,
+                "hi": 0.007014542872829853
+              },
+              "windows": 21962
+            },
+            "rule_v2@0.55": {
+              "precision": {
+                "value": 1.0,
+                "lo": 1.0,
+                "hi": 1.0
+              },
+              "recall": {
+                "value": 0.9792119368390555,
+                "lo": 0.9762731255777838,
+                "hi": 0.9817102804709575
+              },
+              "f1": {
+                "value": 0.9894967978042086,
+                "lo": 0.987994131924024,
+                "hi": 0.9907707399456087
+              },
+              "fpr": {
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.0
+              },
+              "windows": 21962
+            },
+            "rule@tuned": {
+              "precision": {
+                "value": 0.9980138296307194,
+                "lo": 0.9958040875931967,
+                "hi": 0.9996401435436572
+              },
+              "recall": {
+                "value": 0.9826886860785166,
+                "lo": 0.9809514584998872,
+                "hi": 0.9845023678288177
+              },
+              "f1": {
+                "value": 0.9902919708029198,
+                "lo": 0.9889172767486171,
+                "hi": 0.9915656982301926
+              },
+              "fpr": {
+                "value": 0.003310446297204512,
+                "lo": 0.0005912303227692219,
+                "hi": 0.007014542872829853
+              },
+              "windows": 21962
+            },
+            "id_whitelist": {
+              "precision": {
+                "value": 1.0,
+                "lo": 1.0,
+                "hi": 1.0
+              },
+              "recall": {
+                "value": 0.568738229755179,
+                "lo": 0.5620479665056053,
+                "hi": 0.5751617608644194
+              },
+              "f1": {
+                "value": 0.7250900360144058,
+                "lo": 0.7196295870003236,
+                "hi": 0.7302891361969905
+              },
+              "fpr": {
+                "value": 0.0,
+                "lo": 0.0,
+                "hi": 0.0
+              },
+              "windows": 21962
+            },
+            "interval": {
+              "precision": {
+                "value": 0.9934585709493459,
+                "lo": 0.9913440683129102,
+                "hi": 0.99530293927958
+              },
+              "recall": {
+                "value": 0.4290163696943358,
+                "lo": 0.4224428459471725,
+                "hi": 0.4356530839198015
+              },
+              "f1": {
+                "value": 0.5992513152569809,
+                "lo": 0.5927315139426177,
+                "hi": 0.6056573619286251
+              },
+              "fpr": {
+                "value": 0.004781755762628739,
+                "lo": 0.0034286941633995226,
+                "hi": 0.006312085589372196
+              },
+              "windows": 21962
+            },
+            "whitelist_interval": {
+              "precision": {
+                "value": 0.9971700166896451,
+                "lo": 0.9962706892115348,
+                "hi": 0.9979630474989234
+              },
+              "recall": {
+                "value": 0.9953643343473852,
+                "lo": 0.9942604415331896,
+                "hi": 0.9964237945758211
+              },
+              "f1": {
+                "value": 0.9962663573422265,
+                "lo": 0.9955396682532744,
+                "hi": 0.9969056467320772
+              },
+              "fpr": {
+                "value": 0.004781755762628739,
+                "lo": 0.0034286941633995226,
+                "hi": 0.006312085589372196
+              },
+              "windows": 21962
+            },
+            "id_entropy": {
+              "precision": {
+                "value": 0.9939547727442346,
+                "lo": 0.99146261894422,
+                "hi": 0.996131304954131
+              },
+              "recall": {
+                "value": 0.9646530493988121,
+                "lo": 0.9621391948330115,
+                "hi": 0.9670814868886516
+              },
+              "f1": {
+                "value": 0.9790847270722294,
+                "lo": 0.9773231867594117,
+                "hi": 0.9807603318608302
+              },
+              "fpr": {
+                "value": 0.009931338891613536,
+                "lo": 0.006416387446866671,
+                "hi": 0.013989151122399401
+              },
+              "windows": 21962
+            },
+            "iforest": {
+              "precision": {
+                "value": 0.9933272921986984,
+                "lo": 0.9910291432655971,
+                "hi": 0.9953367034699292
+              },
+              "recall": {
+                "value": 0.8733883818629581,
+                "lo": 0.8663699873413858,
+                "hi": 0.8808205745471893
+              },
+              "f1": {
+                "value": 0.9295047215263057,
+                "lo": 0.9253287214956318,
+                "hi": 0.9336086895076334
+              },
+              "fpr": {
+                "value": 0.009931338891613536,
+                "lo": 0.00696632409569733,
+                "hi": 0.013351625781340295
+              },
+              "windows": 21962
+            },
+            "ocsvm": {
+              "precision": {
+                "value": 0.9941125163541212,
+                "lo": 0.9924247666388322,
+                "hi": 0.995648523872703
+              },
+              "recall": {
+                "value": 0.9906562364189483,
+                "lo": 0.9887718175216474,
+                "hi": 0.9923283276821473
+              },
+              "f1": {
+                "value": 0.9923813670004353,
+                "lo": 0.9911975963500701,
+                "hi": 0.9935525698349796
+              },
+              "fpr": {
+                "value": 0.009931338891613536,
+                "lo": 0.0073358377094897755,
+                "hi": 0.01270111296344683
+              },
+              "windows": 21962
+            }
+          }
+        }
+      },
+      "split": {
+        "reference": {
+          "captures": [
+            "normal_run_data"
+          ],
+          "windows": 479,
+          "attack_windows": 0
+        },
+        "tuning": {
+          "captures": [
+            "DoS_dataset",
+            "Fuzzy_dataset",
+            "RPM_dataset",
+            "gear_dataset",
+            "normal_run_data"
+          ],
+          "windows": 21962,
+          "attack_windows": 13806
+        },
+        "evaluation": {
+          "captures": [
+            "DoS_dataset",
+            "Fuzzy_dataset",
+            "RPM_dataset",
+            "gear_dataset",
+            "normal_run_data"
+          ],
+          "windows": 22074,
+          "attack_windows": 8616
+        }
+      }
+    }
+  ],
+  "seconds": 34.7
+}
