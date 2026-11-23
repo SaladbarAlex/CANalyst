@@ -21,7 +21,7 @@ for the full controls audit, results, limitations, and research priorities.
 The class package includes the [20-minute final presentation](output/presentation/CANalyst_Final_Presentation_20min.pptx),
 [rehearsal and demo guide](docs/FINAL_PRESENTATION_GUIDE.md), and
 [verified final results](docs/FINAL_RESULTS_2026-11-22.md).
-See the [integration handoff](docs/INTEGRATION_HANDOFF_2026-11-22.md) for verification and remaining work.
+Start with [HANDOFF_11_23.md](HANDOFF_11_23.md) for teammate setup, priorities, and verified results.
 
 Open the [offline human review form](frontend/public/human-review.html) to rate the 40 blinded claims.
 Follow the [reviewer instructions](docs/HUMAN_REVIEW.md) and export your completed CSV.
@@ -70,7 +70,7 @@ sun/moon toggle, and each remembers its own light/dark preference.
 - [Pastel dark](http://127.0.0.1:5173/?appearance=pastel&theme=dark)
 - [Original](http://127.0.0.1:5173/?appearance=original)
 
-The [two-page dataset brief](../CANalyst_midterm/paper/CANalyst_Dataset_Brief.pdf)
+The [two-page dataset brief](docs/midterm/paper/CANalyst_Dataset_Brief.pdf)
 explains the real-data results, what to inspect in the UI, and the remaining
 work. The dashboard now opens a live real-data analysis; the Benchmark tab shows
 the separate saved multi-capture experiments.

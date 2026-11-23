@@ -1,0 +1,110 @@
+CANalyst — Midterm speaking script, slides 6–12
+Prepared for approximately 7–10 minutes, including brief pauses and pointing.
+Slide numbers follow the PowerPoint slide order. Bracketed directions are not spoken.
+
+SLIDE 6 — First LLM results
+[Point to the two label-accuracy rows, then citations and latency.]
+
+Now that we've covered the experiment, here are the first results. We gave the rule-based control and glm-5.3 the same hundred alerts, so we're comparing how they interpret the same evidence.
+
+On Car-Hacking, the results were almost identical: the control correctly labeled 53 of 69 attack alerts, and the model correctly labeled 54. That's about 77 versus 78 percent—just one additional correct label.
+
+On ROAD, the difference went the other direction. The control correctly labeled 17 of 20 attack alerts, or 85 percent. The model correctly labeled seven, or 35 percent. This first experiment therefore doesn't show an overall accuracy benefit from adding the LLM.
+
+These accuracy numbers cover 89 attack alerts. The other eleven were false alarms. The control identified none of those as benign, and the model identified one.
+
+Both explainers reached a hundred percent citation validity after the E0 rescore. E0 gives alert metadata, such as frame counts and detector scores, an evidence identifier. We rescored saved responses without changing their predictions. That means the references resolve; it doesn't establish that the evidence supports each conclusion.
+
+The model also took a median of about 24 seconds per Car-Hacking alert and 33 seconds per ROAD alert. So accuracy, evidence quality, and response time all matter. The next slide shows where the errors came from.
+
+SLIDE 7 — Errors in the first LLM run
+[Point to the replay error, then the frame-count example.]
+
+The errors gave us specific things to investigate.
+
+First, the model labeled ten of thirteen ROAD fabrication alerts as replay. Our prompt described replay using roughly doubled message rates and normal-looking values. Fabrication can produce that pattern too, so the description doesn't clearly distinguish the attacks. We need to test revised wording before attributing those errors entirely to the model.
+
+Second, denial-of-service labeling was poor for both explainers. The control got zero of sixteen correct, and the model got one. We also found an evidence-counting bug: one packet reported 176 flood frames, while the full alert contained 2,806. The count came from the first window instead of the complete alert.
+
+That undercount could affect the model's interpretation. It doesn't explain the control's error, because its DoS decision uses a bus-load threshold and the unknown ID rather than that count. Correcting the packet is a testable next step, not a guaranteed fix.
+
+Third, both explainers mislabeled three of the four detected ROAD masquerade alerts. Most masquerade windows never reached either explainer because the detector missed them. Improving the explanation stage alone can't recover those missed attacks.
+
+Finally, valid citations still need manual review. A response can cite a real measurement and draw the wrong conclusion from it. That distinction is central to what we're evaluating.
+
+SLIDE 8 — Dashboard
+[Point to capture settings, the summary statistics, and the tabs.]
+
+This is the CANalyst dashboard, which brings the pipeline together for an analyst.
+
+At the top, we can configure a synthetic capture or upload a log, choose an explainer, and see the detector settings. This particular screenshot shows synthetic traffic with the offline control, so its statistics describe that demonstration capture, rather than the real-data experiment from the previous slides.
+
+The summary shows the number of alerts, frame count, average bus load, and unique CAN IDs. Where ground truth is available, it also shows detection metrics.
+
+The tabs organize the investigation. An analyst can inspect alerts and their explanations, examine traffic by CAN ID, and review evaluation results. Within an explanation, clicking an evidence citation highlights its supporting measurement.
+
+The Benchmark view lets us compare saved explanation results without making new model calls. The purpose is to make an explanation inspectable: the analyst can move from an alert to a claim and then to the evidence behind it.
+
+SLIDE 9 — Work remaining
+[Move from the left column to the right column.]
+
+Our remaining work has two parts: correcting the inputs and evaluating the changes.
+
+First, we'll count unknown-ID frames across the full alert and revise the replay description. We'll test those changes separately and together on the same hundred alerts, saving each run as a separate experiment. That should help us identify which change affects the results.
+
+We'll also investigate ROAD masquerade misses and false alarms. Those are detector problems that need attention before an explanation model can help.
+
+For the broader evaluation, we'll keep tuning captures separate from evaluation captures. We'll compare two models available through Clemson RCD and one commercial API model against the rule-based control, using the same evidence for each.
+
+We'll report label accuracy, latency, and cost, and manually review sampled claims to see whether their cited evidence actually supports them. The aim is to determine whether the explanations are accurate and useful enough to justify the added time and cost.
+
+SLIDE 10 — Real-data evaluation setup
+[Point to each dataset row, then the baseline and explanation-test rows.]
+
+To put those plans in context, this slide gives more detail about our evaluation setup.
+
+For Car-Hacking, we used four attack captures and a 120-second normal holdout. That dataset provides per-frame attack labels.
+
+For ROAD, we used 29 attack captures and two 120-second excerpts of normal traffic. ROAD's labels are derived from injection intervals and target CAN IDs, with whole-interval labeling for fuzzing.
+
+Both datasets use attack-free traffic to establish the normal baseline, and those baseline frames are excluded from scoring. ROAD uses a separate normal capture. Car-Hacking uses separate intervals within its normal recording for the baseline and holdout.
+
+The explanation experiment then uses a fixed set of a hundred detected alerts: 89 attack alerts and eleven false alarms. Each explainer gets the same evidence, without ground-truth labels or filenames that could give away the answer.
+
+There are still limits to independence. Earlier detector rules were developed using Car-Hacking, and some captures share source traffic. These are development results that help us diagnose the system. They don't yet establish performance on an unseen vehicle, which is why separate tuning and evaluation data matter for the next stage.
+
+SLIDE 11 — Detector changes for real traffic
+[Walk down the table. Pause at the false-alarm figure.]
+
+Moving from synthetic traffic to real captures required several detector changes.
+
+First, some attacks start within the opening seconds of a capture. If we learn normal behavior from that opening segment, we risk learning the attack as normal. We therefore use known attack-free traffic for the baseline.
+
+Second, large timing gaps also occur in normal traffic. We cap the gap-deviation contribution below the alert threshold so that a large gap alone doesn't trigger an alert.
+
+Third, normal jitter varies between windows. Jitter is the variation in the time between messages. This rule looks for timing that becomes unusually regular—a collapse in jitter. We use each CAN ID's lowest-jitter normal window as its reference, so an ordinary low-jitter period is less likely to look suspicious just because other normal periods were more variable.
+
+Fourth, some IDs naturally disappear in certain driving states. Missing-ID scoring therefore focuses on IDs that are almost always present in the baseline, rather than treating every absent ID as evidence of an attack.
+
+These changes still leave gaps in normal-state coverage. In one ROAD excerpt, 378 of 479 overlapping windows were flagged. That's a substantial false-alarm problem, and it shows why we need more representative normal traffic and independent evaluation.
+
+SLIDE 12 — Thank you / Questions
+[Look up from the slides; pause before inviting questions.]
+
+At the midterm, we have a working pipeline, a dashboard, and our first real-data detection and explanation results.
+
+The first LLM run hasn't shown an overall labeling advantage over the control, but it has identified concrete problems we can test. Our next step is to improve the inputs and detector, compare additional models, and check whether their claims are supported by the evidence.
+
+Thank you. We're happy to take questions.
+
+END OF SPOKEN SCRIPT
+
+Preparation notes — not spoken
+
+The script follows CANalyst_midterm_presentation.pptx, including the dashboard image embedded in slide 8, and is cross-checked against ../paper/midterm.tex and the detector implementation.
+
+The slide 8 screenshot is a synthetic demonstration with the offline control selected. Do not present its 100% precision / 90.9% recall as the pooled real-data result.
+
+The script corrects two misleading explanations in the original slide 11 speaker notes: early attacks can contaminate baseline learning, and the jitter rule detects unusually regular timing rather than increased irregularity.
+
+Results and future-tense plans are presented as the midterm experiment's status. No new benchmark or model evaluation was run to prepare this script.

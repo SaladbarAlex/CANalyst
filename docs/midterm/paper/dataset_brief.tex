@@ -1,0 +1,95 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[margin=0.68in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[table]{xcolor}
+\usepackage{tabularx,array,booktabs}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\definecolor{ink}{HTML}{303C37}
+\definecolor{sage}{HTML}{486653}
+\definecolor{palesage}{HTML}{E5EDDF}
+\definecolor{peach}{HTML}{F7E1D5}
+\definecolor{blue}{HTML}{E5EEF4}
+\definecolor{muted}{HTML}{58655E}
+\color{ink}
+\hypersetup{colorlinks=true,urlcolor=sage,pdftitle={CANalyst: Dataset Results and Next Steps},pdfauthor={CANalyst project}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\renewcommand{\baselinestretch}{1.08}
+\titleformat{\section}{\large\bfseries\color{sage}}{}{0pt}{}
+\titlespacing*{\section}{0pt}{13pt}{5pt}
+\setlist[enumerate]{leftmargin=18pt,itemsep=5pt,topsep=3pt,parsep=0pt}
+\setlist[itemize]{leftmargin=14pt,itemsep=4pt,topsep=3pt,parsep=0pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[L]{\footnotesize\color{muted}CANalyst / Midterm working brief / October 20, 2026}
+\fancyfoot[R]{\footnotesize\color{muted}\thepage\ / 2}
+\setlength{\footskip}{23pt}
+\newcommand{\callout}[2]{\begingroup\setlength{\fboxsep}{10pt}\noindent\colorbox{#1}{\parbox{\dimexpr\linewidth-20pt\relax}{#2}}\endgroup}
+\begin{document}
+{\small\bfseries\color{sage}MIDTERM PROGRESS \quad / \quad DATASET BRIEF}\par
+{\fontsize{23}{27}\selectfont\bfseries What the dataset runs tell us}\par
+{\color{muted}What we measured, what to inspect in CANalyst, and what comes next.}
+
+\section{What does ``running the datasets'' mean?}
+We processed recorded CAN bus messages from HCRL Car-Hacking and ROAD through the project's existing rule detector. CAN messages include a timestamp, an identifier, and payload bytes. A separate attack-free recording provides the normal baseline. The detector looks for changes in message rate, timing, identifier activity, and payload patterns.
+
+\callout{blue}{\textbf{Recorded traffic} $\rightarrow$ \textbf{window measurements} $\rightarrow$ \textbf{detector scores} $\rightarrow$ \textbf{comparison with attack labels}}
+
+Each scored window covers 0.5 seconds; a new window starts every 0.25 seconds. A score at or above 0.55 is flagged. We compare those flags with dataset-derived attack labels. These files supply realistic traffic and known attack periods for evaluation. This run evaluated detection; it made \textbf{zero LLM calls}. It also did not connect the dashboard to a database of benchmark results.
+
+\section{What did we measure?}
+\renewcommand{\arraystretch}{1.35}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}X r r r r@{}}
+\toprule
+\textbf{Real-data run} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{False positives} \\
+\midrule
+HCRL: 42,975 windows & 99.7\% & 98.0\% & 0.989 & 0.3\% \\
+ROAD: 6,353 windows & 77.0\% & 50.9\% & 0.613 & 10.3\% \\
+\bottomrule
+\end{tabularx}
+\par\vspace{3pt}
+{\footnotesize\color{muted}False positives means the percentage of benign windows flagged. All metrics include the selected normal evaluation data.}
+
+\textbf{Precision:} Of the flagged windows, how many were attack-labeled?\newline
+\textbf{Recall:} Of the attack-labeled windows, how many did we catch?\newline
+\textbf{F1:} A combined precision/recall score, from 0 to 1.
+
+HCRL covers all four attack files (DoS, fuzzing, RPM spoofing, and gear spoofing) plus a separate normal excerpt. ROAD covers 29 attack captures with supplied attack intervals plus two 120-second normal excerpts. Four ROAD attack logs without intervals were excluded. Together, the runs processed \textbf{20.6 million frame records and 49,328 scored windows}, excluding baseline-only data.
+
+\section{What is the main finding?}
+The rules perform strongly on HCRL, but ROAD exposes important weaknesses. ROAD fabrication/spoofing recall was 92.7\%; \textbf{masquerade recall was only 8.1\%}. In the extended normal ROAD excerpt, 378 of 479 windows were falsely flagged. That suggests the normal baseline needs broader coverage; it does not establish the precise cause of every false alert.
+
+\callout{peach}{\textbf{How to present this:} We have real-data detection results and concrete failure cases to improve. These are preliminary development results; HCRL informed earlier rule development. Overlapping windows and related recordings are not independent samples; ROAD uses interval/ID-derived labels. The results do not establish unseen-vehicle performance, exact malicious-frame identification, or explanation quality.}
+
+\newpage
+{\small\bfseries\color{sage}USING THE DEMO \quad / \quad PLAN FOR THE FINAL}\par
+{\fontsize{23}{27}\selectfont\bfseries What to check in the UI}\par
+
+\callout{palesage}{\textbf{Start here:} Open \href{http://127.0.0.1:5173/?appearance=pastel}{the local Pastel view}. Use the sun/moon toggle for light or dark mode. The compact \textbf{Traffic context} graph now sits above the alerts and explanation. Original remains available in the Appearance menu.}
+
+\begin{enumerate}
+\item \textbf{Confirm the source and model.} The header starts with \texttt{Source synthetic}. The default demo generates 150 seconds of traffic with seed 1 and five attack types. Check the explanation's \texttt{model} badge; the current default is the offline mock explainer. Its output demonstrates the workflow, not measured LLM capability.
+\item \textbf{Read the traffic context.} Compare message rate with the dashed baseline and detector score with the threshold. Compare labeled attack bands with detections: an attack band without a corresponding detection can indicate a miss. A false alert requires known benign labels; unusual traffic alone is not proof of an attack. Clicking near an existing alert opens it.
+\item \textbf{Inspect an alert's explanation and evidence.} Select an alert, read \textbf{Reasoning}, and click a citation chip to open and highlight its measurement. Expand \textbf{Why the detector flagged it} for rule components and \textbf{Sample frames} for raw messages. ``All claims cited'' checks citation coverage; read the measurements to assess claim support. Mock confidence values are rule outputs, not validated probabilities.
+\item \textbf{Use Per-ID view for detail.} Check rate against baseline, average gap, jitter, and payload entropy. Click an ID to see its rate over time. An ID outside the baseline is unfamiliar, not automatically malicious. Real numeric IDs do not inherit the demo's synthetic vehicle-function names.
+\item \textbf{Read Evaluation in context.} Precision, recall, F1, and false-positive rate describe the currently loaded capture. The alert count may differ from flagged-window counts because adjacent windows can merge into one alert. Classification scores cover generated alerts; they do not account for attacks the detector missed.
+\end{enumerate}
+
+\textbf{Why the browser numbers differ from this report:} The saved HCRL/ROAD runs are not automatically loaded into the UI. The upload path still needs separate baseline selection and ROAD metadata support to reproduce the benchmark. An unlabeled upload cannot provide meaningful ground-truth detection metrics. Use the saved results for midterm benchmark claims.
+
+\section{Where do we go over the next month?}
+\begin{enumerate}
+\item \textbf{Week 1: make real runs inspectable.} Connect curated real captures, clean baselines, and labels to the UI; add a view of saved benchmark results. Reserve separate normal and attack recordings for validation and final evaluation. Confirm hosted-model credentials and Palmetto/local-model serving access early.
+\item \textbf{Week 2: address the measured detection gaps.} Broaden normal-state coverage and investigate ROAD masquerade misses. Evaluate timing and payload changes with controlled comparisons. Fix separate-normal-data training before reporting a real-data IsolationForest comparison.
+\item \textbf{Week 3: evaluate actual explanations.} Compare at least one hosted LLM and one local open-weight model on the same detected alerts, with mock as a control. Remove labels and revealing filenames from model context; isolate caches by model and prompt. Record actual providers, fallbacks, latency, and cost. Manually review supported, unsupported, and contradicted claims.
+\item \textbf{Week 4: freeze and demonstrate.} Re-run the fixed evaluation protocol, report improvements and remaining misses, and finish the paper, final slides, and reproducible live demo. Detector misses remain part of the final results even when no explanation was generated.
+\end{enumerate}
+
+{\footnotesize\color{muted}\textbf{Evidence:} From the project root, see \nolinkurl{CANalyst/backend/out/midterm_2026-10-20/summary.json} and \texttt{methodology.txt} in that folder. Use \texttt{hcrl\_full/results.json} and \texttt{road/results.json}; \texttt{hcrl/} is an earlier pilot. Reproduction commands and exact scope are in \texttt{methodology.txt}.}
+\end{document}

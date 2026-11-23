@@ -9,7 +9,8 @@ The merged branch has verified results, a 20-minute presentation, and an offline
 - Local snapshot `25e918f` preserves all 509 previously staged files.
 - Merge commit `803f4db` combines the local snapshot with `origin/main`.
 - The expansion outputs, source snapshot, and proposal files passed a credential scan for the local commit.
-- Remote push and deployment require Nicholas's approval.
+- Nicholas authorized publishing the branch and final PPTX on November 23. Deployment remains a separate action.
+- Use [HANDOFF_11_23.md](../HANDOFF_11_23.md) for the current teammate setup and task list.
 
 ## Completed work
 

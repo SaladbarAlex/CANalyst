@@ -1,6 +1,6 @@
 # CANalyst final presentation guide
 
-**Rehearse to 19:30 for the 20-minute talk.** Keep 30 seconds for transitions or demo recovery. Allow three minutes for questions afterward. The symposium runs November 24, December 1, and December 3, 2026. Confirm the assigned group slot. The rubric covers timing, structure, presentation quality, and content quality. [Course guide, slides 25 and 28](../../lectures/Lecture_Note01.pdf)
+**Rehearse to 19:30 for the 20-minute talk.** Keep 30 seconds for transitions or demo recovery. Allow three minutes for questions afterward. The symposium runs November 24, December 1, and December 3, 2026. Confirm the assigned group slot. The rubric covers timing, structure, presentation quality, and content quality. Source: Lecture Note 01 on Canvas, slides 25 and 28.
 
 Presenters are Nicholas DiGennaro and Alexander Salazar, Clemson University. Open the [20-minute PowerPoint deck](../output/presentation/CANalyst_Final_Presentation_20min.pptx) in Presenter View to see the speaker notes.
 
@@ -112,7 +112,7 @@ The final file contains the verified 42-second MP4. PowerPoint opened the deck w
 
 ## Separate final report deadline
 
-The final report is due December 3, 2026, at 8:00 p.m. EST. Extend the midterm report in the supplied ACM LaTeX template. Keep the template unchanged. Write 6 to 8 double-column pages. Include an abstract, introduction, background, related work, methods, results and evaluation, conclusion with future work, and references. System design counts double and evaluation counts triple. Nicholas confirmed a course exception to the general no-AI rule for this work. [Course guide, slides 25 and 28](../../lectures/Lecture_Note01.pdf)
+The final report is due December 3, 2026, at 8:00 p.m. EST. Extend the midterm report in the supplied ACM LaTeX template. Keep the template unchanged. Write 6 to 8 double-column pages. Include an abstract, introduction, background, related work, methods, results and evaluation, conclusion with future work, and references. System design counts double and evaluation counts triple. Nicholas confirmed a course exception to the general no-AI rule for this work. Source: Lecture Note 01 on Canvas, slides 25 and 28.
 
 ## Primary references
 

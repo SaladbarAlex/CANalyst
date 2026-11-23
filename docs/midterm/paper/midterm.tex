@@ -1,0 +1,180 @@
+%%
+%% CPSC 8580 Midterm Progress Report: CANalyst
+%% Based on the ACM sigconf template (acmart).
+%%
+\documentclass[sigconf]{acmart}
+
+\AtBeginDocument{%
+  \providecommand\BibTeX{{%
+    Bib\TeX}}}
+
+\setcopyright{none}
+\settopmatter{printacmref=false}
+\copyrightyear{2026}
+\acmYear{2026}
+\acmDOI{}
+
+\acmConference[CPSC 8580]{CPSC 8580 Midterm Progress Report}{October 2026}{Clemson, SC}
+\acmISBN{}
+
+\begin{document}
+
+\title{CANalyst: LLM-Assisted Analysis of CAN Bus Attacks}
+\subtitle{Midterm Progress Report}
+
+\author{Nicholas DiGennaro}
+\email{ndigenn@clemson.edu}
+\affiliation{%
+  \institution{Clemson University}
+  \city{Clemson}
+  \state{South Carolina}
+  \country{USA}
+}
+
+\author{Alexander Salazar}
+\email{salaza7@clemson.edu}
+\affiliation{%
+  \institution{Clemson University}
+  \city{Clemson}
+  \state{South Carolina}
+  \country{USA}
+}
+
+\renewcommand{\shortauthors}{DiGennaro and Salazar}
+
+\begin{abstract}
+CANalyst combines a Controller Area Network (CAN) anomaly detector with an explanation layer that assigns attack labels and cites measured evidence. We have implemented the pipeline and dashboard and evaluated detection on Car-Hacking and ROAD. Our first explanation experiment compares a rule-based control with \texttt{glm-5.3}, hosted by Clemson's RCD LLM Service, on the same 100 detected alerts. On attack alerts, the model has similar observed accuracy to the control on Car-Hacking (0.783 vs.\ 0.768) and lower accuracy on ROAD (0.350 vs.\ 0.850). Error review identified an ambiguous replay description and a frame-counting bug in the evidence packets. Separate runs will test these input changes; manual review will assess whether cited measurements support the model's claims.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+CAN frames are broadcast to nodes on the bus without sender authentication, so an attacker with bus access can inject messages~\cite{koscher2010experimental,miller2015remote}. An intrusion detection system (IDS) flags suspicious traffic, but an analyst still needs to interpret the cause and supporting evidence. Our project asks: \textbf{can an LLM classify CAN attacks and explain its conclusions using measurements an analyst can check?}
+
+At the midterm, the pipeline and dashboard are implemented, detection has been evaluated on two real datasets, and a Clemson-hosted LLM has explained all 100 alerts in the explanation experiment. We evaluate two tasks separately: finding suspicious traffic and classifying the alerts that the detector produces.
+
+\section{Implementation Progress}\label{sec:impl}
+CANalyst uses a Python backend (FastAPI, pandas, scikit-learn) and a React dashboard. The first three stages run without an LLM.
+\begin{enumerate}
+  \item \textbf{Ingest.} Loaders read Car-Hacking logs~\cite{song2020carhacking}, ORNL ROAD captures~\cite{verma2024road}, and synthetic traffic into a common frame format. The synthetic generator models 12 periodic CAN IDs and can inject DoS, fuzzing, spoofing, replay, and masquerade attacks.
+  \item \textbf{Feature extraction.} Traffic is divided into 0.5\,s windows with a 0.25\,s stride. Message rate, inter-arrival timing, jitter, payload entropy, and READ-style bit-flip rates~\cite{marchetti2019read} are compared with a baseline learned from attack-free traffic. We also track unknown and missing IDs.
+  \item \textbf{Detection.} The rule detector assigns 0--1 scores to six deviations: bus load, unknown IDs, per-ID rate inflation, missing IDs, timing, and payload entropy. Each alert records its component scores and triggering conditions. Contiguous detections are merged into alerts. An IsolationForest~\cite{liu2008isolation} provides a synthetic-data comparison using seven aggregate features; its input omits the per-ID jitter-collapse signal (unusually regular message timing) used by the rules.
+  \item \textbf{Explanation.} Each alert becomes an \emph{evidence packet} containing summary measurements and up to six sample frames. The explainer returns an attack label and claims that cite evidence IDs. The citation check verifies that each listed claim has valid references; it does not assess whether the evidence supports the claim. An offline explainer applies hand-written rules to the same packet and serves as the non-LLM control. The software supports Clemson RCD, Claude, and OpenAI backends and records any fallback to the control.
+  \item \textbf{Dashboard.} The interface displays traffic, alerts, explanations, and supporting measurements. Clicking a citation highlights its evidence. Model responses are cached separately, and the Benchmark view compares saved results without new model calls. The query interface excludes ground-truth labels and filenames. Dashboard uploads do not yet accept the separate baseline and ROAD metadata used by the evaluation script.
+\end{enumerate}
+
+We ran \texttt{glm-5.3} through Clemson's RCD LLM Service on shared university hardware. We record request latency because service load can affect response time.
+
+\section{Detection Results}\label{sec:detect}
+Table~\ref{tab:results} reports window-level detection over five seeds of 150\,s synthetic captures containing DoS, fuzzing, spoofing, and masquerade attacks. The rule detector reaches 1.000 precision and 0.907 recall. The current IsolationForest configuration misses most DoS and masquerade windows. Its aggregate input excludes the jitter-collapse signal used by the rules, and its scores are normalized using each evaluated capture's minimum and maximum. This comparison therefore reflects the two implemented configurations; it does not isolate the effect of detector choice. The timing-based rule also misses some synthetic masquerades. Clock-skew fingerprinting~\cite{cho2016cids} is one approach to consider for future timing features.
+
+\begin{table}[t]
+  \caption{Window-level detection. Synthetic rows average five seeds; real-data rows pool counts over the evaluated captures and normal holdouts.}
+  \label{tab:results}
+  \small
+  \begin{tabular}{llcccc}
+    \toprule
+    Detector & Data & Prec. & Recall & F1 & FPR \\
+    \midrule
+    Rule & Synthetic & 1.000 & 0.907 & 0.951 & 0.000 \\
+    IsolationForest & Synthetic & 0.723 & 0.432 & 0.540 & 0.037 \\
+    Rule & Car-Hacking & 0.997 & 0.980 & 0.989 & 0.003 \\
+    Rule & ROAD & 0.770 & 0.509 & 0.613 & 0.103 \\
+    \midrule
+    \multicolumn{2}{l}{\emph{Recall by attack type}} & DoS & Fuzz & Spoof & Masq. \\
+    \midrule
+    Rule & Synthetic & 1.00 & 1.00 & 0.81 & 0.82 \\
+    IsolationForest & Synthetic & 0.12 & 0.58 & 1.00 & 0.03 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\textbf{Real-data protocol.} On October 20, 2026, we evaluated the existing rule detector at its fixed 0.55 threshold, using 0.5\,s windows with a 0.25\,s stride. Car-Hacking includes all four attack files and a 120\,s normal holdout: 16,803,792 frame records and 42,975 scored windows. Its separate normal recording supplies baseline interval $[0,120)$\,s and holdout interval $[121,241)$\,s. ROAD includes all 29 attacks with injection intervals (13 fabrication, 13 derived masquerade, three fuzzing) and the first 120\,s of each of two ambient captures: 3,808,639 records and 6,353 windows. The full 444.75\,s \texttt{basic\_short} ambient capture supplies ROAD's baseline; \texttt{basic\_long} and \texttt{extended\_short} supply the holdouts. Four accelerator captures without injection intervals are excluded.
+
+We map ROAD fabrication to the explainer's spoofing label. The 13 derived masquerade captures were produced from fabrication recordings by removing conflicting legitimate messages. A window is positive if it contains an attack-labeled frame. Car-Hacking supplies frame labels; ROAD labels are derived from injection intervals and target IDs, with whole-interval labeling for fuzzing. We pool confusion counts across attack captures and normal holdouts to compute precision, recall, F1, and false-positive rate (FPR). Empty windows are excluded; this omits 63,574 nominal windows across Car-Hacking capture gaps. Per-capture results, window scores, input hashes, and reproduction commands are saved with the evaluation. The detection benchmark made no LLM calls.
+
+\textbf{What real traffic revealed.} ROAD recall is 0.927 for fabrication but only 0.081 for masquerade; fuzzing recall is 1.000 over 27 positive windows. Normal traffic also exposes baseline limitations: 378 of 479 windows in the \texttt{extended\_short} holdout are flagged, versus one of 479 in \texttt{basic\_long}. The baseline needs examples of more normal driving conditions, and masquerade detection needs further work. These are preliminary development results: earlier rules used Car-Hacking, windows overlap, some source traffic is shared, and Car-Hacking's normal holdout is part of the baseline recording. They do not establish performance on unseen vehicles.
+
+\section{First LLM Explanation Experiment}\label{sec:explain}
+\textbf{Protocol.} We froze the detector outputs (git tag \texttt{detector-freeze-}\allowbreak\texttt{2026-10-21}) and compared both explainers on the same 100 alerts on October 21, 2026. Car-Hacking contributes 69 alerts from the first 120\,s of its four attack files. ROAD contributes 20 attack alerts and 11 false alarms. An alert's true label is the majority attack type among its attack-labeled frames. Classification accuracy covers the 89 attack alerts; false alarms are evaluated separately by how often they are labeled benign. Models receive evidence without ground-truth labels, capture names, or dataset metadata. We compare the offline control with \texttt{glm-5.3} at temperature 0 and save each raw response, latency, fallback status, and code revision.
+
+\begin{table}[t]
+  \caption{The same 100 alerts evaluated by both explainers. Per-type rows count correct attack labels. Citation validity is the fraction of responses passing the reference check, before and after rescoring.}
+  \label{tab:explain}
+  \small
+  \begin{tabular}{llcc}
+    \toprule
+    Data & Measure & Control & \texttt{glm-5.3} \\
+    \midrule
+    Car-Hacking & DoS (16) & 0 & 1 \\
+     & Fuzzing (15) & 15 & 15 \\
+     & Spoofing (38) & 38 & 38 \\
+     & \textbf{Accuracy} & \textbf{0.768} & \textbf{0.783} \\
+    \midrule
+    ROAD & Fabrication (13) & 13 & 3 \\
+     & Masquerade (4) & 1 & 1 \\
+     & Fuzzing (3) & 3 & 3 \\
+     & \textbf{Accuracy} & \textbf{0.850} & \textbf{0.350} \\
+     & False alarms benign & 0 / 11 & 1 / 11 \\
+    \midrule
+    Both & Citation validity & & \\
+     & \quad Original check & 1.00 & 0.95 \\
+     & \quad E0 rescore & 1.00 & 1.00 \\
+    \midrule
+    Car-Hacking & Median latency & --- & 24\,s \\
+    ROAD & Median latency & --- & 33\,s \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\textbf{Results.} Table~\ref{tab:explain} reports the label results. On Car-Hacking, observed accuracy is similar: 54/69 correct for \texttt{glm-5.3} and 53/69 for the control. Both correctly label every fuzzing and spoofing alert. The control misses all 16 DoS labels; the model labels 15 of them as masquerade and one as DoS. On ROAD, the model gets 7/20 attack labels correct versus 17/20 for the control. The model mislabels 10 of 13 fabrication alerts as replay. Both explainers call three of four masquerade alerts spoofing. Of the 11 false alarms, the model calls one benign and the control calls none. No model call fell back to the control; the longest took 825\,s.
+
+\begin{figure}[t]
+  \small
+  \fbox{\parbox{0.95\columnwidth}{%
+  \textbf{Evidence (excerpt)}\\[2pt]
+  \textbf{E0} Alert window 4.50\,s to 16.75\,s, 30,516 frames; detector score 0.583 (rate inflation 0.583, timing 0.450, payload entropy 0.364).\\
+  \textbf{E1} Bus carried 2522 msg/s versus a 2392 msg/s baseline (1.05x).\\
+  \textbf{E2} 0x6E0: 202.0 msg/s versus 100.0 baseline (2.02x); mean gap 4.989\,ms versus 10.0\,ms; entropy 3.931 versus 6.952.\\[4pt]
+  \textbf{\texttt{glm-5.3}: replay} (confidence 0.60; truth: fabrication)\\[2pt]
+  ``0x6E0 transmitted at 202.0 msg/s versus a 100.0 msg/s baseline (2.02x), roughly doubling its rate.'' [E2]\\
+  ``Bus load was 2522 msg/s versus a 2392 msg/s baseline (1.05x), so there is no bus-flooding DoS pattern.'' [E1]\\
+  ``This matches a replay signature: valid-looking payloads arriving at roughly double the normal rate\ldots''}}
+  \caption{A ROAD fabrication alert classified as replay. The response cites rate and bus-load measurements but assigns the wrong attack label.}
+  \Description{An evidence excerpt and model response showing a ROAD fabrication alert mislabeled as replay despite valid references to rate and bus-load measurements.}
+  \label{fig:example}
+\end{figure}
+
+\textbf{Replay labels.} In the ROAD example (Figure~\ref{fig:example}), the response repeats our prompt's description of replay as a rate that roughly doubles with normal-looking values. Fabrication can produce the same pattern, so the description does not distinguish the two. The control labels the rate increase as spoofing. Revising the prompt and repeating the experiment will test whether this ambiguity contributes to the model's errors. The source capture is \nolinkurl{correlated_signal_attack_3}.
+
+\textbf{Citation validity and the E0 rescore.} Initially, 95 of 100 model responses passed the citation check. The five failures referenced alert metadata, such as frame counts or detector scores, that had no evidence ID. We assigned these fields to item E0 and mapped ten metadata-field citations to E0 when rescoring the saved replies. E1 and later IDs stayed unchanged, and other invalid references would still fail the check. All 100 responses passed after this change, without new model calls or changed predictions. This corrects the scoring of references; it does not establish that the measurements support the claims or attack labels.
+
+\textbf{Evidence-counting bug.} Packets count an unknown ID's frames from the first alert window rather than the full alert. One DoS packet reports 176 frames of ID 0x000 where the alert contains 2,806 (about 510 per second). The model's response states that ``no flood is corroborated.'' The undercount is a possible contributor to that error. It does not explain the control's label: the control's DoS rule requires at least twice the baseline bus load and an unknown ID 0x000, and does not use the frame count to select the label. The original packets and results are preserved for comparison with a corrected run.
+
+\balance
+\section{Discussion}\label{sec:discuss}
+\textbf{What this run establishes.} The model did not improve overall attack-label accuracy over the control. Citation validity alone cannot establish explanation quality, and we have not measured whether the explanations improve analyst understanding.
+
+\textbf{Next experiment.} We will test corrected frame counts and revised replay wording separately, then together, on the same alerts. These runs will diagnose the observed errors; final evaluation will use data kept separate from tuning. Masquerade also needs detector work: only 8\% of its ROAD windows are flagged, so most never reach either explainer.
+
+\textbf{Latency.} Median model latency is 24\,s on Car-Hacking and 33\,s on ROAD, with a maximum of 825\,s. These response times limit use in time-sensitive analysis. The rule-based control runs locally without an API call.
+
+\section{Status and Remaining Work}
+The pipeline, dashboard, saved-run comparison, and first real-data evaluations are complete. The remaining work is to:
+\begin{enumerate}
+  \item Investigate detector misses and normal-traffic false alarms using separate baseline, tuning, and evaluation data. Extend the IsolationForest comparison with normal-only training and calibration that excludes evaluation data.
+  \item Correct the evidence counts, revise the replay description, and save the resulting experiments separately from the original run.
+  \item Compare \texttt{glm-5.3}, a second RCD model (\texttt{gemma-4-31b}), and one commercial API model against the control on identical evidence. Report label accuracy, false alarms labeled benign, latency, and API cost.
+  \item Manually review sampled claims for support or contradiction in the cited evidence, then complete the final paper and demonstration. An analyst user study remains a stretch goal.
+\end{enumerate}
+
+\textbf{Limitations.} Classification is conditional on detected alerts; missed attacks are never explained. Replay performance and transfer to unseen vehicles have not been evaluated.
+
+\section{Conclusion}
+CANalyst now detects suspicious CAN traffic and produces explanations linked to measurements. The first model has similar observed label accuracy to the control on Car-Hacking and lower accuracy on ROAD. The next experiments will test input corrections, compare additional models, and assess whether the cited evidence supports the explanations.
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+
+\end{document}
+\endinput

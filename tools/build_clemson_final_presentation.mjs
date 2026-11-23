@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import crypto from 'node:crypto'
+import { homedir } from 'node:os'
 import { execFileSync } from 'node:child_process'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
@@ -8,14 +9,15 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const runtime = process.env.RUNTIME_NODE_MODULES
 if (!runtime) throw new Error('Set RUNTIME_NODE_MODULES to the bundled runtime modules directory.')
 const { FileBlob, PresentationFile } = await import(pathToFileURL(path.join(runtime, '@oai/artifact-tool/dist/artifact_tool.mjs')))
-const skill = '/Users/nickdigennaro/.codex/plugins/cache/openai-primary-runtime/presentations/26.1112.11011/skills/presentations'
+const skill = process.env.PRESENTATION_SKILL_DIR || path.join(homedir(), '.codex/plugins/cache/openai-primary-runtime/presentations/26.1112.11011/skills/presentations')
+const python = process.env.RUNTIME_PYTHON || path.join(homedir(), '.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3')
 const { finalizePresentation, applyPresentationChartFont } = await import(pathToFileURL(path.join(skill, 'container_tools/artifact_tool_utils.mjs')))
 const build = path.join(root, 'tmp/clemson_final')
 const output = path.join(root, 'output/presentation')
-const template = path.resolve(root, '../paper_presentation/LibreCAN_Presentation_Clemson_Final.pptx')
+const template = path.join(root, 'docs/presentation_template/LibreCAN_Presentation_Clemson_Final.pptx')
 const outputName = process.env.PRESENTATION_OUTPUT_NAME || 'CANalyst_Final_Presentation_20min.pptx'
 await fs.mkdir(build, { recursive: true })
-execFileSync('python3', [path.join(root, 'tools/prepare_clemson_template.py'), template, path.join(build, 'template-normalized.pptx')])
+execFileSync(python, [path.join(root, 'tools/prepare_clemson_template.py'), template, path.join(build, 'template-normalized.pptx')])
 const presentation = await PresentationFile.importPptx(await FileBlob.load(path.join(build, 'template-normalized.pptx')))
 const copies = presentation.slides.items.map(s => s.copy())
 presentation.slides.keep([])
@@ -283,11 +285,11 @@ for (const [index,s] of presentation.slides.items.entries()) {
 console.log(JSON.stringify({ candidatePath, previewDir, slides: slides.length, tables:tableOwners, charts:chartOwners }))
 if (process.argv.includes('--final')) {
   const withVideo = path.join(build,'candidate-clemson-video.pptx')
-  execFileSync('python3',[path.join(root,'tools/embed_experiment_video.py'),candidatePath,withVideo,template,path.join(output,'assets/experiment-flow.mp4'),'4'])
+  execFileSync(python,[path.join(root,'tools/embed_experiment_video.py'),candidatePath,withVideo,template,path.join(output,'assets/experiment-flow.mp4'),'4'])
   const result = await finalizePresentation({ workspaceDir:root,candidatePath:withVideo,finalPath:path.join(output,outputName),explicitTotalSlideCount:26,
     requiredNativeTableOwnerSlides:tableOwners,requiredNativeChartOwnerSlides:chartOwners,materializeLiteralChartWorkbooks:true,
     fontPolicy:{basis:'reference',families:[font],referencePath:template,referenceSha256:crypto.createHash('sha256').update(await fs.readFile(template)).digest('hex')},
-    pythonExecutable:'/Users/nickdigennaro/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3',
+    pythonExecutable:python,
     integrityValidatorPath:path.join(skill,'container_tools/inspect_presentation_package_integrity.py'),layoutValidatorPath:path.join(skill,'container_tools/inspect_presentation_layout_geometry.py'),
     layoutArgs:['--expected-slide-size-emu','12192000,6858000','--validate-bullet-geometry','--validate-heading-fit',...tableOwners.flatMap(i=>['--require-native-table-slide',String(i)])],
     verifyArtifactToolImport:true,receiptPath:path.join(build,`${outputName}.validation.json`) })
