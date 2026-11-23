@@ -1,6 +1,6 @@
 # CANalyst integration and handoff
 
-The merged branch has verified detector results, matched model comparisons, and a class presentation package. The separate course report and independent human ratings remain open. [Final results](FINAL_RESULTS_2026-11-22.md) · [Presentation guide](FINAL_PRESENTATION_GUIDE.md)
+The merged branch has verified results, a 20-minute presentation, and an offline human review form. The symposium slot, rehearsal, final report, independent ratings, and new dataset benchmarks remain open. [Final results](FINAL_RESULTS_2026-11-22.md) · [Presentation guide](FINAL_PRESENTATION_GUIDE.md)
 
 ## Git state
 
@@ -20,14 +20,19 @@ The merged branch has verified detector results, matched model comparisons, and 
 - Verified the October v4 comparisons against the frozen evidence. GLM and the rule control got the same 86/89 attack alerts right. Qwen3-30B-A3B scored 38/89. Gemma-4-12B and GPTOSS-120B each produced one smoke reply. [Model results and provenance](../backend/out/final_2026-11-22/model_results.json)
 - Reconciled the November prompt ablation. The `heldout` corpus contains 70 HCRL attacks and seven ROAD false alarms. The missing GLM `midterm100` ablation reply was one ROAD false alarm. The report records how it affects the benign-call denominator. [Final results](FINAL_RESULTS_2026-11-22.md)
 - Recorded prior use of both datasets in October development. The November splits separate reference, tuning, and evaluation roles within that protocol. Independent ROAD attack classification and new-vehicle transfer remain open. [Provenance](FINAL_RESULTS_2026-11-22.md#provenance-and-limits)
-- Prepared the 15-minute presentation with 15 timed slides and thirteen backup slides. The guide includes speaker handoffs, demo checks, and fallback steps. [Presentation](../output/presentation/CANalyst_Final_Presentation_15min.pptx) · [Presentation guide](FINAL_PRESENTATION_GUIDE.md)
+- Built the offline form for 40 blinded claims. Reviewers A and B can resume separate local drafts and export their own CSV files. Both study sheets have 0 of 40 ratings. [Review form](../frontend/public/human-review.html) · [Reviewer instructions](HUMAN_REVIEW.md)
+- Downloaded and extracted can-train-and-test v2 and the TU Eindhoven CAN intrusion dataset v2. Verified the archives and sampled each capture. Benchmarking is pending. [Dataset receipt and parsing checks](ADDITIONAL_DATASETS.md)
+- Built and checked the 20-minute deck using the paper presentation's Clemson template. It extends the midterm with corrected results and evaluation limits. All 26 slides have speaker notes. Slide 4 embeds a 42-second experiment video. [Presentation](../output/presentation/CANalyst_Final_Presentation_20min.pptx)
+- Updated the rehearsal plan for 20 main slides and six appendix slides. It includes a two-minute dashboard demo and a suggested handoff at 7:20. [Presentation guide](FINAL_PRESENTATION_GUIDE.md)
 
 ## Remaining work
 
-1. **Nicholas and Alexander**. Confirm the assigned symposium slot. Rehearse to 14:30 and reserve thirty seconds for transitions. Allow three minutes for questions afterward. Prewarm the offline ROAD dashboard and test one citation link and the Frozen benchmarks view. Keep the deck screenshots available. [Presentation guide](FINAL_PRESENTATION_GUIDE.md)
-2. **Review coordinator and two independent human raters**. Distribute the blinded sheets and rubric. Keep the key private until both raters submit all 40 labels. Keep both sheets blank until the raters enter their judgments. Preserve both original sheets and adjudicate disagreements separately. Report agreement and support rates with their denominators. [Review rubric and materials](../backend/out/claim_review/heldout/)
-3. **Report author**. Draft the 6 to 8 page, double-column final report in the supplied ACM template. Use the verified tables and exact denominators. State the outstanding human review and vehicle coverage limits. The report is due December 3, 2026, at 8 p.m. EST. [Report requirements](FINAL_PRESENTATION_GUIDE.md#separate-final-report-deadline)
-4. **Future evaluation agent**. Define the ROAD attack evaluation protocol for an additional vehicle. Fix the split before reviewing any model replies. Measure detector recall and label accuracy on detected alerts. Treat this as follow-up research after class. [Coverage limits](FINAL_RESULTS_2026-11-22.md#provenance-and-limits)
+| Owner | Task | Acceptance evidence |
+|---|---|---|
+| Nicholas and Alexander | Confirm the assigned November 24, December 1, or December 3 symposium slot. Rehearse to 19:30. Reserve 30 seconds for recovery and three minutes for Q&A. Test the ROAD demo and video on the presentation computer. | Confirmed date and timed rehearsal. Citation link, Frozen benchmarks, and screenshot fallback ready. [Demo checklist](FINAL_PRESENTATION_GUIDE.md#offline-demo) |
+| Review coordinator and two independent raters | Share the standalone HTML. Assign one slot to each rater. Keep the key private until both submit 40 labels. Preserve both returned CSVs and adjudicate disagreements separately. | Two completed CSVs. Report support and agreement with denominators. [Reviewer instructions](HUMAN_REVIEW.md) |
+| Report agent and authors | Extend the midterm report in the supplied ACM LaTeX template. Keep all standard sections and use verified denominators. State the current human review and vehicle coverage. Nicholas confirmed a course exception to the general no-AI rule for this work. | A compiled 6 to 8 page double-column report in the unchanged template. Final report due December 3, 2026, at 8 p.m. EST. System design counts double and evaluation counts triple. [Report requirements](FINAL_PRESENTATION_GUIDE.md#separate-final-report-deadline) |
+| Evaluation agent | Adapt the two downloaded datasets. Preserve source labels and split provenance. Fix the evaluation splits before inspecting model replies. Keep derived captures grouped by their source session. | Documented splits and reproducible results for each tested vehicle. Report detector recall on windows and classification on detected alerts with separate denominators. [Dataset notes](ADDITIONAL_DATASETS.md) · [Coverage limits](FINAL_RESULTS_2026-11-22.md#provenance-and-limits) |
 
 After both raters submit, score the sheets from `backend/`:
 
@@ -40,7 +45,10 @@ After both raters submit, score the sheets from `backend/`:
 - Backend passed 164 tests. Frontend passed 23 tests and the production build. The build retains its large JavaScript bundle advisory.
 - Browser verification passed 19 checks, including installed ROAD startup, real ROAD uploads, and desktop and mobile benchmark views. It reported zero unexpected errors. [UI audit](../.impeccable/audit/2026-11-22T22-44-41Z__c-components-evaluationbenchmarkpanel-jsx-fbfa76a8.md)
 - The offline verifier reproduced model results byte for byte. The fresh detector run used local traffic and made zero hosted model calls. [Model verification](../backend/scripts/summarize_final_models.py) · [Detector verification](../backend/out/final_2026-11-22/detection/verification.md)
-- The presentation passed package, layout, font, and editable-chart checks. Reviewers checked all 28 rendered slides after export. The deck contains three editable charts, thirteen editable tables, and speaker notes throughout.
+- Chrome checks covered the review form on desktop, emulated mobile, and offline. The checks verified keyboard selection, separate reviewer drafts, reload, and CSV round trips. All 40 claim IDs, statements, and evidence fields matched the source after export. [Review form audit](../.impeccable/audit/2026-11-23T00-49-03Z__frontend-public-human-review-html.md)
+- Rechecked the review form at 320px and 390px after fixing its opaque tap highlight. The Next label stays visible during touch. [Latest review form audit](../.impeccable/audit/2026-11-23T01-46-18Z__frontend-public-human-review-html.md)
+- Checked all 26 final slides individually. Native charts, editable tables, fonts, slide geometry, and embedded video relationships passed validation.
+- PowerPoint opened the deck without a repair warning. Automation timeouts prevented native slideshow playback verification. Test slide 4 during rehearsal and keep the standalone MP4 available.
 
 Run these checks from the repository root.
 

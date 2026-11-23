@@ -9,6 +9,7 @@ dist/
 backend/data/
 *.log
 .DS_Store
+~$*.pptx
 .idea/
 .vscode/
 .claude/

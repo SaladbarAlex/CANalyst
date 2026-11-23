@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Human claim review | CANalyst</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --orange: #f56600;
+      --purple: #522d80;
+      --purple-hover: #402165;
+      --ink: #251c2f;
+      --muted: #60566a;
+      --line: #e1dbe7;
+      --control-line: #8d7e99;
+      --paper: #fff;
+      --background: #f8f6fa;
+      --tint: #f1ebf7;
+      --tap-highlight: #522d8026;
+      --error: #992b29;
+      font-family: system-ui, sans-serif;
+      color: var(--ink);
+      background: var(--background);
+      line-height: 1.5;
+      accent-color: var(--purple);
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    h1, h2, h3, p { margin: 0; }
+    [hidden] { display: none !important; }
+    ::selection { background: var(--tint); color: var(--purple); }
+    :focus-visible { outline: 2px solid var(--purple); outline-offset: 3px; }
+
+    .wrap { width: min(calc(100% - 2rem), 73rem); margin-inline: auto; }
+
+    header {
+      background: var(--paper);
+      border-block-start: .35rem solid var(--orange);
+      border-block-end: 1px solid var(--line);
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem 2rem;
+      padding-block: 1.25rem;
+    }
+
+    h1 {
+      color: var(--purple);
+      font-size: clamp(1.75rem, 4vw, 2.65rem);
+      line-height: 1.12;
+      letter-spacing: -.025em;
+      margin-block-end: .45rem;
+    }
+
+    .muted { color: var(--muted); }
+    .reviewer-picker { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; }
+    .reviewer-picker label { font-weight: 650; }
+
+    button, select, textarea, .button {
+      font: inherit;
+      color: inherit;
+      border: 1px solid var(--control-line);
+      border-radius: .4rem;
+      background: var(--paper);
+    }
+
+    button, select, .button { min-block-size: 2.75rem; padding: .55rem .8rem; }
+    button, .button { cursor: pointer; font-weight: 650; text-align: center; -webkit-tap-highlight-color: var(--tap-highlight); }
+    button:hover:not(:disabled), .button:hover { background: var(--tint); }
+    button:disabled { color: var(--muted); border-color: var(--line); cursor: default; }
+    #download { background: var(--purple); border-color: var(--purple); color: var(--paper); }
+    #download:hover { background: var(--purple-hover); }
+    #download:disabled { background: var(--tint); border-color: var(--line); color: var(--muted); }
+
+    main { padding-block: 1.25rem 2rem; }
+    .review-nav, .files, .progress-caption {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: .5rem .75rem;
+    }
+
+    .progress-block { max-inline-size: 25rem; }
+    .progress-caption { color: var(--purple); font-weight: 650; font-variant-numeric: tabular-nums; }
+    progress { display: block; inline-size: 100%; block-size: .55rem; margin-block-start: .4rem; }
+    .review-nav { justify-content: flex-end; grid-column: 1 / -1; }
+    .review-nav > button { min-inline-size: 4rem; }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+      gap: 1rem clamp(1rem, 3vw, 2.5rem);
+      margin-block-start: .75rem;
+      padding: 1.5rem;
+      border: 1px solid var(--line);
+      border-radius: .8rem;
+      background: var(--paper);
+    }
+
+    h2, legend { font-size: 1.2rem; font-weight: 750; letter-spacing: -.01em; }
+    #claim-title { color: var(--purple); }
+    #claim { margin-block-start: .65rem; font-size: clamp(1.12rem, 3vw, 1.4rem); font-weight: 600; }
+    h3 { margin-block: 1.6rem .5rem; font-size: 1rem; }
+
+    #evidence { margin: 0; padding: 0; list-style: none; border-block-start: 1px solid var(--line); }
+    #evidence li {
+      display: grid;
+      grid-template-columns: 2.6rem minmax(0, 1fr);
+      gap: .45rem;
+      padding-block: .75rem;
+      border-block-end: 1px solid var(--line);
+      overflow-wrap: anywhere;
+    }
+
+    #evidence b { color: var(--purple); font-variant-numeric: tabular-nums; }
+    #evidence p, #claim { white-space: pre-wrap; overflow-wrap: anywhere; }
+    .answer { min-inline-size: 0; }
+    .prompt { margin-block: .4rem .75rem; }
+    fieldset { min-inline-size: 0; margin: 0; padding: 0; border: 0; }
+    legend { padding: 0; }
+
+    .choice {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: start;
+      gap: .65rem;
+      margin-block-end: .5rem;
+      padding: .55rem .65rem;
+      border: 1px solid var(--control-line);
+      border-radius: .4rem;
+      cursor: pointer;
+    }
+
+    .choice:has(input:checked) { background: var(--tint); border-color: var(--purple); }
+    .choice:has(input:disabled) { border-color: var(--line); cursor: default; }
+    .choice input { margin: .3rem 0 0; inline-size: 1.05rem; block-size: 1.05rem; }
+    .choice strong, .choice small { display: block; }
+    .choice small { color: var(--muted); font-size: .875rem; }
+
+    .note-label { display: block; font-weight: 650; margin-block: 1rem .4rem; }
+    textarea { display: block; inline-size: 100%; min-block-size: 4.75rem; resize: vertical; padding: .55rem .65rem; }
+    textarea:disabled { background: var(--background); border-color: var(--line); }
+    #save-note { margin-block-start: .65rem; }
+    .error { color: var(--error); }
+
+    .review-footer { margin-block-start: 1rem; }
+    .files { justify-content: flex-start; }
+    #file-status { margin-block: .55rem; }
+    .guidance { margin-block-start: .5rem; }
+    summary { cursor: pointer; font-weight: 650; color: var(--purple); padding-block: .7rem; }
+    .guidance ul { padding-inline-start: 1.25rem; margin-block: .25rem 1rem; max-inline-size: 70ch; }
+    .guidance li + li { margin-block-start: .35rem; }
+
+    @media (max-width: 49rem) {
+      .workspace { grid-template-columns: minmax(0, 1fr); padding: 1rem; }
+      .answer { padding-block-start: 1rem; border-block-start: 1px solid var(--line); }
+    }
+
+    @media (max-width: 32rem) {
+      .review-nav { justify-content: flex-start; }
+      .files > button { flex: 1 1 8rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap header-content">
+      <div>
+        <h1>Human claim review</h1>
+        <p class="muted">CANalyst held-out evaluation</p>
+      </div>
+      <div class="reviewer-picker">
+        <label for="reviewer">Reviewer</label>
+        <select id="reviewer">
+          <option value="">Choose reviewer</option>
+          <option value="A">Reviewer A</option>
+          <option value="B">Reviewer B</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap" id="review-app" hidden>
+    <div class="progress-block">
+      <div class="progress-caption">
+        <label for="progress" id="rated" role="status"></label>
+        <span id="position"></span>
+      </div>
+      <progress id="progress" value="0"></progress>
+    </div>
+    <details class="guidance">
+      <summary>Review rubric</summary>
+      <ul>
+        <li>Work independently. Wait until both reviews are complete before comparing notes.</li>
+        <li>For mixed claims, choose C if any part conflicts with evidence. Otherwise choose U if any part lacks support.</li>
+        <li>Check the arithmetic. Reasonable rounding and paraphrases are allowed.</li>
+        <li>Accept an inference when the cited numbers support it. Apply the same rule to hedged claims.</li>
+        <li>Practice example: “About twice baseline” is S when the cited value is 1.9x. “Twice baseline” is C for 1.5x.</li>
+      </ul>
+    </details>
+
+    <div class="workspace">
+      <section aria-labelledby="claim-title">
+        <h2 id="claim-title" tabindex="-1"></h2>
+        <p id="claim"></p>
+        <h3>Cited evidence</h3>
+        <ul id="evidence" role="list"></ul>
+      </section>
+
+      <section class="answer" aria-label="Reviewer response">
+        <fieldset aria-describedby="rating-prompt">
+          <legend>Choose a label</legend>
+          <p class="prompt muted" id="rating-prompt">Judge the claim using only the cited evidence.</p>
+          <label class="choice">
+            <input type="radio" name="label" value="S">
+            <span><strong>S · Supported</strong><small>Every factual statement follows from the evidence.</small></span>
+          </label>
+          <label class="choice">
+            <input type="radio" name="label" value="U">
+            <span><strong>U · Unsupported</strong><small>A statement lacks support and none contradict the evidence.</small></span>
+          </label>
+          <label class="choice">
+            <input type="radio" name="label" value="C">
+            <span><strong>C · Contradicted</strong><small>At least one statement conflicts with the evidence.</small></span>
+          </label>
+          <label class="note-label" for="note">Note <span class="muted">(optional)</span></label>
+          <textarea id="note" rows="2"></textarea>
+        </fieldset>
+        <p class="muted" id="save-note" role="status"></p>
+      </section>
+      <nav class="review-nav" aria-label="Claim navigation">
+        <button type="button" id="back">Back</button>
+        <button type="button" id="unrated">Next unrated</button>
+        <button type="button" id="next">Next</button>
+      </nav>
+    </div>
+
+    <footer class="review-footer">
+      <div class="files">
+        <button type="button" id="download">Download CSV</button>
+        <button type="button" id="restore">Open saved CSV</button>
+        <input type="file" id="upload" accept=".csv,text/csv" hidden>
+        <span class="muted">Return the completed CSV to your coordinator. This page sends no data.</span>
+      </div>
+      <p id="file-status" role="status"></p>
+    </footer>
+  </main>
+  <p class="wrap error" id="startup-error" role="alert" hidden>Could not load the review sheet. Ask your coordinator for a fresh copy.</p>
+  <noscript><p class="wrap">Enable JavaScript in this browser to use the review form.</p></noscript>
+
+  <script type="application/json" id="blinded-sheet">
+  "claim_id,claim,cited_items,label,note\r\nC001,Bus load rose to 1.09x baseline.,[E1] Over the whole alert the bus carried 754 msg/s on average versus a 1953 msg/s baseline (0.39x); its busiest 0.5s window reached 2124 msg/s (1.09x).,,\r\nC002,\"The alert spans 5.25 seconds and contains 4340 frames, of which 1702 (39%) originate from arbitration ID 0x000, which is absent from the baseline.\",\"[E0] The alert spans 96.75s to 102.00s (5.25s, 20 flagged window(s) merged) and holds 4340 frames from 25 arbitration IDs, 1 of them absent from the baseline. Detector score 1.00.\n[E2] Frames from IDs absent from the baseline make up 1702 of the 4340 frames in the alert (39%). Of 24 baseline IDs expected at a countable rate, 24 ran below 70% of their baseline rate.\n[E3] 0x000 is not in the baseline ID set and sent 1702 frame(s) over the whole alert (324.19 msg/s) with payload entropy 0.000 bits.\",,\r\nC003,\"The alert spans 5.25 seconds and contains 2949 frames from 25 arbitration IDs, one of which is absent from the baseline.\",\"[E0] The alert spans 81.75s to 87.00s (5.25s, 20 flagged window(s) merged) and holds 2949 frames from 25 arbitration IDs, 1 of them absent from the baseline. Detector score 1.00.\",,\r\nC004,0x000 is absent from the baseline and sent 1219 of the 3186 frames in this alert (38%).,\"[E3] 0x000 is not in the baseline ID set and sent 1219 frame(s) over the whole alert (232.19 msg/s) with payload entropy 0.000 bits.\n[E0] The alert spans 6.00s to 11.25s (5.25s, 20 flagged window(s) merged) and holds 3186 frames from 27 arbitration IDs, 1 of them absent from the baseline. Detector score 1.00.\",,\r\nC005,\"The average bus load fell to 643 msg/s (0.33x the 1953 msg/s baseline), indicating displacement of legitimate traffic.\",[E1] Over the whole alert the bus carried 643 msg/s on average versus a 1953 msg/s baseline (0.33x); its busiest 0.5s window reached 2012 msg/s (1.03x).,,\r\nC006,0x000 is absent from the baseline and sent 1159 of the 3115 frames in this alert (37%).,\"[E3] 0x000 is not in the baseline ID set and sent 1159 frame(s) over the whole alert (220.76 msg/s) with payload entropy 0.000 bits.\n[E0] The alert spans 89.25s to 94.50s (5.25s, 20 flagged window(s) merged) and holds 3115 frames from 27 arbitration IDs, 1 of them absent from the baseline. Detector score 1.00.\",,\r\nC007,\"Multiple unknown IDs (e.g., 0x671, 0x2E9, 0x745) were transmitted with high payload entropy ranging from 3.875 to 5.172 bits [E3-E8].\",\"[E3] 0x671 is not in the baseline ID set and sent 3 frame(s) over the whole alert (0.5 msg/s) with payload entropy 4.585 bits.\n[E4] 0x2E9 is not in the baseline ID set and sent 3 frame(s) over the whole alert (0.5 msg/s) with payload entropy 4.502 bits.\n[E5] 0x745 is not in the baseline ID set and sent 3 frame(s) over the whole alert (0.5 msg/s) with payload entropy 4.502 bits.\n[E6] 0x23B is not in the baseline ID set and sent 2 frame(s) over the whole alert (0.33 msg/s) with payload entropy 4.000 bits.\n[E7] 0x146 is not in the baseline ID set and sent 2 frame(s) over the whole alert (0.33 msg/s) with payload entropy 3.875 bits.\n[E8] 0x7FD is not in the baseline ID set and sent 5 frame(s) over the whole alert (0.83 msg/s) with payload entropy 5.172 bits.\",,\r\nC008,\"ID 0x2B0 was completely silenced, sending no frames during the alert despite an expectation of 375 frames.\",[E9] 0x2B0 (unknown) sent nothing during the alert although the baseline expects about 375 frames in that time.,,\r\nC009,All 27 baseline IDs expected at a countable rate ran below 70% of their baseline rate.,\"[E2] Frames from IDs absent from the baseline make up 1206 of the 4579 frames in the alert (26%). Of 27 baseline IDs expected at a countable rate, 27 ran below 70% of their baseline rate.\",,\r\nC010,\"994 arbitration IDs present in the alert were absent from the baseline, accounting for 1348 frames (29% of total traffic).\",\"[E0] The alert spans 65.75s to 71.50s (5.75s, 22 flagged window(s) merged) and holds 4711 frames from 1020 arbitration IDs, 994 of them absent from the baseline. Detector score 1.00.\n[E2] Frames from IDs absent from the baseline make up 1348 of the 4711 frames in the alert (29%). Of 26 baseline IDs expected at a countable rate, 26 ran below 70% of their baseline rate.\n[E9] 994 arbitration IDs absent from the baseline appear in the alert (1348 frames in total); 6 are itemized above.\",,\r\nC011,\"0x316 ran at 617.25 msg/s versus a 100.09 msg/s baseline (6.167x), transmitting 2469 frames with a mean gap of 1.616 ms versus 9.991 ms (10.98 sigma).\",\"[E3] 0x316 (unknown function) over the whole alert: 2469 frames, 617.25 msg/s versus 100.09 baseline (6.167x; detector ratio in its peak window 8.473x); mean gap 1.616 ms versus 9.991 ms (10.98 sigma); entropy 2.821 versus 6.257.\",,\r\nC012,\"Arbitration ID 0x000, which is absent from the baseline, sent 1702 frames (324.19 msg/s), accounting for 39% of the total alert traffic.\",\"[E2] Frames from IDs absent from the baseline make up 1702 of the 4340 frames in the alert (39%). Of 24 baseline IDs expected at a countable rate, 24 ran below 70% of their baseline rate.\n[E3] 0x000 is not in the baseline ID set and sent 1702 frame(s) over the whole alert (324.19 msg/s) with payload entropy 0.000 bits.\",,\r\nC013,\"The unknown-ID traffic is spread thinly across many IDs rather than dominated by one ID: the itemized unknown IDs 0x0E6, 0x0AD, 0x018, 0x0B3, 0x016 and 0x03C sent only 4, 4, 2, 2, 2 and 1 frames respectively over the whole alert.\",\"[E3] 0x0E6 is not in the baseline ID set and sent 4 frame(s) over the whole alert (0.67 msg/s) with payload entropy 4.812 bits.\n[E4] 0x018 is not in the baseline ID set and sent 2 frame(s) over the whole alert (0.33 msg/s) with payload entropy 4.000 bits.\n[E5] 0x0B3 is not in the baseline ID set and sent 2 frame(s) over the whole alert (0.33 msg/s) with payload entropy 4.000 bits.\n[E6] 0x016 is not in the baseline ID set and sent 2 frame(s) over the whole alert (0.33 msg/s) with payload entropy 3.875 bits.\n[E7] 0x03C is not in the baseline ID set and sent 1 frame(s) over the whole alert (0.17 msg/s) with payload entropy 3.000 bits.\n[E8] 0x0AD is not in the baseline ID set and sent 4 frame(s) over the whole alert (0.67 msg/s) with payload entropy 4.875 bits.\",,\r\nC014,\"The pattern of many baseline-absent IDs carrying random payloads matches the fuzzing signature; it is not DoS (no dominant high-priority ID, unknown frames only 29% of traffic, bus load below baseline) and not spoofing or replay (rate_inflation 0.0 and baseline IDs run below, not above, baseline).\",\"[E0] The alert spans 90.00s to 96.00s (6.00s, 23 flagged window(s) merged) and holds 4603 frames from 1026 arbitration IDs, 999 of them absent from the baseline. Detector score 1.00.\n[E1] Over the whole alert the bus carried 767 msg/s on average versus a 1953 msg/s baseline (0.39x); its busiest 0.5s window reached 2118 msg/s (1.08x).\n[E2] Frames from IDs absent from the baseline make up 1346 of the 4603 frames in the alert (29%). Of 27 baseline IDs expected at a countable rate, 26 ran below 70% of their baseline rate.\n[E9] 999 arbitration IDs absent from the baseline appear in the alert (1346 frames in total); 6 are itemized above.\",,\r\nC015,\"The alert spans 6 seconds and contains 4262 frames from 883 arbitration IDs, 857 of which are absent from the baseline.\",\"[E0] The alert spans 73.75s to 79.75s (6.00s, 23 flagged window(s) merged) and holds 4262 frames from 883 arbitration IDs, 857 of them absent from the baseline. Detector score 1.00.\",,\r\nC016,\"The alert spans 4.00 seconds and contains 7487 frames from 26 baseline IDs, with zero unknown IDs present.\",\"[E0] The alert spans 12.25s to 16.25s (4.00s, 15 flagged window(s) merged) and holds 7487 frames from 26 arbitration IDs, 0 of them absent from the baseline. Detector score 1.00.\n[E2] Frames from IDs absent from the baseline make up 0 of the 7487 frames in the alert (0%). Of 26 baseline IDs expected at a countable rate, 6 ran below 70% of their baseline rate.\",,\r\nC017,\"The alert spans 6.00s to 11.25s (5.25s, 20 merged windows) and contains 3186 frames from 27 arbitration IDs, 1 of them absent from the baseline, with detector score 1.00.\",\"[E0] The alert spans 6.00s to 11.25s (5.25s, 20 flagged window(s) merged) and holds 3186 frames from 27 arbitration IDs, 1 of them absent from the baseline. Detector score 1.00.\",,\r\nC018,\"0x316 transmitted at 5.861x its baseline rate (586.59 versus 100.09 msg/s), so frames are being added alongside the legitimate ones.\",\"[E3] 0x316 (unknown function) over the whole alert: 2493 frames, 586.59 msg/s versus 100.09 baseline (5.861x; detector ratio in its peak window 8.193x); mean gap 1.699 ms versus 9.991 ms (10.87 sigma); entropy 2.907 versus 6.257.\",,\r\nC019,Payload entropy decreased for several IDs while inter-frame timing gaps remained within 0.16 sigma of baseline.,\"[E3] 0x2C1 (unknown function) over the whole alert: 5 frames, 10.0 msg/s versus 9.53 baseline (1.05x; detector ratio in its peak window 1.05x); mean gap 105.002 ms versus 104.953 ms (0.03 sigma); entropy 4.156 versus 5.735.\n[E4] 0x0BA (unknown function) over the whole alert: 13 frames, 26.0 msg/s versus 25.0 baseline (1.04x; detector ratio in its peak window 1.04x); mean gap 40.092 ms versus 40.0 ms (0.16 sigma); entropy 3.268 versus 4.191.\n[E5] 0x295 (unknown function) over the whole alert: 17 frames, 34.0 msg/s versus 33.33 baseline (1.02x; detector ratio in its peak window 1.02x); mean gap 30.005 ms versus 30.0 ms (0.01 sigma); entropy 1.061 versus 1.125.\n[E6] 0x0F4 (unknown function) over the whole alert: 5 frames, 10.0 msg/s versus 9.98 baseline (1.002x; detector ratio in its peak window 1.002x); mean gap 100.246 ms versus 100.203 ms (0.1 sigma); entropy 2.75 versus 2.75.\n[E7] 0x00E (unknown function) over the whole alert: 50 frames, 100.0 msg/s versus 100.0 baseline (1.0x; detector ratio in its peak window 1.0x); mean gap 9.981 ms versus 10.0 ms (0.05 sigma); entropy 3.434 versus 5.069.\n[E8] 0x32D (unknown function) over the whole alert: 10 frames, 20.0 msg/s versus 20.0 baseline (1.0x; detector ratio in its peak window 1.0x); mean gap 50.006 ms versus 50.0 ms (0.0 sigma); entropy 2.0 versus 2.0.\",,\r\nC020,All 26 baseline IDs expected at a countable rate ran below 70% of their baseline rate.,\"[E2] Frames from IDs absent from the baseline make up 1159 of the 3115 frames in the alert (37%). Of 26 baseline IDs expected at a countable rate, 26 ran below 70% of their baseline rate.\",,\r\nC021,\"Other IDs such as 0x002, 0x153, 0x370, and 0x43F are operating at rates close to their baselines (between 0.885x and 0.932x).\",\"[E4] 0x002 (unknown function) over the whole alert: 376 frames, 88.47 msg/s versus 100.01 baseline (0.885x; detector ratio in its peak window 1.0x); mean gap 11.306 ms versus 9.999 ms (1.12 sigma); entropy 2.939 versus 2.946.\n[E5] 0x153 (unknown function) over the whole alert: 377 frames, 88.71 msg/s versus 100.01 baseline (0.887x; detector ratio in its peak window 1.0x); mean gap 11.276 ms versus 9.999 ms (1.78 sigma); entropy 1.75 versus 0.811.\n[E6] 0x370 (unknown function) over the whole alert: 392 frames, 92.24 msg/s versus 100.0 baseline (0.922x; detector ratio in its peak window 1.0x); mean gap 10.845 ms versus 10.001 ms (2.26 sigma); entropy 0.544 versus 1.18.\n[E7] 0x43F (unknown function) over the whole alert: 396 frames, 93.18 msg/s versus 100.0 baseline (0.932x; detector ratio in its peak window 1.0x); mean gap 10.735 ms versus 10.001 ms (1.69 sigma); entropy 3.33 versus 4.966.\",,\r\nC022,The evidence does not identify the vehicle function of any affected ID; all are labeled unknown function or unknown.,\"[E4] 0x350 (unknown function) over the whole alert: 100 frames, 19.05 msg/s versus 100.04 baseline (0.19x; detector ratio in its peak window 0.76x); mean gap 52.904 ms versus 9.997 ms (124.72 sigma); entropy 3.738 versus 4.157.\n[E5] 0x4B1 (unknown function) over the whole alert: 51 frames, 9.71 msg/s versus 50.01 baseline (0.194x; detector ratio in its peak window 0.76x); mean gap 104.396 ms versus 19.999 ms (372.29 sigma); entropy 2.156 versus 5.803.\n[E6] 0x0A0 (unknown function) over the whole alert: 12 frames, 2.29 msg/s versus 10.01 baseline (0.228x; detector ratio in its peak window 0.799x); mean gap 472.327 ms versus 99.918 ms (480.88 sigma); entropy 3.044 versus 5.885.\n[E7] 0x0A1 (unknown function) over the whole alert: 12 frames, 2.29 msg/s versus 10.01 baseline (0.228x; detector ratio in its peak window 0.799x); mean gap 472.327 ms versus 99.918 ms (480.1 sigma); entropy 1.911 versus 2.852.\n[E8] 0x5F0 (unknown function) over the whole alert: 15 frames, 2.86 msg/s versus 20.0 baseline (0.143x; detector ratio in its peak window 0.5x); mean gap 364.437 ms versus 50.0 ms (471.05 sigma); entropy 1.0 versus 1.0.\n[E9] 0x2B0 (unknown) sent nothing during the alert although the baseline expects about 525 frames in that time.\",,\r\nC023,\"0x21D transmitted at 12.793x its baseline rate (12.8 versus 1.0 msg/s), so frames are being added alongside the legitimate ones.\",\"[E3] 0x21D (unknown function) over the whole alert: 16 frames, 12.8 msg/s versus 1.0 baseline (12.793x; about 1.25 frames were expected in this span, so the detector floors that at 3 and scores it 5.333x; detector ratio in its peak window 2.333x); mean gap 69.999 ms versus 999.673 ms (1024.82 sigma); entropy 1.512 versus 0.544.\",,\r\nC024,\"Other IDs, such as 0x0F4, 0x55C, 0x0BA, 0x295, and 0x207, remained close to their baseline rates.\",\"[E4] 0x0F4 (unknown function) over the whole alert: 15 frames, 12.0 msg/s versus 9.98 baseline (1.202x; detector ratio in its peak window 1.403x); mean gap 86.706 ms versus 100.203 ms (31.23 sigma); entropy 2.871 versus 2.75.\n[E5] 0x55C (unknown function) over the whole alert: 9 frames, 7.2 msg/s versus 6.67 baseline (1.08x; detector ratio in its peak window 1.2x); mean gap 149.991 ms versus 150.007 ms (0.01 sigma); entropy 2.406 versus 4.338.\n[E6] 0x0BA (unknown function) over the whole alert: 31 frames, 24.8 msg/s versus 25.0 baseline (0.992x; detector ratio in its peak window 1.04x); mean gap 39.997 ms versus 40.0 ms (0.01 sigma); entropy 3.897 versus 4.191.\n[E7] 0x295 (unknown function) over the whole alert: 42 frames, 33.6 msg/s versus 33.33 baseline (1.008x; detector ratio in its peak window 1.02x); mean gap 30.007 ms versus 30.0 ms (0.01 sigma); entropy 0.544 versus 1.125.\n[E8] 0x207 (unknown function) over the whole alert: 12 frames, 9.6 msg/s versus 10.04 baseline (0.956x; detector ratio in its peak window 0.996x); mean gap 99.982 ms versus 99.575 ms (0.08 sigma); entropy 3.103 versus 3.697.\",,\r\nC025,\"The overall bus load remained stable, averaging 1924 msg/s compared to a 1953 msg/s baseline.\",[E1] Over the whole alert the bus carried 1924 msg/s on average versus a 1953 msg/s baseline (0.99x); its busiest 0.5s window reached 2420 msg/s (1.24x).,,\r\nC026,\"No frames came from unseen IDs and 0 of 65 baseline IDs ran below 70% of their baseline rate, which a change of vehicle state also produces.\",\"[E2] Frames from IDs absent from the baseline make up 0 of the 1208 frames in the alert (0%). Of 65 baseline IDs expected at a countable rate, 0 ran below 70% of their baseline rate.\",,\r\nC027,\"Several IDs showed negligible rate increases (e.g., 0x434 at 1.04x, 0x0BA at 1.04x, 0xFFF at 1.033x) and timing gaps that closely match the baseline (e.g., 0x434 mean gap 19.982ms vs 20.0ms baseline).\",\"[E5] 0x434 (unknown function) over the whole alert: 26 frames, 52.0 msg/s versus 50.0 baseline (1.04x; detector ratio in its peak window 1.04x); mean gap 19.982 ms versus 20.0 ms (0.03 sigma); entropy 6.284 versus 6.907.\n[E6] 0x0BA (unknown function) over the whole alert: 13 frames, 26.0 msg/s versus 25.0 baseline (1.04x; detector ratio in its peak window 1.04x); mean gap 40.004 ms versus 40.0 ms (0.01 sigma); entropy 2.87 versus 4.191.\n[E7] 0xFFF (unknown function) over the whole alert: 78 frames, 156.0 msg/s versus 150.97 baseline (1.033x; detector ratio in its peak window 1.033x); mean gap 6.422 ms versus 6.624 ms (0.03 sigma); entropy 0.0 versus 0.0.\",,\r\nC028,\"The alert spans 6.00 seconds and contains 4821 frames from 978 arbitration IDs, 951 of which are absent from the baseline.\",\"[E0] The alert spans 0.50s to 6.50s (6.00s, 23 flagged window(s) merged) and holds 4821 frames from 978 arbitration IDs, 951 of them absent from the baseline. Detector score 1.00.\",,\r\nC029,0x000 is absent from the baseline and sent 1702 of the 4340 frames in this alert (39%).,\"[E3] 0x000 is not in the baseline ID set and sent 1702 frame(s) over the whole alert (324.19 msg/s) with payload entropy 0.000 bits.\n[E0] The alert spans 96.75s to 102.00s (5.25s, 20 flagged window(s) merged) and holds 4340 frames from 25 arbitration IDs, 1 of them absent from the baseline. Detector score 1.00.\",,\r\nC030,\"Unknown IDs account for 1348 frames (29% of the alert), while all 26 monitored baseline IDs ran below 70% of their expected rates.\",\"[E2] Frames from IDs absent from the baseline make up 1348 of the 4711 frames in the alert (29%). Of 26 baseline IDs expected at a countable rate, 26 ran below 70% of their baseline rate.\",,\r\nC031,\"0 of the 1208 frames came from IDs absent from the baseline, and 0 of 65 countable baseline IDs ran below 70% of their baseline rate, ruling out fuzzing and DoS-style displacement of legitimate traffic.\",\"[E2] Frames from IDs absent from the baseline make up 0 of the 1208 frames in the alert (0%). Of 65 baseline IDs expected at a countable rate, 0 ran below 70% of their baseline rate.\",,\r\nC032,\"Average bus load over the alert was 549 msg/s versus a 1953 msg/s baseline (0.28x), with the busiest 0.5s window at 2162 msg/s (1.11x), so the bus is not being flooded and this is not a DoS.\",[E1] Over the whole alert the bus carried 549 msg/s on average versus a 1953 msg/s baseline (0.28x); its busiest 0.5s window reached 2162 msg/s (1.11x).,,\r\nC033,\"Total bus traffic averaged 1433 msg/s versus a 1953 msg/s baseline (0.73x), and the busiest 0.5s window reached only 1970 msg/s (1.01x), so the total message rate did not rise despite the flood.\",[E1] Over the whole alert the bus carried 1433 msg/s on average versus a 1953 msg/s baseline (0.73x); its busiest 0.5s window reached 1970 msg/s (1.01x).,,\r\nC034,\"The only elevated detector component is payload_entropy (0.62); timing, rate_inflation, missing_ids, unknown_ids and bus_load are all 0.0.\",\"[E0] The alert spans 0.00s to 2.00s (2.00s, 7 flagged window(s) merged) and holds 4785 frames from 105 arbitration IDs, 0 of them absent from the baseline. Detector score 0.62.\",,\r\nC035,Bus load rose to 1.05x baseline.,[E1] Over the whole alert the bus carried 713 msg/s on average versus a 1953 msg/s baseline (0.37x); its busiest 0.5s window reached 2048 msg/s (1.05x).,,\r\nC036,\"Known IDs ran at or near baseline: 0x2C0 at 0.979x, 0x0A1 at 0.999x, 0x0A0 at 0.999x, 0x690 at 1.0x, and 0x5F0 at 0.9x of baseline rate.\",\"[E4] 0x2C0 (unknown function) over the whole alert: 49 frames, 98.0 msg/s versus 100.1 baseline (0.979x; detector ratio in its peak window 0.979x); mean gap 10.214 ms versus 9.991 ms (0.93 sigma); entropy 0.544 versus 0.544.\n[E5] 0x0A1 (unknown function) over the whole alert: 5 frames, 10.0 msg/s versus 10.01 baseline (0.999x; detector ratio in its peak window 0.999x); mean gap 100.009 ms versus 99.918 ms (0.12 sigma); entropy 1.729 versus 2.852.\n[E6] 0x0A0 (unknown function) over the whole alert: 5 frames, 10.0 msg/s versus 10.01 baseline (0.999x; detector ratio in its peak window 0.999x); mean gap 99.945 ms versus 99.918 ms (0.04 sigma); entropy 2.99 versus 5.885.\n[E7] 0x690 (unknown function) over the whole alert: 5 frames, 10.0 msg/s versus 10.0 baseline (1.0x; detector ratio in its peak window 1.0x); mean gap 103.197 ms versus 99.999 ms (7.22 sigma); entropy 1.486 versus 1.107.\n[E8] 0x5F0 (unknown function) over the whole alert: 9 frames, 18.0 msg/s versus 20.0 baseline (0.9x; detector ratio in its peak window 0.9x); mean gap 50.246 ms versus 50.0 ms (0.37 sigma); entropy 1.0 versus 1.0.\",,\r\nC037,ID 0x2B0 is completely missing during the alert despite a baseline expectation of approximately 350 frames.,[E9] 0x2B0 (unknown) sent nothing during the alert although the baseline expects about 350 frames in that time.,,\r\nC038,\"6 arbitration IDs absent from the baseline appeared (0x671, 0x2E9, 0x745, 0x23B), which indicates undirected injection.\",\"[E3] 0x671 is not in the baseline ID set and sent 3 frame(s) over the whole alert (0.5 msg/s) with payload entropy 4.585 bits.\n[E4] 0x2E9 is not in the baseline ID set and sent 3 frame(s) over the whole alert (0.5 msg/s) with payload entropy 4.502 bits.\n[E5] 0x745 is not in the baseline ID set and sent 3 frame(s) over the whole alert (0.5 msg/s) with payload entropy 4.502 bits.\n[E6] 0x23B is not in the baseline ID set and sent 2 frame(s) over the whole alert (0.33 msg/s) with payload entropy 4.000 bits.\",,\r\nC039,\"This pattern matches benign vehicle state changes, as alerts with only elevated timing or payload_entropy components are typically false alarms.\",\"[E0] The alert spans 116.75s to 117.25s (0.50s, 1 flagged window(s) merged) and holds 1197 frames from 90 arbitration IDs, 0 of them absent from the baseline. Detector score 0.60.\",,\r\nC040,\"0x316 transmitted at 5.84x its baseline rate (584.5 versus 100.09 msg/s), so frames are being added alongside the legitimate ones.\",\"[E3] 0x316 (unknown function) over the whole alert: 2338 frames, 584.5 msg/s versus 100.09 baseline (5.84x; detector ratio in its peak window 8.772x); mean gap 1.706 ms versus 9.991 ms (10.87 sigma); entropy 2.859 versus 6.257.\",,\r\n"
+  </script>
+  <script>
+    'use strict'
+
+    const columnNames = ['claim_id', 'claim', 'cited_items', 'label', 'note']
+    const labels = ['S', 'U', 'C']
+    const get = (id) => document.getElementById(id)
+    const reviewerPicker = get('reviewer')
+    const rating = document.querySelector('fieldset')
+    const radios = [...rating.querySelectorAll('input[type="radio"]')]
+    const note = get('note')
+    const sheet = JSON.parse(get('blinded-sheet').textContent)
+    const [headers, ...claims] = parseCSV(sheet)
+    const sheetHash = [...sheet].reduce((hash, char) => Math.imul(hash ^ char.codePointAt(0), 16777619), 2166136261) >>> 0
+    const storageKey = `canalyst-claim-review-${sheetHash.toString(16)}`
+    const drafts = { A: readDraft('A'), B: readDraft('B') }
+    let reviewer = ''
+    let position = 0
+
+    if (headers?.join(',') === columnNames.join(',') && claims.length && claims.every((row) => row.length === 5 && !row[3] && !row[4])) {
+      reviewerPicker.value = readStorage(`${storageKey}-reviewer`) || ''
+      reviewer = reviewerPicker.value
+      position = drafts[reviewer]?.position ?? 0
+      get('review-app').hidden = false
+      renderClaim()
+    } else {
+      get('startup-error').hidden = false
+      reviewerPicker.disabled = true
+    }
+
+    reviewerPicker.addEventListener('change', () => {
+      reviewer = reviewerPicker.value
+      position = drafts[reviewer]?.position ?? 0
+      writeStorage(`${storageKey}-reviewer`, reviewer)
+      setFileStatus('')
+      renderClaim()
+    })
+
+    get('back').addEventListener('click', () => goTo(position - 1))
+    get('next').addEventListener('click', () => goTo(position + 1))
+    get('unrated').addEventListener('click', () => {
+      for (let offset = 1; offset <= claims.length; offset++) {
+        const next = (position + offset) % claims.length
+        if (!drafts[reviewer]?.answers[claims[next][0]]?.label) {
+          goTo(next)
+          return
+        }
+      }
+    })
+
+    rating.addEventListener('change', (event) => {
+      if (event.target.name !== 'label') return
+      updateAnswer()
+      renderProgress()
+    })
+    note.addEventListener('input', updateAnswer)
+    get('download').addEventListener('click', download)
+    get('restore').addEventListener('click', () => get('upload').click())
+    get('upload').addEventListener('change', restore)
+
+    function goTo(index) {
+      position = index
+      renderClaim()
+      saveDraft()
+      get('claim-title').focus()
+    }
+
+    function renderClaim() {
+      const [id, statement, evidence] = claims[position]
+      const answer = drafts[reviewer]?.answers[id]
+      document.title = `${id} | Human claim review | CANalyst`
+      get('claim-title').textContent = `Claim ${id}`
+      get('claim').textContent = statement
+      get('evidence').replaceChildren(...evidence.split('\n').map((line) => {
+        const [, id = '', text = line] = line.match(/^(\[E\d+\]) (.*)$/) ?? []
+        const item = document.createElement('li')
+        const tag = document.createElement('b')
+        const description = document.createElement('p')
+        tag.textContent = id
+        description.textContent = text
+        item.append(tag, description)
+        return item
+      }))
+      rating.disabled = !reviewer
+      get('download').disabled = !reviewer
+      get('restore').disabled = !reviewer
+      get('back').disabled = position === 0
+      get('next').disabled = position === claims.length - 1
+      note.value = answer?.note ?? ''
+      for (const radio of radios) radio.checked = radio.value === answer?.label
+      get('position').textContent = `${position + 1} of ${claims.length}`
+      setSaveNote(!reviewer ? 'Choose your assigned reviewer to record a label.' : 'Drafts stay in this browser. Download a CSV to keep a copy.')
+      renderProgress()
+    }
+
+    function renderProgress() {
+      const rated = Object.values(drafts[reviewer]?.answers ?? {}).filter((answer) => answer.label).length
+      get('progress').max = claims.length
+      get('progress').value = rated
+      get('rated').textContent = `${rated} of ${claims.length} rated`
+      get('unrated').disabled = rated === claims.length
+    }
+
+    function updateAnswer() {
+      if (!reviewer) return
+      const label = radios.find((input) => input.checked)?.value ?? ''
+      drafts[reviewer].answers[claims[position][0]] = { label, note: note.value }
+      saveDraft()
+    }
+
+    function saveDraft() {
+      if (!reviewer) return
+      const draft = drafts[reviewer]
+      draft.position = position
+      const saved = writeStorage(`${storageKey}-${reviewer}`, JSON.stringify(draft))
+      setSaveNote(saved ? 'Draft saved in this browser.' : 'Browser storage is unavailable. Download your CSV before closing.', !saved)
+    }
+
+    function setSaveNote(message, error = false) {
+      const status = get('save-note')
+      if (status.textContent !== message) status.textContent = message
+      status.classList.toggle('error', error)
+    }
+
+    function setFileStatus(message, error = false) {
+      get('file-status').textContent = message
+      get('file-status').classList.toggle('error', error)
+    }
+
+    function readDraft(id) {
+      try {
+        const draft = JSON.parse(readStorage(`${storageKey}-${id}`))
+        if (draft?.answers && Number.isInteger(draft.position) && draft.position >= 0 && draft.position < claims.length) return draft
+      } catch {
+        // A damaged draft must not prevent opening the review.
+      }
+      return { position: 0, answers: {} }
+    }
+
+    function readStorage(key) {
+      try {
+        return localStorage.getItem(key)
+      } catch {
+        return null
+      }
+    }
+
+    function writeStorage(key, value) {
+      try {
+        localStorage.setItem(key, value)
+        return true
+      } catch {
+        return false
+      }
+    }
+
+    function download() {
+      const rows = claims.map(([id, claim, evidence]) => {
+        const answer = drafts[reviewer].answers[id]
+        return [id, claim, evidence, answer?.label ?? '', answer?.note ?? '']
+      })
+      const csv = [columnNames, ...rows].map((row) => row.map(quoteCSV).join(',')).join('\r\n') + '\r\n'
+      const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }))
+      const link = document.createElement('a')
+      link.href = url
+      link.download = `rater_${reviewer}.csv`
+      document.body.append(link)
+      link.click()
+      link.remove()
+      setTimeout(() => URL.revokeObjectURL(url), 1000)
+      setFileStatus(`Downloaded ${link.download}.`)
+    }
+
+    async function restore(event) {
+      const picker = event.currentTarget
+      const [file] = picker.files
+      const targetReviewer = reviewer
+      picker.value = ''
+      if (!file) return
+      let entries
+      try {
+        const [columns, ...rows] = parseCSV(await file.text())
+        if (!new RegExp(`^rater_${targetReviewer}(?: \\(\\d+\\))?\\.csv$`).test(file.name)) {
+          setFileStatus(`Choose the CSV downloaded for Reviewer ${targetReviewer}.`, true)
+          return
+        }
+        if (columns?.join(',') !== columnNames.join(',') || rows.length !== claims.length) throw new Error('Invalid sheet')
+        entries = rows.map(([id, claim, evidence, label, note], index) => {
+          const original = claims[index]
+          if (rows[index].length !== columnNames.length || id !== original[0] || claim !== original[1] || evidence !== original[2] || (label && !labels.includes(label))) throw new Error('Invalid row')
+          return [id, { label, note }]
+        })
+      } catch {
+        setFileStatus('This file does not match the review sheet. Open a CSV downloaded from this page.', true)
+        return
+      }
+      if (reviewer !== targetReviewer) return
+      const answers = drafts[reviewer].answers
+      const conflicts = entries.some(([id, incoming]) => {
+        const existing = answers[id]
+        return (incoming.label && existing?.label && incoming.label !== existing.label) || (incoming.note && existing?.note && incoming.note !== existing.note)
+      })
+      if (conflicts) {
+        setFileStatus('This CSV differs from your current draft. The draft was kept. Use a fresh browser profile to open the other version.', true)
+        return
+      }
+      for (const [id, incoming] of entries) {
+        if (!incoming.label && !incoming.note) continue
+        answers[id] = { label: incoming.label || answers[id]?.label || '', note: incoming.note || answers[id]?.note || '' }
+      }
+      renderClaim()
+      saveDraft()
+      setFileStatus(`Opened ${file.name}.`)
+    }
+
+    function quoteCSV(value) {
+      return /[",\r\n]/.test(value) ? `"${value.replaceAll('"', '""')}"` : value
+    }
+
+    function parseCSV(text) {
+      const rows = []
+      let row = []
+      let field = ''
+      let quoted = false
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i]
+        if (char === '"') {
+          if (quoted && text[i + 1] === '"') {
+            field += '"'
+            i++
+          } else {
+            quoted = !quoted
+          }
+        } else if (!quoted && char === ',') {
+          row.push(field)
+          field = ''
+        } else if (!quoted && (char === '\n' || char === '\r')) {
+          row.push(field)
+          rows.push(row)
+          row = []
+          field = ''
+          if (char === '\r' && text[i + 1] === '\n') i++
+        } else {
+          field += char
+        }
+      }
+      if (quoted) throw new Error('Incomplete quoted field')
+      if (field || row.length) rows.push([...row, field])
+      return rows
+    }
+  </script>
+</body>
+</html>

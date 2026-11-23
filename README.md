@@ -18,10 +18,14 @@ comparisons. Hosted explanations require an explicit action.
 Read the [changes and remaining-work PDF](output/pdf/CANalyst_Changes_and_Remaining_Work_2026-10-30.pdf)
 for the full controls audit, results, limitations, and research priorities.
 
-The class package includes the [15-minute final presentation](output/presentation/CANalyst_Final_Presentation_15min.pptx),
+The class package includes the [20-minute final presentation](output/presentation/CANalyst_Final_Presentation_20min.pptx),
 [rehearsal and demo guide](docs/FINAL_PRESENTATION_GUIDE.md), and
 [verified final results](docs/FINAL_RESULTS_2026-11-22.md).
 See the [integration handoff](docs/INTEGRATION_HANDOFF_2026-11-22.md) for verification and remaining work.
+
+Open the [offline human review form](frontend/public/human-review.html) to rate the 40 blinded claims.
+Follow the [reviewer instructions](docs/HUMAN_REVIEW.md) and export your completed CSV.
+The [additional dataset notes](docs/ADDITIONAL_DATASETS.md) record two verified downloads and their pending integration work.
 
 ## Quick start
 
