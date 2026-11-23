@@ -22,6 +22,12 @@ Sets
                  evaluation ambient captures, which supply false alarms. No
                  ROAD attack capture is in this set: all of them were in
                  midterm100, so none is held out for an explainer.
+    ctt          Four more vehicles, added after every prompt and rule was
+                 fixed: can-train-and-test (see app/datasets.py). Each
+                 vehicle's baseline comes from its own attack-free capture;
+                 its DoS, fuzzing and spoofing evaluation captures are
+                 scored in full, plus 240 s of a second attack-free capture
+                 for false alarms.
 
 Output, under out/alerts/<set>/
     alerts.jsonl           one row per alert: opaque id, capture, span, ground truth
@@ -55,6 +61,11 @@ from scripts.evaluate_midterm import (PREFIX_S, STRIDE_S, THRESHOLD, WINDOW_S,  
 
 BACKEND = Path(__file__).resolve().parents[1]
 HELDOUT_S = 120.0
+# Explainer runs cost time per alert. On the four extra vehicles most alerts
+# are false alarms (92 from one Silverado capture), so every attack alert is
+# kept and at most this many false alarms per capture, drawn with a fixed seed.
+FALSE_ALARM_CAP = {"ctt": 3}
+CAP_SEED = 0
 
 
 def _median_window_start(dataset: str, name: str) -> float:
@@ -104,7 +115,48 @@ def _jobs(set_name: str) -> list[dict]:
             {"dataset": "hcrl", "baseline": (normal, 0.0, PREFIX_S), "captures": hcrl_slices},
             {"dataset": "road", "baseline": (road_ref, 0.0, None), "captures": road_slices},
         ]
+    if set_name == "ctt":
+        caps = datasets.catalog("ctt")
+        jobs = []
+        for vehicle in datasets.CTT_VEHICLES:
+            mine = [c for c in caps if c.meta["vehicle"] == vehicle]
+            ref = next(c for c in mine if c.role == "reference")
+            ambient = next(c for c in mine if c.kind == "ambient" and c.role == "evaluation")
+            attacks = sorted((c for c in mine if c.kind == "attack"), key=lambda c: c.name)
+            jobs.append({"dataset": "ctt", "baseline": (ref.path, 0.0, None),
+                         "captures": [(c.path, 0.0, None) for c in attacks]
+                         + [(ambient.path, 0.0, 2 * HELDOUT_S)]})
+        return jobs
     raise ValueError(f"unknown set: {set_name}")
+
+
+def cap_false_alarms(out: Path, per_capture: int, seed: int = CAP_SEED) -> dict:
+    """Keep every attack alert and at most `per_capture` false alarms per capture.
+    The full set stays in alerts_all.jsonl; ids are not renumbered."""
+    import random
+    full = out / "alerts_all.jsonl"
+    if not full.exists():
+        (out / "alerts.jsonl").rename(full)
+    rows = [json.loads(line) for line in full.read_text().splitlines() if line.strip()]
+    rng = random.Random(seed)
+    keep = {r["id"] for r in rows if r["is_attack"]}
+    by_capture: dict[str, list[str]] = {}
+    for r in rows:
+        if not r["is_attack"]:
+            by_capture.setdefault(r["capture"], []).append(r["id"])
+    for capture_name in sorted(by_capture):
+        ids = by_capture[capture_name]
+        keep.update(rng.sample(ids, min(per_capture, len(ids))))
+    (out / "alerts.jsonl").write_text("".join(json.dumps(r) + "\n" for r in rows if r["id"] in keep))
+    for scope in ("window", "alert"):
+        path = out / f"packets_{scope}.jsonl"
+        full_p = out / f"packets_{scope}_all.jsonl"
+        if not full_p.exists():
+            path.rename(full_p)
+        lines = [line for line in full_p.read_text().splitlines() if line.strip()]
+        path.write_text("".join(line + "\n" for line in lines if json.loads(line)["id"] in keep))
+    return {"false_alarm_cap_per_capture": per_capture, "seed": seed,
+            "alerts_before_cap": len(rows), "alerts_after_cap": len(keep)}
 
 
 def _true_type(df: pd.DataFrame, start: float, end: float) -> str:
@@ -123,10 +175,15 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--set", dest="set_name", default="midterm100",
-                    choices=["midterm100", "heldout"])
+                    choices=["midterm100", "heldout", "ctt"])
     ap.add_argument("--out", type=Path, default=BACKEND / "out" / "alerts")
+    ap.add_argument("--cap-only", action="store_true",
+                    help="only apply the false-alarm cap to an existing frozen set")
     args = ap.parse_args()
     out = (args.out / args.set_name).resolve()
+    if args.cap_only:
+        _apply_cap(out, args.set_name)
+        return
     out.mkdir(parents=True, exist_ok=True)
 
     alerts_rows: list[dict] = []
@@ -160,7 +217,9 @@ def main() -> None:
                 uid = f"A{len(alerts_rows):04d}"
                 true_type = _true_type(df, alert.start, alert.end)
                 alerts_rows.append({
-                    "id": uid, "dataset": job["dataset"], "capture": path.stem,
+                    "id": uid, "dataset": job["dataset"],
+                    "capture": (datasets.ctt_capture_name(path) if job["dataset"] == "ctt"
+                                else path.stem),
                     "slice_start_s": start, "slice_stop_s": stop,
                     "alert_id": alert.alert_id, "start": alert.start, "end": alert.end,
                     "duration_s": round(alert.end - alert.start, 3),
@@ -170,7 +229,8 @@ def main() -> None:
                 for scope in packets:
                     ev = build_evidence(alert, df, windows, baseline, scope=scope)
                     packets[scope].append({"id": uid, "evidence": ev})
-            print(f"{job['dataset']}/{path.stem}: {len(alerts)} alert(s)", flush=True)
+            print(f"{job['dataset']}/{path.parent.parent.name}/{path.stem}: {len(alerts)} alert(s)",
+                  flush=True)
             del df, windows
             gc.collect()
 
@@ -187,6 +247,21 @@ def main() -> None:
     manifest["counts"] = {"alerts": len(alerts_rows), "by_dataset": by_ds}
     (out / "manifest.json").write_text(json.dumps(manifest, indent=2, default=_json) + "\n")
     print(json.dumps(manifest["counts"]))
+    _apply_cap(out, args.set_name)
+
+
+def _apply_cap(out: Path, set_name: str) -> None:
+    if set_name not in FALSE_ALARM_CAP:
+        return
+    info = cap_false_alarms(out, FALSE_ALARM_CAP[set_name])
+    manifest = json.loads((out / "manifest.json").read_text())
+    rows = [json.loads(line) for line in (out / "alerts.jsonl").read_text().splitlines() if line]
+    manifest["cap"] = info
+    manifest["counts_after_cap"] = {
+        "alerts": len(rows), "attack": sum(r["is_attack"] for r in rows),
+        "false_alarm": sum(not r["is_attack"] for r in rows)}
+    (out / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
+    print(json.dumps(manifest["counts_after_cap"]))
 
 
 if __name__ == "__main__":

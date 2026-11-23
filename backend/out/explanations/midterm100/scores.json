@@ -383,17 +383,24 @@
       "no_answer": 0
     },
     "gemma-4-31b_v2-dosv1_alert": {
-      "alerts": 31,
+      "alerts": 100,
       "errors": 0,
-      "attack_alerts": 20,
+      "attack_alerts": 89,
       "false_alarms": 11,
       "accuracy": {
         "all": {
-          "k": 16,
-          "n": 20,
-          "value": 0.8,
-          "lo": 0.5839825677481064,
-          "hi": 0.919342337420202
+          "k": 85,
+          "n": 89,
+          "value": 0.9550561797752809,
+          "lo": 0.8900695404028713,
+          "hi": 0.982385513932674
+        },
+        "hcrl": {
+          "k": 69,
+          "n": 69,
+          "value": 1.0,
+          "lo": 0.9472627418109483,
+          "hi": 1.0
         },
         "road": {
           "k": 16,
@@ -404,6 +411,27 @@
         }
       },
       "accuracy_by_type": {
+        "hcrl/dos": {
+          "k": 16,
+          "n": 16,
+          "value": 1.0,
+          "lo": 0.8063923194655637,
+          "hi": 1.0
+        },
+        "hcrl/fuzzing": {
+          "k": 15,
+          "n": 15,
+          "value": 1.0,
+          "lo": 0.7961166989641515,
+          "hi": 1.0
+        },
+        "hcrl/spoofing": {
+          "k": 38,
+          "n": 38,
+          "value": 1.0,
+          "lo": 0.908190131774416,
+          "hi": 0.9999999999999999
+        },
         "road/fuzzing": {
           "k": 3,
           "n": 3,
@@ -427,6 +455,15 @@
         }
       },
       "confusion": {
+        "hcrl/dos": {
+          "dos": 16
+        },
+        "hcrl/fuzzing": {
+          "fuzzing": 15
+        },
+        "hcrl/spoofing": {
+          "spoofing": 38
+        },
         "road/spoofing": {
           "spoofing": 13
         },
@@ -449,28 +486,28 @@
         "lo": 0.35380117450784887,
         "hi": 0.8483352890463243
       },
-      "claims": 172,
+      "claims": 572,
       "claims_with_valid_citations": {
-        "k": 172,
-        "n": 172,
+        "k": 572,
+        "n": 572,
         "value": 1.0,
-        "lo": 0.9781538503692052,
+        "lo": 0.9933289644886609,
         "hi": 1.0
       },
       "replies_fully_grounded": {
-        "k": 31,
-        "n": 31,
+        "k": 100,
+        "n": 100,
         "value": 1.0,
-        "lo": 0.889744604539564,
+        "lo": 0.9630065017930143,
         "hi": 1.0
       },
       "latency_s": {
-        "median": 20.177,
+        "median": 20.2815,
         "max": 39.895
       },
       "completion_tokens": {
-        "median": 550,
-        "total": 17038
+        "median": 558.0,
+        "total": 55903
       },
       "no_answer": 0
     },
@@ -605,17 +642,24 @@
       "no_answer": 0
     },
     "glm-5.3_v2-dosv1_alert": {
-      "alerts": 30,
+      "alerts": 99,
       "errors": 0,
-      "attack_alerts": 20,
+      "attack_alerts": 89,
       "false_alarms": 10,
       "accuracy": {
         "all": {
-          "k": 16,
-          "n": 20,
-          "value": 0.8,
-          "lo": 0.5839825677481064,
-          "hi": 0.919342337420202
+          "k": 84,
+          "n": 89,
+          "value": 0.9438202247191011,
+          "lo": 0.8751458326492151,
+          "hi": 0.9757671215792799
+        },
+        "hcrl": {
+          "k": 68,
+          "n": 69,
+          "value": 0.9855072463768116,
+          "lo": 0.9223687753885529,
+          "hi": 0.9974370753554117
         },
         "road": {
           "k": 16,
@@ -626,6 +670,27 @@
         }
       },
       "accuracy_by_type": {
+        "hcrl/dos": {
+          "k": 16,
+          "n": 16,
+          "value": 1.0,
+          "lo": 0.8063923194655637,
+          "hi": 1.0
+        },
+        "hcrl/fuzzing": {
+          "k": 15,
+          "n": 15,
+          "value": 1.0,
+          "lo": 0.7961166989641515,
+          "hi": 1.0
+        },
+        "hcrl/spoofing": {
+          "k": 37,
+          "n": 38,
+          "value": 0.9736842105263158,
+          "lo": 0.8650512388404787,
+          "hi": 0.9953394123142312
+        },
         "road/fuzzing": {
           "k": 3,
           "n": 3,
@@ -649,6 +714,16 @@
         }
       },
       "confusion": {
+        "hcrl/dos": {
+          "dos": 16
+        },
+        "hcrl/fuzzing": {
+          "fuzzing": 15
+        },
+        "hcrl/spoofing": {
+          "spoofing": 37,
+          "dos": 1
+        },
         "road/spoofing": {
           "spoofing": 13
         },
@@ -671,28 +746,28 @@
         "lo": 0.31267376973365824,
         "hi": 0.8318196702937638
       },
-      "claims": 270,
+      "claims": 915,
       "claims_with_valid_citations": {
-        "k": 270,
-        "n": 270,
+        "k": 915,
+        "n": 915,
         "value": 1.0,
-        "lo": 0.9859719604283536,
-        "hi": 1.0
-      },
-      "replies_fully_grounded": {
-        "k": 30,
-        "n": 30,
-        "value": 1.0,
-        "lo": 0.8864866068260312,
+        "lo": 0.9958192365137456,
         "hi": 0.9999999999999999
       },
+      "replies_fully_grounded": {
+        "k": 99,
+        "n": 99,
+        "value": 1.0,
+        "lo": 0.9626467879321726,
+        "hi": 1.0
+      },
       "latency_s": {
-        "median": 39.2885,
-        "max": 128.675
+        "median": 68.286,
+        "max": 155.992
       },
       "completion_tokens": {
-        "median": 3702.5,
-        "total": 130924
+        "median": 5172,
+        "total": 576417
       },
       "no_answer": 0
     },
@@ -828,17 +903,24 @@
       "no_answer": 5
     },
     "qwen3.6-27b-fp8_v2-dosv1_alert": {
-      "alerts": 31,
+      "alerts": 100,
       "errors": 0,
-      "attack_alerts": 20,
+      "attack_alerts": 89,
       "false_alarms": 11,
       "accuracy": {
         "all": {
-          "k": 15,
-          "n": 20,
-          "value": 0.75,
-          "lo": 0.531299122381256,
-          "hi": 0.8881382985923343
+          "k": 80,
+          "n": 89,
+          "value": 0.898876404494382,
+          "lo": 0.818863100692257,
+          "hi": 0.9458814531080358
+        },
+        "hcrl": {
+          "k": 65,
+          "n": 69,
+          "value": 0.9420289855072463,
+          "lo": 0.8602075664233835,
+          "hi": 0.9772276111196287
         },
         "road": {
           "k": 15,
@@ -849,6 +931,27 @@
         }
       },
       "accuracy_by_type": {
+        "hcrl/dos": {
+          "k": 15,
+          "n": 16,
+          "value": 0.9375,
+          "lo": 0.7167126242970107,
+          "hi": 0.9888806552353576
+        },
+        "hcrl/fuzzing": {
+          "k": 13,
+          "n": 15,
+          "value": 0.8666666666666667,
+          "lo": 0.6211801716767764,
+          "hi": 0.9626387408969346
+        },
+        "hcrl/spoofing": {
+          "k": 37,
+          "n": 38,
+          "value": 0.9736842105263158,
+          "lo": 0.8650512388404787,
+          "hi": 0.9953394123142312
+        },
         "road/fuzzing": {
           "k": 2,
           "n": 3,
@@ -872,6 +975,18 @@
         }
       },
       "confusion": {
+        "hcrl/dos": {
+          "dos": 15,
+          "benign": 1
+        },
+        "hcrl/fuzzing": {
+          "fuzzing": 13,
+          "benign": 2
+        },
+        "hcrl/spoofing": {
+          "spoofing": 37,
+          "dos": 1
+        },
         "road/spoofing": {
           "spoofing": 13
         },
@@ -895,28 +1010,28 @@
         "lo": 0.43435469882387084,
         "hi": 0.902539407099751
       },
-      "claims": 193,
+      "claims": 663,
       "claims_with_valid_citations": {
-        "k": 192,
-        "n": 193,
-        "value": 0.9948186528497409,
-        "lo": 0.9712392635105996,
-        "hi": 0.999084778712562
+        "k": 657,
+        "n": 663,
+        "value": 0.9909502262443439,
+        "lo": 0.9803980450997558,
+        "hi": 0.9958459952022529
       },
       "replies_fully_grounded": {
-        "k": 29,
-        "n": 31,
-        "value": 0.9354838709677419,
-        "lo": 0.7928136326370188,
-        "hi": 0.9821252164780854
+        "k": 92,
+        "n": 100,
+        "value": 0.92,
+        "lo": 0.8500189229905127,
+        "hi": 0.9589065385156194
       },
       "latency_s": {
-        "median": 67.9,
-        "max": 90.571
+        "median": 71.961,
+        "max": 102.245
       },
       "completion_tokens": {
-        "median": 4683,
-        "total": 141061
+        "median": 4734.0,
+        "total": 470614
       },
       "no_answer": 0
     },
@@ -1149,17 +1264,32 @@
     },
     "control-v1_alert vs gemma-4-31b_v2-dosv1_alert": {
       "all": {
-        "n": 20,
-        "a_correct": 17,
-        "b_correct": 16,
+        "n": 89,
+        "a_correct": 70,
+        "b_correct": 85,
         "only_a_correct": 1,
-        "only_b_correct": 0,
-        "mcnemar_p": 1.0,
+        "only_b_correct": 16,
+        "mcnemar_p": 0.000274658203125,
         "difference": {
-          "difference": 0.04999999999999993,
-          "lo": 0.0,
-          "hi": 0.15000000000000002,
-          "n": 20,
+          "difference": -0.1685393258426966,
+          "lo": -0.2584269662921348,
+          "hi": -0.0898876404494382,
+          "n": 89,
+          "n_boot": 10000
+        }
+      },
+      "hcrl": {
+        "n": 69,
+        "a_correct": 53,
+        "b_correct": 69,
+        "only_a_correct": 0,
+        "only_b_correct": 16,
+        "mcnemar_p": 3.0517578125e-05,
+        "difference": {
+          "difference": -0.23188405797101452,
+          "lo": -0.33333333333333337,
+          "hi": -0.13043478260869568,
+          "n": 69,
           "n_boot": 10000
         }
       },
@@ -1228,17 +1358,32 @@
     },
     "control-v1_alert vs glm-5.3_v2-dosv1_alert": {
       "all": {
-        "n": 20,
-        "a_correct": 17,
-        "b_correct": 16,
-        "only_a_correct": 1,
-        "only_b_correct": 0,
-        "mcnemar_p": 1.0,
+        "n": 89,
+        "a_correct": 70,
+        "b_correct": 84,
+        "only_a_correct": 2,
+        "only_b_correct": 16,
+        "mcnemar_p": 0.001312255859375,
         "difference": {
-          "difference": 0.04999999999999993,
-          "lo": 0.0,
-          "hi": 0.15000000000000002,
-          "n": 20,
+          "difference": -0.1573033707865168,
+          "lo": -0.247191011235955,
+          "hi": -0.0786516853932584,
+          "n": 89,
+          "n_boot": 10000
+        }
+      },
+      "hcrl": {
+        "n": 69,
+        "a_correct": 53,
+        "b_correct": 68,
+        "only_a_correct": 1,
+        "only_b_correct": 16,
+        "mcnemar_p": 0.000274658203125,
+        "difference": {
+          "difference": -0.21739130434782616,
+          "lo": -0.318840579710145,
+          "hi": -0.1159420289855072,
+          "n": 69,
           "n_boot": 10000
         }
       },
@@ -1307,17 +1452,32 @@
     },
     "control-v1_alert vs qwen3.6-27b-fp8_v2-dosv1_alert": {
       "all": {
-        "n": 20,
-        "a_correct": 17,
-        "b_correct": 15,
-        "only_a_correct": 2,
-        "only_b_correct": 0,
-        "mcnemar_p": 0.5,
+        "n": 89,
+        "a_correct": 70,
+        "b_correct": 80,
+        "only_a_correct": 5,
+        "only_b_correct": 15,
+        "mcnemar_p": 0.04138946533203125,
         "difference": {
-          "difference": 0.09999999999999998,
-          "lo": 0.0,
-          "hi": 0.25,
-          "n": 20,
+          "difference": -0.1123595505617977,
+          "lo": -0.2134831460674157,
+          "hi": -0.022471910112359494,
+          "n": 89,
+          "n_boot": 10000
+        }
+      },
+      "hcrl": {
+        "n": 69,
+        "a_correct": 53,
+        "b_correct": 65,
+        "only_a_correct": 3,
+        "only_b_correct": 15,
+        "mcnemar_p": 0.007537841796875,
+        "difference": {
+          "difference": -0.17391304347826086,
+          "lo": -0.28985507246376807,
+          "hi": -0.05797101449275366,
+          "n": 69,
           "n_boot": 10000
         }
       },
@@ -1433,17 +1593,32 @@
     },
     "control-v1_window vs gemma-4-31b_v2-dosv1_alert": {
       "all": {
-        "n": 20,
-        "a_correct": 17,
-        "b_correct": 16,
+        "n": 89,
+        "a_correct": 70,
+        "b_correct": 85,
         "only_a_correct": 1,
-        "only_b_correct": 0,
-        "mcnemar_p": 1.0,
+        "only_b_correct": 16,
+        "mcnemar_p": 0.000274658203125,
         "difference": {
-          "difference": 0.04999999999999993,
-          "lo": 0.0,
-          "hi": 0.15000000000000002,
-          "n": 20,
+          "difference": -0.1685393258426966,
+          "lo": -0.2584269662921348,
+          "hi": -0.0898876404494382,
+          "n": 89,
+          "n_boot": 10000
+        }
+      },
+      "hcrl": {
+        "n": 69,
+        "a_correct": 53,
+        "b_correct": 69,
+        "only_a_correct": 0,
+        "only_b_correct": 16,
+        "mcnemar_p": 3.0517578125e-05,
+        "difference": {
+          "difference": -0.23188405797101452,
+          "lo": -0.33333333333333337,
+          "hi": -0.13043478260869568,
+          "n": 69,
           "n_boot": 10000
         }
       },
@@ -1512,17 +1687,32 @@
     },
     "control-v1_window vs glm-5.3_v2-dosv1_alert": {
       "all": {
-        "n": 20,
-        "a_correct": 17,
-        "b_correct": 16,
-        "only_a_correct": 1,
-        "only_b_correct": 0,
-        "mcnemar_p": 1.0,
+        "n": 89,
+        "a_correct": 70,
+        "b_correct": 84,
+        "only_a_correct": 2,
+        "only_b_correct": 16,
+        "mcnemar_p": 0.001312255859375,
         "difference": {
-          "difference": 0.04999999999999993,
-          "lo": 0.0,
-          "hi": 0.15000000000000002,
-          "n": 20,
+          "difference": -0.1573033707865168,
+          "lo": -0.247191011235955,
+          "hi": -0.0786516853932584,
+          "n": 89,
+          "n_boot": 10000
+        }
+      },
+      "hcrl": {
+        "n": 69,
+        "a_correct": 53,
+        "b_correct": 68,
+        "only_a_correct": 1,
+        "only_b_correct": 16,
+        "mcnemar_p": 0.000274658203125,
+        "difference": {
+          "difference": -0.21739130434782616,
+          "lo": -0.318840579710145,
+          "hi": -0.1159420289855072,
+          "n": 69,
           "n_boot": 10000
         }
       },
@@ -1591,17 +1781,32 @@
     },
     "control-v1_window vs qwen3.6-27b-fp8_v2-dosv1_alert": {
       "all": {
-        "n": 20,
-        "a_correct": 17,
-        "b_correct": 15,
-        "only_a_correct": 2,
-        "only_b_correct": 0,
-        "mcnemar_p": 0.5,
+        "n": 89,
+        "a_correct": 70,
+        "b_correct": 80,
+        "only_a_correct": 5,
+        "only_b_correct": 15,
+        "mcnemar_p": 0.04138946533203125,
         "difference": {
-          "difference": 0.09999999999999998,
-          "lo": 0.0,
-          "hi": 0.25,
-          "n": 20,
+          "difference": -0.1123595505617977,
+          "lo": -0.2134831460674157,
+          "hi": -0.022471910112359494,
+          "n": 89,
+          "n_boot": 10000
+        }
+      },
+      "hcrl": {
+        "n": 69,
+        "a_correct": 53,
+        "b_correct": 65,
+        "only_a_correct": 3,
+        "only_b_correct": 15,
+        "mcnemar_p": 0.007537841796875,
+        "difference": {
+          "difference": -0.17391304347826086,
+          "lo": -0.28985507246376807,
+          "hi": -0.05797101449275366,
+          "n": 69,
           "n_boot": 10000
         }
       },
@@ -1670,9 +1875,9 @@
     },
     "control-v2_alert vs gemma-4-31b_v2-dosv1_alert": {
       "all": {
-        "n": 20,
-        "a_correct": 16,
-        "b_correct": 16,
+        "n": 89,
+        "a_correct": 85,
+        "b_correct": 85,
         "only_a_correct": 0,
         "only_b_correct": 0,
         "mcnemar_p": 1.0,
@@ -1680,7 +1885,22 @@
           "difference": 0.0,
           "lo": 0.0,
           "hi": 0.0,
-          "n": 20,
+          "n": 89,
+          "n_boot": 10000
+        }
+      },
+      "hcrl": {
+        "n": 69,
+        "a_correct": 69,
+        "b_correct": 69,
+        "only_a_correct": 0,
+        "only_b_correct": 0,
+        "mcnemar_p": 1.0,
+        "difference": {
+          "difference": 0.0,
+          "lo": 0.0,
+          "hi": 0.0,
+          "n": 69,
           "n_boot": 10000
         }
       },
@@ -1749,17 +1969,32 @@
     },
     "control-v2_alert vs glm-5.3_v2-dosv1_alert": {
       "all": {
-        "n": 20,
-        "a_correct": 16,
-        "b_correct": 16,
-        "only_a_correct": 0,
+        "n": 89,
+        "a_correct": 85,
+        "b_correct": 84,
+        "only_a_correct": 1,
         "only_b_correct": 0,
         "mcnemar_p": 1.0,
         "difference": {
-          "difference": 0.0,
+          "difference": 0.011235955056179803,
           "lo": 0.0,
-          "hi": 0.0,
-          "n": 20,
+          "hi": 0.03370786516853941,
+          "n": 89,
+          "n_boot": 10000
+        }
+      },
+      "hcrl": {
+        "n": 69,
+        "a_correct": 69,
+        "b_correct": 68,
+        "only_a_correct": 1,
+        "only_b_correct": 0,
+        "mcnemar_p": 1.0,
+        "difference": {
+          "difference": 0.01449275362318836,
+          "lo": 0.0,
+          "hi": 0.04347826086956519,
+          "n": 69,
           "n_boot": 10000
         }
       },
@@ -1828,17 +2063,32 @@
     },
     "control-v2_alert vs qwen3.6-27b-fp8_v2-dosv1_alert": {
       "all": {
-        "n": 20,
-        "a_correct": 16,
-        "b_correct": 15,
-        "only_a_correct": 1,
+        "n": 89,
+        "a_correct": 85,
+        "b_correct": 80,
+        "only_a_correct": 5,
         "only_b_correct": 0,
-        "mcnemar_p": 1.0,
+        "mcnemar_p": 0.0625,
         "difference": {
-          "difference": 0.050000000000000044,
-          "lo": 0.0,
-          "hi": 0.15000000000000002,
-          "n": 20,
+          "difference": 0.0561797752808989,
+          "lo": 0.011235955056179803,
+          "hi": 0.101123595505618,
+          "n": 89,
+          "n_boot": 10000
+        }
+      },
+      "hcrl": {
+        "n": 69,
+        "a_correct": 69,
+        "b_correct": 65,
+        "only_a_correct": 4,
+        "only_b_correct": 0,
+        "mcnemar_p": 0.125,
+        "difference": {
+          "difference": 0.05797101449275366,
+          "lo": 0.01449275362318836,
+          "hi": 0.1159420289855072,
+          "n": 69,
           "n_boot": 10000
         }
       },
@@ -1907,17 +2157,32 @@
     },
     "gemma-4-31b_v2-dosv1_alert vs gemma-4-31b_v2_alert": {
       "all": {
-        "n": 20,
-        "a_correct": 16,
-        "b_correct": 16,
-        "only_a_correct": 0,
+        "n": 89,
+        "a_correct": 85,
+        "b_correct": 82,
+        "only_a_correct": 3,
         "only_b_correct": 0,
-        "mcnemar_p": 1.0,
+        "mcnemar_p": 0.25,
         "difference": {
-          "difference": 0.0,
+          "difference": 0.0337078651685393,
           "lo": 0.0,
-          "hi": 0.0,
-          "n": 20,
+          "hi": 0.0786516853932584,
+          "n": 89,
+          "n_boot": 10000
+        }
+      },
+      "hcrl": {
+        "n": 69,
+        "a_correct": 69,
+        "b_correct": 66,
+        "only_a_correct": 3,
+        "only_b_correct": 0,
+        "mcnemar_p": 0.25,
+        "difference": {
+          "difference": 0.04347826086956519,
+          "lo": 0.0,
+          "hi": 0.10144927536231885,
+          "n": 69,
           "n_boot": 10000
         }
       },
@@ -1939,17 +2204,32 @@
     },
     "gemma-4-31b_v2-dosv1_alert vs glm-5.3_v2-dosv1_alert": {
       "all": {
-        "n": 20,
-        "a_correct": 16,
-        "b_correct": 16,
-        "only_a_correct": 0,
+        "n": 89,
+        "a_correct": 85,
+        "b_correct": 84,
+        "only_a_correct": 1,
         "only_b_correct": 0,
         "mcnemar_p": 1.0,
         "difference": {
-          "difference": 0.0,
+          "difference": 0.011235955056179803,
           "lo": 0.0,
-          "hi": 0.0,
-          "n": 20,
+          "hi": 0.03370786516853941,
+          "n": 89,
+          "n_boot": 10000
+        }
+      },
+      "hcrl": {
+        "n": 69,
+        "a_correct": 69,
+        "b_correct": 68,
+        "only_a_correct": 1,
+        "only_b_correct": 0,
+        "mcnemar_p": 1.0,
+        "difference": {
+          "difference": 0.01449275362318836,
+          "lo": 0.0,
+          "hi": 0.04347826086956519,
+          "n": 69,
           "n_boot": 10000
         }
       },
@@ -1971,17 +2251,32 @@
     },
     "gemma-4-31b_v2-dosv1_alert vs glm-5.3_v2_alert": {
       "all": {
-        "n": 20,
-        "a_correct": 16,
-        "b_correct": 16,
-        "only_a_correct": 0,
+        "n": 89,
+        "a_correct": 85,
+        "b_correct": 77,
+        "only_a_correct": 8,
         "only_b_correct": 0,
-        "mcnemar_p": 1.0,
+        "mcnemar_p": 0.0078125,
         "difference": {
-          "difference": 0.0,
-          "lo": 0.0,
-          "hi": 0.0,
-          "n": 20,
+          "difference": 0.0898876404494382,
+          "lo": 0.0337078651685393,
+          "hi": 0.1573033707865168,
+          "n": 89,
+          "n_boot": 10000
+        }
+      },
+      "hcrl": {
+        "n": 69,
+        "a_correct": 69,
+        "b_correct": 61,
+        "only_a_correct": 8,
+        "only_b_correct": 0,
+        "mcnemar_p": 0.0078125,
+        "difference": {
+          "difference": 0.1159420289855072,
+          "lo": 0.04347826086956519,
+          "hi": 0.2028985507246377,
+          "n": 69,
           "n_boot": 10000
         }
       },
@@ -2003,17 +2298,32 @@
     },
     "gemma-4-31b_v2-dosv1_alert vs qwen3.6-27b-fp8_v2-dosv1_alert": {
       "all": {
-        "n": 20,
-        "a_correct": 16,
-        "b_correct": 15,
-        "only_a_correct": 1,
+        "n": 89,
+        "a_correct": 85,
+        "b_correct": 80,
+        "only_a_correct": 5,
         "only_b_correct": 0,
-        "mcnemar_p": 1.0,
+        "mcnemar_p": 0.0625,
         "difference": {
-          "difference": 0.050000000000000044,
-          "lo": 0.0,
-          "hi": 0.15000000000000002,
-          "n": 20,
+          "difference": 0.0561797752808989,
+          "lo": 0.011235955056179803,
+          "hi": 0.101123595505618,
+          "n": 89,
+          "n_boot": 10000
+        }
+      },
+      "hcrl": {
+        "n": 69,
+        "a_correct": 69,
+        "b_correct": 65,
+        "only_a_correct": 4,
+        "only_b_correct": 0,
+        "mcnemar_p": 0.125,
+        "difference": {
+          "difference": 0.05797101449275366,
+          "lo": 0.01449275362318836,
+          "hi": 0.1159420289855072,
+          "n": 69,
           "n_boot": 10000
         }
       },
@@ -2035,17 +2345,32 @@
     },
     "gemma-4-31b_v2-dosv1_alert vs qwen3.6-27b-fp8_v2_alert": {
       "all": {
-        "n": 20,
-        "a_correct": 16,
-        "b_correct": 14,
-        "only_a_correct": 2,
+        "n": 89,
+        "a_correct": 85,
+        "b_correct": 50,
+        "only_a_correct": 35,
         "only_b_correct": 0,
-        "mcnemar_p": 0.5,
+        "mcnemar_p": 5.820766091346741e-11,
         "difference": {
-          "difference": 0.10000000000000009,
-          "lo": 0.0,
-          "hi": 0.25,
-          "n": 20,
+          "difference": 0.3932584269662921,
+          "lo": 0.2921348314606741,
+          "hi": 0.4943820224719101,
+          "n": 89,
+          "n_boot": 10000
+        }
+      },
+      "hcrl": {
+        "n": 69,
+        "a_correct": 69,
+        "b_correct": 36,
+        "only_a_correct": 33,
+        "only_b_correct": 0,
+        "mcnemar_p": 2.3283064365386963e-10,
+        "difference": {
+          "difference": 0.4782608695652174,
+          "lo": 0.3623188405797102,
+          "hi": 0.5942028985507246,
+          "n": 69,
           "n_boot": 10000
         }
       },
@@ -2067,17 +2392,32 @@
     },
     "gemma-4-31b_v2_alert vs glm-5.3_v2-dosv1_alert": {
       "all": {
-        "n": 20,
-        "a_correct": 16,
-        "b_correct": 16,
-        "only_a_correct": 0,
-        "only_b_correct": 0,
-        "mcnemar_p": 1.0,
+        "n": 89,
+        "a_correct": 82,
+        "b_correct": 84,
+        "only_a_correct": 1,
+        "only_b_correct": 3,
+        "mcnemar_p": 0.625,
         "difference": {
-          "difference": 0.0,
-          "lo": 0.0,
-          "hi": 0.0,
-          "n": 20,
+          "difference": -0.022471910112359494,
+          "lo": -0.0674157303370787,
+          "hi": 0.022471910112359494,
+          "n": 89,
+          "n_boot": 10000
+        }
+      },
+      "hcrl": {
+        "n": 69,
+        "a_correct": 66,
+        "b_correct": 68,
+        "only_a_correct": 1,
+        "only_b_correct": 3,
+        "mcnemar_p": 0.625,
+        "difference": {
+          "difference": -0.02898550724637683,
+          "lo": -0.08695652173913049,
+          "hi": 0.02898550724637683,
+          "n": 69,
           "n_boot": 10000
         }
       },
@@ -2146,17 +2486,32 @@
     },
     "gemma-4-31b_v2_alert vs qwen3.6-27b-fp8_v2-dosv1_alert": {
       "all": {
-        "n": 20,
-        "a_correct": 16,
-        "b_correct": 15,
-        "only_a_correct": 1,
-        "only_b_correct": 0,
+        "n": 89,
+        "a_correct": 82,
+        "b_correct": 80,
+        "only_a_correct": 5,
+        "only_b_correct": 3,
+        "mcnemar_p": 0.7265625,
+        "difference": {
+          "difference": 0.022471910112359605,
+          "lo": -0.0449438202247191,
+          "hi": 0.07865168539325851,
+          "n": 89,
+          "n_boot": 10000
+        }
+      },
+      "hcrl": {
+        "n": 69,
+        "a_correct": 66,
+        "b_correct": 65,
+        "only_a_correct": 4,
+        "only_b_correct": 3,
         "mcnemar_p": 1.0,
         "difference": {
-          "difference": 0.050000000000000044,
-          "lo": 0.0,
-          "hi": 0.15000000000000002,
-          "n": 20,
+          "difference": 0.01449275362318847,
+          "lo": -0.05797101449275366,
+          "hi": 0.08695652173913049,
+          "n": 69,
           "n_boot": 10000
         }
       },
@@ -2225,17 +2580,32 @@
     },
     "glm-5.3_v2-dosv1_alert vs glm-5.3_v2_alert": {
       "all": {
-        "n": 20,
-        "a_correct": 16,
-        "b_correct": 16,
-        "only_a_correct": 0,
-        "only_b_correct": 0,
-        "mcnemar_p": 1.0,
+        "n": 89,
+        "a_correct": 84,
+        "b_correct": 77,
+        "only_a_correct": 8,
+        "only_b_correct": 1,
+        "mcnemar_p": 0.0390625,
         "difference": {
-          "difference": 0.0,
-          "lo": 0.0,
-          "hi": 0.0,
-          "n": 20,
+          "difference": 0.0786516853932584,
+          "lo": 0.022471910112359494,
+          "hi": 0.1460674157303371,
+          "n": 89,
+          "n_boot": 10000
+        }
+      },
+      "hcrl": {
+        "n": 69,
+        "a_correct": 68,
+        "b_correct": 61,
+        "only_a_correct": 8,
+        "only_b_correct": 1,
+        "mcnemar_p": 0.0390625,
+        "difference": {
+          "difference": 0.10144927536231885,
+          "lo": 0.02898550724637683,
+          "hi": 0.18840579710144922,
+          "n": 69,
           "n_boot": 10000
         }
       },
@@ -2257,17 +2627,32 @@
     },
     "glm-5.3_v2-dosv1_alert vs qwen3.6-27b-fp8_v2-dosv1_alert": {
       "all": {
-        "n": 20,
-        "a_correct": 16,
-        "b_correct": 15,
-        "only_a_correct": 1,
-        "only_b_correct": 0,
-        "mcnemar_p": 1.0,
+        "n": 89,
+        "a_correct": 84,
+        "b_correct": 80,
+        "only_a_correct": 5,
+        "only_b_correct": 1,
+        "mcnemar_p": 0.21875,
         "difference": {
-          "difference": 0.050000000000000044,
+          "difference": 0.0449438202247191,
           "lo": 0.0,
-          "hi": 0.15000000000000002,
-          "n": 20,
+          "hi": 0.101123595505618,
+          "n": 89,
+          "n_boot": 10000
+        }
+      },
+      "hcrl": {
+        "n": 69,
+        "a_correct": 68,
+        "b_correct": 65,
+        "only_a_correct": 4,
+        "only_b_correct": 1,
+        "mcnemar_p": 0.375,
+        "difference": {
+          "difference": 0.0434782608695653,
+          "lo": -0.01449275362318847,
+          "hi": 0.1159420289855072,
+          "n": 69,
           "n_boot": 10000
         }
       },
@@ -2289,17 +2674,32 @@
     },
     "glm-5.3_v2-dosv1_alert vs qwen3.6-27b-fp8_v2_alert": {
       "all": {
-        "n": 20,
-        "a_correct": 16,
-        "b_correct": 14,
-        "only_a_correct": 2,
+        "n": 89,
+        "a_correct": 84,
+        "b_correct": 50,
+        "only_a_correct": 34,
         "only_b_correct": 0,
-        "mcnemar_p": 0.5,
+        "mcnemar_p": 1.1641532182693481e-10,
         "difference": {
-          "difference": 0.10000000000000009,
-          "lo": 0.0,
-          "hi": 0.25,
-          "n": 20,
+          "difference": 0.3820224719101123,
+          "lo": 0.2808988764044944,
+          "hi": 0.48314606741573035,
+          "n": 89,
+          "n_boot": 10000
+        }
+      },
+      "hcrl": {
+        "n": 69,
+        "a_correct": 68,
+        "b_correct": 36,
+        "only_a_correct": 32,
+        "only_b_correct": 0,
+        "mcnemar_p": 4.656612873077393e-10,
+        "difference": {
+          "difference": 0.46376811594202905,
+          "lo": 0.34782608695652173,
+          "hi": 0.5797101449275363,
+          "n": 69,
           "n_boot": 10000
         }
       },
@@ -2321,17 +2721,32 @@
     },
     "glm-5.3_v2_alert vs qwen3.6-27b-fp8_v2-dosv1_alert": {
       "all": {
-        "n": 20,
-        "a_correct": 16,
-        "b_correct": 15,
-        "only_a_correct": 1,
-        "only_b_correct": 0,
-        "mcnemar_p": 1.0,
+        "n": 89,
+        "a_correct": 77,
+        "b_correct": 80,
+        "only_a_correct": 4,
+        "only_b_correct": 7,
+        "mcnemar_p": 0.548828125,
         "difference": {
-          "difference": 0.050000000000000044,
-          "lo": 0.0,
-          "hi": 0.15000000000000002,
-          "n": 20,
+          "difference": -0.0337078651685393,
+          "lo": -0.1123595505617977,
+          "hi": 0.0337078651685393,
+          "n": 89,
+          "n_boot": 10000
+        }
+      },
+      "hcrl": {
+        "n": 69,
+        "a_correct": 61,
+        "b_correct": 65,
+        "only_a_correct": 3,
+        "only_b_correct": 7,
+        "mcnemar_p": 0.34375,
+        "difference": {
+          "difference": -0.05797101449275355,
+          "lo": -0.14492753623188404,
+          "hi": 0.02898550724637683,
+          "n": 69,
           "n_boot": 10000
         }
       },
@@ -2400,17 +2815,32 @@
     },
     "qwen3.6-27b-fp8_v2-dosv1_alert vs qwen3.6-27b-fp8_v2_alert": {
       "all": {
-        "n": 20,
-        "a_correct": 15,
-        "b_correct": 14,
-        "only_a_correct": 1,
-        "only_b_correct": 0,
-        "mcnemar_p": 1.0,
+        "n": 89,
+        "a_correct": 80,
+        "b_correct": 50,
+        "only_a_correct": 33,
+        "only_b_correct": 3,
+        "mcnemar_p": 2.2721360437572002e-07,
         "difference": {
-          "difference": 0.050000000000000044,
-          "lo": 0.0,
-          "hi": 0.15000000000000002,
-          "n": 20,
+          "difference": 0.3370786516853932,
+          "lo": 0.2247191011235955,
+          "hi": 0.449438202247191,
+          "n": 89,
+          "n_boot": 10000
+        }
+      },
+      "hcrl": {
+        "n": 69,
+        "a_correct": 65,
+        "b_correct": 36,
+        "only_a_correct": 32,
+        "only_b_correct": 3,
+        "mcnemar_p": 4.176981747150421e-07,
+        "difference": {
+          "difference": 0.42028985507246375,
+          "lo": 0.2753623188405797,
+          "hi": 0.5507246376811594,
+          "n": 69,
           "n_boot": 10000
         }
       },

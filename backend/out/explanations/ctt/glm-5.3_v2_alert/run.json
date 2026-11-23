@@ -1,0 +1,17 @@
+{
+  "set": "ctt",
+  "run": "glm-5.3_v2_alert",
+  "explainer": "chat",
+  "model": "glm-5.3",
+  "scope": "alert",
+  "control_rules": null,
+  "prompt_version": "v2",
+  "prompt_sha256": "c72ef008aaf232e51b0a37ecf779552b91de8e0e626d4776177df63b19dd3be6",
+  "temperature": 0,
+  "max_tokens": 16000,
+  "strict": true,
+  "fallbacks": 0,
+  "alerts": 101,
+  "errors": 3,
+  "updated_utc": "2026-11-20T18:25:10.078209+00:00"
+}

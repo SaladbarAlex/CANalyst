@@ -16,6 +16,10 @@ const SET_INFO = {
   midterm100: 'The 100 alerts of the October 21 run. Prompt v2 and control rules v2 were developed on these, so treat gains here as development results.',
 }
 
+const DATASET_NAMES = { hcrl: 'Car-Hacking', road: 'ROAD', ctt: 'can-train-and-test' }
+export const datasetName = (d) => DATASET_NAMES[d] || d
+const typeName = (t) => { const [d, a] = t.split('/'); return `${datasetName(d)} ${a}` }
+
 export function runLabel(run, meta = {}) {
   if (run.startsWith('submitted-')) return `${run.slice(10)} (submitted)`
   const m = run.match(/^control-(v\d)_(alert|window)$/)
@@ -101,7 +105,7 @@ export function ExplainerSection({ data }) {
         <table>
           <thead><tr>
             <th className="left">explainer</th>
-            {s.datasets.map((d) => <th key={d}>{d === 'hcrl' ? 'Car-Hacking' : d.toUpperCase()}</th>)}
+            {s.datasets.map((d) => <th key={d}>{datasetName(d)}</th>)}
             <th>no answer</th><th>false alarms called benign</th><th>claims citing real evidence</th>
             <th>median latency</th><th>median output tokens</th>
           </tr></thead>
@@ -124,7 +128,7 @@ export function ExplainerSection({ data }) {
       <h3>Accuracy by true attack type</h3>
       <div className="table-scroll" tabIndex={0} role="region" aria-label="Attack type accuracy">
         <table>
-          <thead><tr><th className="left">explainer</th>{types.map((t) => <th key={t}>{t.replace('hcrl/', 'Car-Hacking ').replace('road/', 'ROAD ')}</th>)}</tr></thead>
+          <thead><tr><th className="left">explainer</th>{types.map((t) => <th key={t}>{typeName(t)}</th>)}</tr></thead>
           <tbody>
             {runs.map(([n, r]) => (
               <tr key={n}><td className="left">{runLabel(n, r)}</td>
@@ -219,7 +223,7 @@ function Disagreements({ setName, runs, a, b, setA, setB }) {
             <button className="disagree-row" onClick={() => setOpen(open === al.id ? null : al.id)}
               aria-expanded={open === al.id}>
               <span className="mono">{al.id}</span>
-              <span>{al.dataset === 'hcrl' ? 'Car-Hacking' : 'ROAD'}</span>
+              <span>{datasetName(al.dataset)}</span>
               <span>truth: <b>{al.true_type}</b></span>
               <span className={`badge ${al.a.correct ? 'match' : 'mismatch'}`}>{al.a.label}</span>
               <span className={`badge ${al.b.correct ? 'match' : 'mismatch'}`}>{al.b.label}</span>
@@ -282,7 +286,7 @@ export function DetectionSection({ data }) {
         <h3>Detectors: held-out captures only</h3>
         <div className="bench-controls">
           <select value={dsName} onChange={(e) => setDsName(e.target.value)} aria-label="Dataset">
-            {data.datasets.map((d) => <option key={d.dataset} value={d.dataset}>{d.dataset === 'hcrl' ? 'Car-Hacking' : 'ROAD'}</option>)}
+            {data.datasets.map((d) => <option key={d.dataset} value={d.dataset}>{datasetName(d.dataset)}</option>)}
           </select>
           {refs.length > 1 ? (
             <select value={ref} onChange={(e) => setRef(e.target.value)} aria-label="Reference">
