@@ -1,6 +1,6 @@
 # CANalyst handoff: November 23, 2026
 
-**Continue from `rcd-llm-backend`. Use the reviewed deck and final report linked below.**
+**Continue from `main`. Use the reviewed deck and final report linked below.**
 
 The application, four-dataset evaluation, human agreement results, presentation, animation, and six-page report are prepared.
 Both reviewers completed 40 claims. Eight disagreements remain for human adjudication.
@@ -11,7 +11,7 @@ The remaining human tasks are rehearsal, video playback, course-template compari
 Repository: <https://github.com/SaladbarAlex/CANalyst>
 
 ```sh
-git clone --branch rcd-llm-backend git@github.com:SaladbarAlex/CANalyst.git
+git clone --branch main git@github.com:SaladbarAlex/CANalyst.git
 cd CANalyst
 ```
 
@@ -19,14 +19,16 @@ For an existing checkout, preserve local changes first.
 
 ```sh
 git fetch origin
-git switch rcd-llm-backend
+git switch main
 git pull --ff-only
 ```
 
-The branch contains the main-branch CTT work and teammate's TUE runs through `12f21b8`.
-It also contains both human ratings and the final integration fixes.
+On November 24, `main` fast-forwarded to the completed project at `2c21a6f` without conflicts.
+It contains the CTT work, teammate's TUE runs, both human ratings, and final integration fixes.
+The final presentation, report, video, and handoff are all on `main`.
 Use `git log -1 --oneline` for the current handoff revision.
-The push shares this branch. It does not deploy the app or merge this branch into `main`.
+The `rcd-llm-backend` branch remains available for history. Use new task branches from `main` for further work.
+Pushing these files does not deploy the application.
 
 ## 2. Open these files
 
