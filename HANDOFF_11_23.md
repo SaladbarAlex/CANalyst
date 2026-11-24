@@ -35,7 +35,7 @@ Pushing these files does not deploy the application.
 | File | Purpose |
 | --- | --- |
 | [Reviewed final deck](output/presentation/CANalyst_Final_Presentation_20min_Class.pptx) | 20-minute talk, 26 slides, detailed notes, embedded animation. |
-| [Experiment video](output/presentation/assets/experiment-flow.mp4) | 42-second standalone fallback for slide 4. |
+| [Experiment video](output/presentation/assets/experiment-flow.mp4) | 45-second standalone fallback for slide 6. |
 | [Presentation guide](docs/FINAL_PRESENTATION_GUIDE.md) | Timing, presenter split, demo, and Q&A. |
 | [Final report PDF](output/paper/CANalyst_Final_Report.pdf) | Six-page ACM report. |
 | [Report source and build](paper/README.md) | LaTeX source, bibliography, compilation, and template caveat. |
@@ -54,7 +54,7 @@ The original Clemson reference deck is in `docs/presentation_template/`.
 | Owner | Task | Acceptance check |
 | --- | --- | --- |
 | Nicholas and Alexander | Rehearse together and confirm the symposium date. | Talk finishes by 19:30, followed by three minutes of questions. |
-| Presenters | Test slide 4 and the offline demo on the class computer. | Video plays, citation opens, and fallback screenshots are available. |
+| Presenters | Test slide 6 and the offline demo on the class computer. | Video plays, citation opens, and fallback screenshots are available. |
 | Human reviewers or third adjudicator | Resolve the eight disputed claims in the separate CSV. | Each row has a final S/U/C label, adjudicator, date, and reason. |
 | Authors | Compare the report with Canvas's `cpsc8580template.zip`. | Course format matches without changing its class or margins. |
 | Authors | Read the full paper and submit the approved version. | All claims match saved evidence. Submission completes before December 3, 8 p.m. EST. |

@@ -1,11 +1,12 @@
 # Final presentation guide
 
-**Use the [reviewed 20-minute deck](../output/presentation/CANalyst_Final_Presentation_20min_Class.pptx).**
+**Use the [redesigned 20-minute deck](../output/presentation/CANalyst_Final_Presentation_20min_Class.pptx).**
 
 Rehearse to 19:30. Keep 30 seconds for transitions, followed by three minutes for questions.
 The deck has 20 main slides, six backup slides, and detailed speaker notes.
 It extends the midterm and follows Nicholas's Clemson template.
-Slide 4 contains the 42-second experiment animation.
+Slide 6 contains the 45-second experiment animation, full screen.
+The deck uses Avenir Next and Consolas. Present from a Mac, or install both fonts on the presentation computer.
 
 Presenters: Nicholas DiGennaro and Alexander Salazar.
 Confirm the assigned symposium date. The listed sessions are November 24, December 1, and December 3, 2026.
@@ -14,30 +15,30 @@ Source: Lecture Note 01, course-project slides, as supplied by Nicholas.
 
 ## Rehearsal schedule
 
-Nicholas presents slides 1 through 8. Alexander starts slide 9 at 7:00.
+Nicholas presents slides 1 through 8. Alexander starts slide 9 at 6:50.
 
 | Slide | Time | Elapsed | Speaking cue |
 | --- | ---: | ---: | --- |
-| 1. CANalyst | 0:25 | 0:25 | Introduce evidence-linked CAN explanations. |
-| 2. Project timeline | 0:25 | 0:50 | Connect the midterm, corrections, and final evaluation. |
-| 3. How CANalyst works | 1:00 | 1:50 | Trace the capture, reference, windows, alerts, and explanation. |
-| 4. Experiment in motion | 0:55 | 2:45 | Play and narrate the 42-second video. |
-| 5. Real-data evaluation setup | 1:15 | 4:00 | Introduce four datasets and three evaluation units. |
-| 6. Detector changes | 0:55 | 4:55 | Explain the timing guard and v2 profile. |
-| 7. Detection on ROAD | 1:20 | 6:15 | Report false positives, recall, and masquerade misses. |
-| 8. HCRL detector comparison | 0:45 | 7:00 | Explain the v1 default and simple baseline. |
-| 9. LLM evaluation on Clemson RCD | 0:45 | 7:45 | Explain frozen targets and matched evidence. |
-| 10. First LLM results | 0:55 | 8:40 | Show the errors that motivated corrections. |
-| 11. Corrected v4 results | 1:15 | 9:55 | State GLM and control both score 86/89. |
-| 12. Corrections since midterm | 1:00 | 10:55 | Separate measurement corrections from causal claims. |
-| 13. November coverage | 0:45 | 11:40 | Give each corpus's attack and false-alarm denominator. |
-| 14. DoS-line ablation | 0:55 | 12:35 | Explain spoofing gains from the changed instruction. |
-| 15. Claims and citations | 1:05 | 13:40 | Show why a valid citation can support a wrong inference. |
-| 16. Human review results | 1:10 | 14:50 | Report 80% agreement, kappa 0.521, and eight disagreements. |
-| 17. Dashboard demo | 1:40 | 16:30 | Open an alert, its citation, and saved benchmarks. |
-| 18. Results on additional vehicles | 1:20 | 17:50 | Contrast CTT results with the shared TUE 2/44 result. |
-| 19. Limits and next steps | 1:10 | 19:00 | Explain detector misses, transfer limits, and unmeasured analyst benefit. |
-| 20. Questions | 0:30 | 19:30 | Close and invite questions. |
+| 1. CANalyst | 0:20 | 0:20 | Introduce the question and both presenters. |
+| 2. An alert is not an explanation | 1:10 | 1:30 | State the CAN security problem and the research question. |
+| 3. Where CANalyst fits | 0:45 | 2:15 | Contrast decoding, fingerprinting, detection, and CANalyst. |
+| 4. Project timeline | 0:25 | 2:40 | Connect the midterm, corrections, and final evaluation. |
+| 5. How CANalyst works | 1:00 | 3:40 | Trace one alert from capture to citation. |
+| 6. Experiment in motion | 0:50 | 4:30 | Play and narrate the 45-second video. |
+| 7. Four real-data test sets | 1:00 | 5:30 | Introduce four datasets and three evaluation units. |
+| 8. Detection on ROAD | 1:20 | 6:50 | Report the v2 false-alarm drop and masquerade misses. |
+| 9. HCRL: fewer alarms cost recall | 0:55 | 7:45 | Explain one fewer false alarm versus 56 more misses. |
+| 10. How we scored explanations | 0:55 | 8:40 | Explain matched evidence and the three checks. |
+| 11. Midterm vs. corrected evidence | 1:15 | 9:55 | Show midterm versus corrected scores on the same alerts. |
+| 12. What we corrected | 1:00 | 10:55 | Explain the three corrections and why no single fix gets credit. |
+| 13. November: four separate test sets | 0:40 | 11:35 | Give each test set its denominator. |
+| 14. One instruction changed spoofing labels | 0:55 | 12:30 | Explain spoofing gains from the changed instruction. |
+| 15. A valid citation can back a wrong claim | 1:00 | 13:30 | Show why a valid citation can back a wrong claim. |
+| 16. Human review | 1:15 | 14:45 | Report 80% agreement, kappa 0.521, and eight open claims. |
+| 17. Dashboard demo | 1:40 | 16:25 | Open an alert, its citation, and saved benchmarks. |
+| 18. Results on six more vehicles | 1:20 | 17:45 | Contrast DTU results with the shared TU Eindhoven 2/44. |
+| 19. What we learned | 1:20 | 19:05 | Answer the research question and name the next study. |
+| 20. Questions | 0:25 | 19:30 | Close and invite questions. |
 
 Suggested transition: "Alexander will explain how we evaluated the alerts that reached the explanation stage."
 
@@ -45,13 +46,13 @@ Backup slides cover ROAD detection, HCRL detection, provenance, model latency, h
 
 ## Animation narration
 
-Follow the visible stages rather than reading every sentence.
+The step bar at the top of the video names each stage. Each stage lasts about 8 seconds.
 
-1. Public captures enter the loader. Clean reference traffic supplies expected behavior.
-2. Window measurements feed the detector. Missed attacks never reach the explanation stage.
-3. Selected alerts become evidence packets. Ground-truth labels stay outside model inputs.
-4. The control and language models receive matched evidence.
-5. Saved replies feed label scoring, citation checks, and human claim review.
+1. Data: public captures split into a clean reference and an evaluation capture.
+2. Detect: windows that differ from the reference merge into an alert. Missed attacks stop here.
+3. Package: each alert becomes an evidence packet. Ground-truth labels go to the scorer only.
+4. Explain: the rule baseline and three models receive the same packet.
+5. Score: labels, citations, and a human-rated sample of claims. 32 of 40 agree, and 8 are open.
 
 The animation illustrates the experiment. It does not depict a live vehicle attack or real-time benchmark execution.
 
@@ -77,7 +78,7 @@ npm run dev -- --host 127.0.0.1 --strictPort
 2. Wait for the ROAD capture's 41,829 frames to load.
 3. Select its alert and test one evidence citation.
 4. Open **Evaluation > Frozen benchmarks** and check the saved results.
-5. Test slide 4 on the presentation computer and projector.
+5. Test slide 6 on the presentation computer and projector.
 6. Keep the [MP4](../output/presentation/assets/experiment-flow.mp4) and [poster](../output/presentation/assets/experiment-flow.png) available.
 
 | Time | Action |
