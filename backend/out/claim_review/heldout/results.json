@@ -1,0 +1,205 @@
+{
+  "set": "heldout",
+  "claims": 40,
+  "agreed": 32,
+  "kappa": {
+    "n": 40,
+    "kappa": 0.5209580838323354,
+    "observed": 0.8,
+    "expected": 0.5825,
+    "labels": [
+      "C",
+      "S",
+      "U"
+    ],
+    "table": [
+      [
+        0,
+        0,
+        1
+      ],
+      [
+        2,
+        26,
+        5
+      ],
+      [
+        0,
+        0,
+        6
+      ]
+    ]
+  },
+  "per_run": {
+    "control-v2_alert": {
+      "supported": {
+        "k": 6,
+        "n": 8,
+        "ci": [
+          0.40927543031016883,
+          0.9285207872478909
+        ]
+      },
+      "unsupported": {
+        "k": 2,
+        "n": 8,
+        "ci": [
+          0.071479212752109,
+          0.5907245696898311
+        ]
+      },
+      "contradicted": {
+        "k": 0,
+        "n": 8,
+        "ci": [
+          0.0,
+          0.32440756488388023
+        ]
+      }
+    },
+    "gemma-4-31b_v2_alert": {
+      "supported": {
+        "k": 9,
+        "n": 9,
+        "ci": [
+          0.7008549515804559,
+          1.0
+        ]
+      },
+      "unsupported": {
+        "k": 0,
+        "n": 9,
+        "ci": [
+          0.0,
+          0.2991450484195441
+        ]
+      },
+      "contradicted": {
+        "k": 0,
+        "n": 9,
+        "ci": [
+          0.0,
+          0.2991450484195441
+        ]
+      }
+    },
+    "glm-5.3_v2_alert": {
+      "supported": {
+        "k": 4,
+        "n": 7,
+        "ci": [
+          0.2504583645276572,
+          0.8417801447485302
+        ]
+      },
+      "unsupported": {
+        "k": 3,
+        "n": 7,
+        "ci": [
+          0.15821985525146975,
+          0.7495416354723428
+        ]
+      },
+      "contradicted": {
+        "k": 0,
+        "n": 7,
+        "ci": [
+          5.551115123125783e-17,
+          0.35433043506668743
+        ]
+      }
+    },
+    "qwen3.6-27b-fp8_v2_alert": {
+      "supported": {
+        "k": 7,
+        "n": 8,
+        "ci": [
+          0.5291118177871464,
+          0.9775825085499433
+        ]
+      },
+      "unsupported": {
+        "k": 1,
+        "n": 8,
+        "ci": [
+          0.02241749145005667,
+          0.4708881822128535
+        ]
+      },
+      "contradicted": {
+        "k": 0,
+        "n": 8,
+        "ci": [
+          0.0,
+          0.32440756488388023
+        ]
+      }
+    }
+  },
+  "disagreements": [
+    {
+      "claim_id": "C001",
+      "run": "control-v2_alert",
+      "rater_A": "S",
+      "rater_B": "C",
+      "note_A": "",
+      "note_B": "E1: average load fell to 0.39x; only the busiest 0.5s window hit 1.09x. Claim states load rose with no peak-window qualifier."
+    },
+    {
+      "claim_id": "C005",
+      "run": "qwen3.6-27b-fp8_v2_alert",
+      "rater_A": "S",
+      "rater_B": "U",
+      "note_A": "",
+      "note_B": "Numbers match E1. \"Displacement of legitimate traffic\" is not shown; E1 only shows lower total load."
+    },
+    {
+      "claim_id": "C007",
+      "run": "qwen3.6-27b-fp8_v2_alert",
+      "rater_A": "S",
+      "rater_B": "U",
+      "note_A": "",
+      "note_B": "IDs and 3.875 to 5.172 range match E3-E8. \"High\" entropy has no reference point in the cited items (no baseline entropy for these IDs). S if \"high\" is read as paraphrase."
+    },
+    {
+      "claim_id": "C013",
+      "run": "glm-5.3_v2_alert",
+      "rater_A": "S",
+      "rater_B": "U",
+      "note_A": "",
+      "note_B": "Per-ID counts all match. \"Spread thinly, not dominated by one ID\" is not established: cited items cover only 6 itemized IDs, with no total of unknown frames or ID count."
+    },
+    {
+      "claim_id": "C024",
+      "run": "gemma-4-31b_v2_alert",
+      "rater_A": "C",
+      "rater_B": "U",
+      "note_A": "",
+      "note_B": "0x0F4 is 1.202x (peak 1.403x, gap 31.23 sigma); not clearly \"close\". Other four are within about 8%."
+    },
+    {
+      "claim_id": "C031",
+      "run": "glm-5.3_v2_alert",
+      "rater_A": "S",
+      "rater_B": "U",
+      "note_A": "",
+      "note_B": "Numbers match E2. \"Ruling out fuzzing\" depends on outside definitions; cited item does not establish it."
+    },
+    {
+      "claim_id": "C032",
+      "run": "glm-5.3_v2_alert",
+      "rater_A": "S",
+      "rater_B": "U",
+      "note_A": "",
+      "note_B": "Numbers match E1. \"Not flooded\" is plausible, but \"not a DoS\" relies on outside knowledge of attack types."
+    },
+    {
+      "claim_id": "C035",
+      "run": "control-v2_alert",
+      "rater_A": "S",
+      "rater_B": "C",
+      "note_A": "",
+      "note_B": "E1: average load fell to 0.37x; only the busiest 0.5s window hit 1.05x. Same issue as C001."
+    }
+  ]
+}

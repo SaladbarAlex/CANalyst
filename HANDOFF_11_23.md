@@ -3,7 +3,18 @@
 **Continue from `rcd-llm-backend`. Use the 20-minute final presentation.**
 
 The application, saved experiments, review form, presentation, and video are ready to share.
-Human ratings, new dataset benchmarks, and the final ACM report remain incomplete.
+Both human rating files are now complete. Eight disagreements need human adjudication.
+The final ACM report remains incomplete.
+
+### Update after both reviews
+
+The two reviewers agreed on 32 of 40 claims (80%). Cohen's kappa is 0.521.
+See [review results](backend/out/claim_review/heldout/results.md) and [current workflow](docs/HUMAN_REVIEW.md).
+Keep both original CSVs unchanged. Record final adjudication decisions separately.
+
+The teammate also added CTT and TU Eindhoven experiments through commit `12f21b8`.
+Audit these new experiments before updating the presentation's dataset claims.
+The original handoff below describes the earlier snapshot, including its then-pending dataset work.
 
 ## 1. Get the shared work
 
@@ -158,7 +169,7 @@ Each reviewer must:
 4. Select **Download CSV**.
 5. Return the assigned `rater_A.csv` or `rater_B.csv` to the coordinator.
 
-Both tracked rater files currently contain zero labels. No independent human result exists yet.
+Both tracked rater files now contain 40 labels. Agreement is scored, and eight disagreements remain unresolved.
 Each arm contributes 3 DoS, 3 fuzzing, 2 spoofing, and 2 ROAD false-alarm claims.
 The packet covers 27 unique alerts across one rule control and three hosted prompt-v2 models.
 It excludes ROAD attack alerts, summary fields, uncited claims, and the DoS-line ablation.
@@ -184,8 +195,9 @@ Its per-arm support rates use agreed claims only. Report that denominator explic
 Have a human adjudicate disagreements in a separate file. Preserve the original judgments and agreement statistics.
 Calculate final adjudicated rates separately before updating the deck or report.
 
-`backend/scripts/summarize_final_models.py` currently records human review as incomplete.
-Update that accounting only after real ratings exist. Avoid regenerating the sample with `sample --force`.
+`backend/scripts/summarize_final_models.py` still hardcodes human review as incomplete.
+Update that accounting before producing a new consolidated summary. Existing dated summaries remain historical snapshots.
+Avoid regenerating the sample with `sample --force`.
 Use `node tools/build_human_review.mjs` only to refresh the HTML from the existing frozen sheet.
 
 ## 6. Results that can be claimed now
