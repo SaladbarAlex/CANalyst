@@ -67,3 +67,49 @@ def test_every_vehicle_has_one_reference_and_disjoint_roles():
     for vehicle, (set_name, ref, ambient, subsets) in datasets.CTT_VEHICLES.items():
         assert ref != ambient
         assert all(sub.startswith("test_") for sub in subsets), "attacks come from test subsets only"
+
+
+# --------------------------------------------------------------------------
+# TU Eindhoven: labels come from the difference with the benign testing.log
+# --------------------------------------------------------------------------
+
+BASE = ["(100.000000) slcan0 0F1#1C01", "(100.010000) slcan0 1A1#0000", "(100.020000) slcan0 0F1#1C02"]
+
+
+@pytest.fixture
+def tue_car(tmp_path):
+    car = tmp_path / "tu-eindhoven-can-v2" / "OpelAstra"
+    car.mkdir(parents=True)
+    (car / "README").write_text("readme")
+    (car / "testing.log").write_text("\n".join(BASE) + "\n")
+    return car
+
+
+def test_tue_injected_frames_are_the_lines_missing_from_testing(tue_car):
+    lines = BASE[:1] + ["(100.005000) slcan0 111#FFFF"] + BASE[1:]
+    (tue_car / "fuzzing_canid.log").write_text("\n".join(lines) + "\n")
+    df = loader.load_auto(str(tue_car / "fuzzing_canid.log"))
+    assert df["label"].tolist() == [0, 1, 0, 0]
+    assert df.loc[df.label == 1, "can_id"].tolist() == [0x111]
+    assert set(df.loc[df.label == 1, "attack_type"]) == {"fuzzing"}
+
+
+def test_tue_changed_payloads_count_as_attack_frames(tue_car):
+    lines = [BASE[0], "(100.010000) slcan0 1A1#FFFF", BASE[2]]
+    (tue_car / "fuzzing_payload.log").write_text("\n".join(lines) + "\n")
+    df = loader.load_auto(str(tue_car / "fuzzing_payload.log"))
+    assert df["label"].tolist() == [0, 1, 0]
+    assert set(df.loc[df.label == 1, "attack_type"]) == {"masquerade"}
+
+
+def test_tue_repairs_a_trailing_backslash_and_counts_it(tue_car):
+    lines = [BASE[0] + "\\", BASE[1], "(100.015000) slcan0 222#FFFF", BASE[2]]
+    (tue_car / "fuzzing_canid.log").write_text("\n".join(lines) + "\n")
+    df = loader.load_auto(str(tue_car / "fuzzing_canid.log"))
+    assert df.attrs["repaired_lines"] == 1
+    assert df["label"].tolist() == [0, 0, 1, 0]
+
+
+def test_tue_benign_capture_has_no_attack_frames(tue_car):
+    df = loader.load_auto(str(tue_car / "testing.log"))
+    assert df["label"].sum() == 0 and set(df["attack_type"]) == {"normal"}

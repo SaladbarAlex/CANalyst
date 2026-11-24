@@ -1,0 +1,17 @@
+{
+  "set": "tue",
+  "run": "control-v1_alert",
+  "explainer": "control",
+  "model": "rule-based control (rules v1)",
+  "scope": "alert",
+  "control_rules": "v1",
+  "prompt_version": null,
+  "prompt_sha256": null,
+  "temperature": null,
+  "max_tokens": null,
+  "strict": true,
+  "fallbacks": 0,
+  "alerts": 44,
+  "errors": 0,
+  "updated_utc": "2026-11-24T01:15:32.382563+00:00"
+}

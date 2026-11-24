@@ -107,7 +107,7 @@ def main() -> None:
     ap.add_argument("--prompt", choices=sorted(llm.SYSTEM_PROMPTS), default=llm.DEFAULT_PROMPT)
     ap.add_argument("--run", default=None, help="run name; default is derived")
     ap.add_argument("--limit", type=int, default=None, help="only the first N alerts")
-    ap.add_argument("--dataset", choices=["hcrl", "road", "ctt"], default=None,
+    ap.add_argument("--dataset", choices=["hcrl", "road", "ctt", "tue"], default=None,
                     help="only alerts from one dataset")
     ap.add_argument("--no-retry", dest="retry_errors", action="store_false",
                     help="keep earlier failed attempts as final instead of asking again")

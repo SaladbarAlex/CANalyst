@@ -52,6 +52,8 @@ can-train-and-test (four vehicles; Lampe and Meng, 2023)
                            test_03 (DoS, force-neutral, fuzzing)
     The other captures (double, triple, interval, systematic, accessory,
     and the train_01 attack captures) are not used.
+
+TU Eindhoven automotive CAN v2 (Opel Astra, Renault Clio): see tue_catalog.
 """
 from __future__ import annotations
 
@@ -65,6 +67,7 @@ _ROOTS = {
     "hcrl": ["data/raw/hcrl-car-hacking", "data/9) Car-Hacking Dataset", "data/hcrl"],
     "road": ["data/raw/road/road", "data/road/road", "data/road"],
     "ctt": ["data/ctt/can-train-and-test", "data/ctt/cantrainandtest/can-train-and-test"],
+    "tue": ["data/raw/tu-eindhoven-can-v2", "data/tu-eindhoven-can-v2"],
 }
 CTT_VEHICLES = {
     "impala": ("set_01", "attack-free-1", "attack-free-2",
@@ -107,6 +110,8 @@ def find_root(dataset: str, backend: Path = BACKEND) -> Path:
         if dataset == "hcrl" and (root / "DoS_dataset.csv").exists():
             return root
         if dataset == "road" and (root / "attacks" / "capture_metadata.json").exists():
+            return root
+        if dataset == "tue" and (root / "OpelAstra" / "training.log").exists():
             return root
         if dataset == "ctt" and (root / "set_01" / "train_01" / "attack-free-1.csv").exists():
             return root
@@ -190,7 +195,40 @@ def ctt_capture_name(path: Path) -> str:
     return f"{vehicle}/{path.stem}"
 
 
+TUE_CARS = {"astra": "OpelAstra", "clio": "RenaultClio"}
+
+
+def tue_catalog(backend: Path = BACKEND) -> list[Capture]:
+    """TU Eindhoven automotive CAN v2, the two cars. Captures are named
+    '<car>/<file stem>'. Added on Nov 23, after every prompt, rule and
+    detector setting was fixed; nothing is tuned on it.
+
+        reference    training.log (the first 70% of the benign drive)
+        evaluation   testing.log (the remaining 30%, false alarms) and the
+                     attack files, which are edited copies of testing.log
+        unused       full_data_capture.log (training + testing), suspension
+                     (deletions only), and the Prototype testbed
+    """
+    from .loader import TUE_ATTACK_TYPES
+    root = find_root("tue", backend)
+    out: list[Capture] = []
+    for car, folder in TUE_CARS.items():
+        base = root / folder
+        out.append(Capture("tue", f"{car}/training", base / "training.log", "ambient",
+                           role="reference", meta={"vehicle": car}))
+        out.append(Capture("tue", f"{car}/testing", base / "testing.log", "ambient",
+                           role="evaluation", meta={"vehicle": car}))
+        for stem, atype in sorted(TUE_ATTACK_TYPES.items()):
+            if (base / f"{stem}.log").exists():
+                out.append(Capture("tue", f"{car}/{stem}", base / f"{stem}.log", "attack",
+                                   attack_type=atype, family=stem, role="evaluation",
+                                   meta={"vehicle": car}))
+    return out
+
+
 def catalog(dataset: str, backend: Path = BACKEND) -> list[Capture]:
+    if dataset == "tue":
+        return tue_catalog(backend)
     if dataset == "ctt":
         return ctt_catalog(backend)
     return road_catalog(backend) if dataset == "road" else hcrl_catalog(backend)

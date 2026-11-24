@@ -16,7 +16,7 @@ const SET_INFO = {
   midterm100: 'The 100 alerts of the October 21 run. Prompt v2 and control rules v2 were developed on these, so treat gains here as development results.',
 }
 
-const DATASET_NAMES = { hcrl: 'Car-Hacking', road: 'ROAD', ctt: 'can-train-and-test' }
+const DATASET_NAMES = { hcrl: 'Car-Hacking', road: 'ROAD', ctt: 'can-train-and-test', tue: 'TU Eindhoven' }
 export const datasetName = (d) => DATASET_NAMES[d] || d
 const typeName = (t) => { const [d, a] = t.split('/'); return `${datasetName(d)} ${a}` }
 

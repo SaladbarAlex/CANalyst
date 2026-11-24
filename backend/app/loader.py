@@ -217,6 +217,78 @@ def load_candump(path: str, meta: dict | None = None,
     return _validate_payloads(df)
 
 
+# TU Eindhoven automotive CAN v2 (Dupont et al., 4TU.ResearchData). Each car's
+# attack files are offline edits of that car's benign testing.log; the
+# READMEs list every injected or changed frame. There is no label column, so
+# a frame is labeled as attack when its exact candump line is not in
+# testing.log (multiset difference). Mapping to the explainer vocabulary:
+#   dosattack        0x000 flood replacing a 10 s block      -> dos
+#   fuzzing_canid    10 frames with IDs never seen            -> fuzzing
+#   diagnostic       10 frames with unseen 7xx diagnostic IDs -> fuzzing
+#   replay           30 frames of 0x1A1 at 10x its rate       -> replay
+#   fuzzing_payload  10 0x0C9 payloads changed in place       -> masquerade
+# suspension (frames deleted, none added) has nothing to label and is unused.
+TUE_ATTACK_TYPES = {"dosattack": "dos", "fuzzing_canid": "fuzzing", "diagnostic": "fuzzing",
+                    "replay": "replay", "fuzzing_payload": "masquerade"}
+
+
+def is_tue_capture(path: Path) -> bool:
+    return (path.parent / "testing.log").exists() and (path.parent / "README").exists() \
+        and "tu-eindhoven" in str(path)
+
+
+def _tue_lines(path: Path) -> tuple[list[str], int]:
+    """Non-empty stripped lines. One publisher file (OpelAstra/fuzzing_canid.log,
+    line 523862) ends a frame with a stray backslash that testing.log does
+    not have; a trailing backslash is removed and counted, never skipped."""
+    lines, repaired = [], 0
+    with open(path, errors="replace") as fh:
+        for line in fh:
+            line = line.strip()
+            if not line:
+                continue
+            if line.endswith("\\"):
+                line = line.rstrip("\\")
+                repaired += 1
+            lines.append(line)
+    return lines, repaired
+
+
+def load_tue(path: str) -> pd.DataFrame:
+    """Load a TU Eindhoven candump log and label it against its benign testing.log."""
+    import tempfile
+    from collections import Counter
+    p = Path(path)
+    lines, repaired = _tue_lines(p)
+    with tempfile.NamedTemporaryFile("w", suffix=".log", delete=False) as tmp:
+        tmp.write("\n".join(lines) + "\n")
+    try:
+        df = load_candump(tmp.name, meta={})
+    finally:
+        Path(tmp.name).unlink(missing_ok=True)
+    df["attack_type"] = "normal"
+    atype = TUE_ATTACK_TYPES.get(p.stem)
+    if atype is not None:
+        base = Counter(_tue_lines(p.parent / "testing.log")[0])
+        flags = []
+        for line in lines:
+            if base[line] > 0:
+                base[line] -= 1
+                flags.append(0)
+            else:
+                flags.append(1)
+        if len(flags) != len(df):
+            raise ValueError(f"{p}: {len(flags)} lines but {len(df)} frames")
+        ts = [float(line[1:line.index(")")]) for line in lines]
+        if any(b < a for a, b in zip(ts, ts[1:])):
+            raise ValueError(f"{p}: timestamps are not monotonic; labels would misalign")
+        df["label"] = flags
+        df.loc[df["label"] == 1, "attack_type"] = atype
+    df.attrs["source"] = "tu-eindhoven"
+    df.attrs["repaired_lines"] = repaired
+    return df
+
+
 def load_road(csv: str | io.StringIO) -> pd.DataFrame:
     """Load an ORNL ROAD style CSV (Label, Time, ID, Signal columns or raw hex).
 
@@ -329,6 +401,8 @@ def load_auto(path: str) -> pd.DataFrame:
         head = fh.readline()
     low = head.lower()
     p = Path(path)
+    if head.startswith("(") and is_tue_capture(p):
+        return load_tue(path)
     if head.startswith("("):
         meta_path = p.parent / "capture_metadata.json"
         meta = None

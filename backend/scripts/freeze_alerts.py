@@ -28,6 +28,9 @@ Sets
                  its DoS, fuzzing and spoofing evaluation captures are
                  scored in full, plus 240 s of a second attack-free capture
                  for false alarms.
+    tue          TU Eindhoven automotive CAN v2, Opel Astra and Renault
+                 Clio: baseline from training.log, every labeled attack
+                 file (attack alerts only) and testing.log (false alarms).
 
 Output, under out/alerts/<set>/
     alerts.jsonl           one row per alert: opaque id, capture, span, ground truth
@@ -64,7 +67,7 @@ HELDOUT_S = 120.0
 # Explainer runs cost time per alert. On the four extra vehicles most alerts
 # are false alarms (92 from one Silverado capture), so every attack alert is
 # kept and at most this many false alarms per capture, drawn with a fixed seed.
-FALSE_ALARM_CAP = {"ctt": 3}
+FALSE_ALARM_CAP = {"ctt": 3, "tue": 3}
 CAP_SEED = 0
 
 
@@ -79,6 +82,8 @@ def _median_window_start(dataset: str, name: str) -> float:
 
 def _jobs(set_name: str) -> list[dict]:
     """One entry per dataset: baseline slice and the captures to score."""
+    if set_name in ("ctt", "tue"):
+        return _jobs_extra(set_name)
     hcrl = {c.name: c for c in datasets.catalog("hcrl")}
     road = {c.name: c for c in datasets.catalog("road")}
     normal = hcrl["normal_run_data"].path
@@ -115,18 +120,6 @@ def _jobs(set_name: str) -> list[dict]:
             {"dataset": "hcrl", "baseline": (normal, 0.0, PREFIX_S), "captures": hcrl_slices},
             {"dataset": "road", "baseline": (road_ref, 0.0, None), "captures": road_slices},
         ]
-    if set_name == "ctt":
-        caps = datasets.catalog("ctt")
-        jobs = []
-        for vehicle in datasets.CTT_VEHICLES:
-            mine = [c for c in caps if c.meta["vehicle"] == vehicle]
-            ref = next(c for c in mine if c.role == "reference")
-            ambient = next(c for c in mine if c.kind == "ambient" and c.role == "evaluation")
-            attacks = sorted((c for c in mine if c.kind == "attack"), key=lambda c: c.name)
-            jobs.append({"dataset": "ctt", "baseline": (ref.path, 0.0, None),
-                         "captures": [(c.path, 0.0, None) for c in attacks]
-                         + [(ambient.path, 0.0, 2 * HELDOUT_S)]})
-        return jobs
     raise ValueError(f"unknown set: {set_name}")
 
 
@@ -159,6 +152,38 @@ def cap_false_alarms(out: Path, per_capture: int, seed: int = CAP_SEED) -> dict:
             "alerts_before_cap": len(rows), "alerts_after_cap": len(keep)}
 
 
+def _jobs_extra(set_name: str) -> list[dict]:
+    """The sets on vehicles added after every setting was fixed."""
+    if set_name == "ctt":
+        caps = datasets.catalog("ctt")
+        jobs = []
+        for vehicle in datasets.CTT_VEHICLES:
+            mine = [c for c in caps if c.meta["vehicle"] == vehicle]
+            ref = next(c for c in mine if c.role == "reference")
+            ambient = next(c for c in mine if c.kind == "ambient" and c.role == "evaluation")
+            attacks = sorted((c for c in mine if c.kind == "attack"), key=lambda c: c.name)
+            jobs.append({"dataset": "ctt", "baseline": (ref.path, 0.0, None),
+                         "captures": [(c.path, 0.0, None) for c in attacks]
+                         + [(ambient.path, 0.0, 2 * HELDOUT_S)]})
+        return jobs
+    if set_name == "tue":
+        caps = datasets.catalog("tue")
+        jobs = []
+        for car in datasets.TUE_CARS:
+            mine = [c for c in caps if c.meta["vehicle"] == car]
+            ref = next(c for c in mine if c.role == "reference")
+            testing = next(c for c in mine if c.kind == "ambient" and c.role == "evaluation")
+            attacks = sorted((c for c in mine if c.kind == "attack"), key=lambda c: c.name)
+            # Every attack file is a copy of testing.log, so its benign alerts
+            # repeat testing.log's. False alarms come from testing.log only.
+            jobs.append({"dataset": "tue", "baseline": (ref.path, 0.0, None),
+                         "captures": [(c.path, 0.0, None) for c in attacks]
+                         + [(testing.path, 0.0, None)],
+                         "attack_alerts_only": {str(c.path) for c in attacks}})
+        return jobs
+    raise ValueError(f"unknown set: {set_name}")
+
+
 def _true_type(df: pd.DataFrame, start: float, end: float) -> str:
     seg = df[(df["timestamp"] >= start) & (df["timestamp"] < end)]
     atk = seg[seg["label"] == 1]
@@ -175,7 +200,7 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--set", dest="set_name", default="midterm100",
-                    choices=["midterm100", "heldout", "ctt"])
+                    choices=["midterm100", "heldout", "ctt", "tue"])
     ap.add_argument("--out", type=Path, default=BACKEND / "out" / "alerts")
     ap.add_argument("--cap-only", action="store_true",
                     help="only apply the false-alarm cap to an existing frozen set")
@@ -213,12 +238,17 @@ def main() -> None:
             windows, alerts = detector.run(windows)
             manifest["inputs"].append({"role": "scored", "dataset": job["dataset"],
                                        "alerts": len(alerts), **rec})
+            kept = 0
             for alert in alerts:
-                uid = f"A{len(alerts_rows):04d}"
                 true_type = _true_type(df, alert.start, alert.end)
+                if true_type == "normal" and str(path) in job.get("attack_alerts_only", ()):
+                    continue
+                kept += 1
+                uid = f"A{len(alerts_rows):04d}"
                 alerts_rows.append({
                     "id": uid, "dataset": job["dataset"],
                     "capture": (datasets.ctt_capture_name(path) if job["dataset"] == "ctt"
+                                else f"{path.parent.name}/{path.stem}" if job["dataset"] == "tue"
                                 else path.stem),
                     "slice_start_s": start, "slice_stop_s": stop,
                     "alert_id": alert.alert_id, "start": alert.start, "end": alert.end,
@@ -229,7 +259,8 @@ def main() -> None:
                 for scope in packets:
                     ev = build_evidence(alert, df, windows, baseline, scope=scope)
                     packets[scope].append({"id": uid, "evidence": ev})
-            print(f"{job['dataset']}/{path.parent.parent.name}/{path.stem}: {len(alerts)} alert(s)",
+            print(f"{job['dataset']}/{path.parent.parent.name}/{path.parent.name}/{path.stem}: "
+                  f"{len(alerts)} alert(s), {kept} kept",
                   flush=True)
             del df, windows
             gc.collect()

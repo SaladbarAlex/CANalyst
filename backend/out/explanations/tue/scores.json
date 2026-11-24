@@ -1,0 +1,213 @@
+{
+  "set": "tue",
+  "runs": {
+    "control-v1_alert": {
+      "alerts": 44,
+      "errors": 0,
+      "attack_alerts": 44,
+      "false_alarms": 0,
+      "accuracy": {
+        "all": {
+          "k": 2,
+          "n": 44,
+          "value": 0.045454545454545456,
+          "lo": 0.012555109949594967,
+          "hi": 0.15134998437629657
+        },
+        "tue": {
+          "k": 2,
+          "n": 44,
+          "value": 0.045454545454545456,
+          "lo": 0.012555109949594967,
+          "hi": 0.15134998437629657
+        }
+      },
+      "accuracy_by_type": {
+        "tue/dos": {
+          "k": 2,
+          "n": 2,
+          "value": 1.0,
+          "lo": 0.34238022750665303,
+          "hi": 1.0
+        },
+        "tue/fuzzing": {
+          "k": 0,
+          "n": 40,
+          "value": 0.0,
+          "lo": 0.0,
+          "hi": 0.08762160119728664
+        },
+        "tue/replay": {
+          "k": 0,
+          "n": 2,
+          "value": 0.0,
+          "lo": 0.0,
+          "hi": 0.6576197724933469
+        }
+      },
+      "confusion": {
+        "tue/fuzzing": {
+          "unknown": 12,
+          "masquerade": 27,
+          "spoofing": 1
+        },
+        "tue/dos": {
+          "dos": 2
+        },
+        "tue/replay": {
+          "spoofing": 2
+        }
+      },
+      "false_alarm_labels": {},
+      "false_alarms_called_benign": {
+        "k": 0,
+        "n": 0,
+        "value": null,
+        "lo": NaN,
+        "hi": NaN
+      },
+      "claims": 48,
+      "claims_with_valid_citations": {
+        "k": 48,
+        "n": 48,
+        "value": 1.0,
+        "lo": 0.9258998703338824,
+        "hi": 0.9999999999999999
+      },
+      "replies_fully_grounded": {
+        "k": 44,
+        "n": 44,
+        "value": 1.0,
+        "lo": 0.9197043962415192,
+        "hi": 1.0
+      },
+      "latency_s": {
+        "median": 0.0,
+        "max": 0.0
+      },
+      "completion_tokens": null,
+      "no_answer": 0
+    },
+    "control-v2_alert": {
+      "alerts": 44,
+      "errors": 0,
+      "attack_alerts": 44,
+      "false_alarms": 0,
+      "accuracy": {
+        "all": {
+          "k": 2,
+          "n": 44,
+          "value": 0.045454545454545456,
+          "lo": 0.012555109949594967,
+          "hi": 0.15134998437629657
+        },
+        "tue": {
+          "k": 2,
+          "n": 44,
+          "value": 0.045454545454545456,
+          "lo": 0.012555109949594967,
+          "hi": 0.15134998437629657
+        }
+      },
+      "accuracy_by_type": {
+        "tue/dos": {
+          "k": 2,
+          "n": 2,
+          "value": 1.0,
+          "lo": 0.34238022750665303,
+          "hi": 1.0
+        },
+        "tue/fuzzing": {
+          "k": 0,
+          "n": 40,
+          "value": 0.0,
+          "lo": 0.0,
+          "hi": 0.08762160119728664
+        },
+        "tue/replay": {
+          "k": 0,
+          "n": 2,
+          "value": 0.0,
+          "lo": 0.0,
+          "hi": 0.6576197724933469
+        }
+      },
+      "confusion": {
+        "tue/fuzzing": {
+          "unknown": 12,
+          "masquerade": 27,
+          "spoofing": 1
+        },
+        "tue/dos": {
+          "dos": 2
+        },
+        "tue/replay": {
+          "spoofing": 2
+        }
+      },
+      "false_alarm_labels": {},
+      "false_alarms_called_benign": {
+        "k": 0,
+        "n": 0,
+        "value": null,
+        "lo": NaN,
+        "hi": NaN
+      },
+      "claims": 48,
+      "claims_with_valid_citations": {
+        "k": 48,
+        "n": 48,
+        "value": 1.0,
+        "lo": 0.9258998703338824,
+        "hi": 0.9999999999999999
+      },
+      "replies_fully_grounded": {
+        "k": 44,
+        "n": 44,
+        "value": 1.0,
+        "lo": 0.9197043962415192,
+        "hi": 1.0
+      },
+      "latency_s": {
+        "median": 0.0,
+        "max": 0.0
+      },
+      "completion_tokens": null,
+      "no_answer": 0
+    }
+  },
+  "pairs": {
+    "control-v1_alert vs control-v2_alert": {
+      "all": {
+        "n": 44,
+        "a_correct": 2,
+        "b_correct": 2,
+        "only_a_correct": 0,
+        "only_b_correct": 0,
+        "mcnemar_p": 1.0,
+        "difference": {
+          "difference": 0.0,
+          "lo": 0.0,
+          "hi": 0.0,
+          "n": 44,
+          "n_boot": 10000
+        }
+      },
+      "tue": {
+        "n": 44,
+        "a_correct": 2,
+        "b_correct": 2,
+        "only_a_correct": 0,
+        "only_b_correct": 0,
+        "mcnemar_p": 1.0,
+        "difference": {
+          "difference": 0.0,
+          "lo": 0.0,
+          "hi": 0.0,
+          "n": 44,
+          "n_boot": 10000
+        }
+      }
+    }
+  }
+}
