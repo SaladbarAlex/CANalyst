@@ -1,0 +1,17 @@
+{
+  "set": "tue",
+  "run": "qwen3.6-27b-fp8_v2-dosv1_alert",
+  "explainer": "chat",
+  "model": "qwen3.6-27b-fp8",
+  "scope": "alert",
+  "control_rules": null,
+  "prompt_version": "v2-dosv1",
+  "prompt_sha256": "bc82eb03785ea96f6cbbcb7528e2d6863e2a171c015896c2ea7b2a357aadcb52",
+  "temperature": 0,
+  "max_tokens": 16000,
+  "strict": true,
+  "fallbacks": 0,
+  "alerts": 44,
+  "errors": 1,
+  "updated_utc": "2026-11-24T01:34:51.977211+00:00"
+}

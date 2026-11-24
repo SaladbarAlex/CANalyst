@@ -1,0 +1,18 @@
+{
+  "set": "tue",
+  "run": "glm-5.3_v2-dosv1_alert",
+  "explainer": "chat",
+  "model": "glm-5.3",
+  "scope": "alert",
+  "control_rules": null,
+  "prompt_version": "v2-dosv1",
+  "prompt_sha256": "bc82eb03785ea96f6cbbcb7528e2d6863e2a171c015896c2ea7b2a357aadcb52",
+  "temperature": 0,
+  "max_tokens": 16000,
+  "strict": true,
+  "fallbacks": 0,
+  "alerts": 43,
+  "errors": 0,
+  "updated_utc": "2026-11-24T01:46:14.277063+00:00",
+  "note": "43 of 44 alerts. Run in time-limited chunks; one fuzzing alert never finished inside a chunk and has no reply. run.json written after the fact."
+}
