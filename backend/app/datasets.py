@@ -66,8 +66,10 @@ BACKEND = Path(__file__).resolve().parents[1]
 _ROOTS = {
     "hcrl": ["data/raw/hcrl-car-hacking", "data/9) Car-Hacking Dataset", "data/hcrl"],
     "road": ["data/raw/road/road", "data/road/road", "data/road"],
-    "ctt": ["data/ctt/can-train-and-test", "data/ctt/cantrainandtest/can-train-and-test"],
-    "tue": ["data/raw/tu-eindhoven-can-v2", "data/tu-eindhoven-can-v2"],
+    "ctt": ["data/raw/can-train-and-test-v2/extracted/cantrainandtest/can-train-and-test",
+            "data/ctt/can-train-and-test", "data/ctt/cantrainandtest/can-train-and-test"],
+    "tue": ["data/raw/tu-eindhoven-can-v2/extracted", "data/raw/tu-eindhoven-can-v2",
+            "data/tu-eindhoven-can-v2"],
 }
 CTT_VEHICLES = {
     "impala": ("set_01", "attack-free-1", "attack-free-2",

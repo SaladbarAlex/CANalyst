@@ -1,6 +1,6 @@
 # Additional CAN datasets
 
-Downloaded and extracted on November 22, 2026. Git ignores the source files under `backend/data/raw/`. Validation covered archive integrity and sample parsing. Benchmark scores are pending.
+Both datasets have capture adapters and saved explanation benchmarks. The verifier matched the archive files for all 42 selected DTU capture inputs and all 14 TU Eindhoven inputs. Git ignores raw files under `backend/data/raw/`. [Verified results](FINAL_RESULTS_2026-11-23.md#additional-vehicles)
 
 | Dataset | Version | License | Extracted CAN files |
 | --- | --- | --- | --- |
@@ -20,18 +20,42 @@ Local root is `backend/data/raw/can-train-and-test-v2/`. Extracted captures are 
 
 The first 1,000 rows of each CSV parsed as `timestamp,arbitration_id,data_field,attack`. Across the 236,000 sampled rows, 9 had label `1`. A separate check found a positive label in a training capture from each set.
 
-Add a CSV adapter that maps `arbitration_id` and `data_field` to the internal ID and payload fields. Preserve `attack` as the frame label and infer the payload length from the decoded bytes. Keep each set's published splits together. The archive contains 62 groups of CSV entries with matching size and CRC across sets.
+The CSV adapter reads hexadecimal IDs and payload bytes. It preserves binary frame labels and derives payload length from the decoded bytes. The selected captures use a clean reference and up to 240 seconds of another benign capture per vehicle. The scored attack captures come from the publisher's known-vehicle test splits. [Capture catalog](../backend/app/datasets.py) · [Parser](../backend/app/loader.py)
+
+The selected files have distinct SHA-256 hashes. The full archive contains 62 groups of CSV entries with matching size and CRC across sets. File hashes establish unique files within the selected manifest. They do not establish separate recording sessions. [Frozen DTU manifest](../backend/out/alerts/ctt/manifest.json)
+
+The saved detector run produced 196 alerts, including 42 attacks and 154 false alarms. The explainer benchmark kept all 42 attacks and sampled 59 false alarms with a cap of three per capture. A fresh freeze reproduced the alert targets and the cap selection. It matched 90/101 alert packets and 75/101 window packets. The archived freeze-script hash has no matching reachable committed version. Use the saved packets for exact historical comparisons. [DTU scores](../backend/out/explanations/ctt/scores.md) · [Fresh adapter verification](../backend/out/final_2026-11-23/adapter_verification.md)
 
 ## TU Eindhoven CAN v2
 
 The archive includes raw captures from an Opel Astra, a Renault Clio, and a CAN prototype. The publisher's READMEs say the car attack files are offline edits of each car's benign test capture. The prototype includes captures of attacks run on the testbed. [4TU release](https://data.4tu.nl/datasets/efb320d8-c189-4e54-98af-3a79cc14f421/2) · [Publisher file manifest](https://data.4tu.nl/v2/articles/12696950)
 
-Local root is `backend/data/raw/tu-eindhoven-can-v2/`. The extracted `OpelAstra/`, `RenaultClio/`, and `Prototype/` folders each contain a README.
+Local root is `backend/data/raw/tu-eindhoven-can-v2/`. Extract the archive into `extracted/` under that root. The extracted `OpelAstra/`, `RenaultClio/`, and `Prototype/` folders each contain a README.
 
 | Publisher file | Bytes | Publisher MD5, matched locally | Local SHA-256 |
 | --- | ---: | --- | --- |
 | [data.zip](https://data.4tu.nl/file/efb320d8-c189-4e54-98af-3a79cc14f421/71c7531a-c3b4-4af3-aa91-a33f0b88e45b) | 102,928,327 | `c4202839088b75ce60e8485b1e1413d4` | `2f4a6bafabc1a0df59173b50fd89ad24efaf0a5cd64453c59ddf9500f267e49a` |
 
-The first 1,000 lines of each log parsed as classic candump records. CANalyst's existing candump loader also read all 115,971 frames in the Renault Clio benign test log. It returned unknown ground truth because no metadata was supplied.
+The first 1,000 lines of each log parsed as classic candump records. The TU Eindhoven adapter compares each attack log against the same car's benign `testing.log`. It labels added or changed lines by exact candump line counts. It repairs and counts one stray trailing backslash in the Opel Astra CAN-ID fuzzing log. [Parser](../backend/app/loader.py)
 
-Reuse the candump parser and add a catalog that records the publisher's split and ground truth. Derive labels from the documented changes or intervals where the source supports them. Keep captures derived from the same benign session in the same evaluation partition.
+Each car uses `training.log` for reference and `testing.log` for evaluation. These are separate sections of the same original drive. Attack files are offline edits of the testing section. The benchmark excludes the prototype, deletion-only suspension files, and the combined full-drive logs. [Capture catalog](../backend/app/datasets.py) · [Frozen TU Eindhoven manifest](../backend/out/alerts/tue/manifest.json)
+
+The detector produced 44 attack alerts and zero false alarms. Diagnostics and CAN-ID changes account for 40 alerts labeled fuzzing. The remaining four targets comprise two DoS and two replay alerts. Neither payload-fuzzing file produced any alerts. A fresh freeze reproduced all 44 alerts and both packet scopes as parsed JSON. [TU Eindhoven scores](../backend/out/explanations/tue/scores.md) · [Fresh adapter verification](../backend/out/final_2026-11-23/adapter_verification.md)
+
+## Verify the saved experiments
+
+Run from `backend` after installing the archives and project dependencies. The verifier checks saved replies and source hashes without hosted inference.
+
+```sh
+result_dir=$(mktemp -d /tmp/canalyst-dataset-verify.XXXXXX)
+.venv/bin/python -m scripts.summarize_final_models --verify-raw \
+  --out "$result_dir/model_results.json"
+```
+
+To freeze a new corpus with the current detector, use a fresh output directory. These commands preserve the saved corpora.
+
+```sh
+freeze_dir=$(mktemp -d /tmp/canalyst-alert-freeze.XXXXXX)
+.venv/bin/python -m scripts.freeze_alerts --set ctt --out "$freeze_dir"
+.venv/bin/python -m scripts.freeze_alerts --set tue --out "$freeze_dir"
+```

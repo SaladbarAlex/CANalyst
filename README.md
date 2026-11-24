@@ -18,14 +18,15 @@ comparisons. Hosted explanations require an explicit action.
 Read the [changes and remaining-work PDF](output/pdf/CANalyst_Changes_and_Remaining_Work_2026-10-30.pdf)
 for the full controls audit, results, limitations, and research priorities.
 
-The class package includes the [20-minute final presentation](output/presentation/CANalyst_Final_Presentation_20min.pptx),
+The class package includes the [updated 20-minute final presentation](output/presentation/CANalyst_Final_Presentation_20min_Class.pptx),
 [rehearsal and demo guide](docs/FINAL_PRESENTATION_GUIDE.md), and
-[verified final results](docs/FINAL_RESULTS_2026-11-22.md).
+[verified final results](docs/FINAL_RESULTS_2026-11-23.md).
+Read the [final ACM report](output/paper/CANalyst_Final_Report.pdf) and its [build notes](paper/README.md).
 Start with [HANDOFF_11_23.md](HANDOFF_11_23.md) for teammate setup, priorities, and verified results.
 
-Open the [offline human review form](frontend/public/human-review.html) to rate the 40 blinded claims.
-Follow the [reviewer instructions](docs/HUMAN_REVIEW.md) and export your completed CSV.
-The [additional dataset notes](docs/ADDITIONAL_DATASETS.md) record two verified downloads and their pending integration work.
+Both human reviewers completed 40 claims. Agreement is 80%, with eight disagreements awaiting human adjudication.
+Follow the [review instructions and results](docs/HUMAN_REVIEW.md). Preserve both original rating files.
+The [additional dataset notes](docs/ADDITIONAL_DATASETS.md) describe the installed adapters and audited CTT and TU Eindhoven results.
 
 ## Quick start
 

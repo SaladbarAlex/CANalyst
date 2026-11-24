@@ -157,6 +157,89 @@ def test_api_routes(out):
     assert bad.status_code == 400
 
 
+def test_tue_api_counts_missing_target_and_preserves_archived_scores():
+    from fastapi.testclient import TestClient
+    from app.main import app
+
+    path = REAL / "explanations" / "tue" / "scores.json"
+    if not path.exists():
+        pytest.skip("saved TU Eindhoven results not present")
+    saved = path.read_bytes()
+    name = "glm-5.3_v2-dosv1_alert"
+    assert json.loads(saved)["runs"][name]["accuracy"]["all"]["n"] == 43
+
+    client = TestClient(app)
+    response = client.get("/api/benchmark/explainers")
+    assert response.status_code == 200
+    tue = response.json()["tue"]
+    run = tue["runs"][name]
+    assert run["accuracy"]["tue"]["k"] == 2
+    assert run["accuracy"]["tue"]["n"] == 44
+    assert run["accuracy_by_type"]["tue/fuzzing"]["n"] == 40
+    assert run["confusion"]["tue/fuzzing"]["no answer"] == 1
+    assert run["no_answer"] == 1
+    undefined_rate = {"k": 0, "n": 0, "value": None, "lo": None, "hi": None}
+    assert run["false_alarms_called_benign"] == undefined_rate
+    assert tue["runs"]["control-v2_alert"]["false_alarms_called_benign"] == undefined_rate
+    assert tue["pairs"][f"control-v2_alert vs {name}"]["all"]["n"] == 44
+    assert path.read_bytes() == saved
+
+    comparison = client.get("/api/benchmark/explainers/midterm100/compare",
+                            params={"a": name, "b": "control-v2_alert"})
+    assert comparison.status_code == 200
+    missing = next(row for row in comparison.json()["alerts"] if row["id"] == "A0093")
+    assert missing["a"]["label"] == "no answer"
+    assert missing["a"]["error"] == "no reply recorded for target"
+
+
+def test_api_uses_declared_subset_targets(out, monkeypatch):
+    from fastapi.testclient import TestClient
+    from app.main import app
+    from scripts import run_explanations
+
+    runner_root = out / "runner"
+    runner_root.mkdir()
+    (runner_root / "out").symlink_to(out, target_is_directory=True)
+    monkeypatch.setattr(run_explanations, "BACKEND", runner_root)
+    monkeypatch.setattr(sys, "argv", ["run_explanations", "--set", SET, "--dataset",
+                                     "hcrl", "--limit", "2", "--run", "subset"])
+    run_explanations.main()
+    run = out / "explanations" / SET / "subset"
+    meta = json.loads((run / "run.json").read_text())
+    assert len(meta["target_ids"]) == 2
+    reply_path = run / "replies.jsonl"
+    replies = reply_path.read_text().splitlines()
+    reply_path.write_text(replies[0] + "\n")
+    benchmarks.rescore(SET)
+    scores_path = out / "explanations" / SET / "scores.json"
+    saved = scores_path.read_bytes()
+    saved_subset = json.loads(saved)["runs"]["subset"]
+    assert saved_subset["accuracy"]["all"]["n"] == 2
+    assert saved_subset["no_answer"] == 1
+
+    client = TestClient(app)
+    response = client.get("/api/benchmark/explainers")
+    assert response.status_code == 200
+    result = response.json()[SET]["runs"]["subset"]
+    assert result["attack_alerts"] == 2
+    assert result["accuracy"]["all"]["n"] == 2
+    assert result["no_answer"] == 1
+
+    reply_path.write_text("\n".join(replies) + "\n")
+    updated = client.get("/api/benchmark/explainers").json()[SET]["runs"]["subset"]
+    assert updated["accuracy"]["all"]["n"] == 2
+    assert updated["no_answer"] == 0
+    assert scores_path.read_bytes() == saved
+
+    reply_path.write_text(replies[0] + "\n")
+    del meta["target_ids"]
+    (run / "run.json").write_text(json.dumps(meta))
+    benchmarks.rescore(SET)
+    legacy = client.get("/api/benchmark/explainers").json()[SET]["runs"]["subset"]
+    assert legacy["accuracy"]["all"]["n"] == 1
+    assert legacy["no_answer"] == 0
+
+
 def test_detection_api_preserves_undefined_metrics_as_null(out):
     from fastapi.testclient import TestClient
     from app.main import app

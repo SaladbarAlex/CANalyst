@@ -1,6 +1,6 @@
 """Saved benchmark results for the Evaluation tab, and prediction submissions.
 
-The dashboard never recomputes a benchmark: it reads what the scripts saved.
+The dashboard reads saved replies and scores without running an experiment.
 
     detection()            out/benchmark/results.json (scripts/benchmark.py)
     explainers()           out/explanations/<set>/scores.json and each run.json
@@ -99,16 +99,25 @@ def _run_meta(set_name: str, run: str) -> dict:
 
 
 def explainers() -> dict:
+    from scripts import score_explanations as se
+
     out = {}
     for set_name in sets():
         path = OUT / "explanations" / set_name / "scores.json"
         if not path.exists():
             continue
-        sc = json.loads(path.read_text())
-        alerts = _read_jsonl(_set_dir(set_name) / "alerts.jsonl")
+        sc = json.loads(path.read_text(), parse_constant=lambda _: None)
+        alerts = {a["id"]: a for a in _read_jsonl(_set_dir(set_name) / "alerts.jsonl")}
+        updated = {}
         runs = {}
         for run, r in sc["runs"].items():
             meta = _run_meta(set_name, run)
+            targets = se.declared_targets(set_name, run, meta, alerts)
+            replies_path = path.parent / run / "replies.jsonl"
+            if targets is not None and replies_path.is_file():
+                replies = {row["id"]: row for row in _read_jsonl(replies_path)}
+                r = se.score_run(alerts, list(se.target_replies(replies, targets).values()))
+                updated[run] = r
             runs[run] = {
                 **{k: r.get(k) for k in ("alerts", "attack_alerts", "false_alarms", "accuracy",
                                          "accuracy_by_type", "confusion", "false_alarm_labels",
@@ -120,12 +129,24 @@ def explainers() -> dict:
                 "control_rules": meta.get("control_rules"),
                 "submitted": meta.get("explainer") == "submission",
             }
+        pairs = sc.get("pairs", {})
+        if updated:
+            rescored = updated.copy()
+            for pair in pairs:
+                a, _, b = pair.partition(" vs ")
+                if a not in updated and b not in updated:
+                    continue
+                for run in (a, b):
+                    if run not in rescored:
+                        replies = _read_jsonl(path.parent / run / "replies.jsonl")
+                        rescored[run] = se.score_run(alerts, replies)
+                pairs[pair] = se.compare(rescored[a], rescored[b], alerts)
         out[set_name] = {
             "alerts": len(alerts),
-            "attack_alerts": sum(1 for a in alerts if a["is_attack"]),
-            "datasets": sorted({a["dataset"] for a in alerts}),
+            "attack_alerts": sum(1 for a in alerts.values() if a["is_attack"]),
+            "datasets": sorted({a["dataset"] for a in alerts.values()}),
             "runs": runs,
-            "pairs": sc.get("pairs", {}),
+            "pairs": pairs,
         }
     return out
 
@@ -133,15 +154,19 @@ def explainers() -> dict:
 def compare(set_name: str, a: str, b: str, limit: int = 200) -> dict:
     """Every attack alert where exactly one of two runs is right, and every
     false alarm the two runs labeled differently, with both replies."""
+    from scripts import score_explanations as se
+
     d = _set_dir(set_name)
     alerts = {x["id"]: x for x in _read_jsonl(d / "alerts.jsonl")}
-    replies = {}
+    replies, scopes = {}, {}
     for run in (a, b):
         path = OUT / "explanations" / set_name / run / "replies.jsonl"
         if not path.exists():
             raise KeyError(f"unknown run: {run}")
-        replies[run] = {r["id"]: r for r in _read_jsonl(path)}
-    scopes = {run: _run_meta(set_name, run).get("scope", "alert") for run in (a, b)}
+        meta = _run_meta(set_name, run)
+        targets = se.declared_targets(set_name, run, meta, alerts)
+        replies[run] = se.target_replies({r["id"]: r for r in _read_jsonl(path)}, targets)
+        scopes[run] = meta.get("scope", "alert")
     packets = {s: {r["id"]: r["evidence"] for r in _read_jsonl(d / f"packets_{s}.jsonl")}
                for s in set(scopes.values()) if (d / f"packets_{s}.jsonl").exists()}
 

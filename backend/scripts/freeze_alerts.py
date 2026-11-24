@@ -26,7 +26,7 @@ Sets
                  fixed: can-train-and-test (see app/datasets.py). Each
                  vehicle's baseline comes from its own attack-free capture;
                  its DoS, fuzzing and spoofing evaluation captures are
-                 scored in full, plus 240 s of a second attack-free capture
+                 scored in full, plus up to 240 s of a second attack-free capture
                  for false alarms.
     tue          TU Eindhoven automotive CAN v2, Opel Astra and Renault
                  Clio: baseline from training.log, every labeled attack
@@ -65,7 +65,7 @@ from scripts.evaluate_midterm import (PREFIX_S, STRIDE_S, THRESHOLD, WINDOW_S,  
 BACKEND = Path(__file__).resolve().parents[1]
 HELDOUT_S = 120.0
 # Explainer runs cost time per alert. On the four extra vehicles most alerts
-# are false alarms (92 from one Silverado capture), so every attack alert is
+# are false alarms (92 across the Silverado captures), so every attack alert is
 # kept and at most this many false alarms per capture, drawn with a fixed seed.
 FALSE_ALARM_CAP = {"ctt": 3, "tue": 3}
 CAP_SEED = 0
@@ -219,8 +219,9 @@ def main() -> None:
         "detector": "rule", "threshold": THRESHOLD,
         "window_s": WINDOW_S, "stride_s": STRIDE_S,
         "code_sha256": {name: cache.sha256(BACKEND / name) for name in
-                         ["app/loader.py", "app/features.py", "app/detector.py",
-                          "app/evidence.py", "scripts/freeze_alerts.py"]},
+                         ["app/datasets.py", "app/loader.py", "app/features.py",
+                          "app/detector.py", "app/evidence.py",
+                          "scripts/evaluate_midterm.py", "scripts/freeze_alerts.py"]},
         "inputs": [],
     }
     for job in _jobs(args.set_name):
@@ -236,8 +237,6 @@ def main() -> None:
             windows = features.extract_windows(df, baseline, window_s=WINDOW_S,
                                                stride_s=STRIDE_S)
             windows, alerts = detector.run(windows)
-            manifest["inputs"].append({"role": "scored", "dataset": job["dataset"],
-                                       "alerts": len(alerts), **rec})
             kept = 0
             for alert in alerts:
                 true_type = _true_type(df, alert.start, alert.end)
@@ -259,16 +258,22 @@ def main() -> None:
                 for scope in packets:
                     ev = build_evidence(alert, df, windows, baseline, scope=scope)
                     packets[scope].append({"id": uid, "evidence": ev})
+            input_rec = {"role": "scored", "dataset": job["dataset"],
+                         "alerts": len(alerts), "alerts_before_cap": kept, **rec}
+            if "repaired_lines" in df.attrs:
+                input_rec["repaired_lines"] = df.attrs["repaired_lines"]
+            manifest["inputs"].append(input_rec)
             print(f"{job['dataset']}/{path.parent.parent.name}/{path.parent.name}/{path.stem}: "
                   f"{len(alerts)} alert(s), {kept} kept",
                   flush=True)
             del df, windows
             gc.collect()
 
-    (out / "alerts.jsonl").write_text(
+    suffix = "_all" if args.set_name in FALSE_ALARM_CAP else ""
+    (out / f"alerts{suffix}.jsonl").write_text(
         "".join(json.dumps(r, default=_json) + "\n" for r in alerts_rows))
     for scope, rows in packets.items():
-        (out / f"packets_{scope}.jsonl").write_text(
+        (out / f"packets_{scope}{suffix}.jsonl").write_text(
             "".join(json.dumps(r, default=_json) + "\n" for r in rows))
     by_ds: dict[str, dict] = {}
     for r in alerts_rows:

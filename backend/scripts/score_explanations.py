@@ -10,7 +10,7 @@ For every run:
     claims whose citations all resolve; reply latency.
 For every pair of runs:
     exact McNemar test and a paired bootstrap interval on the accuracy
-    difference, over the attack alerts both runs answered.
+    difference, over the attack alerts both runs targeted.
 
 Writes out/explanations/<set>/scores.json and scores.md.
 """
@@ -20,6 +20,7 @@ import argparse
 import json
 import statistics
 import sys
+from collections.abc import Collection
 from itertools import combinations
 from pathlib import Path
 
@@ -28,6 +29,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from app import stats  # noqa: E402
 
 BACKEND = Path(__file__).resolve().parents[1]
+# These archived run.json notes declare the full corpus but predate target IDs.
+LEGACY_FULL_TARGET_RUNS = {
+    ("midterm100", "glm-5.3_v2-dosv1_alert"),
+    ("tue", "glm-5.3_v2-dosv1_alert"),
+}
 
 
 def read_jsonl(path: Path) -> list[dict]:
@@ -35,8 +41,28 @@ def read_jsonl(path: Path) -> list[dict]:
 
 
 def prop(k: int, n: int) -> dict:
+    if not n:
+        return {"k": k, "n": n, "value": None, "lo": None, "hi": None}
     lo, hi = stats.wilson_interval(k, n)
-    return {"k": k, "n": n, "value": (k / n if n else None), "lo": lo, "hi": hi}
+    return {"k": k, "n": n, "value": k / n, "lo": lo, "hi": hi}
+
+
+def declared_targets(set_name: str, run: str, meta: dict, corpus_ids: Collection[str]) -> set[str] | None:
+    if "target_ids" in meta:
+        return set(meta["target_ids"]).intersection(corpus_ids)
+    if (set_name, run) in LEGACY_FULL_TARGET_RUNS and meta.get("note"):
+        return set(corpus_ids)
+    return None
+
+
+def target_replies(replies: dict[str, dict], targets: set[str] | None) -> dict[str, dict]:
+    """Represent every declared target, including targets with no saved reply."""
+    if targets is None or targets == replies.keys():
+        return replies
+    return {
+        alert_id: replies.get(alert_id, {"id": alert_id, "error": "no reply recorded for target"})
+        for alert_id in sorted(targets)
+    }
 
 
 def score_run(alerts: dict[str, dict], replies: list[dict]) -> dict:
@@ -137,7 +163,13 @@ def pct(p: dict) -> str:
 def write_report(set_name: str, alerts: dict[str, dict], root: Path,
                  names: list[str]) -> str:
     """Score every named run, write scores.json and scores.md, return the markdown."""
-    runs = {n: score_run(alerts, read_jsonl(root / n / "replies.jsonl")) for n in names}
+    runs = {}
+    for name in names:
+        meta_path = root / name / "run.json"
+        meta = json.loads(meta_path.read_text()) if meta_path.is_file() else {}
+        replies = {row["id"]: row for row in read_jsonl(root / name / "replies.jsonl")}
+        targets = declared_targets(set_name, name, meta, alerts)
+        runs[name] = score_run(alerts, list(target_replies(replies, targets).values()))
     pairs = {f"{x} vs {y}": compare(runs[x], runs[y], alerts) for x, y in combinations(names, 2)}
 
     report = {"set": set_name,
@@ -148,8 +180,8 @@ def write_report(set_name: str, alerts: dict[str, dict], root: Path,
 
     datasets = sorted({a["dataset"] for a in alerts.values()})
     lines = [f"# Explainer scores: {set_name}", "",
-             "Label accuracy on attack alerts, with Wilson 95% intervals. A failed or empty "
-             "reply counts as wrong.", "",
+             "Label accuracy on attack alerts, with Wilson 95% intervals. A failed or missing "
+             "reply to a target counts as wrong.", "",
              "| run | " + " | ".join(datasets) + " | all | no answer | false alarms called benign | "
              "claims with valid citations | median latency |",
              "|---|" + "---|" * (len(datasets) + 5)]

@@ -14,8 +14,8 @@ Each (set, explainer, model, scope, prompt) is one run, written to
 out/explanations/<set>/<run>/:
     replies.jsonl   per alert: predicted label, claims, citation check, the
                     raw reply text, latency, and any error
-    run.json        what was run: model, prompt version and hash, scope,
-                    temperature, counts
+    run.json        what was run: target IDs, model, prompt version and hash,
+                    scope, temperature and counts
 
 Runs are strict: an API error or an unparseable reply is recorded as an
 error for that alert. Nothing falls back to the control. An interrupted
@@ -36,6 +36,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from app import llm  # noqa: E402
+from scripts.benchmark_models import atomic_write  # noqa: E402
+from scripts.score_explanations import declared_targets  # noqa: E402
 
 BACKEND = Path(__file__).resolve().parents[1]
 
@@ -119,6 +121,7 @@ def main() -> None:
     args = ap.parse_args()
 
     packets = read_jsonl(BACKEND / "out" / "alerts" / args.set_name / f"packets_{args.scope}.jsonl")
+    corpus_ids = {row["id"] for row in packets}
     if args.dataset:
         alerts = read_jsonl(BACKEND / "out" / "alerts" / args.set_name / "alerts.jsonl")
         keep = {a["id"] for a in alerts if a["dataset"] == args.dataset}
@@ -128,11 +131,17 @@ def main() -> None:
     out = BACKEND / "out" / "explanations" / args.set_name / run_name(args)
     out.mkdir(parents=True, exist_ok=True)
     replies_path = out / "replies.jsonl"
+    manifest_path = out / "run.json"
+    prior = json.loads(manifest_path.read_text()) if manifest_path.exists() else {}
+    prior_targets = declared_targets(args.set_name, out.name, prior, corpus_ids)
+    target_ids = (prior_targets or set()) | {row["id"] for row in packets}
     done: set[str] = set()
+    previous = []
     if replies_path.exists():
         # Failed attempts move to errors.jsonl and are retried; successful
         # replies stay and are never asked again.
         previous = read_jsonl(replies_path)
+        target_ids.update(r["id"] for r in previous)
         ok = [r for r in previous if not r["error"]]
         failed = [r for r in previous if r["error"]]
         if failed and args.retry_errors:
@@ -140,7 +149,8 @@ def main() -> None:
                 for r in failed:
                     err_sink.write(json.dumps(r) + "\n")
             replies_path.write_text("".join(json.dumps(r) + "\n" for r in ok))
-        done = {r["id"] for r in (ok if args.retry_errors else previous)}
+            previous = ok
+        done = {r["id"] for r in previous}
 
     def make_explainer():
         if args.explainer == "control":
@@ -160,6 +170,25 @@ def main() -> None:
         model = explainer.model
         prompt_sha = hashlib.sha256(explainer.system_prompt.encode()).hexdigest()
 
+    manifest = {
+        "set": args.set_name, "run": out.name, "explainer": args.explainer, "model": model,
+        "scope": args.scope,
+        "control_rules": args.rules if args.explainer == "control" else None,
+        "prompt_version": None if args.explainer == "control" else args.prompt,
+        "prompt_sha256": prompt_sha,
+        "temperature": None if args.explainer == "control" else 0,
+        "max_tokens": None if args.explainer == "control" else args.max_tokens,
+        "strict": True, "fallbacks": 0,
+        "target_ids": sorted(target_ids),
+    }
+
+    def save_manifest(replies: list[dict]) -> None:
+        atomic_write(manifest_path, {
+            **manifest, "alerts": len(replies), "errors": sum(1 for r in replies if r["error"]),
+            "updated_utc": datetime.now(timezone.utc).isoformat(),
+        })
+
+    save_manifest(previous)
     todo = [(i, row) for i, row in enumerate(packets, 1) if row["id"] not in done]
     lock = threading.Lock()
     local = threading.local()
@@ -185,18 +214,7 @@ def main() -> None:
                 for fut in [pool.submit(work, i, row, sink) for i, row in todo]:
                     fut.result()
     replies = read_jsonl(replies_path)
-    (out / "run.json").write_text(json.dumps({
-        "set": args.set_name, "run": out.name, "explainer": args.explainer, "model": model,
-        "scope": args.scope,
-        "control_rules": args.rules if args.explainer == "control" else None,
-        "prompt_version": None if args.explainer == "control" else args.prompt,
-        "prompt_sha256": prompt_sha,
-        "temperature": None if args.explainer == "control" else 0,
-        "max_tokens": None if args.explainer == "control" else args.max_tokens,
-        "strict": True, "fallbacks": 0,
-        "alerts": len(replies), "errors": sum(1 for r in replies if r["error"]),
-        "updated_utc": datetime.now(timezone.utc).isoformat(),
-    }, indent=2) + "\n")
+    save_manifest(replies)
     print(f"{out.relative_to(BACKEND)}: {len(replies)} replies, "
           f"{sum(1 for r in replies if r['error'])} errors")
 

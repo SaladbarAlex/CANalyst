@@ -1,0 +1,9 @@
+claim_id,rater_A,rater_B,final_label,adjudicator,date,reason
+C001,S,C,,,,
+C005,S,U,,,,
+C007,S,U,,,,
+C013,S,U,,,,
+C024,C,U,,,,
+C031,S,U,,,,
+C032,S,U,,,,
+C035,S,C,,,,

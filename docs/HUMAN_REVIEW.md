@@ -12,6 +12,22 @@ See the [comparison and disagreements](../backend/out/claim_review/heldout/resul
 The reported per-model rates use agreed claims only. Final adjudicated support rates remain pending.
 Record adjudication decisions separately. Keep both original rating files unchanged.
 
+## Finish the eight disagreements
+
+Use [adjudication.csv](../backend/out/claim_review/heldout/adjudication.csv) for the remaining human decisions.
+Its decision fields are blank. No agent has supplied final labels.
+
+1. Open each listed claim in the review page or frozen `sheet.csv`.
+2. Read the exact claim, cited evidence, rubric, and original reviewer notes.
+3. Discuss the difference with the other reviewer, or ask a third human to decide.
+4. Enter `S`, `U`, or `C` in `final_label`.
+5. Enter the adjudicator, date, and reason.
+6. Keep `rater_A.csv`, `rater_B.csv`, and `originals/` unchanged.
+
+The current scorer reports original agreement only. It does not consume `adjudication.csv`.
+After all eight decisions, calculate adjudicated counts separately across all 40 claims.
+Keep the original 80% agreement and kappa of 0.521 in the report.
+
 ## Reviewer workflow
 
 1. Open [the review page](../frontend/public/human-review.html) in a browser. With Vite running, use `http://localhost:5173/human-review.html`.

@@ -225,16 +225,18 @@ def load_candump(path: str, meta: dict | None = None,
 #   dosattack        0x000 flood replacing a 10 s block      -> dos
 #   fuzzing_canid    10 frames with IDs never seen            -> fuzzing
 #   diagnostic       10 frames with unseen 7xx diagnostic IDs -> fuzzing
-#   replay           30 frames of 0x1A1 at 10x its rate       -> replay
-#   fuzzing_payload  10 0x0C9 payloads changed in place       -> masquerade
+#   replay           one existing ID replayed at 10x its rate -> replay
+#   fuzzing_payload  10 payloads changed in place            -> masquerade
 # suspension (frames deleted, none added) has nothing to label and is unused.
 TUE_ATTACK_TYPES = {"dosattack": "dos", "fuzzing_canid": "fuzzing", "diagnostic": "fuzzing",
                     "replay": "replay", "fuzzing_payload": "masquerade"}
 
 
 def is_tue_capture(path: Path) -> bool:
-    return (path.parent / "testing.log").exists() and (path.parent / "README").exists() \
-        and "tu-eindhoven" in str(path)
+    return path.parent.name in {"OpelAstra", "RenaultClio"} and (
+        (path.parent / "README").is_file()
+        or any(part.startswith("tu-eindhoven") for part in path.parts[:-1])
+    )
 
 
 def _tue_lines(path: Path) -> tuple[list[str], int]:
@@ -373,21 +375,22 @@ def ctt_family(stem: str) -> str:
 def load_ctt(path: str, attack_type: str | None = None) -> pd.DataFrame:
     """Load a can-train-and-test CSV: timestamp, hex arbitration_id, hex data_field,
     attack (1 = injected frame). The label is per frame."""
-    raw = pd.read_csv(path, dtype={"arbitration_id": str, "data_field": str, "attack": int})
+    raw = pd.read_csv(path, dtype={"arbitration_id": str, "data_field": str, "attack": str},
+                      keep_default_na=False)
     if attack_type is None:
         attack_type = CTT_ATTACK_TYPES.get(ctt_family(Path(path).stem), "injected")
-    payload = raw["data_field"].fillna("")
+    data = raw["data_field"].map(lambda h: list(bytes.fromhex(h)))
     ts = raw["timestamp"].astype(float)
     df = pd.DataFrame({
         "timestamp": ts - ts.min(),
         "can_id": raw["arbitration_id"].map(lambda v: int(v, 16)),
-        "dlc": payload.str.len() // 2,
-        "data": payload.map(lambda h: list(bytes.fromhex(h))),
-        "label": raw["attack"].astype(int),
+        "dlc": data.map(len),
+        "data": data,
+        "label": _labels(raw["attack"], {"1"}, {"0"}),
     })
     df["attack_type"] = [attack_type if x else "normal" for x in df["label"]]
     df.attrs["source"] = "can-train-and-test"
-    return df.sort_values("timestamp", kind="stable").reset_index(drop=True)
+    return _validate_payloads(df).sort_values("timestamp", kind="stable").reset_index(drop=True)
 
 
 def load_auto(path: str) -> pd.DataFrame:
